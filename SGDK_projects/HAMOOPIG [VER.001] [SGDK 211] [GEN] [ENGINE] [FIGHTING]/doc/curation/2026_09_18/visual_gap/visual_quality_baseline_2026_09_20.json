@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "visual_quality_baseline",
+  "created_at": "2026-09-20",
+  "scope": "quality_parity_with_user_reference_images",
+  "reference_board": "rascunho/inputs/quality_reference_board_2026_09_18/reference_manifest.json",
+  "previous_runtime_hashes": {
+    "audio_sound_test_baseline": "e9e0efc1a8894434911cc6f1054f1c9a072853927a56b983c9eec8c43e12a833",
+    "rejected_visual_baseline": "9509ebbbdc6ea2f6c7036b8fba90f22de400976f119a0d4730a2e7ed6cb5a5f2"
+  },
+  "current_rom_sha256": "b6f7cd649f829c21555883014721992b04261f0c32b34a620538d0548be7cc88",
+  "current_evidence": {
+    "blastem_bundle": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/",
+    "manifest": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/evidence_manifest.json",
+    "select": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/00_select.png",
+    "combat": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/ko_result_round_1.png",
+    "ko_round_2": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/ko_result_round_2.png",
+    "after_match": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/after_match_result.png",
+    "rematch": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/rematch_round.png",
+    "runtime_probe": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/runtime_metrics.json",
+    "hprb": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hprb_probe_report.json",
+    "hsem": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hsem_probe_report.json",
+    "sound_test": "out/emulator_evidence/sound_test_20260921T005842Z/manifest.json",
+    "audio_signal": "out/emulator_evidence/sound_test_20260921T005842Z/audio_signal_report.json"
+  },
+  "reproduction": {
+    "hud_bg_a_write": "corrected_to_window_owner_in_src/hud.c_and_src/init.c",
+    "stage_corruption_after_hud_fix": true,
+    "asset_conversion_root_cause": "whole_8x8_tile_nearest_replacement_when_1887_source_tiles_were_reduced_to_864",
+    "verified_by": [
+      "block2_candidate_runtime_reintroduced_blue_tan_tile_squares",
+      "block4_candidate_runtime_booted_and_removed_the_largest_false_rectangles",
+      "block3_candidate_was_not_promoted_after_blastem_boot_failure"
+    ]
+  },
+  "current_visual_state": {
+    "hud_plane_owner": "WINDOW",
+    "stage2_source": "data/source_art/stage2_swamp/generated_stage2_v02.png",
+    "stage2_runtime_asset": "res/gfx/bgb2.png",
+    "stage2_pre_tile_block": 4,
+    "stage2_effective_rescomp_tiles": 653,
+    "visual_improvement": "stage composition is coherent and the severe patterned corruption is reduced",
+    "still_below_reference": [
+      "HUD remains compact rather than reference-grade authored framing",
+    "selection now has an authored translated surface, but text/portrait overlays remain a candidate",
+      "KO/result treatment is now proven in motion, but its hierarchy and FX density still need independent visual review against the reference board",
+      "stage has readable landmarks but not yet a separately authored multi-plane/parallax presentation"
+    ]
+  },
+  "claim": "prototype_partial_current_sha",
+  "ready_for_aaa": false,
+  "review_status": "independent_review_pending_current_hash",
+  "invalid_sessions_not_for_claim": [
+    "out/emulator_evidence/visual_ko_20260920T194625287594Z-3922118/",
+    "out/emulator_evidence/visual_ko_20260920T194806313296Z-3929267/",
+    "out/emulator_evidence/visual_ko_20260920T195136362276Z-3941051/"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "version": "v10-runtime-visual-review",
+  "status": "runtime_visual_review_candidate",
+  "visual_pass": false,
+  "final_acceptance": false,
+  "production_method": "assisted_native_translation",
+  "route_primary": "im_lanczos3",
+  "route_secondary": "existing_persisted_source_guides",
+  "authority": {
+    "path": "data/source_art/r1/r1-01/concept.png",
+    "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd"
+  },
+  "source_sha256": {
+    "data/source_art/r1/r1-01/concept.png": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+    "data/staging/visual_production_inhale_jump_20260903/inhale_visual_pose_guide.png": "e8326e0307aecbc0e02f4726b3c47dd843f5cb2335a0cb6ef44cb2fcc107240e",
+    "data/staging/visual_production_inhale_jump_20260903/jump_launch_visual_pose_guide.png": "46fda9175fcd943eb9e6133f899584da2a3099634e7b5a69c1cb20676d97a81b",
+    "data/staging/visual_production_ability_fx_20260903/fire_ability_fx_visual_source.png": "bb074ae95676fb8a2108d363c03466740539e66a3336dae1b2881a5ff86470ef"
+  },
+  "frames": {
+    "idle": [
+      {
+        "path": "frames/idle_00.png",
+        "sha256": "302425b9a8b701a36c91ffe9a96226454e30b51531680a6ac686837f8e33500d"
+      },
+      {
+        "path": "frames/idle_01.png",
+        "sha256": "f6f5dae54e4cf8bd510da2ba11f4752dc15f4e78a7bfb621a89619d24436fa4b"
+      }
+    ],
+    "run": [
+      {
+        "path": "frames/run_00_contact.png",
+        "sha256": "d25535ca92f28860f6005e3421ac9b33352bc570a422f77ca871157e8740e837"
+      },
+      {
+        "path": "frames/run_01_down.png",
+        "sha256": "e07cf61cc6e09e8fa08a9b3ad1dde9a557a3e4dbc31a9203c0b9e1dad95a49ee"
+      },
+      {
+        "path": "frames/run_02_passing.png",
+        "sha256": "6938091269859b1a9858225a78a62aa8986a6182691663255ab90c411e36e2e7"
+      },
+      {
+        "path": "frames/run_03_up.png",
+        "sha256": "58a7130d94bcdf38b8f7adacc7f66531c8aa4a26f9f4819367a1843001610556"
+      }
+    ],
+    "jump_float": [
+      {
+        "path": "frames/jump_00_crouch.png",
+        "sha256": "0268a511aca0c251e1c1c9eaef90eeaa5ab04ec9646d5856dfe93bf057c37a47"
+      },
+      {
+        "path": "frames/jump_01_launch.png",
+        "sha256": "0d531d31b128940e9ebf5911d16a54615d8c6e5b968674228b711b4ad301aee9"
+      },
+      {
+        "path": "frames/jump_02_apex.png",
+        "sha256": "be6ee68589036394193faffb5391d69d7151557c3d915c4cd86b9cf255448812"
+      },
+      {
+        "path": "frames/jump_03_land.png",
+        "sha256": "302425b9a8b701a36c91ffe9a96226454e30b51531680a6ac686837f8e33500d"
+      }
+    ],
+    "inhale": [
+      {
+        "path": "frames/inhale_00_anticipation.png",
+        "sha256": "302425b9a8b701a36c91ffe9a96226454e30b51531680a6ac686837f8e33500d"
+      },
+      {
+        "path": "frames/inhale_01_opening.png",
+        "sha256": "e917a3d0c0157b266f936de45feeb9fa67a88a2838b0eb005c378f9b0b3286a2"
+      },
+      {
+        "path": "frames/inhale_02_hold.png",
+        "sha256": "0109f286f7176de6122437d40026bbbe5042af69181582c923c5cce8a635b6c6"
+      },
+      {
+        "path": "frames/inhale_03_release.png",
+        "sha256": "302425b9a8b701a36c91ffe9a96226454e30b51531680a6ac686837f8e33500d"
+      }
+    ]
+  },
+  "strips": {
+    "idle": {
+      "path": "strips/kirby_idle.png",
+      "sha256": "fa9c2d913fe6b9be41bd98a764a7159289eecb92379c25b82efc1df60007687c"
+    },
+    "run": {
+      "path": "strips/kirby_run.png",
+      "sha256": "8ede45964f4486f973686bdf26849ca7f01ef6b5279ff7361634e77bedd94236"
+    },
+    "jump_float": {
+      "path": "strips/kirby_jump_float.png",
+      "sha256": "cef84e2cfb8f171bfa332883c8c7b324a2dd65fe61abf9cb721ed7ff195bc62d"
+    },
+    "inhale": {
+      "path": "strips/kirby_inhale.png",
+      "sha256": "8347331095e60c2839f3c9e23d1bd6642bc56f67916dcfd75179c4503b3ae6aa"
+    }
+  },
+  "runtime_strip": {
+    "path": "strips/review_kirby.png",
+    "sha256": "6047e53f8af0f615c3531bf5e30303a7fe5f8041eb323f45fee8bce8f9b5e90f",
+    "frames": 16,
+    "frame_size": "32x32"
+  },
+  "ability": {
+    "path": "strips/kirby_fire.png",
+    "sha256": "3fbac54a1c8c9b6d94fdf0493bbf36bd6dcca85ebee98ef8603c8b20e6e15de5",
+    "ability": "Fire"
+  },
+  "semantic_limits": [
+    "inbetweens remain assisted translations from persisted guides",
+    "jump camera continuity requires diagnostic review",
+    "inhale expansion is a route variation, not native reauthoring"
+  ]
+}

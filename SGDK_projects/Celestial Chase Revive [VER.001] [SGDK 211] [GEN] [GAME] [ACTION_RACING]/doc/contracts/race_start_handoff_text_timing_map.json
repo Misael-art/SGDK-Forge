@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "text_policy": "No new dialogue during the handoff.",
+  "glyph_manifest_ref": "doc/glyph_manifest.json",
+  "base_chars_per_second_ntsc": 18,
+  "punctuation_pauses_frames": {
+    "comma": 8,
+    "period": 16,
+    "ellipsis": 28,
+    "line_break": 12
+  },
+  "strings": [],
+  "safety": "clear previous typewriter buffer before HUD owner enters"
+}

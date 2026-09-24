@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "map_id": "taina_idle_guard_runtime_timing_v02",
+  "generated_at": "2026-07-29",
+  "animation_id": "idle_guard",
+  "runtime_pattern": "manual_frame_animation",
+  "registry_tier": "canonical_pattern",
+  "frame_sequence": [0, 1, 2, 3, 4, 5],
+  "hold_vblanks_ntsc": [11, 7, 10, 7, 11, 12],
+  "total_vblanks_ntsc": 58,
+  "loop_duration_seconds_ntsc": 0.9667,
+  "auto_animation": false,
+  "runtime_api": [
+    "SPR_setAutoAnimation(sprite, FALSE)",
+    "SPR_setFrame(sprite, frame)"
+  ],
+  "pause_policy": "frame counter does not advance while the scene is paused",
+  "input_interrupt_policy": "future action animation may interrupt only under its state transition contract",
+  "pal_policy": "PAL cadence tuning pending region timing contract; current proof target is NTSC 60Hz"
+}

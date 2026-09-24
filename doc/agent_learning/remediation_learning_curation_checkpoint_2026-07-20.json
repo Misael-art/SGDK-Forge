@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "checkpoint_id": "remediation_learning_curation_2026_07_20",
+  "generated_at": "2026-07-20T20:46:37-03:00",
+  "status": "captured_validated_pending_maturity",
+  "authorization": {
+    "source": "human_workspace_owner_instruction_2026_07_20",
+    "scope": [
+      "capture_learning",
+      "triage_canonical_candidates",
+      "record_maturity_gaps",
+      "resume_curation_when_triggers_are_met"
+    ],
+    "automatic_canonical_patch": false,
+    "automatic_claim_promotion": false
+  },
+  "policy": {
+    "lowest_proven_status_wins": true,
+    "evidence_required": true,
+    "generalization_test_required": true,
+    "regression_required": true,
+    "canonical_auto_mutation": false
+  },
+  "project_learning": {
+    "project": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "source_dir": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/agent_learning",
+    "capture_required": false,
+    "capture_status": "captured",
+    "learning_context_status": "learning_context_present",
+    "lesson_count": 15,
+    "candidate_count": 10,
+    "patch_existing_owner_proposals": 6,
+    "unapplied_proposals_only": true,
+    "ledger_schema_status": "passed",
+    "audit_read_only_status": "passed",
+    "learning_loop_regression": "34_of_34_passed",
+    "canonical_promotion_performed": false
+  },
+  "items": [
+    {"id":"P0-001","maturity":"integrated_verified","resume_trigger":"new_semantic_false_positive"},
+    {"id":"P0-002","maturity":"integrated_verified","resume_trigger":"new_unreconciled_strong_report"},
+    {"id":"P0-003","maturity":"integrated_verified","resume_trigger":"new_host_or_controlled_dependency_update"},
+    {"id":"P0-004","maturity":"integrated_verified","resume_trigger":"new_lifecycle_hash_divergence"},
+    {"id":"P0-005","maturity":"integrated_verified","resume_trigger":"rom_rebuild_or_evidence_contract_change"},
+    {"id":"P1-001","maturity":"integrated_verified","resume_trigger":"new_real_nested_layout_fixture"},
+    {"id":"P1-002","maturity":"technical_complete_external_human_review_pending","resume_trigger":"human_audio_review_recorded"},
+    {"id":"P1-003","maturity":"local_runtime_proof_generalization_pending","resume_trigger":"cross_project_complete_and_partial_window_fixtures"},
+    {"id":"P1-004","maturity":"gate_implemented_external_hardware_evidence_pending","resume_trigger":"same_rom_external_device_capture_and_attestation"},
+    {"id":"P1-005","maturity":"instrumentation_verified_sample_limited","resume_trigger":"longitudinal_multi_session_sample"},
+    {"id":"P1-006","maturity":"not_started_blocked","resume_trigger":"all_technical_and_external_dependencies_closed"},
+    {"id":"P2-001","maturity":"implementation_started_not_closed","resume_trigger":"run_real_doc_sync_report_and_reconcile_strong_contradictions"},
+    {"id":"P2-002","maturity":"not_executed","resume_trigger":"p2_001_completed"},
+    {"id":"P2-003","maturity":"not_executed","resume_trigger":"eligible_technique_with_fixture_rom_blastem_budget_fallback_and_human_approval"}
+  ],
+  "resume_order": ["P2-001", "P2-002", "P2-003", "P1-002", "P1-004", "P1-006"],
+  "artifacts": [
+    "doc/agent_learning/agent_capability_remediation_backlog_2026-07-18.json",
+    "doc/agent_learning/changelog_2026-07-18.md",
+    "doc/06_AI_MEMORY_BANK.md",
+    "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/agent_learning/learning_ledger.json"
+  ],
+  "ready_for_aaa": false,
+  "canonical_promotion_performed": false
+}

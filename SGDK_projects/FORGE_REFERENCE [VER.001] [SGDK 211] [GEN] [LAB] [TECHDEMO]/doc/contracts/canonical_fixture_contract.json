@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "forge_reference_neutral_v1",
+  "evidence_kind": "synthetic_contract_regression",
+  "claim_limit": "This file tests gate semantics and is not emulator evidence.",
+  "contracts": [
+    {
+      "type": "sampled_gate_non_vacuity",
+      "gate_id": "neutral_sample_denominator",
+      "scope": "runtime_observation",
+      "sample_count": 8,
+      "violation_count": 0
+    },
+    {
+      "type": "versioned_telemetry",
+      "gate_id": "neutral_telemetry_compatibility",
+      "required_fields": ["scene_id"],
+      "optional_fields": ["future_optional_word"],
+      "block": {
+        "schema_version": "1.0.0",
+        "total_words": 5,
+        "scene_id": 1,
+        "future_field": 99
+      }
+    },
+    {
+      "type": "rom_side_playtest",
+      "gate_id": "neutral_rom_playtest",
+      "requested_mask": 7,
+      "observed_mask": 7,
+      "required_mask": 7,
+      "completed": true
+    },
+    {
+      "type": "raster_color_truth",
+      "gate_id": "neutral_raster_color_truth",
+      "cram_entries_used": 24,
+      "illegal_cram_entries": 0,
+      "screenshot_unique_colors": 270,
+      "mid_frame_palette_updates": 12
+    },
+    {
+      "type": "identical_work_elision",
+      "gate_id": "neutral_static_table_elision",
+      "camera_delta": 0,
+      "table_hash_before": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table_hash_after": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "rebuild_count": 0,
+      "dma_bytes": 0
+    },
+    {
+      "type": "evidence_binding",
+      "gate_id": "neutral_same_rom_binding",
+      "manifest": {
+        "status": "sealed",
+        "rom_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "gate_reports": [
+        {
+          "gate_id": "neutral_runtime",
+          "status": "passed",
+          "rom_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "type": "gate_scope",
+      "gate_id": "neutral_scope_boundary",
+      "declared_scope": "static_contract",
+      "claimed_scope": "static_contract",
+      "source_status": "passed"
+    }
+  ]
+}

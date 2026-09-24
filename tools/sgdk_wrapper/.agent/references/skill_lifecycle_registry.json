@@ -1,10 +1,25 @@
 {
   "schema_version": "1.0.0",
   "artifact_kind": "skill_lifecycle_registry",
-  "generated_at": "2026-06-19T00:00:00Z",
+  "generated_at": "2026-09-05T00:00:00Z",
   "active_root": "tools/sgdk_wrapper/.agent/skills",
   "legacy_root": "tools/sgdk_wrapper/.agent/legacy/skills",
   "entries": [
+    {
+      "skill_id": "art/native-sprite-production",
+      "lifecycle": "active",
+      "decision_reason": "Owner operacional para separar fonte visual, probe mecanica, autoria nativa, escala, gate visual, budget e promocao de sprites.",
+      "replacement_skills": [],
+      "evidence_grade": "E2_schema_validator",
+      "source_path": "tools/sgdk_wrapper/.agent/skills/art/native-sprite-production",
+      "legacy_path": null,
+      "content_sha256": null,
+      "context_budget_words": 1100,
+      "references_redirected": [],
+      "restore_conditions": ["Permanece ativo enquanto o workflow, schema, validador adversarial e owners especializados continuarem distintos."],
+      "decision_date": "2026-08-30",
+      "human_approved": true
+    },
     {
       "skill_id": "architecture/game-state-transition-architect",
       "lifecycle": "active",
@@ -81,6 +96,21 @@
       "human_approved": true
     },
     {
+      "skill_id": "design/gameplay-experience-reviewer",
+      "lifecycle": "active",
+      "decision_reason": "Owner independente para game feel observado, resposta, dificuldade e impacto vinculados a ROM, emulador e input reproduzivel.",
+      "replacement_skills": [],
+      "evidence_grade": "E2_schema_validator",
+      "source_path": "tools/sgdk_wrapper/.agent/skills/design/gameplay-experience-reviewer",
+      "legacy_path": null,
+      "content_sha256": null,
+      "context_budget_words": 500,
+      "references_redirected": [],
+      "restore_conditions": ["Permanece ativo enquanto review observado continuar separado de autoria e validacao apenas documental de mecanica."],
+      "decision_date": "2026-09-05",
+      "human_approved": true
+    },
+    {
       "skill_id": "governance/aaa-pipeline-guardian",
       "lifecycle": "active",
       "decision_reason": "Owner de roteamento e limite de claims, sem substituir especialistas.",
@@ -89,10 +119,25 @@
       "source_path": "tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian",
       "legacy_path": null,
       "content_sha256": null,
-      "context_budget_words": 650,
+      "context_budget_words": 750,
       "references_redirected": [],
       "restore_conditions": ["Permanece ativo enquanto claims AAA exigirem gate transversal."],
       "decision_date": "2026-06-19",
+      "human_approved": true
+    },
+    {
+      "skill_id": "governance/independent-quality-review",
+      "lifecycle": "active",
+      "decision_reason": "Roteador read-only para revisao multidisciplinar proporcional, separando defeito, risco, oportunidade e gosto sem promover claims.",
+      "replacement_skills": [],
+      "evidence_grade": "E2_schema_validator",
+      "source_path": "tools/sgdk_wrapper/.agent/skills/governance/independent-quality-review",
+      "legacy_path": null,
+      "content_sha256": null,
+      "context_budget_words": 650,
+      "references_redirected": [],
+      "restore_conditions": ["Permanece ativo enquanto o roteador, schemas, independencia do reviewer e fixtures adversariais continuarem distintos."],
+      "decision_date": "2026-09-05",
       "human_approved": true
     },
     {
@@ -129,6 +174,21 @@
       "human_approved": true
     },
     {
+      "skill_id": "operation/harness-orchestration",
+      "lifecycle": "active",
+      "decision_reason": "Owner operacional para resolver contexto do harness, decidir quando delegar, limitar contexto e proteger escrita e claims.",
+      "replacement_skills": [],
+      "evidence_grade": "E2_schema_validator",
+      "source_path": "tools/sgdk_wrapper/.agent/skills/operation/harness-orchestration",
+      "legacy_path": null,
+      "content_sha256": null,
+      "context_budget_words": 550,
+      "references_redirected": [],
+      "restore_conditions": ["Permanece ativo enquanto possuir schemas, planner deterministico, leases e fixtures adversariais proprias."],
+      "decision_date": "2026-09-04",
+      "human_approved": true
+    },
+    {
       "skill_id": "planning/brawler-game-design",
       "lifecycle": "active",
       "decision_reason": "Orquestrador limitado a brawler_belt_scroll implementado.",
@@ -144,6 +204,21 @@
       "human_approved": true
     },
     {
+      "skill_id": "planning/narrative-design-reviewer",
+      "lifecycle": "active",
+      "decision_reason": "Owner independente para coerencia, ritmo, stakes, custo e integracao ludonarrativa sem assumir autoria do roteiro.",
+      "replacement_skills": [],
+      "evidence_grade": "E2_schema_validator",
+      "source_path": "tools/sgdk_wrapper/.agent/skills/planning/narrative-design-reviewer",
+      "legacy_path": null,
+      "content_sha256": null,
+      "context_budget_words": 500,
+      "references_redirected": [],
+      "restore_conditions": ["Permanece ativo enquanto review narrativo for distinto de planejamento, escrita e implementacao de cutscene."],
+      "decision_date": "2026-09-05",
+      "human_approved": true
+    },
+    {
       "skill_id": "planning/platformer-puzzle-game-design",
       "lifecycle": "active",
       "decision_reason": "Orquestrador limitado a platformer_precision_2d implementado.",
@@ -156,6 +231,21 @@
       "references_redirected": [],
       "restore_conditions": ["Novas variantes exigem schema, validator e testes proprios."],
       "decision_date": "2026-06-19",
+      "human_approved": true
+    },
+    {
+      "skill_id": "planning/product-market-reviewer",
+      "lifecycle": "active",
+      "decision_reason": "Owner consultivo para posicionamento comercial com fontes atuais, sem impor tendencias a projetos sem intencao de mercado.",
+      "replacement_skills": [],
+      "evidence_grade": "E2_schema_validator",
+      "source_path": "tools/sgdk_wrapper/.agent/skills/planning/product-market-reviewer",
+      "legacy_path": null,
+      "content_sha256": null,
+      "context_budget_words": 500,
+      "references_redirected": [],
+      "restore_conditions": ["Permanece ativo enquanto mercado exigir fontes atuais e decisao separada da direcao criativa."],
+      "decision_date": "2026-09-05",
       "human_approved": true
     },
     {

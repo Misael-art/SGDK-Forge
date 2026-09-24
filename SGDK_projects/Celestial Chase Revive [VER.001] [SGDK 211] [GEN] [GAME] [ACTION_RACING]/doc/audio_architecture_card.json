@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "driver_route": "XGM2 first",
+  "music_states": ["title_prayer", "opening_crack", "race_intro", "race_pressure", "race_pressure_plus", "race_climax", "upgrade_beacon", "boss_approach", "final_boss", "victory", "failure"],
+  "reactive_music_contract": "doc/reactive_music_gameplay_contract.json",
+  "sfx_priority_order": ["damage", "telegraph", "pulse_ready", "pulse_use", "boss_weak_point", "lumen_pickup", "menu", "typewriter"],
+  "channel_ownership_policy": "system_audio arbitrates, gameplay critical SFX can duck noncritical cues",
+  "pcm_policy": "PCM optional and budgeted; no sample-heavy promise in slice 1",
+  "fallback": "FM/PSG only with fewer stingers"
+}

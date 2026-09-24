@@ -43,10 +43,6 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-# Executor real do host; nunca "powershell" literal (ausente no Linux).
-. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
-$script:HostPwsh = Get-PowerShellExecutable
-
 $libDir = Join-Path $PSScriptRoot 'lib'
 $modulePath = Join-Path $libDir 'sgdk_artifact_contracts.psm1'
 if (Test-Path -LiteralPath $modulePath -PathType Leaf) {
@@ -54,7 +50,7 @@ if (Test-Path -LiteralPath $modulePath -PathType Leaf) {
 }
 
 $script:ToolName = 'scene_closeout_gate'
-$script:ToolVersion = '0.2.0'
+$script:ToolVersion = '0.5.0'
 $script:WrittenOk = $false
 $script:FailureMessage = ''
 $script:ExitCode = 1
@@ -78,6 +74,13 @@ try {
     }
 
     $ScriptRoot = $PSScriptRoot
+    $powerShellHostPath = (Get-Process -Id $PID).Path
+    $pythonCommand = Get-Command python3 -ErrorAction SilentlyContinue
+    if ($null -eq $pythonCommand) {
+        $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+    }
+    $pythonHostPath = if ($null -ne $pythonCommand) { $pythonCommand.Source } else { "python" }
+    $isLinuxHost = ($PSVersionTable.PSEdition -eq "Core" -and [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Unix)
     $LogDir = Join-Path $ProjectRoot "out\logs"
     if (-not (Test-Path -LiteralPath $LogDir -PathType Container)) {
         New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
@@ -158,6 +161,39 @@ function Get-SceneRegressionCloseoutIntent {
     }
 }
 
+function Resolve-BlastEmCaptureRoute {
+    param(
+        [Parameter(Mandatory = $true)][string]$Root,
+        [Parameter(Mandatory = $true)][string]$PythonPath,
+        [Parameter(Mandatory = $true)][string]$SelectorPath,
+        [Parameter(Mandatory = $true)][string]$RouteReportPath,
+        [Parameter(Mandatory = $true)][int]$Target
+    )
+
+    $outputBase = Join-Path $Root "out\evidence\blastem_current"
+    # The wrapper location is authoritative. A stale MD_ROOT inherited from a
+    # different workspace must not redirect host/capture routing.
+    $selectorRepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+    $selectorArgs = @(
+        $SelectorPath,
+        "--repo-root", $selectorRepoRoot,
+        "--project-root", $Root,
+        "--target-scene", ([string]$Target),
+        "--output-base", $outputBase,
+        "--output", $RouteReportPath,
+        "--powershell-command", $powerShellHostPath
+    )
+    & $PythonPath @selectorArgs | Out-Null
+    if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $RouteReportPath -PathType Leaf)) {
+        throw "host_executor_route_mismatch: capture route selector failed. report=$RouteReportPath"
+    }
+    $route = Get-Content -LiteralPath $RouteReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ([string]$route.status -ne "selected") {
+        throw "host_executor_route_mismatch: capture route blocked. decision=$($route.decision) blockers=$(@($route.blockers) -join ',')"
+    }
+    return $route
+}
+
 function Invoke-CloseoutStep {
     param([Parameter(Mandatory = $true)]$Step)
 
@@ -220,59 +256,107 @@ if (-not $SkipBuild) {
     }
 }
 
-[void]$steps.Add((New-Step -Name "scene_contract_compiler" -Kind "contract" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "scene_contract_compiler.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "production") -Required $true))
+[void]$steps.Add((New-Step -Name "scene_contract_compiler" -Kind "contract" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "scene_contract_compiler.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "production") -Required $true))
 
-[void]$steps.Add((New-Step -Name "res_graph_audit" -Kind "resources" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "res_graph_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "res_graph_audit" -Kind "resources" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "res_graph_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
-[void]$steps.Add((New-Step -Name "validate_resources" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "validate_resources" -Kind "validation" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
 
 if (-not $SkipRuntimeCapture) {
     if ($TargetScene -ge 0) {
-        [void]$steps.Add((New-Step -Name "runtime_capture" -Kind "emulator" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_runtime_capture.ps1"), "-ProjectDir", $ProjectRoot, "-TargetScene", ([string]$TargetScene), "-Emulator", "blastem") -Required $true))
-        [void]$steps.Add((New-Step -Name "validate_resources_post_runtime" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+        $captureRouteReportPath = Join-Path $LogDir "blastem_capture_route_report.json"
+        $captureRoute = Resolve-BlastEmCaptureRoute -Root $ProjectRoot -PythonPath $pythonHostPath -SelectorPath (Join-Path $ScriptRoot "select_blastem_capture_route.py") -RouteReportPath $captureRouteReportPath -Target $TargetScene
+        $captureCommand = [string]$captureRoute.command
+        $captureArguments = @($captureRoute.arguments | ForEach-Object { [string]$_ })
+        [void]$steps.Add((New-Step -Name "runtime_capture" -Kind "emulator" -Command $captureCommand -Arguments $captureArguments -Required $true))
     } else {
-        $step = New-Step -Name "runtime_capture" -Kind "emulator" -Command $script:HostPwsh -Arguments @() -Required $false
+        $step = New-Step -Name "runtime_capture" -Kind "emulator" -Command $powerShellHostPath -Arguments @() -Required $false
         $step.status = "skipped"
         $step.skipped_reason = "TargetScene not provided"
         [void]$steps.Add($step)
     }
 }
 
+$semanticScreenshotPath = Join-Path $ProjectRoot "out\evidence\blastem\screenshot.png"
+$semanticGateExpected = [bool](((-not $SkipRuntimeCapture) -and $TargetScene -ge 0) -or (Test-Path -LiteralPath $semanticScreenshotPath -PathType Leaf) -or $PlanOnly)
+if ($semanticGateExpected) {
+    [void]$steps.Add((New-Step -Name "screenshot_semantic_gate" -Kind "evidence" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_screenshot_semantics.ps1"), "-ProjectRoot", $ProjectRoot, "-ScreenshotPath", $semanticScreenshotPath) -Required $true))
+} else {
+    $step = New-Step -Name "screenshot_semantic_gate" -Kind "evidence" -Command $powerShellHostPath -Arguments @() -Required $false
+    $step.status = "skipped"
+    $step.skipped_reason = "No screenshot exists and runtime capture was not requested"
+    [void]$steps.Add($step)
+}
+if (-not $SkipRuntimeCapture -and $TargetScene -ge 0) {
+    [void]$steps.Add((New-Step -Name "validate_resources_post_runtime" -Kind "validation" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+}
+
 if (-not $SkipSceneRegression) {
     if ($sceneRegressionExpected -or $PlanOnly) {
-        $regressionArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_scene_regression.ps1"), "-ProjectRoot", $ProjectRoot)
+        $regressionCommand = $powerShellHostPath
+        if ($isLinuxHost) {
+            # The legacy runner imports the Win32/Forms automation module. On
+            # Linux, route regression through the host-selected Python runner;
+            # it delegates each capture to capture_blastem_evidence_linux.sh.
+            $regressionCommand = $pythonHostPath
+            $regressionArgs = @((Join-Path $ScriptRoot "run_scene_regression_host.py"), "--project-root", $ProjectRoot)
+        } else {
+            $regressionArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_scene_regression.ps1"), "-ProjectRoot", $ProjectRoot)
+        }
         if (-not [string]::IsNullOrWhiteSpace($SceneId)) {
-            $regressionArgs += @("-SceneId", $SceneId)
+            $regressionArgs += if ($isLinuxHost) { @("--scene-id", $SceneId) } else { @("-SceneId", $SceneId) }
         }
         if ($WarnOnly) {
-            $regressionArgs += @("-WarnOnly")
+            $regressionArgs += if ($isLinuxHost) { @("--warn-only") } else { @("-WarnOnly") }
         }
-        [void]$steps.Add((New-Step -Name "scene_regression" -Kind "emulator" -Command $script:HostPwsh -Arguments $regressionArgs -Required $true))
-        [void]$steps.Add((New-Step -Name "validate_resources_after_scene_regression" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+        [void]$steps.Add((New-Step -Name "scene_regression" -Kind "emulator" -Command $regressionCommand -Arguments $regressionArgs -Required $true))
+        [void]$steps.Add((New-Step -Name "validate_resources_after_scene_regression" -Kind "validation" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
     } else {
-        $step = New-Step -Name "scene_regression" -Kind "emulator" -Command $script:HostPwsh -Arguments @() -Required $false
+        $step = New-Step -Name "scene_regression" -Kind "emulator" -Command $powerShellHostPath -Arguments @() -Required $false
         $step.status = "skipped"
         $step.skipped_reason = "No scene-regression scenes declared"
         [void]$steps.Add($step)
     }
 }
 
-[void]$steps.Add((New-Step -Name "promotion_claim_audit" -Kind "governance" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_promotion_claims.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "promotion_claim_audit" -Kind "governance" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_promotion_claims.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
-[void]$steps.Add((New-Step -Name "freshness_audit" -Kind "freshness" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "freshness_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+# The host selector and Linux capture route seal into blastem_current. Keep the
+# legacy blastem path as a read-only compatibility fallback so closeout audits
+# the same bundle that the selected route actually produced.
+$freshEvidenceManifestPath = Join-Path $ProjectRoot "out\evidence\blastem_current\evidence_manifest.json"
+if (-not (Test-Path -LiteralPath $freshEvidenceManifestPath -PathType Leaf)) {
+    $legacyFreshEvidenceManifestPath = Join-Path $ProjectRoot "out\evidence\blastem\evidence_manifest.json"
+    if (Test-Path -LiteralPath $legacyFreshEvidenceManifestPath -PathType Leaf) {
+        $freshEvidenceManifestPath = $legacyFreshEvidenceManifestPath
+    }
+}
+if ((Test-Path -LiteralPath $freshEvidenceManifestPath -PathType Leaf) -or $PlanOnly) {
+    [void]$steps.Add((New-Step -Name "fresh_evidence_bundle_audit" -Kind "evidence" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_fresh_evidence_bundle.ps1"), "-ProjectRoot", $ProjectRoot, "-ManifestPath", $freshEvidenceManifestPath, "-OutputPath", (Join-Path $ProjectRoot "out\logs\fresh_evidence_bundle_audit_report.json")) -Required $true))
+} else {
+    $step = New-Step -Name "fresh_evidence_bundle_audit" -Kind "evidence" -Command $powerShellHostPath -Arguments @() -Required $false
+    $step.status = "skipped"
+    $step.skipped_reason = "No fresh evidence manifest exists"
+    [void]$steps.Add($step)
+}
 
-[void]$steps.Add((New-Step -Name "validate_resources_final" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "freshness_audit" -Kind "freshness" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "freshness_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+
+$docSyncReportPath = Join-Path $ProjectRoot "out\logs\doc_sync_report.json"
+[void]$steps.Add((New-Step -Name "doc_sync_audit" -Kind "governance" -Command $pythonHostPath -Arguments @((Join-Path $ScriptRoot "audit_doc_sync.py"), "--project-root", $ProjectRoot, "--output", $docSyncReportPath) -Required $true))
+
+[void]$steps.Add((New-Step -Name "validate_resources_final" -Kind "validation" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
 
 if (-not $SkipRuntimeCapture -and ($TargetScene -ge 0 -or $PlanOnly)) {
-    [void]$steps.Add((New-Step -Name "evidence_finalize" -Kind "evidence" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "finalize_emulator_evidence.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+    [void]$steps.Add((New-Step -Name "evidence_finalize" -Kind "evidence" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "finalize_emulator_evidence.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 } else {
-    $step = New-Step -Name "evidence_finalize" -Kind "evidence" -Command $script:HostPwsh -Arguments @() -Required $false
+    $step = New-Step -Name "evidence_finalize" -Kind "evidence" -Command $powerShellHostPath -Arguments @() -Required $false
     $step.status = "skipped"
     $step.skipped_reason = "Runtime capture not requested"
     [void]$steps.Add($step)
 }
 
-[void]$steps.Add((New-Step -Name "project_learning_capture" -Kind "learning" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_project_learning.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "Capture", "-OutputFormat", "Json") -Required $true))
+[void]$steps.Add((New-Step -Name "project_learning_capture" -Kind "learning" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_project_learning.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "Capture", "-OutputFormat", "Json") -Required $true))
 
 $executed = New-Object System.Collections.ArrayList
 $failed = $false
@@ -301,6 +385,8 @@ $runtimeMetricsPath = Join-Path $ProjectRoot "out\logs\runtime_metrics.json"
 $resGraphReportPath = Join-Path $ProjectRoot "out\logs\res_graph_report.json"
 $evidenceCloseoutReportPath = Join-Path $ProjectRoot "out\logs\evidence_closeout_report.json"
 $promotionClaimAuditPath = Join-Path $ProjectRoot "out\logs\promotion_claim_audit_report.json"
+$screenshotSemanticReportPath = Join-Path $ProjectRoot "out\logs\screenshot_semantic_gate_report.json"
+$freshEvidenceAuditReportPath = Join-Path $ProjectRoot "out\logs\fresh_evidence_bundle_audit_report.json"
 $validationBlockingStatuses = @()
 $closeoutBlockingStatuses = @()
 $validationReportReadable = $false
@@ -332,7 +418,12 @@ if ((-not $PlanOnly) -and (Test-Path -LiteralPath $resGraphReportPath -PathType 
             if ($resGraphReport.vram.PSObject.Properties.Name -contains "code_loaded_tiles" -and $resGraphReport.vram.code_loaded_tiles) {
                 $codeLoadedStatus = [string]$resGraphReport.vram.code_loaded_tiles.status
             }
-            if ($resGraphVramStatus -eq "code_loaded_tiles_unmeasured" -or $codeLoadedStatus -eq "code_loaded_tiles_unmeasured") {
+            $measuredEvidenceStatus = ""
+            if ($resGraphReport.vram.PSObject.Properties.Name -contains "measured_evidence" -and $resGraphReport.vram.measured_evidence) {
+                $measuredEvidenceStatus = [string]$resGraphReport.vram.measured_evidence.status
+            }
+            $hasExplicitVramEvidence = ($resGraphVramStatus -eq "ok" -and $measuredEvidenceStatus -eq "valid")
+            if ($resGraphVramStatus -eq "code_loaded_tiles_unmeasured" -or ($codeLoadedStatus -eq "code_loaded_tiles_unmeasured" -and -not $hasExplicitVramEvidence)) {
                 $closeoutBlockingStatuses += "code_loaded_tiles_unmeasured"
             }
         }
@@ -373,6 +464,34 @@ if ((-not $PlanOnly) -and (Test-Path -LiteralPath $freshnessReportPath -PathType
         $closeoutBlockingStatuses += "freshness_audit_unreadable"
     }
 }
+if ((-not $PlanOnly) -and (Test-Path -LiteralPath $screenshotSemanticReportPath -PathType Leaf)) {
+    try {
+        $screenshotSemanticReport = Get-Content -LiteralPath $screenshotSemanticReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+        if (-not [bool]$screenshotSemanticReport.semantic_capture_valid) {
+            $semanticBlocker = if ($screenshotSemanticReport.blocker_code) { [string]$screenshotSemanticReport.blocker_code } else { "screenshot_semantic_gate_unavailable" }
+            $closeoutBlockingStatuses += $semanticBlocker
+        }
+    } catch {
+        $closeoutBlockingStatuses += "screenshot_semantic_gate_unreadable"
+    }
+} elseif ((-not $PlanOnly) -and $semanticGateExpected) {
+    $closeoutBlockingStatuses += "screenshot_semantic_gate_missing"
+}
+if ((-not $PlanOnly) -and (Test-Path -LiteralPath $freshEvidenceManifestPath -PathType Leaf)) {
+    if (-not (Test-Path -LiteralPath $freshEvidenceAuditReportPath -PathType Leaf)) {
+        $closeoutBlockingStatuses += "fresh_evidence_bundle_audit_missing"
+    } else {
+        try {
+            $freshEvidenceAudit = Get-Content -LiteralPath $freshEvidenceAuditReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+            if ([string]$freshEvidenceAudit.status -ne "ok") {
+                $closeoutBlockingStatuses += @($freshEvidenceAudit.blockers)
+                $closeoutBlockingStatuses += "fresh_evidence_bundle_blocked"
+            }
+        } catch {
+            $closeoutBlockingStatuses += "fresh_evidence_bundle_audit_unreadable"
+        }
+    }
+}
 if ((-not $PlanOnly) -and $sceneRegressionExpected -and (Test-Path -LiteralPath $sceneRegressionReportPath -PathType Leaf)) {
     try {
         $sceneRegressionReport = Get-Content -LiteralPath $sceneRegressionReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -404,6 +523,18 @@ $closeoutBlockingStatuses += @($validationBlockingStatuses)
 $closeoutBlockingStatuses = @($closeoutBlockingStatuses | Where-Object {
     $null -ne $_ -and -not [string]::IsNullOrWhiteSpace([string]$_)
 } | Select-Object -Unique)
+$validationBlockedStep = (
+    $failed -and
+    $reportFailureStep -like "validate_resources*" -and
+    $validationReportReadable -and
+    $validationBlockingStatuses.Count -gt 0
+)
+if ($validationBlockedStep) {
+    $failed = $false
+    foreach ($executedStep in @($executed | Where-Object { $_.name -eq $reportFailureStep })) {
+        $executedStep.status = "blocked"
+    }
+}
 $closeoutBlocked = (-not $failed) -and (-not $PlanOnly) -and ($closeoutBlockingStatuses.Count -gt 0)
 
     $workspaceRoot = if ($env:MD_ROOT) { $env:MD_ROOT } else { 'UNKNOWN' }
@@ -441,6 +572,7 @@ $closeoutBlocked = (-not $failed) -and (-not $PlanOnly) -and ($closeoutBlockingS
         }
         steps = @($executed)
         observed_artifacts = [ordered]@{
+            blastem_capture_route = if (Test-Path -LiteralPath (Join-Path $LogDir "blastem_capture_route_report.json")) { (Join-Path $LogDir "blastem_capture_route_report.json") } else { $null }
             validation_report = if (Test-Path -LiteralPath $validationReportPath) { $validationReportPath } else { $null }
             freshness_audit_report = if (Test-Path -LiteralPath $freshnessReportPath) { $freshnessReportPath } else { $null }
             res_graph_report = if (Test-Path -LiteralPath $resGraphReportPath) { $resGraphReportPath } else { $null }
@@ -448,6 +580,9 @@ $closeoutBlocked = (-not $failed) -and (-not $PlanOnly) -and ($closeoutBlockingS
             runtime_metrics = if (Test-Path -LiteralPath $runtimeMetricsPath) { $runtimeMetricsPath } else { $null }
             evidence_closeout_report = if (Test-Path -LiteralPath $evidenceCloseoutReportPath) { $evidenceCloseoutReportPath } else { $null }
             promotion_claim_audit_report = if (Test-Path -LiteralPath $promotionClaimAuditPath) { $promotionClaimAuditPath } else { $null }
+            doc_sync_report = if (Test-Path -LiteralPath $docSyncReportPath) { $docSyncReportPath } else { $null }
+            screenshot_semantic_gate_report = if (Test-Path -LiteralPath $screenshotSemanticReportPath) { $screenshotSemanticReportPath } else { $null }
+            fresh_evidence_bundle_audit_report = if (Test-Path -LiteralPath $freshEvidenceAuditReportPath) { $freshEvidenceAuditReportPath } else { $null }
             rom = if (Test-Path -LiteralPath (Join-Path $ProjectRoot "out\rom.bin")) { (Join-Path $ProjectRoot "out\rom.bin") } else { $null }
         }
     }

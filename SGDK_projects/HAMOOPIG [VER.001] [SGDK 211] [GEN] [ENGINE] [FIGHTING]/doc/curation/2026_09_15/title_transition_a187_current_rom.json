@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L097",
+  "date": "2026-09-15",
+  "topic": "title_transition_a187_current_rom",
+  "source": "blastem_framebuffer_video_and_manual_visual_inspection",
+  "rom_sha256": "a1875f95c2c7c864b8c48adac34be3036c09fc30063354b65cbefd1fc8333bfe",
+  "problem": "A alteração do loader de estágios gerou a ROM a187 e invalidou a prova temporal do SHA anterior.",
+  "change": "Recapturar `--transition --select-only` em sessão BlastEm limpa, incluindo a abertura, fade, título, seletor e entrada no combate.",
+  "result": "O vídeo atual a 60 fps e o manifesto a187 mostram a composição do título após a abertura e o fluxo até o seletor/combate; a captura é não-preta e não apresenta sobreposição observada.",
+  "limits": [
+    "inspeção deste agente não substitui review visual independente",
+    "não mede pior-frame nem hardware real",
+    "select-only não é cobertura de gameplay completo"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T150420Z/opening_title_transition.mp4",
+    "out/emulator_evidence/visual_ko_20260915T150420Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T150420Z/00_title.png",
+    "tests/capture_visual_ko.py"
+  ],
+  "status": "current_sha_temporal_transition_pass_independent_review_pending"
+}

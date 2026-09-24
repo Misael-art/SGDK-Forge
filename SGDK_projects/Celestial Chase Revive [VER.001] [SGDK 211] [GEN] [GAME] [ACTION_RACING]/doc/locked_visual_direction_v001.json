@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "status": "locked_for_next_conversion_pass",
+  "direction_id": "visual_slice_v001",
+  "scope": [
+    "front_end_title",
+    "sector_01_playfield"
+  ],
+  "must_preserve": [
+    "Pursuer horn/crown silhouette visible from Sector 01 horizon",
+    "Three lane road remains the strongest gameplay read",
+    "Lumen warm gold/teal remains pickup and pressure language",
+    "Title logo uses hard-edge luminous blocks, not SGDK debug font",
+    "HUD stays dark, compact and subordinate to route reading"
+  ],
+  "must_not_do": [
+    "Do not promote these source PNGs directly as final res art",
+    "Do not claim ready_for_aaa before BlastEm evidence and VDP dump",
+    "Do not replace lane readability with decorative sky detail"
+  ],
+  "next_conversion_target": "res/bg title slice and Sector 01 BG/TILESET_MAP candidate",
+  "evidence": {
+    "manifest": "doc/visual_slice_v001_manifest.json",
+    "contact_sheet": "data/processed/visual_slice_v001/visual_slice_contact_sheet_v001.png",
+    "scene_tilemap_report": "out/logs/scene_tilemap_conversion_report.json"
+  },
+  "generated_at": "2026-06-28T13:25:10.691508+00:00",
+  "tool_name": "build_visual_slice_v001",
+  "tool_version": "0.1.0"
+}

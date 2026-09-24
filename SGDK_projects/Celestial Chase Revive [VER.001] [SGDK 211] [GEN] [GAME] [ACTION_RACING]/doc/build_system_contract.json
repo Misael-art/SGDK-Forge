@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "status": "runtime_seed_enabled",
+  "contract_id": "sgdk_build_system_v001",
+  "workspace_rule": "Build logic remains in tools/sgdk_wrapper; project-local custom build scripts are forbidden.",
+  "current_project_build_policy": "enabled",
+  "canonical_build_entry": "tools/sgdk_wrapper/build.bat",
+  "canonical_makefile_template": "tools/sgdk_wrapper/makefile.gen.elite",
+  "sgdk_root": "sdk/sgdk-2.11",
+  "linker_script": "sdk/sgdk-2.11/md.ld",
+  "output_rom": "out/rom.bin",
+  "minimum_runtime_seed_files": [
+    "src/main.c",
+    "src/boot/rom_head.c",
+    "src/boot/sega.s",
+    "res/resources.res",
+    "inc/project_config.h",
+    ".mddev/project.json"
+  ],
+  "minimum_runtime_seed_modules": [],
+  "build_enable_gate": {
+    "allowed_when": [
+      "runtime seed files exist",
+      "res/resources.res exists",
+      "project build_policy changed to enabled",
+      "doc/build_system_contract.json updated with actual file list",
+      "validate_project_context and validate_project_hygiene pass"
+    ],
+    "blocked_until": [
+      "runtime_seed_missing",
+      "resources_res_missing",
+      "no_scene_manager_runtime_after_fase_a"
+    ]
+  },
+  "runtime_seed_actual_files": [
+    "src/main.c",
+    "src/boot/rom_head.c",
+    "src/boot/sega.s",
+    "res/resources.res",
+    "inc/project_config.h"
+  ],
+  "runtime_seed_scope": "Fase A only: boot ROM, visible screen, SRAM READY heartbeat. Scene manager, title/cutscene and Sector 01 are explicitly next phases.",
+  "external_workspace_note": "This project is operated by the canonical workspace wrapper. Build evidence may contain absolute host paths, but active project docs must keep portable references.",
+  "expected_command": "<workspace_root>\\tools\\sgdk_wrapper\\build.bat <project_root>",
+  "validation_after_build": [
+    "out/rom.bin exists",
+    "validate_resources.ps1 -WorkDir project passes or reports only declared blockers",
+    "BlastEm boot evidence exists before any status above buildado",
+    "memory bank and changelog updated"
+  ],
+  "notes": [
+    "No Makefile is added to the project at specs stage because the canonical workspace owns build logic centrally.",
+    "If a local generated Makefile is ever materialized by the wrapper, it is treated as generated output, not source of truth."
+  ]
+}

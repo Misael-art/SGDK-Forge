@@ -1,0 +1,69 @@
+{
+  "schema": "visual_delivery_gate_report.v1",
+  "updated_at": "2026-09-01T00:00:00Z",
+  "ready_for_aaa": false,
+  "technical_ready": false,
+  "creative_ready": false,
+  "technical_artifact_status": "native_idle_elite_isolated_runtime_review_passed",
+  "semantic_audit_status": "direction_locked_scene_reference_locked_idle_pose_human_approved",
+  "max_delivery_status": "testado_em_emulador_isolated_idle_review_only",
+  "creative_blocking_statuses": [
+    "model_sheet_full_turnaround_not_approved",
+    "motion_package_human_gate_pending",
+    "blocked_no_vdp_conversion",
+    "procedural_assets_remain_placeholder_only",
+    "live_scene_bar_report_missing_for_new_direction"
+  ],
+  "visual_direction_status": "locked_visual_direction",
+    "model_sheet_status": "approved_limited_scope_single_idle_native_key_pose",
+  "visual_direction_findings": [
+    "Existing ROM evidence proves placeholder runtime composition and performance only; it does not approve native art.",
+    "Human decision locks Route A — Sunlit Cultivation as direction only, bound to the existing route panel hash.",
+    "Human decision locks the golden scene as composition/lighting/depth/layer/density reference only.",
+    "Human decision preserves v01 as needs_rework, v02 as turnaround_volume_reference_only, v03-B as comparison_only, and binds v03-A plus native ELITE idle by exact SHA for limited runtime review.",
+    "R1-R4/P1-P4 are archived or rejected and remain evidence negative, never source pixels.",
+    "New visual nucleus is persisted in rascunho and has not entered res/."
+  ],
+  "reconciliation": {
+    "vigent": ["doc/10-memory-bank.md", "doc/art/model_sheet_route/visual_dna_manifest.json", "doc/art/nexialist_visual_nucleus_v01.md"],
+    "obsoleto_or_harmonizado": ["previous template-seed gate wording in this file", "previous template-seed art_gameplay_direction_gate.json wording"],
+    "contradictions": ["The old gate said no visual source existed, while the memory bank records rejected R1-R4 and an existing model-sheet route.", "The old project methodology manifest had lifecycle=new and unclassified claims."],
+    "decision": "Keep existing first_playable baseline acknowledged as placeholder; authorize only the ELITE idle key pose in a dedicated isolated review scene and keep animation, gameplay replacement and AAA blocked."
+  },
+  "axis_evidence": {
+    "existing_runtime_placeholder": true,
+    "new_visual_source_candidate": true,
+    "human_approval_for_new_direction": true,
+    "human_approval_scope": "direction_and_golden_scene_reference; v03-A_source; native_idle_key_pose_elite_v01_exact_sha_for_isolated_runtime_visual_proof",
+    "model_sheet_human_approval": "limited_scope_true_full_turnaround_false",
+    "new_direction_vdp_translation": false,
+    "new_direction_blastem_evidence": false,
+    "provenance_manifest_present": true
+  },
+  "measurement_level": "measured_for_baseline_declared_for_candidate",
+  "leaf_blocker_propagation": true,
+  "workspace_scope_isolation": true,
+  "visual_route_status": "locked_direction_limited_idle_approval_full_turnaround_pending",
+  "critical_assets": [
+    {
+      "asset_id": "vegetable_valley_visual_nucleus_v01",
+      "role": "golden_scene_direction_and_model_sheet_candidate",
+      "visual_status": "visual_source_candidate",
+      "perceptual_quality": "candidate_requires_human_review_and_native_translation",
+      "source_validity": true,
+      "authoriality_gate": "candidate",
+      "license": "unlicensed_noncommercial_fan_work",
+      "authorial_source": "rascunho/nexialist_visual_nucleus_v01/",
+      "derivative_of": "Kirby / Nintendo / HAL Laboratory intellectual property",
+      "derivative_license_status": "unlicensed_noncommercial_fan_work",
+      "commercial_distribution": false,
+      "pixel_source": "new project-authored execution via built-in image generation; no external image used as pixel source",
+      "ripped_pixels": false,
+      "clone_risk_score": "not_measured_yet",
+      "benchmark_used_as": "technical_reference_only",
+      "measurement_level": "declared",
+      "lab_not_delivery": true,
+      "leaf_blockers": ["motion_package_human_gate_pending", "blocked_no_first_playable_replacement", "live_scene_bar_report_missing_for_new_direction"]
+    }
+  ]
+}

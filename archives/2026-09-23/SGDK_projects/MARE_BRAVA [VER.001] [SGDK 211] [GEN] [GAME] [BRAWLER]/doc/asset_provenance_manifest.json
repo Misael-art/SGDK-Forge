@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+  "declared_at": "2026-08-29T18:15:00-03:00",
+  "validator_fixture": false,
+  "entries": [
+    {
+      "res_symbol": "img_brand_fx_tiles",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_fx_tiles.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Template technical probe; requires authored MARÉ BRAVA branding replacement."
+    },
+    {
+      "res_symbol": "img_brand_engine_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_engine_logo.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Template technical probe; not final project identity."
+    },
+    {
+      "res_symbol": "img_brand_author_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_author_logo.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Template technical probe; not final project identity."
+    },
+    {
+      "res_symbol": "img_brand_project_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_project_logo.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Procedural wordmark; replace with an authored MARÉ BRAVA logo."
+    },
+    {
+      "res_symbol": "img_brand_presents_text",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_presents_text.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Template technical probe; not final front-end typography."
+    },
+    {
+      "res_symbol": "img_cais01_bg_b_mar_ceu",
+      "res_kind": "IMAGE",
+      "asset_path": "backgrounds/cais01/cais01_bg_b_harbor_sunset_512x224_v04.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cais01_art_alignment_pass_v04.py",
+      "notes": "Technical style probe; it cannot be final until rebuilt from an authored modular dock kit."
+    },
+    {
+      "res_symbol": "img_cais01_bg_a_pier_modular",
+      "res_kind": "IMAGE",
+      "asset_path": "backgrounds/cais01/cais01_bg_a_industrial_pier_512x224_v04.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cais01_art_alignment_pass_v04.py",
+      "notes": "Technical style probe; it cannot be final until rebuilt from an authored modular dock kit."
+    },
+    {
+      "res_symbol": "spr_taina_idle_guard",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/taina/taina_idle_guard_48x64_v02.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cais01_art_alignment_pass_v04.py",
+      "notes": "Runtime probe only; reseed from the approved authorial model sheet before final promotion."
+    },
+    {
+      "res_symbol": "spr_cria_idle_lean",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/cria/cria_idle_lean_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cria_idle_native_v01.py",
+      "notes": "Native-grid runtime probe; requires visual review and authored-source replacement."
+    },
+    {
+      "res_symbol": "spr_cria_walk_lean",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/cria/cria_walk_lean_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cria_walk_native_v01.py",
+      "notes": "Derived from the procedural CRIA probe; not final art."
+    },
+    {
+      "res_symbol": "spr_cria_telegraph_lean",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/cria/cria_telegraph_lean_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cria_telegraph_native_v01.py",
+      "notes": "Derived from the procedural CRIA probe; not final art."
+    },
+    {
+      "res_symbol": "spr_cria_hit_lean",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/cria/cria_hit_lean_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cria_hit_native_v01.py",
+      "notes": "Derived from the procedural CRIA probe; not final art."
+    },
+    {
+      "res_symbol": "spr_cria_recover_lean",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/cria/cria_recover_lean_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cria_recover_native_v01.py",
+      "notes": "Derived from the procedural CRIA probe; not final art."
+    },
+    {
+      "res_symbol": "spr_taina_walk_combat_step",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/taina/taina_walk_combat_step_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_taina_p0_locomotion_v01.py",
+      "notes": "Procedural locomotion candidate; not final character art."
+    },
+    {
+      "res_symbol": "spr_taina_dash_or_step_in",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/taina/taina_dash_or_step_in_64x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_taina_p0_locomotion_v01.py",
+      "notes": "Procedural locomotion candidate; not final character art."
+    },
+    {
+      "res_symbol": "spr_taina_jump_rise_fall_landing",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/taina/taina_jump_rise_fall_landing_48x64_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_taina_p0_locomotion_v01.py",
+      "notes": "Procedural locomotion candidate; not final character art."
+    },
+    {
+      "res_symbol": "spr_taina_combo_hit_1_jab",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_taina_combo_hit_1_jab_runtime_unique_v02.py",
+      "notes": "Copies a procedural raster source; it remains a technical combat probe."
+    },
+    {
+      "res_symbol": "spr_taina_ground_shadow",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/fx/taina_ground_shadow_48x16_3f_v03.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cais01_signature_pass_v03.py",
+      "notes": "Procedural runtime probe; replace with authored FX only if retained in the final style."
+    },
+    {
+      "res_symbol": "spr_cais01_smoke",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/fx/cais01_smoke_32x32_4f_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cais01_signature_pass_v03.py",
+      "notes": "Procedural atmosphere probe; no final FX approval."
+    },
+    {
+      "res_symbol": "spr_cais01_lamp_dust",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/fx/cais01_lamp_dust_16x16_4f_v01.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/art/build_cais01_signature_pass_v03.py",
+      "notes": "Procedural atmosphere probe; no final FX approval."
+    }
+  ]
+}

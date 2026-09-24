@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "data/staging/animation_curation_run_keyposes_20260903/run_passing_visual_producer_output.png",
+  "source_triage_report_path": "out/forward_test_run_keyposes_20260903/run_passing_source_audit_report.json",
+  "source_class": "high_res_full_body_character",
+  "output_dir": "out/forward_test_run_keyposes_20260903/run_passing_routes",
+  "target": {"width": 32, "height": 32, "anchor": "bottom_center"},
+  "route_policy": "preferred_plus_challengers",
+  "include_negative_controls": true,
+  "include_unavailable_placeholders": false,
+  "scale_contract_path": "data/staging/animation_curation_run_keyposes_20260903/run_scale_contract.json"
+}

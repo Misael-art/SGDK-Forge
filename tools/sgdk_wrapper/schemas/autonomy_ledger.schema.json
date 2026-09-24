@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "autonomy_ledger.schema.json",
+  "title": "Agent autonomy event ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ledger_id", "events"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "ledger_id": { "type": "string", "minLength": 1 },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "event_id",
+          "session_id",
+          "timestamp",
+          "event_type",
+          "task_id",
+          "reason_code",
+          "intervention_category",
+          "sensitive_content_stored"
+        ],
+        "properties": {
+          "schema_version": { "const": "1.0.0" },
+          "event_id": { "type": "string", "minLength": 1 },
+          "session_id": { "type": "string", "minLength": 1 },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "event_type": {
+            "enum": [
+              "session_started",
+              "task_started",
+              "task_completed",
+              "task_blocked",
+              "task_reworked",
+              "human_intervention",
+              "session_closed"
+            ]
+          },
+          "task_id": { "type": ["string", "null"] },
+          "reason_code": {
+            "enum": [
+              "session_boundary",
+              "acceptance_met",
+              "external_dependency",
+              "validation_failure",
+              "implementation_defect",
+              "scope_change",
+              "clarification_needed",
+              "approval_required",
+              "human_correction",
+              "safety_gate",
+              null
+            ]
+          },
+          "intervention_category": {
+            "enum": [
+              "clarification",
+              "approval",
+              "correction",
+              "scope_change",
+              "external_dependency",
+              "safety_gate",
+              null
+            ]
+          },
+          "sensitive_content_stored": { "const": false }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "event_type": { "const": "human_intervention" } } },
+            "then": {
+              "properties": {
+                "intervention_category": { "type": "string" },
+                "reason_code": { "type": "string" }
+              }
+            }
+          },
+          {
+            "if": { "properties": { "event_type": { "enum": ["task_started", "task_completed", "task_blocked", "task_reworked"] } } },
+            "then": { "properties": { "task_id": { "type": "string", "minLength": 1 } } }
+          }
+        ]
+      }
+    }
+  }
+}

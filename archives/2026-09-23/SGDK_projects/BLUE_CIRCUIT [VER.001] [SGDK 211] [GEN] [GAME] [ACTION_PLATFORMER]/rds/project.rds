@@ -1,0 +1,39 @@
+{
+  "rds_version": "1.0.0",
+  "schema_version": "1.7.0",
+  "name": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "target": "megadrive",
+  "resolution": {
+    "width": 320,
+    "height": 224
+  },
+  "fps": 60,
+  "palette_mode": "4x16",
+  "entry_scene": "scenes/main.json",
+  "build": {
+    "output_dir": "build/",
+    "optimization": "size",
+    "artifact_prefix": "game",
+    "patch_audit_log": []
+  },
+  "settings": {
+    "region": "world",
+    "video_standard": "ntsc",
+    "internal_rom_name": "BLUE_CIRCUIT VER.001 SGDK 211 GEN GAME ACTION_PL",
+    "sram": {
+      "enabled": false,
+      "size_bytes": 8192
+    },
+    "save_slots": 1,
+    "debug_overlay": false
+  },
+  "template_metadata": {
+    "template_id": "legacy_sgdk_overlay",
+    "template_version": "1.0.0",
+    "source_kind": "external_sgdk",
+    "source_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "source_engine": "sgdk",
+    "import_profile": "legacy_sgdk_overlay_v1",
+    "imported_at_ms": 1784376160139
+  }
+}

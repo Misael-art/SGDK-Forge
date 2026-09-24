@@ -32,6 +32,9 @@ Antes de editar canone:
 
 ## Regras De Assimilacao
 
+- Barra viva: tetos em `doc/03_art/live_scene_bar_parameters.json`; oficio
+  em `doc/03_art/18_live_scene_bar.md`. Handle novo mapeia para escola
+  existente. Nao copiar ensaio nem inventar paleta/FPS/tile sem prova em ROM.
 - Texto rico pode enriquecer docs e abrir `LABORATORIO`/`TEORICA_*`.
 - Texto externo sozinho nao promove `MESTRE_*`.
 - Projeto de laboratorio sozinho nao promove `MESTRE_*`.

@@ -25,11 +25,46 @@ if ([string]::IsNullOrWhiteSpace($OutputPath)) {
     $OutputPath = Join-Path $WorkspaceRoot "out\logs\skill_lifecycle_report.json"
 }
 
-# Motor canonico unico de hash de payload; nunca reimplementar aqui. O contrato
-# (chave relativa POSIX, ordem ordinal, normalizacao CRLF apenas em extensoes
-# textuais, binarios byte-exatos) esta documentado no modulo e provado contra o
-# lado Python por ci/test_skill_hash_engine_parity.ps1.
-. (Join-Path $PSScriptRoot "lib/skill_payload_hash_bootstrap.ps1")
+function Get-DirectoryContentHash {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    $baseFull = [System.IO.Path]::GetFullPath($Path).TrimEnd("\", "/") + [System.IO.Path]::DirectorySeparatorChar
+    $files = @(Get-ChildItem -LiteralPath $Path -File -Recurse | ForEach-Object {
+        $fileFull = [System.IO.Path]::GetFullPath($_.FullName)
+        if (-not $fileFull.StartsWith($baseFull, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "skill_file_outside_payload:$fileFull"
+        }
+        [pscustomobject]@{
+            File = $_
+            Relative = $fileFull.Substring($baseFull.Length).Replace("\", "/")
+        }
+    } | Sort-Object -Property @{ Expression = {
+        [System.Convert]::ToHexString([System.Text.Encoding]::UTF8.GetBytes([string]$_.Relative))
+    } })
+    $items = foreach ($item in $files) {
+        $fileBytes = [System.IO.File]::ReadAllBytes($item.File.FullName)
+        if ([System.IO.Path]::GetExtension($item.File.Name).ToLowerInvariant() -in @(".md", ".json", ".yaml", ".yml", ".txt")) {
+            $text = [System.Text.Encoding]::UTF8.GetString($fileBytes).Replace("`r`n", "`n").Replace("`r", "`n")
+            $fileBytes = [System.Text.Encoding]::UTF8.GetBytes($text)
+        }
+        $fileSha = [System.Security.Cryptography.SHA256]::Create()
+        try {
+            $fileHash = ([System.BitConverter]::ToString($fileSha.ComputeHash($fileBytes))).Replace("-", "").ToLowerInvariant()
+        }
+        finally {
+            $fileSha.Dispose()
+        }
+        "$($item.Relative)`0$fileHash`n"
+    }
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes([string]::Concat($items))
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        return ([System.BitConverter]::ToString($sha.ComputeHash($bytes))).Replace("-", "").ToLowerInvariant()
+    }
+    finally {
+        $sha.Dispose()
+    }
+}
 
 function Get-WordCount {
     param([Parameter(Mandatory = $true)][string]$SkillRoot)
@@ -98,7 +133,7 @@ if ($registry) {
             $errors.Add("skill_present_in_both_roots:$skillId")
         }
 
-        $actualHash = Get-SkillPayloadHash -Path $payload
+        $actualHash = Get-DirectoryContentHash -Path $payload
         $words = Get-WordCount -SkillRoot $payload
         if ($isActive) {
             $activeCount++

@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L089",
+  "date": "2026-09-15",
+  "topic": "title_transition_current_rom",
+  "source": "blastem_framebuffer_video_and_manual_visual_inspection",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "A transição splash → título parecia interromper a abertura e precisava de evidência temporal no framebuffer, não apenas screenshots finais.",
+  "change": "Capturar vídeo de 60 fps desde o boot, extrair amostras do intervalo e inspecionar a sequência abertura/hold/fade-out/preto/fade-in/título.",
+  "result": "A sessão mostra abertura legível, fade-out para intervalo preto limpo e composição do título surgindo somente depois; não foi observada sobreposição de mapas entre as cenas.",
+  "limits": [
+    "a inspeção é deste agente e não substitui review visual independente",
+    "o vídeo não mede pior-frame, DMA ou suavidade perceptual em hardware real",
+    "a captura foi feita em rota select-only e não prova gameplay"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T130109Z/opening_title_transition.mp4",
+    "out/emulator_evidence/visual_ko_20260915T130109Z/00_title.png",
+    "out/emulator_evidence/visual_ko_20260915T130109Z/manifest.json",
+    "tests/capture_visual_ko.py"
+  ],
+  "status": "documented_temporal_transition_pass_independent_review_pending"
+}

@@ -1,0 +1,24 @@
+{
+  "lesson_id": "L095",
+  "date": "2026-09-15",
+  "topic": "data_driven_stage_definition_metadata",
+  "source": "stage_loader_review_and_sgdk_wine_build",
+  "rom_sha256": "a1875f95c2c7c864b8c48adac34be3036c09fc30063354b65cbefd1fc8333bfe",
+  "problem": "O loader já escolhia dimensões e imagem por cenário, mas câmera, orçamento, modelo de carga, paleta/plano, BGM e proveniência continuavam fora do contrato executável.",
+  "change": "Expandir StageDefinition com imagem, plano/paleta, loading model, orçamento/medição de tiles, câmera, parallax, movimento, BGM e proveniência; trocar init.c para consumir esses campos e rejeitar um palco residente acima do orçamento declarado.",
+  "result": "Showdown e BGB2 agora possuem definições completas e o build SGDK/Wine passa no SHA final; o loader mantém o caminho residente explícito e deixa streaming como modelo futuro não selecionado.",
+  "limits": [
+    "STAGE_LOAD_STREAM_WINDOW ainda não tem uploader/ring-cache runtime",
+    "BGM e parallax são metadados e não implicam reprodução/parallax ativos nesta etapa",
+    "revisão visual independente e pior-frame continuam pendentes"
+  ],
+  "artifacts": [
+    "inc/stage.h",
+    "src/stage.c",
+    "src/init.c",
+    "tests/test_stage_definition_contract.py",
+    "out/logs/stage_definition_metadata_build.log",
+    "out/rom.bin"
+  ],
+  "status": "implemented_built_streaming_runtime_pending"
+}

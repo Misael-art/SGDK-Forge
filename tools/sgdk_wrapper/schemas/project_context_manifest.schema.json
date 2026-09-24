@@ -54,6 +54,11 @@
         "release_candidate"
       ]
     },
+    "validator_fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "Excecao nomeada da diretriz de bloqueio estetico. Projeto que existe para exercitar validador, contrato ou regressao pode compilar sem asset externo, mas nao pode sustentar claim de entrega visual, screenshot de vitrine ou status AAA. Requer delivery_claim_ceiling em none, concept, lab ou exercise."
+    },
     "documentation_profile": {
       "type": "string",
       "enum": [

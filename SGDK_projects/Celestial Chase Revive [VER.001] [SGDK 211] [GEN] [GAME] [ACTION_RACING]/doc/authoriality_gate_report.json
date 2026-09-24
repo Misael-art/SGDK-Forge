@@ -1,0 +1,15 @@
+{
+  "schema": "authoriality_gate_report.v1",
+  "status": "passed_for_source_direction_only",
+  "authoriality_gate": "passed",
+  "clone_risk_threshold": 0.25,
+  "clone_risk_score": 0.05,
+  "clone_risk_method": "local authorial composition with references limited to technical inheritance",
+  "benchmark_usage_policy": "benchmark may guide scale, density, timing and budget only",
+  "required_before_res_promotion": true,
+  "res_promotion_allowed": false,
+  "blocking_until_res_promotion": [
+    "source_to_res_conversion_missing",
+    "blastem_capture_missing"
+  ]
+}

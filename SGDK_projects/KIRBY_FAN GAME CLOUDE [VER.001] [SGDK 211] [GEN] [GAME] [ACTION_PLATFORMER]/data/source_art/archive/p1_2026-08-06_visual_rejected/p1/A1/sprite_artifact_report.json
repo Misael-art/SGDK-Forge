@@ -1,0 +1,264 @@
+{
+  "schema": "sprite_artifact_report.v2",
+  "generated_at": "2026-08-06T15:43:40.605046+00:00",
+  "tool": "tools/image-tools/sprite_artifact_audit.py",
+  "asset_id": "P1-A1-ph_kirby",
+  "sheet": "data/source_art/p1/A1/ph_kirby.png",
+  "sheet_sha256": "2f0f17b67380a105194686ad70c065dd64506f47ae7a4b84b966d75195ed6115",
+  "status": "passed",
+  "technical_pass": true,
+  "visual_pass": true,
+  "cell": {
+    "w": 32,
+    "h": 32
+  },
+  "pivot": {
+    "x": 16,
+    "ground_y": 28
+  },
+  "required_checks": {
+    "edge_clipping": true,
+    "detached_islands": true,
+    "anatomy": true,
+    "pivot": true,
+    "foot_contact": true,
+    "frame_delta": true,
+    "action_coverage": true
+  },
+  "action_coverage": {
+    "required_actions": [
+      "idle",
+      "run",
+      "jump",
+      "float",
+      "inhale"
+    ],
+    "declared_actions": [
+      "idle",
+      "run",
+      "jump",
+      "float",
+      "inhale"
+    ],
+    "missing_required_actions": [],
+    "status": "passed"
+  },
+  "summary": {
+    "frames_checked": 8,
+    "findings": 0,
+    "blocking_findings": 0
+  },
+  "findings": [],
+  "frames": [
+    {
+      "action": "idle",
+      "frame": 0,
+      "bbox": [
+        2,
+        4,
+        29,
+        28
+      ],
+      "visible_pixels": 548,
+      "component_sizes": [
+        548
+      ],
+      "grounded": true,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": null,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Corpo completo; dois olhos, dois bracos e dois pes legiveis; silhueta neutra sem clipping."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "run",
+      "frame": 0,
+      "bbox": [
+        2,
+        5,
+        30,
+        28
+      ],
+      "visible_pixels": 585,
+      "component_sizes": [
+        585
+      ],
+      "grounded": true,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": null,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Contato 1: pe dianteiro estendido, pe traseiro plantado e bracos em oposicao."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "run",
+      "frame": 1,
+      "bbox": [
+        3,
+        4,
+        30,
+        28
+      ],
+      "visible_pixels": 551,
+      "component_sizes": [
+        551
+      ],
+      "grounded": true,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": 0.101562,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Passagem 1: corpo elevado, pes cruzando sob o torso e bracos invertendo o arco."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "run",
+      "frame": 2,
+      "bbox": [
+        2,
+        5,
+        30,
+        28
+      ],
+      "visible_pixels": 579,
+      "component_sizes": [
+        579
+      ],
+      "grounded": true,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": 0.097656,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Contato oposto: lideranca dos pes trocada e silhueta de contato preservada."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "run",
+      "frame": 3,
+      "bbox": [
+        3,
+        4,
+        30,
+        28
+      ],
+      "visible_pixels": 567,
+      "component_sizes": [
+        567
+      ],
+      "grounded": true,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": 0.097656,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Passagem oposta: segundo cruzamento, ambos os pes presentes e torso estavel."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "jump",
+      "frame": 0,
+      "bbox": [
+        2,
+        2,
+        30,
+        26
+      ],
+      "visible_pixels": 516,
+      "component_sizes": [
+        516
+      ],
+      "grounded": false,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": null,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Pose ascendente completa; bracos altos e pes recolhidos sem contato com o solo."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "float",
+      "frame": 0,
+      "bbox": [
+        1,
+        4,
+        30,
+        29
+      ],
+      "visible_pixels": 563,
+      "component_sizes": [
+        563
+      ],
+      "grounded": false,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": null,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Duas bochechas infladas rompem o circulo principal; olhos, corpo e dois pes permanecem completos."
+      },
+      "status": "passed"
+    },
+    {
+      "action": "inhale",
+      "frame": 0,
+      "bbox": [
+        1,
+        4,
+        30,
+        29
+      ],
+      "visible_pixels": 610,
+      "component_sizes": [
+        610
+      ],
+      "grounded": true,
+      "pivot": {
+        "x": 16,
+        "ground_y": 28
+      },
+      "frame_delta_ratio": null,
+      "anatomy_review": {
+        "status": "passed",
+        "note": "Corpo inclinado para tras, boca muito aberta voltada para a direita, braco traseiro e dois pes completos."
+      },
+      "status": "passed"
+    }
+  ],
+  "evidence": {
+    "contact_sheet": "data/source_art/p1/A1/evidence/contact_sheet.png",
+    "animated_captures": {
+      "idle": "data/source_art/p1/A1/evidence/animated/idle.gif",
+      "run": "data/source_art/p1/A1/evidence/animated/run.gif",
+      "jump": "data/source_art/p1/A1/evidence/animated/jump.gif",
+      "float": "data/source_art/p1/A1/evidence/animated/float.gif",
+      "inhale": "data/source_art/p1/A1/evidence/animated/inhale.gif"
+    }
+  }
+}

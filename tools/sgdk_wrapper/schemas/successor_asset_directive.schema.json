@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/successor_asset_directive.schema.json",
+  "title": "Successor Asset Directive",
+  "description": "Diretriz emitida no Ramo C do roteamento de geracao visual (SGDK_GLOBAL.md secao 38): nem o agente atual nem o host conseguem gerar a imagem, entao este artefato entrega a um modelo sucessor capaz tudo que ele precisa para assumir o papel de criador de assets ao reler o projeto. Bloqueio morto sem esta diretriz e anti-padrao.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "directive_id",
+    "emitted_at",
+    "emitting_agent",
+    "capability_state",
+    "outcome_branch",
+    "project_context",
+    "successor_role",
+    "assets",
+    "arrival_gates",
+    "persistence_contract"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "directive_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador estavel, ex.: successor_directive_<projeto>_<data>."
+    },
+    "emitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "emitting_agent": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Modelo/agente que emitiu e NAO conseguiu gerar (transparencia de linhagem)."
+    },
+    "probe_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["native_probe_attempted", "host_probe_attempted"],
+      "properties": {
+        "native_probe_attempted": {
+          "type": "boolean",
+          "description": "Sonda real de canal nativo executada nesta sessao (regra secao 38: sem sonda nao ha Ramo C)."
+        },
+        "host_probe_attempted": {
+          "type": "boolean"
+        },
+        "host_probe_output_path": {
+          "type": "string",
+          "description": "Caminho do report JSON da sonda de host (status/healthcheck). Somente se existir."
+        },
+        "blocked_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Motivos agregados: missing_native_channel, missing_api_key, host_without_gpu, runtime_not_installed, install_declined, etc."
+        }
+      }
+    },
+    "capability_state": {
+      "enum": ["capaz_com_prova_agora", "capaz_apos_preparo_medido", "nao_capaz_neste_host"],
+      "description": "Vocabulario de tres estados da secao 38. Ramo C exige nao_capaz_neste_host ou capaz_apos_preparo_medido com install recusada."
+    },
+    "outcome_branch": {
+      "const": "C_successor_directive"
+    },
+    "project_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_name", "canonical_docs_to_read"],
+      "properties": {
+        "project_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_docs_to_read": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "Ponteiros relativos ao projeto: doc/10-memory-bank.md, doc/08-bible-artistica.md, doc/spec_assets*.md etc. O sucessor DEVE reler antes de gerar."
+        },
+        "art_direction_summary": {
+          "type": "string",
+          "description": "Resumo curto da direcao estetica registrada; a biblica artistica prevalece sobre este resumo."
+        }
+      }
+    },
+    "successor_role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mission", "required_skills_to_load"],
+      "properties": {
+        "mission": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Papel do sucessor em uma frase: produzir assets visuais autorais premium para este projeto."
+        },
+        "required_skills_to_load": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "Skills canonica a carregar ao chegar: art-creation-sourcing, art-translation-to-vdp, megadrive-pixel-strict-rules, visual-excellence-standards."
+        },
+        "prohibited_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fontes proibidas, ex.: procedural_primitive como fonte final, asset roubado/clone."
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "asset_role", "spec_pointer_or_description", "source_kind_required"],
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "asset_role": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Papel na cena/personagem/boss/HUD conforme spec do projeto."
+          },
+          "spec_pointer_or_description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Ponteiro para spec detalhada (doc/spec_assets*.md#ancora) ou descricao com medidas/paleta."
+          },
+          "source_kind_required": {
+            "enum": ["hand_authored_pixel", "ai_generated", "photo_or_render_derived", "procedural_composed_from_authored"],
+            "description": "procedural_primitive nunca pode satisfazer entrega final (diretriz de bloqueio estetico)."
+          },
+          "target_dimensions": {
+            "type": "string"
+          },
+          "palette_constraint": {
+            "type": "string",
+            "description": "Ex.: 15 cores visiveis por bloco + index 0 transparente, paleta Mega Drive de 9 bits."
+          }
+        }
+      }
+    },
+    "successor_quality_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["iteration_policy", "numeric_floors", "rejection_triggers", "final_judgment"],
+      "description": "Protocolo de insatisfacao mensuravel (prompt magico): o modelo sucessor NAO aceita primeira versao nem julga por sensacao. Cada piso e numero com ferramenta de medicao; reprovacao de um piso regenera; julgamento final ancorado em gates imparciais. Adjetivo sem piso viola SGDK_GLOBAL.md secao 36; auto-satisfacao sem sonda viola secao 38.",
+      "properties": {
+        "iteration_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min_rounds", "stop_condition"],
+          "properties": {
+            "min_rounds": {
+              "type": "integer",
+              "minimum": 2,
+              "description": "Minimo de rounds mesmo quando o round anterior 'pareceu bom' — parecer nao e criterio."
+            },
+            "max_rounds_before_honest_gap": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Apos este round sem passar, declarar lacuna honestamente (secao 38) em vez de rebaixar piso."
+            },
+            "stop_condition": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "numeric_floors": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["metric", "floor"],
+            "properties": {
+              "metric": {
+                "type": "string",
+                "minLength": 1
+              },
+              "floor": {
+                "type": ["string", "number", "boolean"],
+                "description": "Piso numerico ou condicao booleana exata. Nunca adjetivo."
+              },
+              "measurement_tool": {
+                "type": "string",
+                "description": "Ferramenta/skill que mede este piso (secao 34: medidor sem self-check aprovado nao conta)."
+              }
+            }
+          }
+        },
+        "rejection_triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Reprovacoes automaticas: qualquer saida que apresente um destes padroes e regenerada antes do proximo round."
+        },
+        "self_critique_log_required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Cada round registra score por piso + correcao feita, no log de critica propria."
+        },
+        "blind_critic_floor": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Nota-piso default do crítico cego. Default canonico do workspace: >= 8.5/10. Projetos podem endurecer, nunca amolecer sem aprovacao humana registrada."
+        },
+        "final_judgment": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Ancoras imparciais de aceitacao final: visual-excellence-standards, crítico cego >= blind_critic_floor, aprovacao humana. Auto-satisfacao do gerador nunca e anchor."
+        }
+      }
+    },
+    "arrival_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gates"],
+      "properties": {
+        "gates": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string"
+          },
+          "description": "Gates que a arte enfrentara ao chegar e devem ser declarados ao sucessor: audit_procedural_asset_provenance.py, megadrive-pixel-strict-rules, visual-excellence-standards, BlastEm screenshot gate."
+        }
+      }
+    },
+    "persistence_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["persist_root", "lineage_requirements"],
+      "properties": {
+        "persist_root": {
+          "type": "string",
+          "description": "Onde persistir a fonte bruta, ex.: data/source_art/<role>/."
+        },
+        "lineage_requirements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "Registros obrigatorios: prompt_hash, generation_channel, output_path real, provenance manifest entry."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "sprite_strip_rejection_report.v1",
+  "generated_at": "2026-07-23T00:00:00-03:00",
+  "asset_id": "blue_circuit_player_v001",
+  "status": "technical_pass_visual_fail",
+  "supersedes_false_positive": {
+    "report": "out/evidence/sprite_rework_20260723/original_reports/sprite_artifact_report.json",
+    "previous_status": "passed",
+    "reason": "The previous report checked only dimensions, palette count, index-0 transparency and cell alignment. It did not measure clipping, disconnected islands, anatomy, pivot, foot contact or frame deltas."
+  },
+  "rejected_strips": [
+    {
+      "path": "out/evidence/sprite_rework_20260723/original_res/player_idle.png",
+      "sha256": "9f36e97b2e2a5380d78334c13977713492c355bccb6f01fd6cf281b6bf219f92"
+    },
+    {
+      "path": "out/evidence/sprite_rework_20260723/original_res/player_run.png",
+      "sha256": "c4066df5adc162ece5e1956b7a2fbdd8e00da4f89015cbaf6e9d48780f7daca1"
+    },
+    {
+      "path": "out/evidence/sprite_rework_20260723/original_res/player_jump.png",
+      "sha256": "0d1a793a253cc57caa8fa32247fc247fd141842128e20c0d631ee45c79021303"
+    },
+    {
+      "path": "out/evidence/sprite_rework_20260723/original_res/player_shoot.png",
+      "sha256": "78b39cd77ae68302fbedba952f6fda77ba2eed1cc47318fe58b33e8dc7d225b2"
+    }
+  ],
+  "blocking_findings": [
+    {
+      "code": "FRAME_EDGE_CLIPPING",
+      "scope": "player_shoot frame 0",
+      "finding": "visible body mass reaches the left cell boundary"
+    },
+    {
+      "code": "SMALL_ISLAND_DEBRIS",
+      "scope": "player_run frame 2",
+      "finding": "lower-limb and boot pixels read as detached islands"
+    },
+    {
+      "code": "ANATOMY_INCOMPLETE",
+      "scope": "player_run and player_shoot",
+      "finding": "hands, legs and boots collapse into incomplete or disconnected masses"
+    },
+    {
+      "code": "PIVOT_UNVERIFIED",
+      "scope": "all player strips",
+      "finding": "the old report had no fixed pivot or baseline measurement"
+    },
+    {
+      "code": "FOOT_CONTACT_UNVERIFIED",
+      "scope": "run cycle",
+      "finding": "contact and passing poses were not classified or measured"
+    },
+    {
+      "code": "FRAME_DELTA_UNVERIFIED",
+      "scope": "all multi-frame strips",
+      "finding": "the old report did not compare occupancy, silhouette mass or frame continuity"
+    }
+  ],
+  "promotion": {
+    "allowed_as_source": false,
+    "allowed_as_runtime": false,
+    "allowed_as_visual_evidence": false,
+    "replacement_candidate": "out/evidence/sprite_rework_20260723/blue_player_all_v002.png",
+    "replacement_report": "out/logs/sprite_artifact_report.json"
+  }
+}

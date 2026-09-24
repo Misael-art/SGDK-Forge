@@ -1,0 +1,51 @@
+{
+  "lesson_id": "L071",
+  "date": "2026-09-15",
+  "scope": "HAMOOPIG P08/P09",
+  "title": "StageDefinition centraliza a seleção de cenário sem esconder o budget",
+  "claim": "A escolha de cenário deve ser uma definição de dados compartilhada por inicialização, seleção e runtime; a abstração reduz bifurcações, mas não prova câmera, DMA ou qualidade visual.",
+  "implementation": {
+    "header": "inc/stage.h",
+    "source": "src/stage.c",
+    "consumers": [
+      "src/init.c",
+      "src/select.c"
+    ],
+    "contract": "tests/test_stage_definition_contract.py"
+  },
+  "definitions": [
+    {
+      "id": 1,
+      "name": "SHOWDOWN",
+      "resource": "res/gfx/showdown.png",
+      "dimensions": "512x256",
+      "floor": 219,
+      "fight_bounds": [30, 482],
+      "supports_240_line": true
+    },
+    {
+      "id": 2,
+      "name": "BGB2",
+      "resource": "res/gfx/bgb2.png",
+      "dimensions": "512x256",
+      "floor": 219,
+      "fight_bounds": [30, 482],
+      "supports_240_line": true
+    }
+  ],
+  "evidence": {
+    "build_log": "out/logs/continuation_p00_hprb_schema7_build.log",
+    "rom_sha256": "4df3e5b9bbc1441c34595d3c464a54d41480dfb154f1d7e3bbaed884bee5c503",
+    "static_suite": "18 test files passed",
+    "emulator_capture": "out/emulator_evidence/visual_ko_20260915T062548Z/",
+    "hprb_report": "out/emulator_evidence/visual_ko_20260915T062548Z/hprb_probe_report.json",
+    "capture_result": "stage2 selected through P1 C, clean PAL-240 round reached on the 512x256 asset; schema 7 decoded screen_height=240"
+  },
+  "limitations": [
+    "The Stage 2 regression route recorded zero combat events; it is not a replacement for the directed 16 HIT/1 PROJECTILE session.",
+    "HPRB reports max DMA 8288 bytes versus the 7782-byte nominal NTSC budget; no promotion to budget_validated.",
+    "The Showdown source is a controlled study fixture from the training lab, not final authorial art; visible tile repetition remains pending visual review.",
+    "Camera movement, audio and visual quality still require directed review; schema 7 now proves screen_height=240 in the PAL route, while the NTSC route remains over its nominal DMA envelope."
+  ],
+  "status": "implemented_build_passed_emulator_regression_pending_budget_visual_audio"
+}

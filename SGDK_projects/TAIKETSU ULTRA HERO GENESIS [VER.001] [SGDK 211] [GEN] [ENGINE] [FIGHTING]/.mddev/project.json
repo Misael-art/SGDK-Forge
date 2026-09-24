@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "name": "TAIKETSU ULTRA HERO GENESIS [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "display_name": "TAIKETSU ULTRA HERO GENESIS [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "version": "1.0",
+  "sgdk_version": "2.11",
+  "layout": "flat",
+  "project_root": ".",
+  "sgdk_root": ".",
+  "build_policy": "enabled",
+  "kind": "engine",
+  "category": "fighting",
+  "notes": "Porta direta da engine TaiketsuUltraHeroGenesis (fork HAMOOPIG by GameDevBoss/Daniel Moura, github.com/guilhermesousa03/TaiketsuUltraHeroGenesis, GPL-3.0) para o pipeline canonico SGDK 2.11 deste workspace. Creditos obrigatorios a GameDevBoss (Daniel Moura). Audio e sprites de paleta/digitos via placeholders.",
+  "scene_regression": {
+    "required": false,
+    "manifest_path": "doc/scene-regression.json",
+    "report_path": "out/logs/scene_regression_report.json",
+    "scenes": []
+  },
+  "scene_contracts": {
+    "source_spec_path": "doc/13-spec-cenas.md",
+    "regression_manifest_path": "doc/scene-regression.json",
+    "compiled_path": "doc/scene-contracts.json",
+    "compile_mode": "lab"
+  },
+  "qa_proof_plan": {
+    "path": "doc/14-plano-de-provas-qa.md",
+    "required_for_new_projects": true
+  },
+  "methodology": {
+    "manifest_path": "doc/project_methodology_manifest.json",
+    "technique_usage_manifest_path": "doc/technique_usage_manifest.json",
+    "validator_report_path": "out/logs/project_methodology_report.json",
+    "required_for_closeout": true
+  },
+  "validation_artifacts": {
+    "validation_report_path": "out/logs/validation_report.json",
+    "project_methodology_report_path": "out/logs/project_methodology_report.json",
+    "runtime_metrics_path": "out/logs/runtime_metrics.json",
+    "scene_budget_report_path": "out/logs/scene_budget_report.json",
+    "scene_regression_report_path": "out/logs/scene_regression_report.json",
+    "emulator_session_path": "out/logs/emulator_session.json"
+  }
+}

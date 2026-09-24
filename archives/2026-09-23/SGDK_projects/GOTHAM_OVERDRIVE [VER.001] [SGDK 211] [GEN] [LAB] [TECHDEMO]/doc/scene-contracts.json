@@ -1,0 +1,323 @@
+{
+  "schema_version": "1.0.0",
+  "project_profile": "lab",
+  "compiled_at": "2026-08-15T12:17:03.1915435Z",
+  "compiled_from": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/doc/13-spec-cenas.md",
+  "scenes": [
+    {
+      "scene_id": "branding_sequence",
+      "scene_role": "menu",
+      "boot_mode": "direct_boot",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 0 - `branding_sequence`",
+      "resource_budget_model": {
+        "scene_local_scope": "brand_fx_tiles, logos engine/author/project, presents text e cinco WAVs XGM2",
+        "rom_asset_cost": "medido por res_graph_report.json e audio_validation_report.json",
+        "vram_resident_set": "BG_A/B com 347 tiles unicos estimados no baseline atual; sprite reserve default 420",
+        "load_time_dma_cost": "permitido apenas na entrada/troca de slot",
+        "per_frame_dma_cost": "zero declarado no baseline",
+        "active_animation_window": "palette cycling, VScroll/plane scroll e HScroll line no slot project",
+        "scanline_sprite_pressure": "0 sprites no baseline",
+        "runtime_loading_model": "scene_local_preload",
+        "fallback_plan": "manter PSG/scroll/palette baseline e nao promover monograma/sprites 3D sem novo budget"
+      },
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 0,
+      "scene_key": "branding_sequence",
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "regression_required": true
+    },
+    {
+      "scene_id": "front_end_main_menu",
+      "scene_role": "menu",
+      "boot_mode": "unsupported",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 1 - `front_end_main_menu`",
+      "resource_budget_model": {
+        "scene_local_scope": "moldura do menu, fonte tecnica, cursor e atmosfera local",
+        "rom_asset_cost": "nao_medido",
+        "vram_resident_set": "BG_A, BG_B, fonte/overlay em WINDOW e cursor",
+        "load_time_dma_cost": "preload completo permitido na entrada",
+        "per_frame_dma_cost": "nao_medido",
+        "active_animation_window": "animacao so do cursor e micro-vida de front-end",
+        "scanline_sprite_pressure": "nao_medido",
+        "runtime_loading_model": "scene_local_preload",
+        "fallback_plan": "reduzir animacao e detalhe antes de perder legibilidade"
+      },
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 1,
+      "scene_key": "front_end_main_menu",
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "regression_required": true
+    },
+    {
+      "scene_id": "first_playable_slice",
+      "scene_role": "gameplay",
+      "boot_mode": "unsupported",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 2 - `first_playable_slice`",
+      "resource_budget_model": {
+        "scene_local_scope": "mapa inicial, actor principal, HUD seguro e efeitos minimos",
+        "rom_asset_cost": "nao_medido",
+        "vram_resident_set": "tiles do slice, fonte/HUD em WINDOW, sprites do loop base",
+        "load_time_dma_cost": "permitido apenas na entrada da cena",
+        "per_frame_dma_cost": "nao_medido",
+        "active_animation_window": "manter residente so o que participa do loop central",
+        "scanline_sprite_pressure": "13/20 sprites e 288/320 px (MEDIDO por varredura dos 181 quadros da derrota; folga de 32 px no limite que amarra)",
+        "runtime_loading_model": "scene_local_preload",
+        "fallback_plan": "simplificar composicao antes de vender efeito caro como default",
+        "worst_frame_sprite_layout": {
+          "frame": "BOSS_STATE_DEFEATED, defeatTimer=24",
+          "display_mode": "h40",
+          "how_determined": "Varredura dos 181 quadros da sequencia de derrota, simulando as regras de gotham_particles.c (pool de 24, primeira vaga livre, pos += v por quadro, lifetime--) e gotham_boss.c (explosao de count 6 a cada 8 quadros em bx+t%50, by+t%30; boss sobe 0.2/quadro). Cada quadro medido por vdp_scanline_simulator. Sprites do SGDK decompostos em sprites de hardware de no maximo 4x4 tiles.",
+          "fix_applied": "EXPLOSION_BIRTH_SPREAD 6 em gotham_particles.c. A particula nasce deslocada na direcao da propria velocidade. Nenhuma particula foi removida: pool 24, count 6 e periodo de 8 quadros continuam iguais.",
+          "rejected_alternative": "Espalhar o spawn por 3 quadros foi medido em 24/20 e 464/320, PIOR que o original de 23/20 e 448/320. O pool satura igual e so muda de arranjo; o problema era espacial, nao temporal.",
+          "sprites": [
+            {
+              "x": 128,
+              "y": 67,
+              "w": 32,
+              "h": 32,
+              "src": "boss_chassis"
+            },
+            {
+              "x": 160,
+              "y": 67,
+              "w": 32,
+              "h": 32,
+              "src": "boss_chassis"
+            },
+            {
+              "x": 128,
+              "y": 99,
+              "w": 32,
+              "h": 16,
+              "src": "boss_chassis"
+            },
+            {
+              "x": 160,
+              "y": 99,
+              "w": 32,
+              "h": 16,
+              "src": "boss_chassis"
+            },
+            {
+              "x": 144,
+              "y": 75,
+              "w": 32,
+              "h": 32,
+              "src": "boss_turret"
+            },
+            {
+              "x": 124,
+              "y": 99,
+              "w": 32,
+              "h": 16,
+              "src": "boss_tread_L"
+            },
+            {
+              "x": 164,
+              "y": 99,
+              "w": 32,
+              "h": 16,
+              "src": "boss_tread_R"
+            },
+            {
+              "x": 166,
+              "y": 63,
+              "w": 24,
+              "h": 24,
+              "src": "boss_missile_pod"
+            },
+            {
+              "x": 4,
+              "y": -54,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 70,
+              "y": 34,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 268,
+              "y": 78,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 202,
+              "y": 100,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 102,
+              "y": 42,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 60,
+              "y": 0,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 102,
+              "y": 56,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 186,
+              "y": 84,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 228,
+              "y": 84,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 186,
+              "y": 98,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 134,
+              "y": 73,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 116,
+              "y": 55,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 134,
+              "y": 79,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 170,
+              "y": 91,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 188,
+              "y": 91,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 170,
+              "y": 97,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 164,
+              "y": 109,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 176,
+              "y": 127,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 164,
+              "y": 115,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 158,
+              "y": 85,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 164,
+              "y": 79,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 158,
+              "y": 91,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 152,
+              "y": 103,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 152,
+              "y": 115,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            }
+          ]
+        }
+      },
+      "cleanup_required": true,
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 2,
+      "scene_key": "first_playable_slice",
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "regression_required": true
+    }
+  ]
+}

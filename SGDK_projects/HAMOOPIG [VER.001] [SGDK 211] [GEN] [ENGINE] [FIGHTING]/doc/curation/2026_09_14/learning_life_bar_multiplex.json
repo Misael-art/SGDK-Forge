@@ -1,0 +1,16 @@
+{
+  "lesson_id": "lesson_life_bar_multiplex_20260914",
+  "title": "Célula fixa de life bar precisa preservar índice de transparência e limite de scanline",
+  "source": "Orientação atribuída ao Rheo nas conversas do Discord RETRODEVBR; captura fornecida pelo usuário",
+  "observed_failure": "Recorte 16x8 monocromático foi otimizado para índice 0 e o ResComp o tratou como transparente; a primeira variante também usava 32 sprites na mesma linha.",
+  "rule": "Use célula fixa em múltiplos de 8 px, reserve índice 0 para transparência, mapeie a cor útil para o índice da PAL1 do HUD e meça SAT/scanline/DMA. Oito células 16x8 por jogador mantêm o pior caso em 16 sprites.",
+  "evidence": {
+    "rom_sha256": "f001418a654fc0aaf4a3c53cc4eb9f62470ac0f747c0dd2b3ba2b0c86453ec0b",
+    "capture": "out/emulator_evidence/visual_ko_20260914T030007Z/",
+    "hprb": "out/logs/hprb_probe_report_20260914_life_bar_final.json",
+    "max_dma_bytes": 5688,
+    "max_vdp_sprites": 17,
+    "max_sprites_per_scanline": 5
+  },
+  "status": "documentado_e_buildado; validado_budget_global=false"
+}

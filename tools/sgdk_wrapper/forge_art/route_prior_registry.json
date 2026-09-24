@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Curatorial priors for deterministic raster route exploration. Priors order experiments; they never approve art or replace visual review.",
+  "evidence_policy": {
+    "current_evidence_scope": "single_curated_full_body_character_case_plus_general_pixel_scaling_invariants",
+    "generalization_limit": "A result observed for one source class must not be promoted to a universal filter ranking.",
+    "winner_policy": "no_automatic_winner",
+    "claim_ceiling": "mechanical_geometry_probe"
+  },
+  "routes": [
+    {"route_id": "im_nearest", "backend": "ImageMagick", "algorithm": "Point"},
+    {"route_id": "im_box_area", "backend": "ImageMagick", "algorithm": "Box"},
+    {"route_id": "im_bilinear_triangle", "backend": "ImageMagick", "algorithm": "Triangle"},
+    {"route_id": "im_bicubic", "backend": "ImageMagick", "algorithm": "Cubic"},
+    {"route_id": "im_lanczos2", "backend": "ImageMagick", "algorithm": "Lanczos2"},
+    {"route_id": "im_lanczos3", "backend": "ImageMagick", "algorithm": "Lanczos"},
+    {"route_id": "im_mitchell_netravali", "backend": "ImageMagick", "algorithm": "Mitchell"},
+    {"route_id": "im_catmull_rom", "backend": "ImageMagick", "algorithm": "Catrom"},
+    {"route_id": "im_b_spline", "backend": "ImageMagick", "algorithm": "Spline"},
+    {"route_id": "pil_nearest", "backend": "Pillow", "algorithm": "NEAREST"},
+    {"route_id": "pil_box", "backend": "Pillow", "algorithm": "BOX"},
+    {"route_id": "pil_bilinear", "backend": "Pillow", "algorithm": "BILINEAR"},
+    {"route_id": "pil_hamming", "backend": "Pillow", "algorithm": "HAMMING"},
+    {"route_id": "pil_bicubic", "backend": "Pillow", "algorithm": "BICUBIC"},
+    {"route_id": "pil_lanczos", "backend": "Pillow", "algorithm": "LANCZOS"},
+    {"route_id": "cv_nearest", "backend": "OpenCV", "algorithm": "INTER_NEAREST"},
+    {"route_id": "cv_area", "backend": "OpenCV", "algorithm": "INTER_AREA"},
+    {"route_id": "cv_linear", "backend": "OpenCV", "algorithm": "INTER_LINEAR"},
+    {"route_id": "cv_cubic", "backend": "OpenCV", "algorithm": "INTER_CUBIC"},
+    {"route_id": "cv_lanczos4", "backend": "OpenCV", "algorithm": "INTER_LANCZOS4"},
+    {"route_id": "gimp_none", "backend": "GIMP Console", "algorithm": "none"},
+    {"route_id": "gimp_linear", "backend": "GIMP Console", "algorithm": "linear"},
+    {"route_id": "gimp_cubic", "backend": "GIMP Console", "algorithm": "cubic"},
+    {"route_id": "gimp_nohalo", "backend": "GIMP Console", "algorithm": "nohalo"},
+    {"route_id": "gimp_lohalo", "backend": "GIMP Console", "algorithm": "lohalo"}
+  ],
+  "source_classes": {
+    "high_res_full_body_character": {
+      "evidence_confidence": "curated_prior_not_universal_law",
+      "preferred_prior": ["im_lanczos3", "im_mitchell_netravali"],
+      "viable_challenger": ["im_catmull_rom", "im_b_spline", "pil_lanczos", "cv_lanczos4"],
+      "experimental": ["im_lanczos2", "im_bicubic", "pil_bicubic", "cv_cubic"],
+      "negative_control": ["im_nearest", "pil_nearest", "cv_nearest", "im_box_area", "pil_box", "cv_area", "im_bilinear_triangle", "pil_bilinear", "cv_linear", "pil_hamming"],
+      "host_optional_unavailable": ["gimp_none", "gimp_linear", "gimp_cubic", "gimp_nohalo", "gimp_lohalo"],
+      "notes": "Resampling outputs are underlays only. Native authorship must restore identity, clusters and material boundaries on the target grid."
+    },
+    "native_pixel_art_integer_scale": {
+      "evidence_confidence": "hardware_and_pixel_grid_invariant",
+      "preferred_prior": ["pil_nearest", "im_nearest", "cv_nearest"],
+      "viable_challenger": [],
+      "experimental": [],
+      "negative_control": ["im_box_area", "im_bilinear_triangle", "im_bicubic", "im_lanczos2", "im_lanczos3", "im_mitchell_netravali", "im_catmull_rom", "im_b_spline", "pil_box", "pil_bilinear", "pil_hamming", "pil_bicubic", "pil_lanczos", "cv_area", "cv_linear", "cv_cubic", "cv_lanczos4"],
+      "host_optional_unavailable": ["gimp_none", "gimp_linear", "gimp_cubic", "gimp_nohalo", "gimp_lohalo"],
+      "notes": "Only integer nearest-neighbor scaling preserves native pixel ownership. Other filters are negative controls, never cleanup routes."
+    },
+    "unclassified_raster": {
+      "evidence_confidence": "no_curated_prior",
+      "preferred_prior": [],
+      "viable_challenger": [],
+      "experimental": ["im_nearest", "im_box_area", "im_bilinear_triangle", "im_bicubic", "im_lanczos2", "im_lanczos3", "im_mitchell_netravali", "im_catmull_rom", "im_b_spline", "pil_nearest", "pil_box", "pil_bilinear", "pil_hamming", "pil_bicubic", "pil_lanczos", "cv_nearest", "cv_area", "cv_linear", "cv_cubic", "cv_lanczos4"],
+      "negative_control": [],
+      "host_optional_unavailable": ["gimp_none", "gimp_linear", "gimp_cubic", "gimp_nohalo", "gimp_lohalo"],
+      "notes": "Classify the source before interpreting route quality. No historical favorite is implied."
+    }
+  }
+}

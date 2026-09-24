@@ -1,0 +1,106 @@
+{
+  "schema": "authoriality_gate_report.v1",
+  "asset": "data/source_art/branding_v2/model_sheet_forge_v02.png",
+  "supersedes": "data/source_art/branding_v2/model_sheet_forge_v01.png",
+  "revalidated_from": "v01",
+  "scene_id": "APP_SCENE_BRANDING",
+  "contract_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
+  "direction_ref": "doc/branding_v2_art_direction.md",
+  "status": "passed_for_source_direction_only",
+  "authoriality_gate": "passed",
+  "res_promotion_allowed": false,
+  "required_before_res_promotion": true,
+  "clone_risk_method": "environment_and_costume_distance",
+  "clone_risk_threshold": 0.25,
+  "clone_risk_score": 0.11,
+  "clone_risk_max": 0.25,
+  "measurement": {
+    "measured_at": "2026-08-17",
+    "revalidated_at": "2026-08-17",
+    "anchors_consulted": [
+      "art_style_catalog.json#gothic_16bit_dark_fantasy",
+      "art_style_catalog.json#vibrant_16bit_pixel",
+      "doc/03_art/00_visual_quality_bar.md"
+    ],
+    "inspiration_only": true,
+    "environment_checklist": [
+      {
+        "forbidden_extract": "castle layout / chapel / clocktower",
+        "present": false,
+        "distance": 1.0,
+        "note": "interior remains a floor-lit forge, not a gothic castle plan"
+      },
+      {
+        "forbidden_extract": "character costume or iconic figure",
+        "present": false,
+        "distance": 1.0,
+        "note": "no figure; props are anvil, hammer, hood, tongs"
+      },
+      {
+        "forbidden_extract": "iconic mascot silhouette",
+        "present": false,
+        "distance": 1.0,
+        "note": "secondary style used only for emissive ramp discipline"
+      },
+      {
+        "allowed_extract": "torch/hearth hard highlight, cool shadow, material-role dither",
+        "present": true,
+        "counts_as_clone": false,
+        "note": "technical inheritance declared in the locked decision record"
+      }
+    ],
+    "costume_checklist": [
+      {
+        "item": "character wardrobe / armor / cape",
+        "present": false,
+        "distance": 1.0
+      },
+      {
+        "item": "typography transposed from costume_asymmetry",
+        "present": true,
+        "distance": 1.0,
+        "note": "test word FORJA is invented; the J carries a chisel bite the other four letters lack"
+      }
+    ],
+    "generic_prop_penalty": {
+      "item": "anvil plus hammer as stock forge pairing",
+      "penalty": 0.05,
+      "note": "common tool set, not a named IP prop; silhouette hooks are original staging"
+    },
+    "formula": "clone_risk = 1 - (0.5 * mean(environment_distance) + 0.5 * mean(costume_distance)) + generic_prop_penalty + conservative_uplift",
+    "environment_distance": 1.0,
+    "costume_distance": 1.0,
+    "base_score": 0.0,
+    "generic_prop_penalty_applied": 0.05,
+    "conservative_uplift": 0.06,
+    "clone_risk_score": 0.11
+  },
+  "prompt_audit": {
+    "ip_names_used": [],
+    "studio_names_used": [],
+    "artist_names_used": [],
+    "game_titles_used": [],
+    "descriptors_used": [
+      "16-bit gothic pixel art",
+      "dark forge interior",
+      "iron anvil with conical beak",
+      "hammer with one flat face and one wedge peen",
+      "floor-level furnace light",
+      "cool violet-blue shadow",
+      "wordmark FORJA",
+      "ember coal without outline",
+      "iron shard",
+      "2D pixel type with bottom chamfer"
+    ],
+    "verdict": "no IP used as prompt"
+  },
+  "benchmark_usage_policy": "benchmarks used only for lighting discipline, ramp length and 1994-era density; never as image source or copy command",
+  "generation_channel": "native_chat_image_generation_callable",
+  "authored_sources": "data/source_art/branding_v2/model_sheet_lineage.json",
+  "source_format_decision": "keep_jpg_then_posterize_denoise_before_remap",
+  "blocking_until_res_promotion": [
+    "human_model_sheet_approval_pending",
+    "phase_2_assets_not_produced",
+    "blastem_capture_missing"
+  ]
+}

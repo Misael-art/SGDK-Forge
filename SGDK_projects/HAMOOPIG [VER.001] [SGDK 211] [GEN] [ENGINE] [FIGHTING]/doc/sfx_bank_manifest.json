@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "bank": "hamoopig_audio",
+  "entries": [
+    {"id":"snd_101","type":"sfx","file":"res/snd/snd_101.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":8},
+    {"id":"snd_101b","type":"sfx","file":"res/snd/snd_101b.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":8},
+    {"id":"snd_102","type":"sfx","file":"res/snd/snd_102.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":8},
+    {"id":"snd_102b","type":"sfx","file":"res/snd/snd_102b.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":8},
+    {"id":"snd_110","type":"sfx","file":"res/snd/snd_110.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":9},
+    {"id":"snd_151","type":"sfx","file":"res/snd/snd_151.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":9},
+    {"id":"snd_300","type":"sfx","file":"res/snd/snd_300.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":10},
+    {"id":"snd_501","type":"sfx","file":"res/snd/snd_501.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":10},
+    {"id":"snd_502","type":"sfx","file":"res/snd/snd_502.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":10},
+    {"id":"snd_551","type":"sfx","file":"res/snd/snd_551.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":11},
+    {"id":"snd_606","type":"sfx","file":"res/snd/snd_606.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":12},
+    {"id":"snd_confirm","type":"sfx","file":"res/snd/snd_confirm.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":5},
+    {"id":"snd_haohmaru_618","type":"sfx","file":"res/snd/snd_haohmaru_618.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":10},
+    {"id":"snd_ryo_700","type":"sfx","file":"res/snd/snd_ryo_700.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":12},
+    {"id":"snd_ryo_710","type":"sfx","file":"res/snd/snd_ryo_710.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":12},
+    {"id":"snd_ryo_720","type":"sfx","file":"res/snd/snd_ryo_720.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":12},
+    {"id":"snd_ryo_730","type":"sfx","file":"res/snd/snd_ryo_730.wav","source_kind":"licensed_reference","acceptance_status":"placeholder","channel":2,"priority":12},
+    {"id":"mus_forge_brand","type":"music","file":"res/music/mus_forge_brand.vgm","source_kind":"hand_authored","acceptance_status":"lab","sha256":"2449b3d1a8c32e31179b257647b6decb05bcc80d7492ceffb151a4eca066418c","notes":"Forge Crystal v2: score autoral em data/source_audio/forge_crystal_score.json compilado por build_forge_crystal_v2.py; quatro vozes PSG (lead, baixo, contraponto e ruido), 150 BPM, loop NTSC de 12.8 s; mesma faixa usada no gameplay e no Sound Test. Sobe para final apos escuta humana."}
+  ],
+  "notes": "O runtime usa o driver XGM SGDK 2.11. SFX herdados continuam placeholders/licensed_reference; Forge Crystal e autoral, mas so sobe para final depois de captura same-ROM e escuta humana do loop e da mistura com SFX."
+}

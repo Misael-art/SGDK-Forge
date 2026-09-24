@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.3.0",
+  "asset_id": "taina_48x64_challenger_b_historical",
+  "record_status": "historical_superseded",
+  "superseded_by": "doc/art/characters/taina/native_authoring_route_recovery_record_v01.json",
+  "asset_kind": "sprite_single",
+  "source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "classification": "concept_high_res",
+    "approval_status": "approved_source"
+  },
+  "scale_contract": {
+    "status": "provisional",
+    "target_width": 48,
+    "target_height": 64,
+    "selected_width": 48,
+    "selected_height": 64,
+    "probes": [
+      {
+        "width": 48,
+        "height": 64,
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      },
+      {
+        "width": 64,
+        "height": 96,
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_64x96_challenger_b/taina_64x96_challenger_b.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      }
+    ]
+  },
+  "producer_output": {
+    "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png",
+    "role": "native_candidate",
+    "interaction_channel": "native_image_tool",
+    "width": 48,
+    "height": 64,
+    "mode": "P",
+    "visible_rgb_colors": 11,
+    "alpha_values": [
+      0,
+      255
+    ]
+  },
+  "native_candidate": {
+    "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png",
+    "method": "assisted_native_translation",
+    "width": 48,
+    "height": 64,
+    "pixel_report": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/pixel_compliance_report.json",
+    "foreground_matte_report": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/foreground_matte_report.json",
+    "visual_evidence": {
+      "candidate_sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+      "native_1x": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/evidence/native_1x.png",
+      "nearest_preview": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/evidence/nearest_8x.png",
+      "light_background": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/evidence/light_background.png",
+      "dark_background": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/evidence/dark_background.png",
+      "chroma_background": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/evidence/chroma_background.png",
+      "preview_scale": 8,
+      "light_rgb": [
+        238,
+        238,
+        230
+      ],
+      "dark_rgb": [
+        28,
+        30,
+        38
+      ],
+      "chroma_rgb": [
+        238,
+        0,
+        238
+      ],
+      "human_approval": "doc/art/characters/taina/human_refinement_rejection_v01.json"
+    },
+    "shape_block_contract": {
+      "silhouette_mask": {
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/shape_block/silhouette_mask.png",
+        "sha256": "26085e79d6d3133311eb181afb0947d268a8438cded0a50c5bfa7825d48b7e9b",
+        "asset_id": "taina_48x64_challenger_b",
+        "scale": "48x64",
+        "source": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png"
+      },
+      "semantic_region_map": {
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/shape_block/semantic_region_map.png",
+        "sha256": "87d313262b55987793d1d83c764e1ffb01d2ee69e02bc8d459fa81e15ee6b460",
+        "asset_id": "taina_48x64_challenger_b",
+        "scale": "48x64",
+        "source": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png"
+      },
+      "contour_overlay": {
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/shape_block/contour_overlay.png",
+        "sha256": "81ca95179a8ed795352676a8728807e142e923ff2ba87d8fe9081a5af043bccd",
+        "asset_id": "taina_48x64_challenger_b",
+        "scale": "48x64",
+        "source": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png"
+      },
+      "required_semantic_regions": [
+        "head_or_face",
+        "hair",
+        "torso",
+        "arms_or_guard",
+        "hands",
+        "legs",
+        "feet",
+        "sash"
+      ],
+      "semantic_label_legend": {
+        "head_or_face": 1,
+        "hair": 2,
+        "torso": 3,
+        "arms_or_guard": 4,
+        "hands": 5,
+        "legs": 6,
+        "feet": 7,
+        "sash": 8
+      },
+      "semantic_label_counts": {
+        "head_or_face": 84,
+        "hair": 205,
+        "torso": 45,
+        "arms_or_guard": 64,
+        "hands": 90,
+        "legs": 138,
+        "feet": 59,
+        "sash": 222
+      },
+      "occupancy_metrics": {
+        "filled_pixels": 907,
+        "canvas_pixels": 3072,
+        "occupancy_pct": 29.52
+      },
+      "bbox": [
+        9,
+        2,
+        39,
+        62
+      ],
+      "reason_codes": [
+        "review_only",
+        "assisted_native_translation",
+        "human_visual_gate_pending"
+      ]
+    }
+  },
+  "palette_contract": {
+    "max_visible_colors": 15,
+    "index0_role": "transparent0",
+    "outline_role": "single dark marine/purple ink",
+    "material_roles": [
+      "skin",
+      "orange_top",
+      "teal_wraps",
+      "indigo_trousers",
+      "sash"
+    ]
+  },
+  "gates": {
+    "semantic_parse": "passed",
+    "lineart": "in_progress",
+    "color_blocking": "in_progress",
+    "palette_lock": "in_progress",
+    "pixel_contract": "passed",
+    "native_visual": "failed",
+    "scale": "in_progress",
+    "budget": "passed",
+    "human": "failed",
+    "sgdk_integration": "not_started",
+    "emulator": "not_started"
+  },
+  "runtime_evidence": null,
+  "promotion": {
+    "promotable": false,
+    "target": "none"
+  },
+  "status": "historical_superseded",
+  "next_action": "consult native_scale_shootout_record_v01 for the operational 56x80 native-authoring round",
+  "provenance": {
+    "interaction_channel": "native_image_tool",
+    "source_kind": "ai_authored_pixel",
+    "producer_identity": "openai_native_image_generation",
+    "action_log": "doc/contracts/generation_channel_decision.json; approved_model_sheet_only",
+    "human_approval": "doc/art/characters/taina/human_refinement_rejection_v01.json"
+  },
+  "scale_report": {
+    "status": "pending",
+    "camera_width": 320,
+    "camera_height": 224,
+    "hitbox": "undeclared_requires_collision_contract",
+    "notes": "scale_gate_reopened_by_human_review: hitbox remains undeclared; 48x64 is incumbent and 64x96 is comparison_only until an independent native shootout and human scale decision.",
+    "probes": "rascunho/taina_visual_challengers_v03/scale_budget_report_v03.json"
+  },
+  "budget_report": {
+    "status": "passed",
+    "tiles": 30,
+    "scanline_px": 248,
+    "notes": "budget_pass is limited to static TAINA + four enemies; next degree 3+3 is comparison_only evidence."
+  },
+  "visual_report": {
+    "status": "failed",
+    "sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+    "notes": "Final native pose rejected: procedural palette cleanup without material-native geometry refinement. New hypothesis required."
+  },
+  "incumbent": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_basic_48x64_v01.png",
+    "sha256": "839e3924ad3d24f4a79ecda46e0f333d8c192c2ddd37bb5f00e2c372046c4734",
+    "role": "comparison_only"
+  },
+  "methodology_reference": {
+    "path": "rascunho/taina_visual_challenger_exercise_v01/exercise_record.json",
+    "sha256": "ad6b9606c775710994d65ca2a5f4a7e0ee10dfd4f97ae0f64e05c7b45cc7d874",
+    "role": "methodology_reference"
+  }
+}

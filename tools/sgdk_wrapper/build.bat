@@ -72,6 +72,16 @@ if not exist "%GDK%\makefile.gen" (
     exit /b 1
 )
 
+REM Enforce the Windows-specific route and GCC/libmd.a LTO provenance before
+REM entering make. Exit 2 means optional preflight warnings and is non-blocking;
+REM exit 1 means the host/toolchain route is unsafe.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0preflight_host.ps1" -RepoRoot "%MD_ROOT%" -ProjectRoot "%SGDK_PROJECT_ROOT%"
+set "SGDK_PREFLIGHT_RC=%ERRORLEVEL%"
+if not "%SGDK_PREFLIGHT_RC%"=="0" if not "%SGDK_PREFLIGHT_RC%"=="2" (
+    echo [ERROR] Build blocked by host/toolchain route preflight.
+    exit /b %SGDK_PREFLIGHT_RC%
+)
+
 echo [SGDK Wrapper] Building project in: %SGDK_WORK_DIR%
 echo [SGDK Wrapper] Layout: %SGDK_LAYOUT% (%SGDK_RESOLUTION_REASON%)
 

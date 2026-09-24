@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forge-art source triage specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_path", "source_class", "intended_role", "matte_policy", "reviewer", "observations"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "source_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "source_class": {"enum": ["high_res_full_body_character", "native_pixel_art_integer_scale", "unclassified_raster"]},
+    "intended_role": {"enum": ["identity_authority", "translation_source", "pose_reference", "style_reference", "effect_reference"]},
+    "matte_policy": {"enum": ["existing_alpha", "border_connected", "reference_only"]},
+    "reviewer": {"enum": ["agent_visual_triage", "agent_curated_review", "vision_model", "human", "human_and_vision"]},
+    "identity_authority_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "identity_authority_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "visual_source_of_truth_contract": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "derivation": {"type": "string", "minLength": 1},
+    "human_decision_record_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "human_decision_record_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baked_checkerboard", "ground_shadow", "dust_or_particles", "smoke_or_clouds", "floor_line", "text_or_annotation", "multiple_overlapping_poses", "cropped_extremities", "occluded_identity_features", "motion_blur", "background_color_collision", "notes"],
+      "properties": {
+        "baked_checkerboard": {"type": "boolean"},
+        "ground_shadow": {"enum": ["absent", "detached", "touching_silhouette", "covering_identity", "unknown"]},
+        "dust_or_particles": {"enum": ["absent", "detached", "touching_silhouette", "covering_identity", "unknown"]},
+        "smoke_or_clouds": {"enum": ["absent", "detached", "touching_silhouette", "covering_identity", "unknown"]},
+        "floor_line": {"enum": ["absent", "detached", "touching_silhouette", "covering_identity", "unknown"]},
+        "text_or_annotation": {"enum": ["absent", "detached", "touching_silhouette", "covering_identity", "unknown"]},
+        "multiple_overlapping_poses": {"type": "boolean"},
+        "cropped_extremities": {"type": "boolean"},
+        "occluded_identity_features": {"type": "boolean"},
+        "motion_blur": {"type": "boolean"},
+        "background_color_collision": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"intended_role": {"const": "translation_source"}}},
+      "then": {"required": ["identity_authority_path", "identity_authority_sha256", "visual_source_of_truth_contract", "derivation"]}
+    },
+    {
+      "if": {"properties": {"reviewer": {"enum": ["human", "human_and_vision"]}}},
+      "then": {"required": ["human_decision_record_path", "human_decision_record_sha256"]}
+    }
+  ]
+}

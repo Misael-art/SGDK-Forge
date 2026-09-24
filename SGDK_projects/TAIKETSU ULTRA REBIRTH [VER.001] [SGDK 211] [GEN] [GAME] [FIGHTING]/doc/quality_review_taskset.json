@@ -1,0 +1,166 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "orchestration_taskset",
+  "run_id": "quality-taiketsu-d0-q1-foundation",
+  "tasks": [
+    {
+      "task_id": "review_game_design",
+      "objective": "Independently review game_design for taiketsu-d0-q1-foundation",
+      "task_kind": "documentation_audit",
+      "owner_skill": "planning/game-design-planning",
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "doc/00-project-brief.md",
+          "sha256": "df4aba243ed073674837beb54decbd5fa54229f8324fc6ce1a81e2438a89f479"
+        },
+        {
+          "path": "doc/11-gdd.md",
+          "sha256": "53b7d0e83afa8de4abec0bdaf33c184cdf98e08273b04086b339dbcee59d27b8"
+        },
+        {
+          "path": "doc/12-roteiro.md",
+          "sha256": "3ca39086c5d553ca9f305605e18f95b512e9caaee9a7c88fbb4e28039bfd11b3"
+        },
+        {
+          "path": "doc/13-spec-cenas.md",
+          "sha256": "a18d022a81c3633d40cf5121849ad8ebae9c3e88d77b73d1e692d39bcea95a4e"
+        },
+        {
+          "path": "doc/genre_specialization_manifest.json",
+          "sha256": "a2c66fe427c30289e19a2ce2fe6e234c94e886befb61392fc287fea6d6ec95b4"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "high_capability",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    },
+    {
+      "task_id": "review_narrative",
+      "objective": "Independently review narrative for taiketsu-d0-q1-foundation",
+      "task_kind": "documentation_audit",
+      "owner_skill": "planning/narrative-design-reviewer",
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "doc/00-project-brief.md",
+          "sha256": "df4aba243ed073674837beb54decbd5fa54229f8324fc6ce1a81e2438a89f479"
+        },
+        {
+          "path": "doc/11-gdd.md",
+          "sha256": "53b7d0e83afa8de4abec0bdaf33c184cdf98e08273b04086b339dbcee59d27b8"
+        },
+        {
+          "path": "doc/12-roteiro.md",
+          "sha256": "3ca39086c5d553ca9f305605e18f95b512e9caaee9a7c88fbb4e28039bfd11b3"
+        },
+        {
+          "path": "doc/13-spec-cenas.md",
+          "sha256": "a18d022a81c3633d40cf5121849ad8ebae9c3e88d77b73d1e692d39bcea95a4e"
+        },
+        {
+          "path": "doc/genre_specialization_manifest.json",
+          "sha256": "a2c66fe427c30289e19a2ce2fe6e234c94e886befb61392fc287fea6d6ec95b4"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "high_capability",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    },
+    {
+      "task_id": "review_governance",
+      "objective": "Independently review governance for taiketsu-d0-q1-foundation",
+      "task_kind": "documentation_audit",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "doc/00-project-brief.md",
+          "sha256": "df4aba243ed073674837beb54decbd5fa54229f8324fc6ce1a81e2438a89f479"
+        },
+        {
+          "path": "doc/11-gdd.md",
+          "sha256": "53b7d0e83afa8de4abec0bdaf33c184cdf98e08273b04086b339dbcee59d27b8"
+        },
+        {
+          "path": "doc/12-roteiro.md",
+          "sha256": "3ca39086c5d553ca9f305605e18f95b512e9caaee9a7c88fbb4e28039bfd11b3"
+        },
+        {
+          "path": "doc/13-spec-cenas.md",
+          "sha256": "a18d022a81c3633d40cf5121849ad8ebae9c3e88d77b73d1e692d39bcea95a4e"
+        },
+        {
+          "path": "doc/genre_specialization_manifest.json",
+          "sha256": "a2c66fe427c30289e19a2ce2fe6e234c94e886befb61392fc287fea6d6ec95b4"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    }
+  ]
+}

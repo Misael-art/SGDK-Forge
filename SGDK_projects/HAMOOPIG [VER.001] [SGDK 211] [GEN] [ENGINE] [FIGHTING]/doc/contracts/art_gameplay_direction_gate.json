@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "template_seed_art_gameplay_direction_gate",
+  "project_id": "template_seed_project",
+  "asset_id": "vibe_playable_template_seed",
+  "asset_kind": "background_plate",
+  "evaluated_at": "template_seed_not_runtime_evidence",
+  "measurement_level": "planned_contract",
+  "art_director_review": {
+    "status": "blocked",
+    "reviewer": "visual-excellence-standards",
+    "art_direction_decision_record": "doc/contracts/vibe_playable_route_report.json",
+    "findings": [
+      "No premium source exists yet; template seed is not visual approval."
+    ]
+  },
+  "game_design_context": {
+    "status": "blocked",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "gameplay_role": "template_seed_no_runtime_role",
+    "camera_perspective": "scene_specific",
+    "interaction_context": [
+      "No natural request has been routed yet."
+    ]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      {
+        "id": "template_seed_silhouette",
+        "kind": "silhouette",
+        "expected": "To be defined after art direction and premium source.",
+        "status": "not_applicable"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "blocked",
+    "secondary_motion": [],
+    "expression_requirements": [],
+    "state_fantasy_checks": []
+  },
+  "decision": {
+    "production_allowed": false,
+    "ready_for_generation": false,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "vibe_playable_route_report",
+      "premium_source_manifest",
+      "art_direction_selector",
+      "human_asset_approval",
+      "blastem_runtime_evidence"
+    ]
+  },
+  "blockers": [
+    "art_direction_undeclared",
+    "game_design_context_missing",
+    "director_gate_unapproved"
+  ]
+}

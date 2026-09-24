@@ -1,0 +1,72 @@
+{
+  "schema_version": "native_idle_key_pose_runtime_validation.v1",
+  "validated_at": "2026-09-01",
+  "asset_id": "native_idle_key_pose_elite_v01",
+  "asset_sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29",
+  "content_sha256": "ce677449e1ce5c0722add0fd587bdba93d5b278667cf7cdf0a51329195ad93bc",
+  "native_contract": {
+    "bbox": "32x32",
+    "pivot": [16, 31],
+    "baseline_y": 30,
+    "visible_colors": 12,
+    "alpha": "binary",
+    "grid": "VDP 9-bit",
+    "pixel_contract": "passed",
+    "semantic_gate": "passed",
+    "material_topology": "passed"
+  },
+  "resource_trace": {
+    "resource_symbol": "spr_native_idle_elite",
+    "res_path": "res/sprites/native_idle_key_pose_elite_v01.png",
+    "res_sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29",
+    "rescomp_frame": "spr_native_idle_elite_animation0_frame0",
+    "hardware_sprite_count": 1,
+    "unique_tiles": 16,
+    "raw_size_bytes": 606
+  },
+  "runtime_proof": {
+    "scene_id": 11,
+    "scene_symbol": "APP_SCENE_NATIVE_ART_REVIEW",
+    "session_id": "blastem-linux-20260901T084532Z-4098997",
+    "rom_sha256": "d37077b2d1c6e8c2f65a24ee0ffd4e64ebac57d37ef75520d5d7c1aef7cce8ad",
+    "screenshot_sha256": "69918895f4fc2fa17f8137207d01374bbc004c32d5a71d73edfd3305cef8bd5a",
+    "vdp_dump_sha256": "1898ba04b71a8484ea06022c43ac54c6c9b28fe5ae091fafd8350411bbc1f853",
+    "sram_sha256": "5f0971d01efc670d3e07eb79fe30a9b2489920cf87309e9c0a9361ccbaf219a1",
+    "gate_report": "out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/gate_report.json",
+    "gate_report_sha256": "dc274b8ba0ae6573bdac0be0ca96843cd9dec1891947507a104aa1157f40680f",
+    "freshness_report_sha256": "e5ed48ce5209428f6c81f25775d1d95f1a37084e9577def369376da49fd1785d",
+    "screenshot_semantic_gate_report_sha256": "ac9f353b5dc681299c735952b98b3c7b2c409ea0302f0e8c0c853a2f452f94ab",
+    "freshness": "passed_same_session",
+    "screenshot_semantic_gate": "passed",
+    "scene_identity": "passed_scene_11",
+    "runtime_visual": "passed_isolated_review_only"
+  },
+  "budget_snapshot": {
+    "resolution": "320x224",
+    "sprites_per_frame": "1/80",
+    "max_scanline_sprites_sampled": "1/20",
+    "max_scanline_pixels_sampled": "32/320",
+    "cram_distinct": "39/58",
+    "vram_declared_bytes": "32128/49152",
+    "cpu_p99_snapshot": "12/100",
+    "frametime_samples": 32,
+    "over_budget_samples": 0,
+    "sustained_performance": "not_proven"
+  },
+  "offline_vs_rom": {
+    "status": "runtime_identity_correlated",
+    "bitmap_pixel_decode": "not_attempted",
+    "reason": "VLAB evidence contains runtime metrics and palette data, not a full sprite bitmap; no pixel-equivalence claim is made from the screenshot"
+  },
+  "not_proven": [
+    "first_playable_replacement",
+    "complete_sprite_sheet",
+    "final_animation",
+    "limited_animation_strip_human_approval",
+    "sustained_performance",
+    "audio",
+    "AAA",
+    "ready_for_aaa"
+  ],
+  "claim_ceiling": "testado_em_emulador_for_isolated_idle_review_only"
+}

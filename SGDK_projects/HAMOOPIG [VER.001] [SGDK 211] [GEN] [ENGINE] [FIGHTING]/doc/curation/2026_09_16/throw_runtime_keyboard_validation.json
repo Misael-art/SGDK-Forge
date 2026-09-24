@@ -1,0 +1,27 @@
+{
+  "lesson_id": "L110",
+  "date": "2026-09-16",
+  "topic": "throw_runtime_keyboard_validation",
+  "source": "P04_runtime_probe_review",
+  "rom_sha256": "f4248208cec58ee0fec57b89f46f535e2c21026b9a34685449ce3204be1cab86",
+  "problem": "As primeiras rotas de teclado não registravam THROW porque o teste emitia Y enquanto o P1 ainda estava em ataque normal ou mantinha os lutadores fora da faixa de proximidade.",
+  "change": "O roteiro de evidência passou a aproximar P1 e P2 simultaneamente com as teclas canônicas e emitir bordas isoladas de Y somente após a aproximação; nenhuma posição, estado ou SRAM é injetada.",
+  "result": "No BlastEm, a captura visual_ko_20260916T055426Z registrou HSEM throw_frames_p1=64 e throw_frames_p2=3; o HPRB do mesmo SRAM registrou combat_total_throws=2, 2 HIT, DMA máximo 7008 B e 17 sprites por linha.",
+  "limits": [
+    "a captura valida alcançabilidade e emissão do evento, não equilíbrio, animação visual ou qualidade do golpe",
+    "P10 completo, revisão visual independente, audição crítica, pior-frame e hardware real continuam pendentes",
+    "o roteiro deve permanecer real-keyboard-only para conservar validade causal"
+  ],
+  "artifacts": [
+    "src/fsm.c",
+    "tests/capture_visual_ko.py",
+    "tests/test_throw_window_contract.py",
+    "out/logs/throw_point_blank_build.log",
+    "out/logs/throw_only_f424_v7_capture.log",
+    "out/logs/throw_only_hsem_f424_v7.json",
+    "out/logs/throw_only_hprb_f424_v7.json",
+    "out/emulator_evidence/visual_ko_20260916T055426Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T055426Z/userdata/blastem/rom/save.sram"
+  ],
+  "status": "runtime_throw_event_observed_same_rom"
+}

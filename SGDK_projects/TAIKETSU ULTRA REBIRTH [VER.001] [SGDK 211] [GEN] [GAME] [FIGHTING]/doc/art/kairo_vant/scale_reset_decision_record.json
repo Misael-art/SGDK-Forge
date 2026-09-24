@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "decision": "reject_32x40_fighter_route",
+  "reason": "sprite_scale_below_genre_density_and_identity_loss",
+  "decision_status": "binding",
+  "decided_at": "2026-09-05",
+  "scope": "Kairo Vant D1 idle/combat pose production",
+  "negative_evidence": [
+    "data/processed/kairo_vant/kairo_vant_front_pose_assisted_native_candidate_v02.png",
+    "data/processed/kairo_vant/kairo_vant_front_pose_assisted_native_candidate_v03.png",
+    "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_diagnostic_v01.png",
+    "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png",
+    "data/processed/kairo_vant/kairo_vant_front_pose_native_probe_v01.png",
+    "res/fighting/fighters/kairo_vant_probe.png",
+    "res/fighting/fighters/c1_probe.png",
+    "data/source_art/kairo_vant/kairo_vant_native_grid_authoring_v01.xpm"
+  ],
+  "negative_evidence_policy": "comparison_only; never source, baseline, img2img input, generation source, or runtime promotion",
+  "xpm_classification": "procedural_code_probe",
+  "scale_rule": "height_kairo_px >= ceil(1.25 * max(height_jack_px, height_ryo_px))",
+  "next_required_artifacts": [
+    "rascunho/scale_correction_20260905/fighter_scale_benchmark_report.json",
+    "rascunho/scale_correction_20260905/scale_shootout_panel.json",
+    "single combat_idle_3quarter visual source/guide",
+    "native reauthoring at the selected scale"
+  ]
+}

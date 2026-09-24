@@ -55,6 +55,7 @@ Use esta skill para:
 ### Saida minima
 
 - `cutscene_scene_contract`
+- `cinematic_storyboard_contract`
 - `cutscene_fsm_script`
 - `cutscene_panel_layout`
 - `cutscene_resource_plan`
@@ -88,6 +89,7 @@ Use esta skill para:
 ## Saidas obrigatorias
 
 - `cutscene_scene_contract`
+- `cinematic_storyboard_contract`
 - `cutscene_fsm_script`
 - `cutscene_storyboard_board`
 - `cutscene_panel_layout`
@@ -103,6 +105,30 @@ Use esta skill para:
 ## Contrato de FSM
 
 Cutscene nao e video. Cada momento da cena e um estado.
+
+## Contrato machine-readable
+
+Para `aaa_gate`, a cutscene precisa apontar
+`doc/scene-contracts.json > cutscene_contract.cinematic_storyboard_contract`
+para um JSON valido contra
+`tools/sgdk_wrapper/schemas/cinematic_storyboard_contract.schema.json`.
+
+Esse contrato unifica o storyboard em dados verificaveis:
+
+- autoridade de roteiro/spec/contexto e tres referencias tecnicas;
+- direcao cinematica, ferramentas de fake cinema e signature moment;
+- FSM table-driven com estados, triggers, surfaces, paletas, texto, audio e teardown;
+- budget por estado: VRAM residente, DMA de entrada, DMA por frame, glyph cache e sprite pressure;
+- ownership de `WINDOW`, CRAM, scroll, audio e H-Int com reset/fallback;
+- gate visual: fonte premium, aprovacao humana e `visual_delivery_gate_report`;
+- plano de evidencia BlastEm: screenshot, SRAM, VDP dump, baseline e freshness.
+
+`lint_scene_contract.ps1 -Mode aaa_gate` bloqueia:
+
+- `SC107`: cutscene sem `cinematic_storyboard_contract`;
+- `SC108`: contrato ausente, JSON invalido ou campos estruturais faltando;
+- `SC109`: H-Int ativo sem owner, reset e fallback;
+- `SC110`: `ready_for_aaa=true` sem fonte de producao e aprovacao humana.
 
 Cada estado precisa declarar:
 
@@ -123,8 +149,7 @@ Cada estado precisa declarar:
 
 ### FSM table-driven para runtime SGDK
 
-Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`.
+Regra generalizada para handoff de cutscenes table-driven ao runtime SGDK.
 
 Quando a cutscene tiver quatro ou mais beats, o handoff para runtime deve nascer
 como tabela de estados/passos, nao como `update()` monolitico. O formato pode
@@ -254,6 +279,7 @@ Cutscene so fecha gate com:
 ## Passa quando
 
 - existe FSM de cutscene antes do runtime
+- `cinematic_storyboard_contract` existe e valida antes de qualquer claim AAA
 - todos os estados possuem assets, texto, trigger, FX, audio e teardown declarados
 - todos os estados narrativos AAA possuem `cutscene_motion_beat_map` ou `stillness_justification`
 - retrato falante/close-up com rosto legivel possui blink, mouth, reaction frame ou justificativa de silencio visual
@@ -273,6 +299,7 @@ Cutscene so fecha gate com:
 ## Anti-padroes
 
 - prompt de imagem sem `cutscene_scene_contract`
+- cutscene AAA sem `cinematic_storyboard_contract`
 - usar uma ilustracao fullscreen gigante como ROM final sem budget
 - texto parado sobre imagem morta sem ritmo, som ou composicao
 - painel morto sem `cutscene_motion_beat_map` ou `stillness_justification`

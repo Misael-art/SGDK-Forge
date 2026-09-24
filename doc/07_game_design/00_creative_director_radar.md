@@ -78,6 +78,11 @@ Uso proibido:
 - prometer tecnologia de outra plataforma sem tradeoff Mega Drive/SGDK;
 - confundir lista de referencias com direcao autoral.
 
+Barra viva da cena (`doc/03_art/18_live_scene_bar.md`): Rheo e Pigsy entram
+no radar como **oficio** (densidade arcade legal; traducao rica nativa),
+nunca como IP. Um projeto "correto mas generico" que nao passa os 12 checks
+recebe `live_scene_bar_failed` alem de `signature_gap`.
+
 ## Formato Do Diagnostico
 
 Cada proposta do radar deve responder:

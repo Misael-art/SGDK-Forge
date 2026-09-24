@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v01",
+  "source": "rascunho/taina_idle_guard_v01/taina_idle_guard_color_reference_v01.png",
+  "target": "data/processed/characters/taina/animation/taina_idle_guard_native_48x64_v01.png",
+  "translation_method": "six_cell_native_grid_reconstruction_from_directional_reference",
+  "measured_output": {
+    "mode": "P",
+    "dimensions_px": [288, 64],
+    "cell_px": [48, 64],
+    "frame_count": 6,
+    "used_palette_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "index_0_rgb": [238, 0, 238],
+    "grid_8x8_aligned": true,
+    "palette_channels_on_md_9bit_steps": true
+  },
+  "fidelity": {
+    "preserved": ["angular_face_read", "curly_hair_mass", "high_guard", "orange_top", "indigo_pants", "asymmetric_teal_sash"],
+    "constraints": ["right_facing_authored_only", "use_hflip_for_left", "single_action_idle_guard", "no_baked_fx"]
+  },
+  "technical_status": "rescomp_compiled_runtime_observed_visual_failed",
+  "runtime_evidence": {
+    "rom_sha256": "3c4c6c5d4294a9f0042e1bbfdd1e66b7f2b2b3eca167489f23b54d2add99eb44",
+    "scene_id": 3,
+    "session_id": "blastem-linux-20260729T090809Z-192035",
+    "screenshot": "out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/screenshot.png",
+    "animation_gif": "out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/runtime_animation.gif",
+    "evidence_status": "partial_bundle_not_sealed"
+  },
+  "visual_status": "technical_runtime_pass_visual_fail",
+  "generation_source_policy": "obsolete_for_generation_source",
+  "blockers": ["taina_identity_degraded_at_native_runtime", "visual_vdp_dump_missing", "human_runtime_visual_approval_missing"]
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "mechanical_scale_probe_report.v1",
+  "status": "mechanical_scale_probe",
+  "purpose": "diagnostic scale/readability test only; never a native sprite source",
+  "method": {"crop": "top-row view cells from each high-res challenger", "resize_32": "point/nearest", "resize_64": "point/nearest", "resize_256": "point/nearest", "composition": "320x224 mechanical board", "exact_scale_test": "every 2x2 and 8x8 block is pixel-identical to its source 32x32 pixel"},
+  "automatic_rejection_policy": ["RGB high-res output is not a native sprite", "probe does not authorize res/ or translation"],
+  "measurement_note": "Microcolor counts are retained as source-format observations only. They reject native-sprite promotion of the high-res file, not its model-sheet/source role.",
+  "challengers": [
+    {
+      "asset_id": "model_sheet_challenger_v03_a_cluster_strict",
+      "source_sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241",
+      "source_path": "rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_a_cluster_strict.png",
+      "probe_root": "rascunho/nexialist_visual_nucleus_v01/mechanical_scale_probes/v03_a_cluster_strict/",
+      "probe_outputs": ["view_1..5_32x32.png", "view_1..5_64x64_nearest.png", "view_1..5_256x256_nearest.png", "silhouette_1..5_black_32x32.png", "composition_320x224.png"],
+      "measured_32x32_unique_color_range": "389-533 per view",
+      "automatic_result": "high_res_rejected_as_native_sprite; v03_a_remains_approved_limited_model_sheet_source",
+      "exact_scale_test": {"2x": "passed_all_5_views", "8x": "passed_all_5_views"},
+      "diagnostic_read": {"front_vs_three_quarter_front":"distinct", "side_arm_connection":"connected_but_requires_manual_pixel_proof", "three_quarter_back_vs_back":"distinct", "feet_baseline":"consistent_in_probe", "silhouettes":"pure_external_black_contours_observed", "eyes_at_32":"visible_in_front_and_three_quarter_front"}
+    },
+    {
+      "asset_id": "model_sheet_challenger_v03_b_silhouette_first",
+      "source_sha256": "85a93885fec97490a8c220f3a35e66538e1a829e3c21f8c3392768c563b52f88",
+      "source_path": "rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_b_silhouette_first.png",
+      "probe_root": "rascunho/nexialist_visual_nucleus_v01/mechanical_scale_probes/v03_b_silhouette_first/",
+      "probe_outputs": ["view_1..5_32x32.png", "view_1..5_64x64_nearest.png", "view_1..5_256x256_nearest.png", "silhouette_1..5_black_32x32.png", "composition_320x224.png"],
+      "measured_32x32_unique_color_range": "396-511 per view",
+      "automatic_result": "comparison_only; high_res_rejected_as_native_sprite",
+      "exact_scale_test": {"2x": "passed_all_5_views", "8x": "passed_all_5_views"},
+      "diagnostic_read": {"front_vs_three_quarter_front":"distinct", "side_arm_connection":"simplified_and_connected_but_requires_manual_pixel_proof", "three_quarter_back_vs_back":"distinct", "feet_baseline":"consistent_in_probe", "silhouettes":"pure_external_black_contours_observed", "eyes_at_32":"visible_in_front_and_three_quarter_front"}
+    }
+  ],
+  "visual_verdict": "v03-A is approved as limited model-sheet/source reference; v03-B remains comparison_only. Neither high-res challenger is native art."
+}

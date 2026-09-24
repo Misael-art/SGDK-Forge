@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "scale_contract": {
+    "status": "comparison_only",
+    "authorized_targets": [
+      {"width": 72, "height": 112, "hypothesis": "A"},
+      {"width": 80, "height": 120, "hypothesis": "B"},
+      {"width": 88, "height": 136, "hypothesis": "C"}
+    ],
+    "anchor": "bottom_center",
+    "source_rule": "all three targets use the same v04 source, matte, anchor and route family"
+  }
+}

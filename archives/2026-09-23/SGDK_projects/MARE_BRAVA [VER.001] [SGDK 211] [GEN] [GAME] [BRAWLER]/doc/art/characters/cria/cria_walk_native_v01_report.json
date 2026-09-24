@@ -1,0 +1,84 @@
+{
+  "asset_kind": "animation_strip",
+  "action": "walk_34_rusher",
+  "character": "cria",
+  "cell": [
+    48,
+    64
+  ],
+  "frames": 4,
+  "walk_phases": [
+    "contact_L",
+    "pass_R",
+    "contact_R",
+    "pass_L"
+  ],
+  "timing_vblank": [
+    5,
+    4,
+    5,
+    4
+  ],
+  "pivot": {
+    "x": 24,
+    "y": 60,
+    "role": "foot_plant"
+  },
+  "facing": "left_opponent",
+  "pass_lift_px": 4,
+  "pixel_route": "locked_48x64_not_video_downscale",
+  "source_construction": [
+    "data/source_art/concept/cria_identity_model_sheet/cria_walk_construction_34_v01.png"
+  ],
+  "source_motion_ref_only": "data/source_art/motion/cria_walk_source.mp4",
+  "video_drift": "harvest_airborne_both_feet_refused_as_pixel_source",
+  "must_preserve": [
+    "forward_lean",
+    "backwards_cap_red_visor",
+    "pointy_elbows",
+    "one_flipflop_planted",
+    "red_star_and_wrist",
+    "wiry_thin_mass"
+  ],
+  "bbox": [
+    [
+      5,
+      4,
+      37,
+      61
+    ],
+    [
+      4,
+      4,
+      36,
+      61
+    ],
+    [
+      7,
+      4,
+      37,
+      61
+    ],
+    [
+      6,
+      4,
+      35,
+      61
+    ]
+  ],
+  "foot_y": [
+    61,
+    61,
+    61,
+    61
+  ],
+  "planted_groups_y59": [
+    2,
+    1,
+    2,
+    1
+  ],
+  "palette_slot": "PAL3_enemy_roster",
+  "not_aaa_claim": true,
+  "res": "res/sprites/characters/cria/cria_walk_lean_48x64_v01.png"
+}

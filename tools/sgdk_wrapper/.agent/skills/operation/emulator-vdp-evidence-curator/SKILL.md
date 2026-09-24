@@ -18,6 +18,7 @@ conta propria.
 - cena/estado esperado
 - claims visuais, VDP ou runtime a fechar
 - contratos de SRAM ou VDP dump aplicaveis
+- `out/logs/blastem_capture_route_report.json` fresco para o host atual
 
 ### Saida minima
 
@@ -30,6 +31,8 @@ conta propria.
 ### Passa quando
 
 - o hash capturado coincide com a ROM atual
+- a rota de captura pertence ao host declarado: Linux usa Flatpak/XWayland;
+  Windows usa PowerShell/Win32
 - todos os artefatos declarados existem e possuem hash no selo
 - a evidencia nao esta stale
 - o emulador e os artefatos satisfazem o claim declarado
@@ -45,6 +48,8 @@ conta propria.
   `testado_em_emulador` apenas por build.
 - BizHawk nao substitui o gate BlastEm.
 - Relatorio textual nao substitui screenshot, SRAM ou VDP dump exigido.
+- `System.Windows.Forms` ausente em Linux nao e blocker de emulador; e selecao
+  indevida do backend Windows e deve ser corrigida antes de atribuir causa ao host.
 
 ## Freeze, Capture, Seal
 
@@ -59,3 +64,19 @@ conta propria.
   sozinho gameplay, qualidade visual, audio, performance ou budget.
 - Recapturar e necessario somente quando a ROM muda de proposito ou quando os
   artefatos exigidos pelo claim estavam ausentes/defeituosos.
+
+## Semantica do probe e cobertura real
+
+Para telemetria ou matriz automatizada, ler as secoes 6–7 do caso HAMOOPIG. Declarar unidade, schema, saturacao, regioes e configuracao observada. Bytes enfileirados, contador de eventos e 36 probes curtos nao provam tempo de CPU, game feel nem partidas completas.
+
+[Aprendizado e fixtures HAMOOPIG](../../../references/hamoopig_engine_learning_2026_09_18.md).
+
+## Revisao audiovisual hash-bound
+
+Quando a entrega alegar observacao audiovisual, consumir o pipeline existente
+`audiovisual_review.py` em V0-V5. Manter separados `artifact_identity`,
+`media_temporal_integrity`, `av_sync`, `game_cadence`, `event_observed`,
+`visual_legibility`, `visual_quality`, `motion_quality`, `audio_quality` e
+`coverage`. `event_observed` ou screenshot nao aprovam qualidade, movimento ou
+som. Registrar reviewer, metodo, ferramentas e intervalos realmente vistos;
+sequencia de imagens e metadado sao evidencia limitada, nao playback/audicao.

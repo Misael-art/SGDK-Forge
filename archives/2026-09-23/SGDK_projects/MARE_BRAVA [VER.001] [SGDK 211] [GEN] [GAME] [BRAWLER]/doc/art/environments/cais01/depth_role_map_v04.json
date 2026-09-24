@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "cais_01",
+  "canvas_px": [512, 224],
+  "roles": [
+    {
+      "plane": "BG_B",
+      "lines": "0..47",
+      "role": "upper_sky_and_long_clouds",
+      "contrast": "low",
+      "scroll": "camera_1_8"
+    },
+    {
+      "plane": "BG_B",
+      "lines": "48..79",
+      "role": "far_industry",
+      "contrast": "medium_low",
+      "scroll": "camera_1_4"
+    },
+    {
+      "plane": "BG_B",
+      "lines": "80..111",
+      "role": "near_compact_harbor_silhouette",
+      "contrast": "medium",
+      "scroll": "camera_1_2"
+    },
+    {
+      "plane": "BG_B",
+      "lines": "112..223",
+      "role": "sea_and_broken_reflection",
+      "contrast": "low_to_medium",
+      "scroll": "camera_1_4_plus_line_wave"
+    },
+    {
+      "plane": "BG_A",
+      "lines": "40..159",
+      "role": "landmarks_crates_lamp_net_edge",
+      "contrast": "medium_high",
+      "scroll": "camera_1_1"
+    },
+    {
+      "plane": "BG_A",
+      "lines": "136..223",
+      "role": "walkable_deck_and_pier_fascia",
+      "contrast": "high_at_contacts_low_inside_lane",
+      "scroll": "camera_1_1"
+    },
+    {
+      "plane": "SPRITES",
+      "role": "fighters_contact_shadow_smoke_and_dust",
+      "contrast": "fighter_first",
+      "scroll": "world_or_screen_space_by_actor"
+    }
+  ]
+}

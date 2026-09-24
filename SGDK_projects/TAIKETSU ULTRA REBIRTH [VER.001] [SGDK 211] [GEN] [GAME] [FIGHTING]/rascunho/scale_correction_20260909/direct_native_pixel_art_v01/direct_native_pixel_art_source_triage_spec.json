@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/kairo_vant_direct_pixel_art_source_v01.png",
+  "source_class": "high_res_full_body_character",
+  "intended_role": "translation_source",
+  "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+  "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+  "matte_policy": "existing_alpha",
+  "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+  "derivation": "Direct pixel-art staging output generated as a distinct native-pose hypothesis; retained as visual_source only until exact 88x136 conversion, palette, material and semantic gates pass.",
+  "reviewer": "agent_curated_review",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Single full-body three-quarter pose with genuine alpha and hard-edged pixel clusters at source resolution. Face, hands, feet and material boundaries are visible enough for a route audit, but this is not yet a native candidate or runtime asset."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "source": "data/source_art/musgo/ko_victory_source_v1.png",
+  "source_sha256": "5b0772b5678f3e98063f87eee3612601aa65b5df3848879b7f842e3259ee5cb1",
+  "status": "source_candidate",
+  "tool": "built-in image_gen",
+  "conversion": "chroma key, nearest resize, existing PAL2/PAL3 indices",
+  "outputs": {
+    "fall_v1.png": {
+      "cell": [
+        120,
+        120
+      ],
+      "frames": 2,
+      "pivot": [
+        60,
+        120
+      ],
+      "sha256": "450ddae5e30f473c401a5091b41d2446a94c2a3751db24cbf1e0da1303495ab8"
+    },
+    "defeat_v1.png": {
+      "cell": [
+        128,
+        64
+      ],
+      "frames": 1,
+      "pivot": [
+        64,
+        64
+      ],
+      "sha256": "cd036cb770d5b20d92c7f49e44dd05ca61b61246cf2471840c99f4ce00654258"
+    },
+    "victory_v1.png": {
+      "cell": [
+        88,
+        128
+      ],
+      "frames": 1,
+      "pivot": [
+        44,
+        128
+      ],
+      "sha256": "d1d29c5774c7bc5f38817fd8fe782766aee0931693d29a0d59aeb57c38f9f26a"
+    }
+  }
+}

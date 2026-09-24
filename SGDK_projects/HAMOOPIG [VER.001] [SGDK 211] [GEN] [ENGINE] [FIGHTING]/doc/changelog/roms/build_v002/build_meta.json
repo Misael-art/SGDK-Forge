@@ -1,0 +1,670 @@
+{
+  "build_version": "build_v002",
+  "rom_sha256": "363774d9592ec5e4e9dce133063ed013243601800a30ca6a78b0d8be61a5347f",
+  "size_bytes": 2490368,
+  "timestamp": "2026-09-12T09:55:43.5627911-03:00",
+  "source_commit_when_available": "e224af091804cf684b8065dee148312d481b5da5",
+  "validation_summary": {
+    "errors": 1,
+    "warnings": 11,
+    "blocking_statuses": [
+      "gdd_substantial_insufficient",
+      "agent_context_degraded",
+      "visual_gate_blocked",
+      "visual_delivery_gate_missing",
+      "audio_validation_missing",
+      "changelog_missing",
+      "code_loaded_tiles_unmeasured",
+      "technique_usage_manifest_empty",
+      "scene_tilemap_conversion_report_missing",
+      "per_tile_palette_conflict_report_missing",
+      "freshness_audit_missing",
+      "scene_closeout_gate_missing"
+    ]
+  },
+  "emulator_evidence_status": "sem_sessao",
+  "status_panel_snapshot": {
+    "visual_lab_aprovado": false,
+    "gameplay_rom_aprovada": false,
+    "ready_for_aaa": false
+  },
+  "qa_axes_snapshot": {
+    "gameplay_basico": "nao_testado",
+    "performance": "unproven",
+    "audio": "nao_testado",
+    "hardware_real": "nao_testado"
+  },
+  "linked_asset_versions": [
+    {
+      "asset_id": "room_0_bga",
+      "version": "v001",
+      "source_path": "/res/gfx/room_0_bga.png"
+    },
+    {
+      "asset_id": "room_0_bgb",
+      "version": "v001",
+      "source_path": "/res/gfx/room_0_bgb.png"
+    },
+    {
+      "asset_id": "gfx_bgb1",
+      "version": "v001",
+      "source_path": "/res/gfx/bgb1.png"
+    },
+    {
+      "asset_id": "gfx_bgb2",
+      "version": "v001",
+      "source_path": "/res/gfx/bgb2.png"
+    },
+    {
+      "asset_id": "gfx_showdown",
+      "version": "v001",
+      "source_path": "/res/gfx/showdown.png"
+    },
+    {
+      "asset_id": "spr_hud_energy_y",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/energy_yellow.png"
+    },
+    {
+      "asset_id": "spr_hud_energy_r",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/energy_red.png"
+    },
+    {
+      "asset_id": "spr_hud_energy_y_p2",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/energy_yellow_p2.png"
+    },
+    {
+      "asset_id": "spr_hud_energy_r_p2",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/energy_red_p2.png"
+    },
+    {
+      "asset_id": "spr_hud_ko",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/ko.png"
+    },
+    {
+      "asset_id": "ts_hud_p1_bar",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/energy_yellow_p1_window.png"
+    },
+    {
+      "asset_id": "ts_hud_p2_bar",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/energy_yellow_p2_window.png"
+    },
+    {
+      "asset_id": "ts_hud_clock",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/clock_digits_window.png"
+    },
+    {
+      "asset_id": "spr_ken_pal1",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/palettes/pal1.png"
+    },
+    {
+      "asset_id": "spr_ken_pal2",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/palettes/pal2.png"
+    },
+    {
+      "asset_id": "spr_ken_100",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/100.png"
+    },
+    {
+      "asset_id": "spr_ken_101",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/101.png"
+    },
+    {
+      "asset_id": "spr_ken_102",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/102.png"
+    },
+    {
+      "asset_id": "spr_ken_104",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/104.png"
+    },
+    {
+      "asset_id": "spr_ken_105",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/105.png"
+    },
+    {
+      "asset_id": "spr_ken_106",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/106.png"
+    },
+    {
+      "asset_id": "spr_ken_151",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/151.png"
+    },
+    {
+      "asset_id": "spr_ken_200",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/200.png"
+    },
+    {
+      "asset_id": "spr_ken_201",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/201.png"
+    },
+    {
+      "asset_id": "spr_ken_300",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/300.png"
+    },
+    {
+      "asset_id": "spr_ken_420",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/420.png"
+    },
+    {
+      "asset_id": "spr_ken_501",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/501.png"
+    },
+    {
+      "asset_id": "spr_ken_550",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/550.png"
+    },
+    {
+      "asset_id": "spr_ken_606",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/606.png"
+    },
+    {
+      "asset_id": "spr_ken_700",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/700.png"
+    },
+    {
+      "asset_id": "spr_ken_710",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/710.png"
+    },
+    {
+      "asset_id": "spr_ken_720",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/720.png"
+    },
+    {
+      "asset_id": "spr_ken_730",
+      "version": "v001",
+      "source_path": "/res/sprite/ken/730.png"
+    },
+    {
+      "asset_id": "spr_musgo_pal1",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/palettes/pal1.png"
+    },
+    {
+      "asset_id": "spr_musgo_pal2",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/palettes/pal2.png"
+    },
+    {
+      "asset_id": "spr_musgo_100",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/100.png"
+    },
+    {
+      "asset_id": "spr_musgo_101",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/101.png"
+    },
+    {
+      "asset_id": "spr_musgo_102",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/102.png"
+    },
+    {
+      "asset_id": "spr_musgo_104",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/104.png"
+    },
+    {
+      "asset_id": "spr_musgo_105",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/105.png"
+    },
+    {
+      "asset_id": "spr_musgo_106",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/106.png"
+    },
+    {
+      "asset_id": "spr_musgo_151",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/151.png"
+    },
+    {
+      "asset_id": "spr_musgo_200",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/200.png"
+    },
+    {
+      "asset_id": "spr_musgo_201",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/201.png"
+    },
+    {
+      "asset_id": "spr_musgo_300",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/300.png"
+    },
+    {
+      "asset_id": "spr_musgo_420",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/420.png"
+    },
+    {
+      "asset_id": "spr_musgo_501",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/501.png"
+    },
+    {
+      "asset_id": "spr_musgo_550",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/550.png"
+    },
+    {
+      "asset_id": "spr_musgo_606",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/606.png"
+    },
+    {
+      "asset_id": "spr_musgo_700",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/700.png"
+    },
+    {
+      "asset_id": "spr_musgo_710",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/710.png"
+    },
+    {
+      "asset_id": "spr_musgo_720",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/720.png"
+    },
+    {
+      "asset_id": "spr_musgo_730",
+      "version": "v001",
+      "source_path": "/res/sprite/musgo/730.png"
+    },
+    {
+      "asset_id": "spr_point",
+      "version": "v001",
+      "source_path": "/res/sprite/point.png"
+    },
+    {
+      "asset_id": "spr_rect_bb",
+      "version": "v001",
+      "source_path": "/res/sprite/spr_rect_bb.png"
+    },
+    {
+      "asset_id": "spr_rect_hb",
+      "version": "v001",
+      "source_path": "/res/sprite/spr_rect_hb.png"
+    },
+    {
+      "asset_id": "spr_spark0",
+      "version": "v001",
+      "source_path": "/res/sprite/spr_spark0.png"
+    },
+    {
+      "asset_id": "spr_spark1",
+      "version": "v001",
+      "source_path": "/res/sprite/spr_spark1.png"
+    },
+    {
+      "asset_id": "spr_spark2",
+      "version": "v001",
+      "source_path": "/res/sprite/spr_spark2.png"
+    },
+    {
+      "asset_id": "spr_spark3",
+      "version": "v001",
+      "source_path": "/res/sprite/spr_spark3.png"
+    },
+    {
+      "asset_id": "spr_n0",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n0.png"
+    },
+    {
+      "asset_id": "spr_n1",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n1.png"
+    },
+    {
+      "asset_id": "spr_n2",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n2.png"
+    },
+    {
+      "asset_id": "spr_n3",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n3.png"
+    },
+    {
+      "asset_id": "spr_n4",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n4.png"
+    },
+    {
+      "asset_id": "spr_n5",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n5.png"
+    },
+    {
+      "asset_id": "spr_n6",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n6.png"
+    },
+    {
+      "asset_id": "spr_n7",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n7.png"
+    },
+    {
+      "asset_id": "spr_n8",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n8.png"
+    },
+    {
+      "asset_id": "spr_n9",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/n9.png"
+    },
+    {
+      "asset_id": "spr_sombra",
+      "version": "v001",
+      "source_path": "/res/sprite/hud/sombra.png"
+    },
+    {
+      "asset_id": "spr_ryo_pal1",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/palettes/pal1.png"
+    },
+    {
+      "asset_id": "spr_ryo_pal2",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/palettes/pal2.png"
+    },
+    {
+      "asset_id": "spr_ryo_000",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/000.png"
+    },
+    {
+      "asset_id": "spr_ryo_100",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/100.png"
+    },
+    {
+      "asset_id": "spr_ryo_101",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/101.png"
+    },
+    {
+      "asset_id": "spr_ryo_102",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/102.png"
+    },
+    {
+      "asset_id": "spr_ryo_103",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/103.png"
+    },
+    {
+      "asset_id": "spr_ryo_104",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/104.png"
+    },
+    {
+      "asset_id": "spr_ryo_105",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/105.png"
+    },
+    {
+      "asset_id": "spr_ryo_106",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/106.png"
+    },
+    {
+      "asset_id": "spr_ryo_107",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/107.png"
+    },
+    {
+      "asset_id": "spr_ryo_108",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/108.png"
+    },
+    {
+      "asset_id": "spr_ryo_113",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/113.png"
+    },
+    {
+      "asset_id": "spr_ryo_151",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/151.png"
+    },
+    {
+      "asset_id": "spr_ryo_152",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/152.png"
+    },
+    {
+      "asset_id": "spr_ryo_154",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/154.png"
+    },
+    {
+      "asset_id": "spr_ryo_155",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/155.png"
+    },
+    {
+      "asset_id": "spr_ryo_200",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/200.png"
+    },
+    {
+      "asset_id": "spr_ryo_201",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/201.png"
+    },
+    {
+      "asset_id": "spr_ryo_202",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/202.png"
+    },
+    {
+      "asset_id": "spr_ryo_204",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/204.png"
+    },
+    {
+      "asset_id": "spr_ryo_205",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/205.png"
+    },
+    {
+      "asset_id": "spr_ryo_207",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/207.png"
+    },
+    {
+      "asset_id": "spr_ryo_208",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/208.png"
+    },
+    {
+      "asset_id": "spr_ryo_300",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/300.png"
+    },
+    {
+      "asset_id": "spr_ryo_301",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/301.png"
+    },
+    {
+      "asset_id": "spr_ryo_302",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/302.png"
+    },
+    {
+      "asset_id": "spr_ryo_304",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/304.png"
+    },
+    {
+      "asset_id": "spr_ryo_306",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/306.png"
+    },
+    {
+      "asset_id": "spr_ryo_310",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/310.png"
+    },
+    {
+      "asset_id": "spr_ryo_320",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/320.png"
+    },
+    {
+      "asset_id": "spr_ryo_324",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/324.png"
+    },
+    {
+      "asset_id": "spr_ryo_325",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/325.png"
+    },
+    {
+      "asset_id": "spr_ryo_410",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/410.png"
+    },
+    {
+      "asset_id": "spr_ryo_420",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/420.png"
+    },
+    {
+      "asset_id": "spr_ryo_471",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/471.png"
+    },
+    {
+      "asset_id": "spr_ryo_472",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/472.png"
+    },
+    {
+      "asset_id": "spr_ryo_501",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/501.png"
+    },
+    {
+      "asset_id": "spr_ryo_502",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/502.png"
+    },
+    {
+      "asset_id": "spr_ryo_503",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/503.png"
+    },
+    {
+      "asset_id": "spr_ryo_550",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/550.png"
+    },
+    {
+      "asset_id": "spr_ryo_551",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/551.png"
+    },
+    {
+      "asset_id": "spr_ryo_552",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/552.png"
+    },
+    {
+      "asset_id": "spr_ryo_570",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/570.png"
+    },
+    {
+      "asset_id": "spr_ryo_606",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/606.png"
+    },
+    {
+      "asset_id": "spr_ryo_607",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/607.png"
+    },
+    {
+      "asset_id": "spr_ryo_608",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/608.png"
+    },
+    {
+      "asset_id": "spr_ryo_611",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/611.png"
+    },
+    {
+      "asset_id": "spr_ryo_612",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/612.png"
+    },
+    {
+      "asset_id": "spr_ryo_615",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/615.png"
+    },
+    {
+      "asset_id": "spr_ryo_700",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/700.png"
+    },
+    {
+      "asset_id": "spr_ryo_701",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/701.png"
+    },
+    {
+      "asset_id": "spr_ryo_702",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/702.png"
+    },
+    {
+      "asset_id": "spr_ryo_710",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/710.png"
+    },
+    {
+      "asset_id": "spr_ryo_730",
+      "version": "v001",
+      "source_path": "/res/sprite/ryo/730.png"
+    }
+  ],
+  "notes": "Build 2.11 exit 0; ROM 363774d9. Estado 570 terminal corrigido. Captura canônica legível e gate semântico passou; VLAB/VDP/runtime continuam pendentes."
+}

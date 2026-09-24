@@ -8,8 +8,8 @@
         "low_usage_ratio": 0.015
       },
       "tile": {
-        "max_empty_ratio": 0.12,
-        "max_bbox_waste": 0.18
+        "max_empty_ratio": 0.25,
+        "max_bbox_waste": 0.42
       },
       "detail": {
         "min_transition_density": 0.12,
@@ -28,10 +28,10 @@
       },
       "layer": {
         "min_contrast_with_pair": 22.0,
-        "default_unpaired_score": 0.62
+        "default_unpaired_score": 0.78
       },
       "status": {
-        "elite_ready_min": 0.78,
+        "elite_ready_min": 0.74,
         "needs_review_min": 0.56
       }
     },

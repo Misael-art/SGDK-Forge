@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T04:39:00Z",
+  "item_id": "P1-005",
+  "status": "completed",
+  "implementation": {
+    "schema": "tools/sgdk_wrapper/schemas/autonomy_ledger.schema.json",
+    "event_recorder": "tools/sgdk_wrapper/record_autonomy_event.py",
+    "metrics_deriver": "tools/sgdk_wrapper/derive_autonomy_metrics.py",
+    "regression": "tools/sgdk_wrapper/ci/test_autonomy_ledger.py",
+    "regression_result": "3_checks_passed"
+  },
+  "sample_session": {
+    "session_id": "remediation-20260720-p1",
+    "ledger": "doc/agent_learning/autonomy_ledger_2026-07-20.json",
+    "metrics": "doc/agent_learning/autonomy_metrics_report_2026-07-20.json",
+    "events_observed": 9,
+    "task_counts": {
+      "started": 3,
+      "completed": 2,
+      "blocked": 1,
+      "reworked": 1
+    },
+    "derived_rates": {
+      "completion_rate": 0.6667,
+      "blocked_task_rate": 0.3333,
+      "reworked_task_rate": 0.3333,
+      "first_attempt_success_rate": 0.5,
+      "autonomous_completion_rate": 1.0
+    },
+    "human_interventions": {
+      "total": 0,
+      "by_category": {},
+      "sensitive_content_stored": false
+    }
+  },
+  "privacy_and_claim_policy": {
+    "free_form_human_content_accepted": false,
+    "intervention_categories_are_allowlisted": true,
+    "rates_are_derived_from_events": true,
+    "quality_claim": "unproven",
+    "ready_for_aaa": false
+  },
+  "acceptance_checks": {
+    "task_lifecycle_events_recorded": true,
+    "human_interventions_classified_without_sensitive_content": true,
+    "rates_derived_not_manually_filled": true,
+    "metrics_cannot_promote_quality": true
+  }
+}

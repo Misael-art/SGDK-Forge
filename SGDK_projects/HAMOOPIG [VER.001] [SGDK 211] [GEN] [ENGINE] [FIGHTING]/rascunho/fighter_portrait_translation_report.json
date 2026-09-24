@@ -1,0 +1,73 @@
+{
+  "kind": "procedural_composed_from_authored",
+  "purpose": "native 24x24 identity portraits for the fight HUD",
+  "entries": [
+    {
+      "fighter": "ryo",
+      "source": "res/sprite/ryo/100.png",
+      "source_sha256": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b",
+      "crop_box_native": [
+        0,
+        0,
+        32,
+        40
+      ],
+      "output": "res/sprite/hud/portrait_ryo.png",
+      "output_sha256": "7ec8d019fca64aa65fc79605853598c8fb566006458954b5d9d0d58e5826db85",
+      "dimensions": [
+        32,
+        32
+      ],
+      "colors": 16
+    },
+    {
+      "fighter": "ken",
+      "source": "res/sprite/ken/100.png",
+      "source_sha256": "1d02ec90d351d99307f5749191ab168cc3de394bf01373eca04e3cf359dbf56d",
+      "crop_box_native": [
+        0,
+        0,
+        32,
+        40
+      ],
+      "output": "res/sprite/hud/portrait_ken.png",
+      "output_sha256": "fcb3c1f82387420e8c4773f2ba152c3d574fa01aaa0b1c2bfbb6dd2b90a32e47",
+      "dimensions": [
+        32,
+        32
+      ],
+      "colors": 15
+    },
+    {
+      "fighter": "musgo",
+      "source": "res/sprite/musgo/100.png",
+      "source_sha256": "1494773293da71edb6794c6c11860c14784ddb7f3bd3dc6b033fa6e903ee9ba1",
+      "crop_box_native": [
+        0,
+        0,
+        40,
+        48
+      ],
+      "output": "res/sprite/hud/portrait_musgo.png",
+      "output_sha256": "8570fef4a2782dc4e0d16652b52efed901c9e3e3727af25d2958b69989d61a30",
+      "dimensions": [
+        32,
+        32
+      ],
+      "colors": 15
+    }
+  ],
+  "special_segment": {
+    "source": "res/sprite/hud/energy_yellow_segment.png",
+    "source_sha256": "e5ea8fe079c0247b626ccc1925407881995f930c3cfe6c9b269f587b2a03e49c",
+    "output": "res/sprite/hud/special_blue_segment.png",
+    "output_sha256": "1dd1d3e1b64ae32fa0bb1ccf27cb97619eb3b611d2ecea50437e5759f7e94159",
+    "dimensions": [
+      32,
+      8
+    ],
+    "empty_palette_index": 9,
+    "filled_palette_index": 14,
+    "palette_role": "PAL1 opaque navy track plus bright-cyan fill"
+  }
+}

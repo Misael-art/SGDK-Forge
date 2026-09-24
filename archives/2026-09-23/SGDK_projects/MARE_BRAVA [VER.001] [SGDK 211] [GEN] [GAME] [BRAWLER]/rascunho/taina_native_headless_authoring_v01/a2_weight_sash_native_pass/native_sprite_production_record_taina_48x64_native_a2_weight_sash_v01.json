@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.3.0",
+  "asset_id": "taina_48x64_native_a2_weight_sash_v01",
+  "asset_kind": "sprite_single",
+  "source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "classification": "concept_high_res",
+    "approval_status": "approved_source"
+  },
+  "scale_contract": {
+    "status": "locked",
+    "target_width": 48,
+    "target_height": 64,
+    "selected_width": 48,
+    "selected_height": 64,
+    "probes": [
+      {
+        "width": 48,
+        "height": 64,
+        "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      },
+      {
+        "width": 64,
+        "height": 96,
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_64x96_challenger_b/taina_64x96_challenger_b.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      }
+    ]
+  },
+  "producer_output": {
+    "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png",
+    "role": "native_candidate",
+    "interaction_channel": "cli_headless",
+    "width": 48,
+    "height": 64,
+    "mode": "P",
+    "visible_rgb_colors": 12,
+    "alpha_values": [
+      0,
+      255
+    ]
+  },
+  "native_candidate": {
+    "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png",
+    "method": "authored_native_pixel",
+    "width": 48,
+    "height": 64,
+    "pixel_report": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/pixel_compliance_report.json",
+    "visual_evidence": {
+      "candidate_sha256": "041e6fd184bdff499f110075245be570f1597d9085689f7657ca2c55ed878ae0",
+      "native_1x": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/evidence/native_1x.png",
+      "nearest_preview": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/evidence/nearest_8x.png",
+      "light_background": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/evidence/light_background.png",
+      "dark_background": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/evidence/dark_background.png",
+      "chroma_background": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/evidence/chroma_background.png",
+      "preview_scale": 8,
+      "light_rgb": [
+        238,
+        238,
+        230
+      ],
+      "dark_rgb": [
+        28,
+        30,
+        38
+      ],
+      "chroma_rgb": [
+        238,
+        0,
+        238
+      ],
+      "human_approval": "doc/art/characters/taina/human_source_authoring_approval_v01.json"
+    },
+    "shape_block_contract": {
+      "silhouette_mask": {
+        "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/silhouette_mask.png",
+        "sha256": "62854f213ea561d2fe5647c17a72a39c4c6092a2ff30a1319cc1f5c8d97958c3",
+        "asset_id": "taina_48x64_native_a2_weight_sash_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png"
+      },
+      "semantic_region_map": {
+        "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/semantic_region_map.png",
+        "sha256": "0ea1c28fbe1804fd85d22815be4a3ccfd701291da6e9cadf08cbd080df002579",
+        "asset_id": "taina_48x64_native_a2_weight_sash_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png"
+      },
+      "contour_overlay": {
+        "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/contour_overlay.png",
+        "sha256": "8b810571c7a15f6520767244548078cc5a744bbf337b1a3cfb64142e1220515e",
+        "asset_id": "taina_48x64_native_a2_weight_sash_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png"
+      },
+      "required_semantic_regions": [
+        "head_or_face",
+        "hair",
+        "torso",
+        "arms_or_guard",
+        "hands",
+        "legs",
+        "feet",
+        "sash"
+      ],
+      "semantic_label_legend": {
+        "head_or_face": 1,
+        "hair": 2,
+        "torso": 3,
+        "arms_or_guard": 4,
+        "hands": 5,
+        "legs": 6,
+        "feet": 7,
+        "sash": 8
+      },
+      "semantic_label_counts": {
+        "head_or_face": 51,
+        "hair": 170,
+        "torso": 154,
+        "arms_or_guard": 83,
+        "hands": 21,
+        "legs": 326,
+        "feet": 57,
+        "sash": 60
+      },
+      "occupancy_metrics": {
+        "width": 48,
+        "height": 64,
+        "mode": "P",
+        "visible_colors": 12,
+        "filled_pixels": 922,
+        "canvas_pixels": 3072,
+        "occupancy_pct": 30.01,
+        "bbox": [
+          5,
+          2,
+          42,
+          61
+        ]
+      },
+      "bbox": [
+        5,
+        2,
+        42,
+        61
+      ]
+    }
+  },
+  "palette_contract": {
+    "max_visible_colors": 15,
+    "index0_role": "transparent0",
+    "outline_role": "single dark marine/purple ink",
+    "material_roles": [
+      "skin",
+      "orange_top",
+      "teal_wraps",
+      "indigo_trousers",
+      "sash"
+    ]
+  },
+  "gates": {
+    "semantic_parse": "passed",
+    "lineart": "passed",
+    "color_blocking": "passed",
+    "palette_lock": "passed",
+    "pixel_contract": "passed",
+    "native_visual": "in_progress",
+    "scale": "passed",
+    "budget": "passed",
+    "human": "in_progress",
+    "sgdk_integration": "not_started",
+    "emulator": "not_started"
+  },
+  "runtime_evidence": null,
+  "promotion": {
+    "promotable": false,
+    "target": "none"
+  },
+  "status": "native_authoring",
+  "next_action": "human_visual_decision_on_A1_or_A2; no_res_or_animation",
+  "provenance": {
+    "interaction_channel": "cli_headless",
+    "source_kind": "native_pixel",
+    "producer_identity": "explicit_pixel_patch_executor",
+    "action_log": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/native_pixel_edit_patch.json",
+    "human_approval": "doc/art/characters/taina/human_source_authoring_approval_v01.json"
+  },
+  "scale_report": {
+    "status": "passed",
+    "camera_width": 320,
+    "camera_height": 224,
+    "hitbox": "undeclared_requires_collision_contract",
+    "notes": "48x64 remains locked; 64x96 is comparison_only.",
+    "probes": "rascunho/taina_visual_challengers_v03/scale_budget_report_v03.json"
+  },
+  "budget_report": {
+    "status": "passed",
+    "tiles": 20,
+    "scanline_px": 248,
+    "notes": "budget_pass limited to static TAINA + four enemies; 3+3 is comparison_only."
+  },
+  "visual_report": {
+    "status": "pending",
+    "sha256": "041e6fd184bdff499f110075245be570f1597d9085689f7657ca2c55ed878ae0",
+    "notes": "native visual and human gates pending; source approval is not pose approval."
+  },
+  "incumbent": {
+    "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/taina_48x64_geometry_face_guard_v01.png",
+    "sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+    "role": "comparison_only"
+  },
+  "methodology_reference": {
+    "path": "rascunho/taina_visual_challenger_exercise_v01/exercise_record.json",
+    "sha256": "ad6b9606c775710994d65ca2a5f4a7e0ee10dfd4f97ae0f64e05c7b45cc7d874",
+    "role": "methodology_reference"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "recorded_at": "2026-08-30",
+  "asset_id": "taina_reseed_native_lineart_candidate_imagegen_v02",
+  "old_path": "data/source_art/concept/taina_pixel_model_sheet/rejected/taina_reseed_native_lineart_candidate_imagegen_v02.png",
+  "new_path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02.png",
+  "sha256": "70ea460cca819084cda5f2b439f3068afba8731e026fe52dbd56aee95276edc1",
+  "source_status": "approved_visual_construction_reference_not_native",
+  "technical_status": "rejected_not_native_grid_candidate",
+  "allowed_usage": ["construction_reference", "comparison_only", "not_direct_runtime_asset"],
+  "forbidden_usage": ["source_of_truth_for_native_pixels", "downscale", "quantize", "res_promotion", "runtime"],
+  "reason": "Human-approved visual direction is retained while the 1086x1448 RGB raster remains technically invalid as a native 48x64 sprite source.",
+  "preservation": "The original rejection decision and hash are preserved; only the path classification was reconciled."
+}

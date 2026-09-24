@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "boss_id": "master_pursuer",
+  "role": "final_boss_and_pressure_source",
+  "attack_pattern_contract": "doc/boss_attack_pattern_contract.json",
+  "weak_point_model": [
+    {"id": "left_horn", "function": "reduces lateral waves"},
+    {"id": "right_horn", "function": "reduces lane lock attacks"},
+    {"id": "front_hoof", "function": "reduces impact shockwaves"},
+    {"id": "chest_core", "function": "final Pulse target"}
+  ],
+  "route_readability_gate": "boss must never hide safe lane, active hazard or Pulse cue",
+  "visual_architecture_options": [
+    "sprite parts with pre-rendered stages",
+    "BG_A plane takeover during scripted windows",
+    "pre-rendered panel attack during control lock"
+  ],
+  "initial_decision": "start with boss approach, not full modular runtime",
+  "budget_decision": "cabe com recuo",
+  "required_reports_before_runtime": [
+    "sprite_scanline_pressure_report",
+    "vram_residency_report",
+    "palette_slot_audit",
+    "motion_phase_map"
+  ],
+  "fallback": "reduce boss to fewer stages and use background silhouette with sprite weak points"
+}

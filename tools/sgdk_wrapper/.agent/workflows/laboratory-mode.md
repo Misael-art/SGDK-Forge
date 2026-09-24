@@ -38,6 +38,11 @@ Nao use laboratorio para:
 
 - entregar jogo;
 - substituir BlastEm de gate;
+
+Tecnica extrema da barra viva (multiplex alem do SAT, 3D software, raycast,
+sprite doubler, plane-scroll experimental) **so existe aqui**, com
+`lab_not_delivery=true`. Nao vaza para `aaa_game` sem prova em ROM e
+aprovacao humana. Tetos: `doc/03_art/live_scene_bar_parameters.json`.
 - provar status `MESTRE_*`;
 - aplicar patch canonico;
 - corrigir producao sem atualizar docs do projeto real.

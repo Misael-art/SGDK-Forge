@@ -1,5 +1,11 @@
 # Mega Drive AAA Video Curation Changelog
 
+## Canonical animation artifact-bound gates — 2026-09-03
+
+- Hardened the canonical animation strip, motion-semantics and candidate entrypoints with artifact-bound source lineage, canonical registry bindings, report rederivation and validated human-decision report bindings.
+- Added physical adversarial animation packages and canonical test coverage for provenance, source-frame independence, visual-report subjects, action-specific principle evidence and tampered child reports.
+- Kept the animation branch non-promotable: no project `res/`, runtime, ROM or v04-v09 artifact is part of this curation change.
+
 Date: 2026-06-15
 
 Status: `candidate_applied_not_verified`

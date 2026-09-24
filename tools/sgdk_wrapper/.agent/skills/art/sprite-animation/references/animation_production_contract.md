@@ -21,9 +21,20 @@ Do not generate character images before these exist:
 - `hand_pose_keyframe_contract.md`: required when hands, claws, grips, weapons or gestures are readable in 320x224.
 - `visual_dna_manifest.json`: validates identity, palette, material, scale and forbidden drift using `tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json`.
 - `design_inheritance.json`: proves the strip inherits from an approved model sheet and does not use a benchmark as source art.
-- `animation_strip_contract.json`: one horizontal action strip validated by `tools/sgdk_wrapper/.agent/scripts/validate_strip.py`.
+- `animation_strip_contract.json`: one horizontal action strip validated by the central `tools/sgdk_wrapper/.agent/scripts/validate_animation_strip_artifact.py`.
+- `production_method` per action: `pose_to_pose`, `straight_ahead`, or `hybrid`.
+- `animation_principles_report.json`: planned before frames and closed after evidence; it covers the 12 canonical principles for every strip SHA.
 
 If any artifact is missing, status is `blocked_animation_planning`.
+
+New production uses `animation_strip_contract.schema_version=3.x`. Every strip
+must bind the actual PNG, canonical VBlank timing, motion profile, metasprite
+layout and `state_lineart_lineage` with path/SHA-256 of the approved native
+key-pose lineart and its authorized pose IDs. Versions 1.x/2.x are accepted only
+as legacy evidence. Follow `animation-validation-architecture.md` for the
+artifact, motion and aggregate gates. A mechanical route may provide one selected
+underlay before native authorship; it must never be selected independently per
+frame or be described as the author of a later redraw.
 
 Machine-readable examples live in `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/`.
 
@@ -42,21 +53,19 @@ Rules:
 - `animation_strip` must contain exactly one action. If it mixes idle, run, jump, attack or victory in one strip, status is `rejeitado_multi_action_sheet`.
 - `final_sprite_sheet` cannot be created from unaccepted strips.
 
-## Production passes
+## Production lifecycle
 
-1. `style_motion_reverse_engineering`: style as constraints, not copying.
-2. `model_sheet`: neutral stance front/side/back plus gameplay pose. Locks design.
-3. `turnaround_tracking_contract`: lines and volumes prove 3D consistency before motion.
-4. `key_poses`: idle, locomotion extremes, crouch/jump, anticipation, contact, hurt, victory.
-5. `motion_physics_contract`: mass, gravity, arcs, contact and inertia.
-6. `silhouette_blocking`: black/solid poses prove timing and action before color.
-7. `animation_strips`: one action per generation request. No full sheet yet.
-8. `state_transition_motion_contract`: bridges state changes before final assembly.
-9. `pixel_perfect_animation_pass`: line cleaning, jaggie removal, cluster motion and shading motion.
-10. `full_sheet_assembly`: only after accepted strips.
-11. `qa`: continuity, pivots, timing, overlays and budget.
+The only global sequence is `canonical-animation-lifecycle.md`. The former 11
+passes map into its stages 2, 4 and 6-11; they are not a second lifecycle. Native
+sprite P0-P5 are contained entirely by stage 4.
 
-Never generate a full production sheet before accepted model sheet and key poses.
+The 12 animation principles in `animation-principles-for-megadrive.md` are
+cross-cutting gates. They are not numbered production steps and cannot be
+replaced by pixel, palette, pivot, tile or budget compliance.
+
+Never generate a full production sheet before accepted model sheet and key
+poses. Never open the human candidate gate without a complete, hash-bound
+`animation_principles_report` whose status is `passed`.
 
 ## Continuity contract
 

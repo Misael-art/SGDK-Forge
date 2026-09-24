@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L085",
+  "date": "2026-09-15",
+  "topic": "hud_message_font_transparency",
+  "source": "runtime_hud_atlas_rebuild",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "O atlas compartilhado de mensagens preenchia cada célula com PAL1 preto, criando retângulos opacos atrás de ROUND/FIGHT/KO e interrompendo o cenário.",
+  "change": "rebuild_runtime_hud.py passou a preencher células e glyphs com índice 0 transparente; hud_message_update mantém painel preto somente no resultado de duas linhas. O comportamento foi compilado e capturado em BlastEm.",
+  "result": "Captura `visual_ko_20260915T105026Z/01_round.png` mostra ROUND 1 sobre o cenário sem faixa preta; teste de atlas confirma mais de 1.000 pixels transparentes.",
+  "limits": [
+    "a arte do cenário continua candidata pixelada e requer revisão visual independente",
+    "KO conserva contorno escuro autoral do glyph e o prompt de resultado conserva painel de contraste",
+    "não prova qualidade de mix de áudio nem pior-frame"
+  ],
+  "artifacts": [
+    "data/source_art/sf_hud/rebuild_runtime_hud.py",
+    "res/sprite/hud/message_font.png",
+    "src/hud.c",
+    "tests/test_hud_message_transparency.py",
+    "out/emulator_evidence/visual_ko_20260915T112945Z/manifest.json"
+  ],
+  "status": "documented_build_and_visual_probe_pass_review_pending"
+}

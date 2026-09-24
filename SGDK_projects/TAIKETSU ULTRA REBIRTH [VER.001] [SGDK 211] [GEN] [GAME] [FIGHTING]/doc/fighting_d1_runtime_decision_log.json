@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "d1_fighting_dma_probe_20260909",
+  "status": "observed_with_open_preload_and_art_blockers",
+  "scope": "scene_3_gameplay_probe",
+  "scene_owner": "src/scenes/scene_demo.c",
+  "rom_sha256": "a8ae5bea37ef1525725b6e3ea0299deb64318f79ba5f884bafa0dc2a3c1865d3",
+  "evidence_session_id": "blastem-linux-20260909T124600Z-1554938",
+  "loop_order": ["INPUT_update", "APP_update", "SPR_update", "SYS_doVBlankProcess"],
+  "dma_contract": {
+    "measurement_scope": "per-frame gameplay after 90-frame warmup exclusion",
+    "max_queue_transfer_bytes": 32,
+    "max_queue_entries": 1,
+    "max_transfer_capacity_bytes": 7200,
+    "peak_at_frame": 91,
+    "preload_max_queue_transfer_bytes": 1000,
+    "preload_max_queue_entries": 4,
+    "preload_max_transfer_capacity_bytes": 7200,
+    "preload_peak_at_frame": 1,
+    "preload_observation_count": 90,
+    "preload_streaming_status": "queue_state_observed_streaming_completeness_unproven"
+  },
+  "budget_decision": "cabe_com_recuo",
+  "claim_ceiling": "testado_em_emulador_scene_3_runtime_probe_only",
+  "ready_for_aaa": false,
+  "open_blockers": [
+    "final_native_fighter_art",
+    "animation_gate",
+    "scene_regression_matrix",
+    "audio_contextual_listen_and_arbitration",
+    "sustained_regional_performance",
+    "preload_streaming_completeness"
+  ]
+}

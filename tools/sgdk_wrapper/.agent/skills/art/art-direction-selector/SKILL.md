@@ -10,7 +10,8 @@ Esta skill impede que um projeto avance com "pixel art generico" por falta de de
 ## Ler antes de agir
 
 1. `tools/sgdk_wrapper/.agent/references/art_style_catalog.json`
-2. `doc/11-gdd.md`
+2. `tools/sgdk_wrapper/.agent/references/conception_agent_brief.md`
+3. `doc/11-gdd.md`
 3. `doc/13-spec-cenas.md`
 4. `doc/01_game_design/02_reference_pillars.md` quando existir
 5. `doc/03_art/00_art_bible.md` ou `doc/03_art/00_visual_quality_bar.md` quando existir

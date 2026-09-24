@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_idle_guard_pixel_perfect_pass_v02",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_idle_guard_v02",
+  "status": "passed_offline_and_observed_in_blastem_partial_evidence",
+  "scale_lock_check": {
+    "status": "passed",
+    "contract": "doc/art/characters/taina/animation/pivot_and_scale_contract_v02.json"
+  },
+  "line_cleaning_report": {
+    "status": "passed",
+    "antialiasing": false,
+    "purple_halo_pixels_removed": 11,
+    "double_corners_detected": false,
+    "orphan_pixels_detected": false
+  },
+  "subpixel_shading_motion_report": {
+    "status": "passed_offline",
+    "method": "existing palette clusters move internally without changing external silhouette",
+    "new_noise_colors": 0,
+    "silhouette_changed": false
+  },
+  "cluster_motion_review": {
+    "status": "passed_offline",
+    "order": ["torso", "hair", "sash"],
+    "independent_frame_redesign": false
+  },
+  "fake_pixel_art_rejection": {
+    "status": "passed",
+    "indexed_png": true,
+    "bit_depth": 4,
+    "plte_entries": 16,
+    "used_palette_indices": 11,
+    "visible_colors": 10,
+    "index_0_transparent": true,
+    "all_colors_on_9bit_grid": true,
+    "dimensions_multiple_of_8": true
+  },
+  "animation_preview_evidence": [
+    "doc/art/characters/taina/review/taina_idle_guard_native_preview_v02.gif",
+    "doc/art/characters/taina/review/taina_idle_guard_contact_sheet_8x_v02.png",
+    "doc/art/characters/taina/review/taina_idle_guard_pivot_overlay_8x_v02.png",
+    "doc/art/characters/taina/review/taina_idle_guard_onion_skin_f00_f02_8x_v02.png",
+    "out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/runtime_animation.gif",
+    "out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/screenshot.png"
+  ],
+  "remaining_blockers": [
+    "visual_vdp_dump_missing",
+    "sustained_performance_window_pending",
+    "scene_closeout_gate_missing"
+  ]
+}

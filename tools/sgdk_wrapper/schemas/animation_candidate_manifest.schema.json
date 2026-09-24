@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/animation_candidate_manifest.schema.json",
+  "title": "Animation Candidate Aggregate Manifest",
+  "type": "object",
+  "required": ["schema_version", "candidate_id", "quality_target", "requested_claim", "human_gate_open", "strips", "reports"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.1.0" },
+    "candidate_id": { "type": "string", "pattern": "^[a-z0-9_\\-]+$" },
+    "quality_target": { "type": "string", "enum": ["standard", "premium", "aaa"] },
+    "requested_claim": {
+      "type": "string",
+      "enum": ["technical_candidate", "motion_semantic_candidate", "human_review_candidate", "ready_for_res", "runtime_candidate", "ready_for_aaa"]
+    },
+    "human_gate_open": { "type": "boolean" },
+    "validator_fixture": { "type": "boolean" },
+    "delivery_claim_ceiling": { "type": "string", "enum": ["none", "concept", "lab", "exercise"] },
+    "strips": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["contract", "artifact_report", "motion_report"],
+        "properties": {
+          "contract": { "$ref": "#/definitions/binding" },
+          "artifact_report": { "$ref": "#/definitions/binding" },
+          "motion_report": { "$ref": "#/definitions/binding" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "reports": {
+      "type": "object",
+      "properties": {
+        "sprite_artifact": { "$ref": "#/definitions/binding" },
+        "fidelity": { "$ref": "#/definitions/binding" },
+        "art_direction": { "$ref": "#/definitions/binding" },
+        "blind_visual_review": { "$ref": "#/definitions/binding" },
+        "animation_principles": { "$ref": "#/definitions/binding" },
+        "human_decision": { "$ref": "#/definitions/binding" },
+        "budget": { "$ref": "#/definitions/binding" },
+        "runtime": { "$ref": "#/definitions/binding" }
+      },
+      "additionalProperties": false
+    },
+    "authorized_cross_action_frame_reuse": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["frame_mask_sha256", "reason"],
+        "properties": {
+          "frame_mask_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "reason": { "type": "string", "minLength": 3 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "definitions": {
+    "binding": {
+      "type": "object",
+      "required": ["path", "sha256", "subject_sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "subject_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

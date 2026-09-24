@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "required_scene_api": ["enter", "update", "exit"],
+  "transition_mutex_policy": "no reentry during fade, load, unload or scene id switch",
+  "fade_and_flush_sequence": ["lock_input", "stop_scene_updates", "fade_or_hold", "release_sprites", "clear_window", "reset_scroll", "load_next_resources", "unlock_input"],
+  "callback_reset_report_required": true,
+  "flow_contract": "doc/game_flow_contract.json",
+  "regression_cases": ["double_start_press", "pause_during_transition", "return_to_menu", "restart_after_result", "open_credits_from_title", "credits_return_to_title", "pause_resume_race", "game_over_integrity_zero", "continue_retry_sector"]
+}

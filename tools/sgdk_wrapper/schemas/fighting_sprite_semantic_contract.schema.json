@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sgdk_wrapper/schemas/fighting_sprite_semantic_contract.schema.json",
+  "title": "Fighting full-body sprite semantic contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "asset_id",
+    "profile",
+    "project_identity",
+    "source_assets",
+    "scale_rule",
+    "candidate",
+    "claim_ceiling"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "fighting_sprite_semantic_contract"},
+    "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "profile": {"const": "fighting_full_body_sprite"},
+    "project_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_directory_name"],
+      "properties": {
+        "canonical_directory_name": {"type": "string", "minLength": 1}
+      }
+    },
+    "source_assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "semantic_role", "classification", "allowed_use", "promotable"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "semantic_role": {
+            "enum": [
+              "fighter_full_body_frame_or_strip",
+              "identity_model_sheet",
+              "visual_translation_source",
+              "portrait",
+              "icon",
+              "hud_icon",
+              "mechanical_underlay",
+              "diagnostic_map"
+            ]
+          },
+          "classification": {
+            "enum": [
+              "hand_authored_pixel",
+              "native_pixel",
+              "ai_generated_high_res",
+              "photo_or_render_derived",
+              "procedural_code_probe",
+              "diagnostic_only"
+            ]
+          },
+          "allowed_use": {
+            "enum": [
+              "identity_authority",
+              "visual_translation",
+              "scale_reference",
+              "underlay_only",
+              "diagnostic_only",
+              "comparison_only"
+            ]
+          },
+          "promotable": {"type": "boolean"}
+        }
+      }
+    },
+    "scale_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operator", "multiplier", "declared_minimum_visible_height_px", "gdd_binding", "references"],
+      "properties": {
+        "operator": {"const": "gte_ceil_multiplier_of_max_reference_visible_height"},
+        "multiplier": {"type": "number", "exclusiveMinimum": 0},
+        "declared_minimum_visible_height_px": {"type": "integer", "minimum": 1},
+        "gdd_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "rule_id", "formula_marker"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "rule_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+            "formula_marker": {"type": "string", "minLength": 1}
+          }
+        },
+        "references": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256", "semantic_role", "cell_width", "cell_height"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "semantic_role": {"enum": ["fighter_full_body_frame_or_strip", "portrait", "icon", "hud_icon"]},
+              "cell_width": {"type": "integer", "minimum": 1},
+              "cell_height": {"type": "integer", "minimum": 1}
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "declared_width", "declared_height"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "declared_width": {"type": "integer", "minimum": 1},
+            "declared_height": {"type": "integer", "minimum": 1}
+          }
+        }
+      ]
+    },
+    "claim_ceiling": {"const": "semantic_scale_gate_only"}
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/bonsai_license_ack.schema.json",
+  "title": "Bonsai License Acknowledgement",
+  "description": "Ack humano obrigatoria antes de qualquer uso do Bonsai-Image-Demo. Validado por _load_license_ack; sem este arquivo valido o gate de license bloqueia.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "model_license",
+    "output_license",
+    "usage_policy",
+    "allowed_scopes",
+    "approver",
+    "approval_date",
+    "evidence_url"
+  ],
+  "properties": {
+    "model_license": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador da licenca do modelo (ex.: bonsai-research-license)."
+    },
+    "output_license": {
+      "type": "string",
+      "minLength": 1
+    },
+    "usage_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowed_scopes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "concept_art",
+          "tileset_concept",
+          "dither_mask",
+          "contrast_study",
+          "animated_sprite_final",
+          "hud_final",
+          "res_direct",
+          "aaa_final_asset"
+        ]
+      },
+      "description": "Escopos aprovados pelo humano. Escopos proibidos (animated_sprite_final, hud_final, res_direct, aaa_final_asset) tornam o ack invalido."
+    },
+    "approver": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nome/identificacao do humano que aprovou."
+    },
+    "approval_date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "evidence_url": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/generation_channel_decision.schema.json",
+  "title": "Generation Channel Decision",
+  "description": "Registro da decisao de canal de geracao visual. Emitido por imagegen_tool.py --json route e pelo circuit (imagegen_circuit.py preflight). Campos de arvore de 3 ramos (secao 38) sao obrigatorios quando o AGENTE emite a decisao; opcionais no output bruto da CLI.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "timestamp",
+    "native_preflight",
+    "selected_source",
+    "rationale"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "native_preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["callable", "inline", "fallback_only"],
+      "properties": {
+        "callable": {
+          "type": "boolean"
+        },
+        "inline": {
+          "type": "boolean"
+        },
+        "fallback_only": {
+          "type": "boolean"
+        },
+        "detection": {
+          "type": "string"
+        }
+      }
+    },
+    "selected_source": {
+      "enum": [
+        "native_chat_image_generation_callable",
+        "native_chat_inline_generation",
+        "api_cli_generation",
+        "deck_safe_sd15",
+        "sdxl_lowvram",
+        "cpu_fallback",
+        "flux_schnell_gguf",
+        "bonsai_4b_ternary",
+        "bonsai_4b_binary",
+        "local_install_required",
+        "license_blocked",
+        "blocked_host_capability",
+        "scope_blocked",
+        "blocked"
+      ]
+    },
+    "profile_used": {
+      "type": ["string", "null"]
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "agent_native_probe_attempted": {
+      "type": "boolean",
+      "description": "Secao 38: sonda real de canal nativo executada nesta sessao antes da decisao."
+    },
+    "host_readiness_probed": {
+      "type": "boolean",
+      "description": "Status/healthcheck do perfil recomendado rodados antes da decisao."
+    },
+    "capability_state": {
+      "enum": ["capaz_com_prova_agora", "capaz_apos_preparo_medido", "nao_capaz_neste_host"]
+    },
+    "outcome_branch": {
+      "enum": ["A_generate_now", "B_host_fallback", "C_successor_directive"]
+    },
+    "successor_directive_emitted": {
+      "type": "boolean",
+      "description": "Obrigatoriamente true quando outcome_branch=C_successor_directive. Aponta para successor_asset_directive.schema.json."
+    },
+    "successor_directive_path": {
+      "type": ["string", "null"],
+      "description": "Caminho do artefato successor_asset_directive emitido no Ramo C. Somente se existir."
+    },
+    "blocked_image_tooling": {
+      "type": "boolean"
+    },
+    "procedural_generation_used_as_asset_source": {
+      "const": false,
+      "description": "procedural_renderer nunca satisfaz entrega final AAA."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome_branch": {
+            "const": "C_successor_directive"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "successor_directive_emitted": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
+}

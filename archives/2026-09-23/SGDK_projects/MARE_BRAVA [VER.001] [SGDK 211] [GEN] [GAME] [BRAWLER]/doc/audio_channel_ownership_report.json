@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_audio_ownership_cais01_v01",
+  "scene_id": "cais_01",
+  "status": "passed_with_blocked_assets",
+  "driver": "xgm2",
+  "ownership_source": "doc/audio_architecture_card.json",
+  "single_owner_verified": true,
+  "direct_gameplay_psg_fm_writes": false,
+  "pcm_concurrency_max": 2,
+  "issues": [{"code": "stage_audio_source_missing", "severity": "blocker", "message": "Ownership esta definido, mas a faixa e os stingers do gameplay ainda nao existem."}]
+}

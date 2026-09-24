@@ -1,0 +1,41 @@
+{
+  "artifact_kind": "aaa_pipeline_gate_report",
+  "scope": "workspace_consulting_audit",
+  "status": "not_demonstrated",
+  "ready_for_aaa": false,
+  "runtime_executed_this_audit": false,
+  "independent_review_complete": false,
+  "claims": [
+    {
+      "claim": "reproducible_build",
+      "owner": "operation/sgdk-build-wrapper-operator",
+      "artifact": "tools/sgdk_wrapper/build_sgdk_wine_bridge.sh",
+      "status": "needs_review"
+    },
+    {
+      "claim": "measurement_trust",
+      "owner": "hardware/megadrive-vdp-budget-analyst",
+      "artifact": "measurement_tools_report.json",
+      "status": "blocked"
+    },
+    {
+      "claim": "aaa_visual_slice",
+      "owner": "art/visual-excellence-standards",
+      "artifact": "diagnostico_e_plano_aaa_e2e.md",
+      "status": "not_demonstrated"
+    },
+    {
+      "claim": "complete_game",
+      "owner": "governance/aaa-pipeline-guardian",
+      "artifact": "project_inventory.json",
+      "status": "not_demonstrated"
+    }
+  ],
+  "next_actions": [
+    "M0",
+    "M1",
+    "M2",
+    "M3"
+  ],
+  "note": "Diagnostico documental; sem promocao de ROM ou tecnica."
+}

@@ -1,8 +1,8 @@
 interface:
   display_name: "Art Direction Selector"
-  short_description: "Escolhe direcao estetica canonica antes da arte"
+  short_description: "Escolhe direcao estetica e brief de concept art"
   brand_color: "#7A4DD8"
-  default_prompt: "Use $art-direction-selector para escolher, registrar ou corrigir a direcao estetica antes de gerar, buscar, converter ou julgar arte visual."
+  default_prompt: "Use $art-direction-selector para escolher, registrar ou corrigir direcao estetica e concept_art_direction_brief antes de gerar, buscar, converter ou julgar arte visual."
 policy:
   allow_implicit_invocation: false
 dependencies:

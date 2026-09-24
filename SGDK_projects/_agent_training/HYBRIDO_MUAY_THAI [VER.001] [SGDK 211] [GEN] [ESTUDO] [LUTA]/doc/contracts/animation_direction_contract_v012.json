@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_ai_animation_v012",
+  "status": "advanced_ai_sprite_sheet_vdp_candidate",
+  "cell_px": [
+    96,
+    96
+  ],
+  "pivot_px": [
+    48,
+    88
+  ],
+  "ground_y": 88,
+  "runtime_actions": [
+    {
+      "id": "idle",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "walk_step",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "guard_block",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "jab",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "knee",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "teep",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "hurt",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    }
+  ],
+  "evidence": {
+    "sprite_sheet": "data/processed/spritesheets/hibrido_fighter_ai_sprite_sheet_96x96_v012.png",
+    "pivot_overlay": "data/processed/reports/hibrido_fighter_ai_pivot_overlay_v012.png",
+    "motion_preview": "data/processed/reports/hibrido_fighter_ai_motion_preview_v012.gif",
+    "stage_sprite_mockup": "data/processed/reports/hibrido_v012_runtime_stage_sprite_mockup.png",
+    "delivery_board": "data/processed/reports/hibrido_v012_ai_delivery_board.png"
+  }
+}

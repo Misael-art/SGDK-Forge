@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "scene_role": "cutscene",
+  "status": "planned",
+  "cutscene_mode": "mixed",
+  "fsm_script": "doc/contracts/race_start_handoff_fsm_script.json",
+  "resource_plan": "doc/contracts/race_start_handoff_resource_plan.json",
+  "panel_layout": "doc/contracts/race_start_handoff_panel_layout.json",
+  "palette_script": "doc/contracts/race_start_handoff_palette_script.json",
+  "text_timing_map": "doc/contracts/race_start_handoff_text_timing_map.json",
+  "glyph_manifest": "doc/glyph_manifest.json",
+  "advance_model": "WAIT_FRAMES",
+  "teardown_plan": "doc/contracts/race_start_handoff_teardown_plan.json",
+  "evidence_plan": "doc/contracts/race_start_handoff_evidence_plan.json",
+  "uses_fullscreen_bitmap": false,
+  "dynamic_fx": ["letterbox_retract", "hud_enter"],
+  "cinematic_storyboard_contract": "doc/contracts/race_start_handoff_cinematic_storyboard_contract.json",
+  "status_limit": "documentado_until_scene_route_exists"
+}

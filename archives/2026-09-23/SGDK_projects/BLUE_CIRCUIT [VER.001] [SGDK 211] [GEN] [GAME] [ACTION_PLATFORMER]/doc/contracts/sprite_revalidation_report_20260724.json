@@ -1,0 +1,64 @@
+{
+  "schema": "sprite_revalidation_report.v1",
+  "generated_at": "2026-07-24T03:50:00Z",
+  "asset_id": "blue_circuit_player_v002",
+  "status": "sprite_visual_pass",
+  "scope": "24x32 player sprite artifact, offline animation evidence and static runtime integration",
+  "supersedes": {
+    "report": "doc/contracts/sprite_strip_rejection_report_20260723.json",
+    "old_strip_status": "technical_pass_visual_fail",
+    "reuse_allowed": false
+  },
+  "artifact_audit": {
+    "report": "out/logs/sprite_artifact_report.json",
+    "status": "passed",
+    "frames_checked": 14,
+    "blocking_findings": 0,
+    "mandatory_checks": [
+      "edge_clipping",
+      "detached_islands",
+      "anatomy",
+      "pivot_stability",
+      "foot_contact",
+      "frame_delta"
+    ]
+  },
+  "source_lineage": {
+    "model_sheet": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+    "model_sheet_sha256": "7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+    "key_pose_reference": "data/source_art/key_poses/blue_circuit_key_pose_reference_v002.png",
+    "cell_size": [24, 32]
+  },
+  "animation_evidence": {
+    "contact_sheet": "out/evidence/sprite_rework_20260723/blue_player_contact_sheet_v002.png",
+    "run": "out/evidence/sprite_rework_20260723/animations/run.gif",
+    "shoot": "out/evidence/sprite_rework_20260723/animations/shoot.gif",
+    "jump": "out/evidence/sprite_rework_20260723/animations/jump.gif",
+    "idle": "out/evidence/sprite_rework_20260723/animations/idle.gif"
+  },
+  "build": {
+    "status": "buildado",
+    "report": "out/logs/linux_wine_build_report.json",
+    "rom": "out/rom.bin",
+    "rom_sha256": "b2fbb1bcc916bd30e26693064e4d5371df7ede2216b72b0a85dd6700c022e0b5",
+    "rom_size_bytes": 262144
+  },
+  "blastem": {
+    "status": "ok",
+    "session_id": "blastem-linux-20260724T034450Z-505289",
+    "session_root": "out/evidence/blastem_revalidation_20260723/blastem-linux-20260724T034450Z-505289",
+    "scene_id": 3,
+    "screenshot_sha256": "253dceec2882459fb1e0fa81d42e256c48d60ca3b39d5d8e6f0a7aa491267989",
+    "save_sram_sha256": "128498f3b74f0dc7489288b86c4475b9869d2355ee63eea40ad6451abd4cac03",
+    "visual_vdp_dump_sha256": "9ae53fd0113fffd5436bbae5b0e9523fbc13f52a640f233fc29c1db988e2d5a3",
+    "same_session": true,
+    "blockers": []
+  },
+  "decision": {
+    "technical_pass": true,
+    "visual_pass": true,
+    "ready_for_res_promotion": true,
+    "ready_for_aaa": false,
+    "claim_limit": "The fresh BlastEm session proves the new sprite is integrated and visible in scene 3. Run, shoot and jump motion quality is evidenced by the exact-asset GIFs and contact sheet, not by interactive emulator captures. No hardware-real or full-game visual claim is made."
+  }
+}

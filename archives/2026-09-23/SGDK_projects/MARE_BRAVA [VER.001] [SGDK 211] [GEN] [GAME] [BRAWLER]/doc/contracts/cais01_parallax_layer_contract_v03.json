@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "status": "implemented_pending_emulator_evidence",
+  "owner": "SCENE_demo",
+  "mode": "HSCROLL_LINE",
+  "layers": [
+    {
+      "lines": "0..47",
+      "role": "upper_sky",
+      "camera_ratio": "1/8"
+    },
+    {
+      "lines": "48..79",
+      "role": "far_city",
+      "camera_ratio": "1/4"
+    },
+    {
+      "lines": "80..111",
+      "role": "near_city",
+      "camera_ratio": "1/2"
+    },
+    {
+      "lines": "112..159",
+      "role": "water",
+      "camera_ratio": "1/4_plus_wave"
+    },
+    {
+      "plane": "BG_A",
+      "role": "playfield",
+      "camera_ratio": "1/1"
+    }
+  ],
+  "teardown": "restore HSCROLL_PLANE and zero BG_A/B before scene transition",
+  "fallback": "HSCROLL_PLANE with BG_A full camera and BG_B quarter camera"
+}

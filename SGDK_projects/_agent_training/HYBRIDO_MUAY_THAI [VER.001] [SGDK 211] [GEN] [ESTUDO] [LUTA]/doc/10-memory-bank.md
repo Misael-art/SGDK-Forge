@@ -2,18 +2,18 @@
 ## 0. Estado Derivado dos Artefatos
 
 - Fonte: `doc/changelog` + `validation_report.json`
-- Ultima sincronizacao: `2026-06-14T06:29:54.1657419-03:00`
+- Ultima sincronizacao: `2026-06-15T00:32:30.5870586-03:00`
 - Changelog canonico: `doc/changelog/changelog.md`
-- Assets versionados rastreados: 7
-- Ultimo build versionado: build_v006
-- ROM vigente: `9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566` (`131072` bytes)
-- Validation summary: errors=0 warnings=10
-- Blockers vigentes: gdd_substantial_insufficient, visual_gate_blocked, visual_direction_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
-- Evidencia de emulador: session_not_captured
+- Assets versionados rastreados: 11
+- Ultimo build versionado: build_v009
+- ROM vigente: `c83ccec0cd2c0c5b9fc29bbceab333ec49463883482a4a32d7da4a141112a363` (`262144` bytes)
+- Validation summary: errors=0 warnings=6
+- Blockers vigentes: gdd_substantial_insufficient, visual_gate_blocked, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Evidencia de emulador: rom_identity_mismatch
 - Gate visual: visual_lab_aprovado=False
 - Gate gameplay: gameplay_rom_aprovada=False
 - Gate AAA: ready_for_aaa=False
-- QA runtime: gameplay=nao_testado performance=nao_testado audio=nao_testado hardware_real=nao_testado
+- QA runtime: gameplay=visual_viewer_loaded performance=not_measured_60fps audio=ok_no_audio_resources_declared hardware_real=blastem_reference_emulator
 <!-- SGDK GENERATED STATUS END -->
 ## 2026-06-07 - Retomada v002 HYBRIDO MUAY THAI
 
@@ -424,3 +424,32 @@
   - `audit_project_learning.ps1 -Mode Capture`: 18 licoes, 18 candidatos,
     `canonical_promotion_performed=false`.
 
+## 2026-06-15 - Fluxo ASCII pedagogico de versoes e decisoes visuais
+
+- Pedido humano: registrar em fluxograma/fluxo ASCII a sintaxe de decisao para
+  tudo que foi produzido ate agora, por versao, marcando toda intervencao
+  humana e a regra que levou para a proxima versao.
+- Novo documento:
+  - `doc/visual_version_decision_flow_ascii.md`.
+- Escopo do documento:
+  - cobre v001 a v012;
+  - diferencia `OK_TECNICO`, `OK_VISUAL`, `SOURCE`, `RUNTIME`, `BLOCKER`,
+    `HUMAN` e `NEXT`;
+  - registra reprovacoes humanas v002, v003, v005, v006, v009, v011 e a
+    intervencao humana recente que exigiu fontes visuais avancadas para v012;
+  - registra que v012 e candidato visual/VDP, mas ainda nao e entrega AAA.
+- Estado honesto preservado:
+  - nenhum novo asset visual foi gerado por este pedido;
+  - o documento registra o ajuste local pos-v012 em andamento:
+    `stage unique tiles 1066 -> 996` e reserva de sprites ajustada para
+    `SPR_initEx(420)`, ainda pendente de rebuild/validacao/emulador;
+  - `ready_for_aaa=false` ate BlastEm fresco, `visual_vdp_dump.bin`, metricas
+    60fps e review humano.
+- Validacao documental apos o fluxo:
+  - `validate_project_context`: status ok, contexto `exercise`, blockers=0;
+  - `validate_project_methodology`: passed, blockers=0;
+  - `validate_project_hygiene`: passed, blockers=0;
+  - `res_graph_audit`: PASS, 11 declaracoes OK;
+  - `validate_resources`: errors=0, warnings=8, checked=11;
+  - `freshness_audit`: warning com `build_output` stale, esperado porque o
+    ajuste de VRAM v012 ainda nao foi rebuilado nesta entrada documental.

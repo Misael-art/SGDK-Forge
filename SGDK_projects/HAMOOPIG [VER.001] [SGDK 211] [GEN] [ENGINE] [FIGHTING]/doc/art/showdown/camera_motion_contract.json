@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "showdown_park",
+  "source_kind": "arcade_study_placeholder",
+  "ip_status": "capcom_xmvsf_study_not_delivery",
+  "claim_ceiling": "compare_flat_runtime_prototype",
+  "mugen_camera": {
+    "boundleft": -224,
+    "boundright": 224,
+    "boundhigh": -240,
+    "boundlow": 0,
+    "verticalfollow": 0.5,
+    "tension": 50,
+    "zoffset": 215
+  },
+  "mugen_layers": [
+    {
+      "id": "BG0",
+      "delta": [
+        0.43,
+        0.285
+      ],
+      "role": "far_sky_city"
+    },
+    {
+      "id": "BG1",
+      "delta": [
+        0.71,
+        0.635
+      ],
+      "role": "mid_trees_bridge",
+      "mask": true
+    },
+    {
+      "id": "BG2",
+      "delta": [
+        0.71,
+        0.635
+      ],
+      "role": "water_anim_skipped_gif_rgb_identical"
+    },
+    {
+      "id": "BG3",
+      "delta": [
+        1.0,
+        1.0
+      ],
+      "role": "foreground_rocks"
+    }
+  ],
+  "md_runtime": {
+    "plane": "BG_B",
+    "palette": "PAL0",
+    "width": 512,
+    "height": 256,
+    "h_travel_px": 192,
+    "v_travel_px": 32,
+    "verticalfollow": 0.5,
+    "parallax_executed": false,
+    "flatten_reason": "resident comparison route; 1629 source tiles reduced to 768 source representatives; layer separation and streaming not implemented",
+    "conversion_report": "res/gfx/showdown.json",
+    "pixel_block_size": 1,
+    "stage_resident_tiles": 768,
+    "hud_resident_tiles_including_messages": 249,
+    "first_tile": 1,
+    "first_free_tile": 1018,
+    "sprite_region_start": 1020,
+    "sprite_region_tiles": 420,
+    "next_step_832_static_total": 1082,
+    "next_step_832_status": "rejected_static_overlap_62_tiles"
+  }
+}

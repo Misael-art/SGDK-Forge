@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "domains": {
+    "PAL0": "background sky/depth",
+    "PAL1": "panel/cutscene art",
+    "PAL2": "Lio/Lumen sprites",
+    "PAL3": "text and accent"
+  },
+  "events": [
+    {"state_id": "OP_01_LIGHTHOUSE_WIDE", "event": "crack_warmth"},
+    {"state_id": "OP_03_CORE_INSERT", "event": "lumen_pulse"},
+    {"state_id": "OP_04_HART_SHADOW", "event": "short_flash"},
+    {"state_id": "OP_05_GATE_BREAK", "event": "race_palette_bridge"}
+  ],
+  "fallback": "static palette per state"
+}

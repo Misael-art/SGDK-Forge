@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "parallax_layer_contract_v001",
+  "generated_at": "2026-06-14T07:53:00-03:00",
+  "study_status": {
+    "context_type": "exercise",
+    "lab_not_delivery": true,
+    "ready_for_aaa": false
+  },
+  "source": {
+    "def_path": "rascunho/inputs/showdown.def",
+    "reconstruction_report": "analysis/reconstruction.json",
+    "existing_export_meta": "work/sgdk_bins/showdown_export_meta.json"
+  },
+  "layer_truth_from_def": [
+    {
+      "mugen_bg_id": 0,
+      "kind": "normal",
+      "sprite": "0,0",
+      "start": {
+        "x": 0,
+        "y": 240
+      },
+      "delta": {
+        "x": 0.43,
+        "y": 0.285
+      },
+      "mask": 0,
+      "role": "sky_and_distant_buildings",
+      "depth_class": "far_background"
+    },
+    {
+      "mugen_bg_id": 1,
+      "kind": "normal",
+      "sprite": "1,0",
+      "start": {
+        "x": 0,
+        "y": 240
+      },
+      "delta": {
+        "x": 0.71,
+        "y": 0.635
+      },
+      "mask": 1,
+      "role": "midground_water_bridge_vegetation",
+      "depth_class": "midground"
+    },
+    {
+      "mugen_bg_id": 2,
+      "kind": "anim",
+      "actionno": 2,
+      "start": {
+        "x": 0,
+        "y": 240
+      },
+      "delta": {
+        "x": 0.71,
+        "y": 0.635
+      },
+      "mask": 0,
+      "role": "animated_midground_water_or_reflection",
+      "depth_class": "midground_animation"
+    },
+    {
+      "mugen_bg_id": 3,
+      "kind": "normal",
+      "sprite": "3,0",
+      "start": {
+        "x": 0,
+        "y": 240
+      },
+      "delta": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "mask": 1,
+      "role": "foreground_floor_rocks",
+      "depth_class": "foreground_floor"
+    }
+  ],
+  "route_a_multi_plane": {
+    "intent": "Preserve real depth on Mega Drive within a lab viewer by splitting the MUGEN layer roles instead of flattening the whole stage into one BG_A world.",
+    "sgdk_mapping": {
+      "BG_B": {
+        "layers": [
+          0
+        ],
+        "scroll_delta": {
+          "x": 0.43,
+          "y": 0.285
+        },
+        "role": "distant sky/buildings; lower detail and lower visual competition",
+        "palette_role": "sky_and_distant_buildings",
+        "streaming": "allowed if resident far plane exceeds safe tile budget"
+      },
+      "BG_A": {
+        "layers": [
+          1,
+          2
+        ],
+        "scroll_delta": {
+          "x": 0.71,
+          "y": 0.635
+        },
+        "role": "midground water/reflections/vegetation/bridge",
+        "palette_role": "water_reflections_and_vegetation",
+        "priority_split": "allowed for local floor/rock tiles only when BG3 is merged as fallback"
+      },
+      "foreground_strategy": {
+        "preferred": "sprite_graft_or_priority_band_for_BG3",
+        "delta": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "role": "floor and rocks tied to fight anchor",
+        "acceptance": "must keep zoffset floor readable; must not be sold as third hardware BG plane"
+      },
+      "BG2_animation_policy": {
+        "default": "static_first_frame_for_evidence",
+        "reason": "Full-frame reload caused tearing in the existing viewer.",
+        "allowed_future": "incremental tile animation or double-buffered update with VBlank/DMA budget report"
+      },
+      "line_scroll": {
+        "allowed": true,
+        "owner": "showdown_scene_runtime",
+        "use": "optional per-line horizontal offsets to keep BG3 floor band at 1.0 while midground reads at 0.71",
+        "constraints": [
+          "single HScroll owner",
+          "integer final offsets",
+          "no WINDOW as fake third plane"
+        ]
+      }
+    },
+    "status": "implemented_in_current_rom_as_route_a_window_streaming",
+    "budget_status": "documented_and_bin_audited_but_not_validado_budget_without_visual_vdp_dump",
+    "current_runtime_evidence": {
+      "export_meta": "work/sgdk_bins/showdown_export_meta.json",
+      "comparison_board": "work/diagnostics/showdown_recovery_comparison_v001.png",
+      "blastem_screenshot": "sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png",
+      "blastem_sram": "sgdk_viewer/showdown_viewer/out/evidence/blastem/save.sram",
+      "vdp_contract_audit": "analysis/showdown_vdp_contract_audit_v001.json",
+      "visual_vdp_dump": null
+    },
+    "current_runtime_budget": {
+      "unique_tiles": 2870,
+      "max_window_unique_tiles_with_bg_b_cull": 1174,
+      "max_window_unique_tiles_without_bg_b_cull": 1630,
+      "streaming_cache_capacity_tiles": 1190,
+      "tile_data_vram_end_exclusive": 38592,
+      "first_tilemap_vram": 49152,
+      "status": "fits_documented_vram_layout"
+    }
+  },
+  "route_b_compare_flat_degraded": {
+    "intent": "Keep the existing single-plane streaming viewer as a comparison and budget fallback.",
+    "sgdk_mapping": {
+      "BG_A": {
+        "layers": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "scroll_delta": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "strategy": "tile_graphics_and_tilemap_window_streaming"
+      },
+      "line_scroll_repair": {
+        "status": "implemented_partial_in_current_rom",
+        "mode": "BG_A HSCROLL_LINE",
+        "row_multicamera_bands": {
+          "far": {
+            "screen_y_lt": 72,
+            "x_delta": "43/100",
+            "y_delta": "285/1000"
+          },
+          "mid": {
+            "screen_y_lt": 176,
+            "x_delta": "71/100",
+            "y_delta": "635/1000"
+          },
+          "floor": {
+            "screen_y_gte": 176,
+            "x_delta": "1/1",
+            "y_delta": "1/1"
+          }
+        },
+        "water": {
+          "screen_y_range": [
+            88,
+            176
+          ],
+          "effect": "lower reflection lines get additional horizontal offset during camera movement"
+        },
+        "claim_limit": "does not become route_a_multi_plane because all art still streams through BG_A"
+      },
+      "BG_B": "unused",
+      "WINDOW": "not used as fake scenery plane"
+    },
+    "status_if_chosen": "lab_flattened_reference",
+    "explicit_blockers": [
+      "flattened_mugen_parallax",
+      "does_not_preserve_BG0_BG1_BG2_BG3_delta_contract"
+    ],
+    "not_allowed_labels": [
+      "elite_ready",
+      "visual_approved",
+      "ready_for_aaa"
+    ],
+    "observed_in_current_rom": true,
+    "observed_evidence": "work/diagnostics/showdown_recovery_comparison_v001.png",
+    "current_runtime_notes": [
+      "flat BG_A route now has a dual-focus camera fixture and vivid anchor palette",
+      "row-multicamera line scroll provides partial depth repair inside BG_A",
+      "BG0/BG1/BG2/BG3 deltas remain flattened",
+      "water line scroll exists but lacks moving-camera BlastEm capture",
+      "this route remains lab_flattened_reference"
+    ]
+  },
+  "acceptance_checks": {
+    "must_compare_routes": true,
+    "must_show_source_export_blastem_side_by_side": true,
+    "must_report_if_fallback_chosen": "lab_flattened_reference",
+    "must_not_use_window_as_third_plane": true,
+    "must_not_flatten_and_call_final": true
+  },
+  "status": "blocked_rework_required_current_runtime_is_flat"
+}

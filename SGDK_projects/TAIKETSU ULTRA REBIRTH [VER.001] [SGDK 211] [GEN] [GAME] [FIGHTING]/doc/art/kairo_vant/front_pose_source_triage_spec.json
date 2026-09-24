@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_front_pose_source_v01.png",
+  "source_class": "high_res_full_body_character",
+  "intended_role": "translation_source",
+  "matte_policy": "border_connected",
+  "reviewer": "agent_curated_review",
+  "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+  "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+  "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+  "derivation": "Mechanical crop of the first front-neutral view from the hash-bound Kairo model sheet; no pixels were redrawn or interpolated.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Single complete front-neutral view with visible face, hands, feet, scarf, coat and armor boundaries. Uniform deep-slate background is border-connected and must be matted before conversion."
+  }
+}

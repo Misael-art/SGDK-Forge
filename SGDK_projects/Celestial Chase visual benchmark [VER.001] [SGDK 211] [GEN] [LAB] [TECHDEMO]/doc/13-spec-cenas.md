@@ -3,6 +3,16 @@
 > Documento canonico para budgets por cena, contrato de evidencia e papel formal de cada surface.
 > Menu, title screen e outras telas de front-end contam como cenas formais.
 
+## Estado P1-002 - Audio XGM2 FM/PSG
+
+- ROM vigente: `8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450`, `262144` bytes, build SGDK 2.11 Linux nativo.
+- `mus_chase_core` e compilada como XGM2 a partir de `res/audio/chase/chase_core_fm_psg.vgm`: duas vozes YM2612 FM e pulso SN76489 PSG, loop NTSC de 8 segundos.
+- Ownership: XGM2 possui FM/PSG; PCM_CH1 fica reservado; PCM_CH2 possui cues criticos e PCM_CH3 possui movimento/UI/pressao.
+- Budget: 1 musica + 9 SFX, 39,5 KiB estimados, 0,96% da ROM de 4 MiB; maximo de dois PCM simultaneos.
+- BlastEm `blastem-linux-20260720T032218Z-267076`: 270 amostras, 8 com musica+SFX simultaneos, 5/5 SFX aceitos, DMA wait maximo 0.
+- Warning: 1 frame XGM2 perdido em 1.363 frames de driver; revisao auditiva humana segue pendente.
+- Tecnicas: `xgm2_audio_architecture` e `xgm2_pcm_multiplexing`; fallback remove pressure/pickup antes de alterar ownership critico.
+
 ## Estado v014 - Road Polish, Evidencia Multi-Frame e Gate Honesto
 
 - ROM vigente observada no BlastEm: `984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9`, `393216` bytes.
@@ -28,7 +38,7 @@
 - Evidencia visual nova: `out/evidence/scenes/first_playable_slice/screenshot.png` mostra o heroi sem capsula opaca, com estrada/sombra novamente visiveis ao redor do sprite.
 - Evidencia motion nova: `out/evidence/motion/chase_hero_silhouette_velocity_v013.gif/.webp`, `out/evidence/motion/chase_hero_ghost_silhouette_velocity_v013.gif/.webp` e `hero_silhouette_transparency_fix_motion_report_v013.json`.
 - Regressao de cena: o baseline de `first_playable_slice` foi atualizado apenas apos a correcao P0; nova comparacao passou `3/3`.
-- Budget vigente: `res_graph_report.json` passou com 31 declaracoes OK, zero overlaps, residencia medida vigente; audio passou com 10 declaracoes e 3,47% do budget ROM.
+- Budget historico v013: `res_graph_report.json` passou com 31 declaracoes OK, zero overlaps; o budget de audio vigente foi atualizado no estado P1-002 acima.
 - Recuo honesto: `runtime_metrics.json` tem `perceptual_check` zerado ate revisao humana; `creative_ready=false`, `ready_for_aaa=false` e `visual_gate_blocked` permanecem corretos.
 - Divida visual ativa: BG_A/estrada ainda precisa rework contra `res/gfx/chase_compare_flat.png` para reduzir ruido de tiles, suavizar profundidade e alinhar melhor o mockup. Esta correcao nao promove a estrada.
 
@@ -154,7 +164,7 @@ Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evi
 - `chase_pursuer`: proximidade, sprite, poeira, Pulse e impacto.
 - `chase_hud`: HUD de entrega e cards curtos.
 - `scene_chase`: composicao, entrada/saida e orquestracao dos modulos.
-- `system/audio`: ownership unico de PSG/XGM2 e prioridades.
+- `system/audio`: XGM2 possui FM/PSG; PCM_CH2/CH3 possuem SFX com prioridades e telemetria AUD2.
 - DMA/CRAM/scroll: somente chamadas SGDK seguras e commit no VBlank; sem callback concorrente.
 
 ### Transition Contract
@@ -278,4 +288,3 @@ Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evi
 - `road_physics=required`: a cena usa tres faixas, estado Z compartilhado, deformacao de pista e colisao sincronizada pelo contrato `doc/contracts/chase_v009_road_physics_contract.json`.
 - `modular_boss=required`: torso, cabeca e garras sao sprites runtime independentes com FK, poda ativa e budget de scanline pelo contrato `doc/contracts/chase_v009_modular_boss_contract.json`.
 - tecnicas vigentes e tags estao em `doc/technique_usage_manifest.json`.
-

@@ -26,8 +26,8 @@ SPRITE spr_chase_contact_shadow_v011 "sprites/chase/chase_contact_shadow_16x8_st
 SPRITE spr_chase_energy_star_v009 "sprites/chase/chase_energy_star_32x32_strip_v009.png" 4 4 FAST 4
 SPRITE spr_chase_pulse_impact_v009 "sprites/chase/chase_pulse_impact_64x48_strip_v009.png" 8 6 FAST 6
 
-// Original project-local PCM score and feedback cues through the XGM2 driver.
-WAV snd_chase_score_loop "audio/chase/chase_score_loop.wav" XGM2 13300
+// Original project-local FM/PSG score plus PCM feedback through the XGM2 driver.
+XGM2 mus_chase_core "audio/chase/chase_core_fm_psg.vgm"
 WAV snd_chase_menu "audio/chase/chase_menu.wav" XGM2 13300
 WAV snd_chase_jump "audio/chase/chase_jump.wav" XGM2 13300
 WAV snd_chase_land "audio/chase/chase_land.wav" XGM2 13300

@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/work_frontier_snapshot.schema.json",
+  "title": "Work frontier snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "artifact_kind", "tool", "generated_at", "project_root",
+    "active_epoch", "claim_ceiling", "dominant_blocker", "blocked_nodes",
+    "independent_nodes", "eligible_sources", "forbidden_sources",
+    "next_causal_action", "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "artifact_kind": {"const": "work_frontier_snapshot"},
+    "tool": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"const": "harness_orchestration"},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"}
+      },
+      "additionalProperties": false
+    },
+    "generated_at": {"type": "string", "format": "date-time"},
+    "project_root": {"type": "string", "minLength": 1},
+    "active_epoch": {"type": "string", "minLength": 1},
+    "claim_ceiling": {"type": "string", "minLength": 1},
+    "dominant_blocker": {"type": ["string", "null"]},
+    "blocked_nodes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "independent_nodes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "eligible_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "forbidden_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "reason"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "next_causal_action": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "fully_blocked"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "fully_blocked"}}},
+      "then": {"properties": {"independent_nodes": {"maxItems": 0}, "blocked_nodes": {"minItems": 1}}}
+    }
+  ]
+}

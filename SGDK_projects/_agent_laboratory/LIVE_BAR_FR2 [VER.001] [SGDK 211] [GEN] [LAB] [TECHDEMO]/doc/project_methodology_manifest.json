@@ -1,0 +1,37 @@
+﻿{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "LIVE_BAR_FR2",
+    "lifecycle": "existing",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "governance/truth-hierarchy-guard",
+    "governance/doc-sync-audit",
+    "operation/sgdk-build-wrapper-operator"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene",
+    "project_context"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "review_required",
+      "rationale": "Classificar antes de implementar ou promover animacao critica."
+    },
+    "road_physics": {
+      "applicability": "review_required",
+      "rationale": "Classificar antes de declarar chase, estrada pseudo-3D ou fisica de pista."
+    },
+    "modular_boss": {
+      "applicability": "review_required",
+      "rationale": "Classificar antes de declarar boss modular ou forward kinematics."
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "cais_01",
+  "priorities": [
+    {"event": "ring_out_splash", "priority": 15, "owner": "xgm2_audio_director", "must_be_audible": true},
+    {"event": "player_hit", "priority": 14, "owner": "xgm2_audio_director", "must_be_audible": true},
+    {"event": "enemy_telegraph", "priority": 12, "owner": "xgm2_audio_director", "must_be_audible": true},
+    {"event": "pickup", "priority": 7, "owner": "xgm2_audio_director", "must_be_audible": false},
+    {"event": "ambience_water", "priority": 2, "owner": "xgm2_audio_director", "must_be_audible": false}
+  ],
+  "masking_policy": "BGM layers duck before any critical gameplay SFX; no typewriter or UI tick in gameplay.",
+  "status": "declared_pending_audio_assets"
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "source_triage_report.v1",
+  "tool": "forge_art.source_route_triage",
+  "tool_version": "1.0.0",
+  "source": {
+    "path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v04.png",
+    "sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f"
+  },
+  "source_class": "high_res_full_body_character",
+  "intended_role": "translation_source",
+  "reviewer": "agent_curated_review",
+  "identity_binding": {
+    "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+    "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "identity_authority_observed_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+    "derivation": "ImageGen visual producer output v04 re-rendered with an explicit compact logical-pixel guide brief from the accepted alpha-clean v03 source; actual alpha confirmed before intake; used only as a guide for native-grid reauthoring."
+  },
+  "human_review_binding": null,
+  "matte_policy": "existing_alpha",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Single compact front-neutral visual producer output with genuine alpha; eyes, face, hands, boots, indigo/cyan/amber material separation, and short scarf remain legible at guide scale. Not a native candidate or runtime asset."
+  },
+  "automatic_measurements": {
+    "width": 1122,
+    "height": 1402,
+    "source_mode": "RGBA",
+    "has_alpha_channel": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_pixels": 541980,
+    "partial_alpha_pixels": 538513,
+    "opaque_pixels": 3467,
+    "alpha_bbox": [
+      69,
+      19,
+      996,
+      1402
+    ]
+  },
+  "border_signal": {
+    "sampled_pixels": 5044,
+    "quantized_border_buckets": 1,
+    "dominant_bucket_ratio": 1.0,
+    "interpretation": "diagnostic_only_not_a_visual_contaminant_detector"
+  },
+  "status": "accepted_translation_source",
+  "route_exploration_allowed": true,
+  "blocking": false,
+  "blockers": [],
+  "warnings": [
+    "partial_alpha_requires_premultiplied_filtering_and_halo_review"
+  ],
+  "safe_reference_roles": [],
+  "next_action": "run route-shootout; outputs remain mechanical guides",
+  "claim_ceiling": "source_triage_only"
+}

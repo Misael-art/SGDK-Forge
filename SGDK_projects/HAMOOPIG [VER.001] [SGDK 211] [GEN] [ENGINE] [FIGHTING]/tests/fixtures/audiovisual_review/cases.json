@@ -1,0 +1,87 @@
+[
+  {
+    "id": "positive_hitstop_valid",
+    "description": "hitstop holds a valid frame; no media PTS gap is inferred from static pixels",
+    "expected": {"artifact_identity": "passed", "media_temporal_integrity": "passed", "av_sync": "needs_review"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "sha256": "video-ok", "duration_seconds": 10}, "audio": {"master_preserved": true, "sha256": "audio-ok", "signal_report": {"checks": {"non_silent_signal_present": true}}}},
+      "manifest": {"rom_sha256": "rom-ok"},
+      "artifact_identity": {"status": "passed", "rom_identity_matches_bundle": true},
+      "media_temporal_integrity": {"status": "passed", "drop_count_from_encoder_log": 0},
+      "synchronization": {"status": "needs_review", "measured_event_sync_error_ms": null},
+      "game_cadence": {"status": "unsupported", "reason": "fixture has no HCAD"}
+    }
+  },
+  {
+    "id": "negative_glitch_one_frame",
+    "description": "one-frame visual glitch is a candidate and must not become approval",
+    "expected": {"media_temporal_integrity": "failed"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "duration_seconds": 10}, "audio": {"master_preserved": true}},
+      "artifact_identity": {"status": "passed"},
+      "media_temporal_integrity": {"status": "failed", "drop_count_from_encoder_log": 0, "pts_gap_count": 1},
+      "synchronization": {"status": "needs_review"},
+      "game_cadence": {"status": "unsupported"}
+    }
+  },
+  {
+    "id": "negative_pts_hole",
+    "description": "PTS hole blocks temporal claim while preserving the master",
+    "expected": {"media_temporal_integrity": "failed"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "duration_seconds": 10}, "audio": {"master_preserved": true}},
+      "artifact_identity": {"status": "passed"},
+      "media_temporal_integrity": {"status": "failed", "drop_count_from_encoder_log": 2, "pts_gap_count": 1},
+      "synchronization": {"status": "needs_review"},
+      "game_cadence": {"status": "unsupported"}
+    }
+  },
+  {
+    "id": "negative_audio_desync",
+    "description": "separate audio duration delta is not event synchronization",
+    "expected": {"av_sync": "needs_review", "audio_quality": "needs_review"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "duration_seconds": 10}, "audio": {"master_preserved": true, "sha256": "audio-ok", "signal_report": {"checks": {"non_silent_signal_present": true}}}},
+      "artifact_identity": {"status": "passed"},
+      "media_temporal_integrity": {"status": "passed"},
+      "synchronization": {"status": "needs_review", "duration_delta_seconds": 0.466667, "measured_event_sync_error_ms": null},
+      "game_cadence": {"status": "unsupported"}
+    }
+  },
+  {
+    "id": "negative_sha_wrong",
+    "description": "wrong ROM SHA prevents identity release",
+    "expected": {"artifact_identity": "needs_review"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "duration_seconds": 10}, "audio": {"master_preserved": true}},
+      "artifact_identity": {"status": "needs_review", "rom_identity_matches_bundle": false},
+      "media_temporal_integrity": {"status": "passed"},
+      "synchronization": {"status": "needs_review"},
+      "game_cadence": {"status": "unsupported"}
+    }
+  },
+  {
+    "id": "negative_no_review",
+    "description": "metadata-only bundle cannot approve visual, motion or audio quality",
+    "expected": {"visual_quality": "needs_review", "motion_quality": "needs_review", "audio_quality": "needs_review", "coverage": "needs_review"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "duration_seconds": 10}, "audio": {"master_preserved": true}},
+      "artifact_identity": {"status": "passed"},
+      "media_temporal_integrity": {"status": "passed"},
+      "synchronization": {"status": "needs_review"},
+      "game_cadence": {"status": "unsupported"}
+    }
+  },
+  {
+    "id": "negative_unexamined_interval",
+    "description": "null or incomplete coverage cannot pass without a qualified review",
+    "expected": {"coverage": "needs_review"},
+    "report": {
+      "artifacts": {"video": {"master_preserved": true, "duration_seconds": 10}, "audio": {"master_preserved": true}},
+      "artifact_identity": {"status": "passed"},
+      "media_temporal_integrity": {"status": "passed"},
+      "synchronization": {"status": "needs_review"},
+      "game_cadence": {"status": "unsupported"}
+    }
+  }
+]

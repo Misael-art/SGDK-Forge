@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "character": "cria",
+  "role": "perseguidor",
+  "movement_model": "ground_chase",
+  "state_machine": "APPROACH->TELEGRAPH->ATTACK->RECOVER",
+  "facing": "left_locked_no_hflip",
+  "spawn_world_x": 288,
+  "aggro_radius_px": 200,
+  "strike_range_px": 40,
+  "lane_tolerance_px": 12,
+  "move_speed": "1.5_px_per_vblank_ntsc",
+  "telegraph_vblank": 12,
+  "attack_vblank": 13,
+  "recover_vblank": 23,
+  "cooldown_vblank": 24,
+  "hit_connect": {
+    "frames": ["active", "hitstop"],
+    "knockback_px": -8,
+    "audio": "AUDIO_CUE_STRIKE",
+    "hp_not_wired": true
+  },
+  "not_aaa_claim": true,
+  "source": [
+    "doc/contracts/enemy_roster.json",
+    "doc/contracts/frame_data/cria.json"
+  ]
+}

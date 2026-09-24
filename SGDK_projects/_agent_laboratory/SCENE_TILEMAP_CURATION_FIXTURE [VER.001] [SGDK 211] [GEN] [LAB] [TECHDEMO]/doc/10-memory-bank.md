@@ -2,24 +2,24 @@
 ## 0. Estado Derivado dos Artefatos
 
 - Fonte: `doc/changelog` + `validation_report.json`
-- Ultima sincronizacao: `2026-06-06T23:43:37.7179979-03:00`
+- Ultima sincronizacao: `2026-09-09T13:18:00-03:00`
 - Changelog canonico: `doc/changelog/changelog.md`
 - Assets versionados rastreados: 6
 - Ultimo build versionado: build_v003
-- ROM vigente: `18aec2f55902aa572a7c49fbc15de27c2e2c8e8ad2f2693a691537f1289459ae` (`262144` bytes)
-- Validation summary: errors=0 warnings=10
-- Blockers vigentes: project_naming_invalid, project_methodology_manifest_invalid, gdd_substantial_insufficient, agent_context_degraded, visual_gate_blocked, visual_delivery_gate_missing, audio_validation_missing, freshness_audit_missing, scene_closeout_gate_missing
-- Evidencia de emulador: sem_sessao
+- ROM vigente: `0866208ba8d3fcd12cee5038b47491fb3cc2176352a4d66ddc88d78c28cdacac` (`262144` bytes)
+- Validation summary: errors=4 warnings=15
+- Blockers vigentes: project_naming_invalid, project_methodology_manifest_invalid, external_path_reference_outside_project, gdd_substantial_insufficient, agent_context_degraded, visual_gate_blocked, procedural_fallback_as_final, visual_direction_failed, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_stale
+- Evidencia de emulador: `blastem-linux-20260909T160124Z-2601036`, BlastEm Flatpak Linux, sealed
 - Gate visual: visual_lab_aprovado=False
 - Gate gameplay: gameplay_rom_aprovada=False
 - Gate AAA: ready_for_aaa=False
-- QA runtime: gameplay=nao_testado performance=nao_testado audio=nao_testado hardware_real=nao_testado
+- QA runtime: gameplay=observado_scene2 performance=unproven audio=dummy hardware_real=blastem_linux_flatpak
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â SCENE_TILEMAP_CURATION_FIXTURE
 
-**Ultima atualizacao:** 2026-06-03
-**Fase atual:** Branding sequence buildada e observada no BlastEm, com closeout bloqueado
-**Proxima fase:** Rework visual, visual_vdp_dump e investigacao do pico CPU em runtime_metrics
+**Ultima atualizacao:** 2026-09-09
+**Fase atual:** Runtime probe canônico buildado e observado no BlastEm Linux, com closeout bloqueado
+**Proxima fase:** Reauthored visual final, cena 3 observada e prova de performance/audio sustentados
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -75,9 +75,9 @@
 
 ### Estado de evidencia canonica
 
-- ROM vigente: `out/rom.bin`, build_v002, SHA256 `22a80b7cf9f514550f21073226c2bec63efdcc6a95af9d18c62d5e810ce95c8f`
-- `validation_report.json`: errors=0, warnings ativos
-- `runtime_metrics.json`: presente, scene_id=0, capture_status=partial, over_budget_frames=1
+- ROM vigente: `out/rom.bin`, build pós-F01, SHA256 `0866208ba8d3fcd12cee5038b47491fb3cc2176352a4d66ddc88d78c28cdacac`
+- `validation_report.json`: errors=4, warnings=15; blockers estruturais e visuais permanecem
+- `runtime_metrics.json`: presente na sessão selada, scene_id=2, 32 amostras, 0 sprites/scanline, over_budget_frames=0, performance unproven
 - `scene_regression_report.json`: ausente
 - `emulator_session.json`: presente, BlastEm status ok, target_scene_match=true
 - `freshness_audit_report.json`: presente, status ok
@@ -106,9 +106,9 @@
 - `runtime_probe` foi integrado ao boot/loop para permitir `save.sram` com MDRT e heartbeat READY.
 - Audio de branding passou a usar WAV XGM2 declarado em `.res`; PCM bruto 11k foi rejeitado como rota.
 - Fixture de tilemap: `img_fixture_scene_tilemap` (320x224) declarado em `res/resources.res`, com reports de conversao/dedup/flags/conflicts gerados em `out/logs/`.
-- Build wrapper gerou `out/rom.bin` build_v002, SHA256 `22a80b7cf9f514550f21073226c2bec63efdcc6a95af9d18c62d5e810ce95c8f`.
-- Captura BlastEm `TargetScene=0` gerou `screenshot.png`, `save.sram`, `runtime_metrics.json` e `emulator_session.json`.
-- `runtime_metrics.json` confirmou cena 0, 32 amostras, p95=6, 0 sprites, mas manteve 1 pico de CPU; performance segue bloqueada.
+- Build wrapper gerou `out/rom.bin` pós-F01, SHA256 `0866208ba8d3fcd12cee5038b47491fb3cc2176352a4d66ddc88d78c28cdacac`.
+- Captura Linux/BlastEm `target_scene=3` gerou screenshot, SRAM, manifest sealed e `visual_vdp_dump.bin` real.
+- `runtime_metrics.json` confirmou cena 2, 32 amostras, 0 sprites/scanline e 0 frames acima do budget; o alvo 3 e performance sustentada seguem não provados.
 - `scene_closeout_gate_report.json` fechou como `blocked`, nao como pronto.
 
 ---
@@ -152,6 +152,17 @@ Registre aqui escolhas que evitaram tentativa-e-erro ou mudanca de rota.
 - Spec cenas: `doc/13-spec-cenas.md`
 - Diretrizes agente: `doc/00-diretrizes-agente.md`
 - Plano de provas QA: `doc/14-plano-de-provas-qa.md`
+
+## 7. F01 — Merge do runtime probe canônico e evidência Linux
+
+- Decisão registrada em `doc/runtime_probe_f01_merge_decision_20260909.json`: merge canônico preservando a ABI local de `gApp.currentScene`, o offset MDRT/heartbeat e os buffers estáticos do fixture.
+- `inc/system/runtime_probe.h` e `src/system/runtime_probe.c` agora coincidem byte a byte com `tools/sgdk_wrapper/modelo/`: hashes `9ae8055f...bffed` e `9c6d905c...c2e1e`.
+- Build observado pelo `linux_wine_bridge`; ROM antes `18aec2f5...9459ae`, ROM após `0866208b...cdacac`, 262144 bytes.
+- Captura exclusiva Linux/BlastEm Flatpak: `out/evidence/runtime_probe_f01/blastem-linux-20260909T160124Z-2601036/`.
+- Manifest sealed, screenshot semantically accepted, `save.sram` 32768 bytes, `visual_vdp_dump.bin` real de 200 bytes, freshness da sessão `ok`, emulator commit `c1f3f443...602221`.
+- Runtime observado: `scene_id=2` apesar do alvo solicitado 3, 32 amostras, 0 sprites/scanline, 0 frames acima do budget, snapshot 59.9 fps. Isso prova somente boot/cena 2 e contrato de instrumentação; não prova cena 3, performance sustentada, qualidade visual ou áudio audível.
+- Validator pós-build: 4 erros e 15 warnings; fixture segue laboratório e sem claim AAA.
+- `out/logs/runtime_probe_f01_build_observation.json`, `runtime_metrics.json`, `performance_capture_report.json`, `emulator_session.json`, `visual_delivery_gate_report.json`, `claim_reconciliation_report.json` e `doc_sync_report.json` foram reconciliados ao mesmo hash/sessão; freshness final pode manter o próprio `validation_report` como stale por ter sido gerado antes deste fechamento.
 
 
 

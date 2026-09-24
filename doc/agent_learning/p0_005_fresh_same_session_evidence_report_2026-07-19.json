@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "p0_005_fresh_same_session_evidence_2026_07_19",
+  "generated_at": "2026-07-19T23:44:00-03:00",
+  "item_id": "P0-005",
+  "status": "completed",
+  "runtime_scope_promoted": "boot_and_front_end_observed_in_blastem",
+  "ready_for_aaa": false,
+  "linux_emulator": {
+    "distribution": "Flathub official BlastEm application",
+    "version": "0.6.2",
+    "ref": "app/com.retrodev.blastem/x86_64/stable",
+    "commit": "c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221",
+    "provisioner": "tools/sgdk_wrapper/ensure_linux_blastem.sh"
+  },
+  "session": {
+    "id": "blastem-linux-20260720T023600Z-152199",
+    "project": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+    "bundle_root": "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023600Z-152199",
+    "started_at": "2026-07-20T02:36:00.094510+00:00",
+    "completed_at": "2026-07-20T02:36:22.972135+00:00",
+    "window_title": "SAMPLE PROGRAM - BlastEm - 60.9 fps",
+    "emulator_exit_code": 1,
+    "close_note": "The Flatpak build flushed SRAM before reporting an XInput BadWindow error during X11 window teardown; the nonzero close code is retained and is not hidden."
+  },
+  "rom": {
+    "sha256": "4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e",
+    "size_bytes": 131072,
+    "same_as_project_out_rom": true
+  },
+  "bundle": {
+    "status": "sealed",
+    "same_session": true,
+    "artifact_count": 5,
+    "manifest": {
+      "path": "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023600Z-152199/evidence_manifest.json",
+      "sha256": "25bd1d1703fc7c1b37b40cacc10b849855b8a72e2aa00be68c3b13bd0c697143"
+    },
+    "freshness_report": {
+      "path": "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023600Z-152199/freshness_report.json",
+      "sha256": "99287fdd9680757c74886b728b5d3c63c411eb15be9733dd01f74c316f964a15",
+      "status": "ok",
+      "blockers": []
+    },
+    "semantic_report": {
+      "path": "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023600Z-152199/screenshot_semantic_gate_report.json",
+      "sha256": "8fafb60ac63d548baf5697389d65d8e072c0e256114d4ccdbe0adaf3244902b4",
+      "status": "passed",
+      "dominant_ratio": 0.407383,
+      "edge_density": 0.080358
+    },
+    "artifact_names": ["rom", "screenshot", "sram", "vdp_dump", "runtime_metrics"]
+  },
+  "runtime_metrics_scope": {
+    "vlab_scene_id": 1,
+    "vlab_frame_counter": 990,
+    "vlab_sample_count": 900,
+    "window_fps_snapshot": 60.9,
+    "performance_claim": "unproven",
+    "reason": "A single window-title and VLAB snapshot does not prove sustained performance."
+  },
+  "closeout_integration": {
+    "tool": "tools/sgdk_wrapper/audit_fresh_evidence_bundle.ps1",
+    "scene_closeout_step": "fresh_evidence_bundle_audit",
+    "real_audit_report": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/out/logs/fresh_evidence_bundle_audit_report.json",
+    "real_audit_sha256": "f048c351e84caed734755e6fe1d839a6cfb5c76757d72701404f9682813fefb0",
+    "real_audit_status": "ok"
+  },
+  "negative_evidence": {
+    "short_warmup_bundle": "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023015Z-138371",
+    "short_warmup_blockers": ["vlab_block_missing", "artifact_missing:vdp_dump", "artifact_missing:runtime_metrics"],
+    "transient_window_bundle": "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023110Z-140782",
+    "transient_window_blocker": "sram_missing",
+    "automated_negative_checks": ["rom_identity_mismatch", "artifact_stale:rom", "blank_or_low_information_capture", "post_seal_artifact_hash_mismatch", "current_rom_mismatch"]
+  },
+  "tests": {
+    "python_bundle_regressions": "4/4 passed",
+    "powershell_closeout_regressions": "passed",
+    "schema_contract_cases": "84/84 passed",
+    "fresh_bundle_schema_validation": "passed",
+    "canonical_schema_runner": {
+      "path": "out/remediation/P0-005/schema_mode/contract_gates_report.json",
+      "sha256": "a7014a0264533d9ac1e680ee7bc9071879857acf77d7ab280acb84ebe94b2d48",
+      "combined_status": "passed",
+      "art_gameplay_direction_cases": "12/12 passed"
+    }
+  },
+  "rom_mastering": {
+    "report": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/out/logs/rom_mastering_report.json",
+    "report_sha256": "29da4ee151e2c5078c30d671489a3b2bb8dbfd59663c6953be1d4b062fbe155b",
+    "decision": "mastering_needs_fix",
+    "fresh_evidence_ok": true,
+    "checksum_ok": true,
+    "region_ok": true,
+    "validation_clean": false,
+    "closeout_ok": false
+  },
+  "acceptance_checks": {
+    "rom_screenshot_sram_vdp_metrics_share_session_id": true,
+    "all_artifacts_have_full_sha256_and_timestamp": true,
+    "stale_or_different_rom_blocks_closeout": true,
+    "screenshot_passes_p0_001_semantic_gate": true
+  },
+  "claim_limit": "The fresh bundle proves boot/front-end observation and same-session evidence integrity only. It does not prove broad gameplay, audio, sustained performance, creative readiness, mastering readiness or AAA quality."
+}

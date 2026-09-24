@@ -6,6 +6,7 @@
   Este script e seguro para primeiro uso:
   - garante as pontes .agents/skills e .trae/skills para a arvore canonica;
   - verifica pwsh, uv e graphify;
+  - prepara a integracao consultiva ai-memory sem instalar hooks globais;
   - com -InstallMissing, tenta instalar dependencias ausentes via winget/uv;
   - prepara o grafo consultivo via graphify_forge.ps1 e deixa graph_status=fresh.
 
@@ -21,15 +22,18 @@ param(
     [switch]$InstallMissing,
 
     [Parameter(Mandatory = $false)]
-    [switch]$SkipGraphify
+    [switch]$SkipGraphify,
+
+    [Parameter(Mandatory = $false)]
+    [switch]$SkipAiMemory,
+
+    [Parameter(Mandatory = $false)]
+    [ValidateRange(1, 3600)]
+    [int]$GraphifyTimeoutSeconds = 60
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-
-# Test-IsWindowsHost/Get-PowerShellExecutable: deteccao de host em um lugar so.
-. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
-$script:HostPwsh = Get-PowerShellExecutable
 
 function Write-AgentEnvLog {
     param([string]$Level, [string]$Message)
@@ -43,73 +47,18 @@ function Test-CommandAvailable {
 }
 
 function Refresh-ProcessPath {
-    <#
-    .SYNOPSIS
-        Reincorpora ao PATH do processo o que um instalador acabou de registrar.
-
-    .DESCRIPTION
-        Existe porque winget/uv escrevem no PATH persistido, e o processo atual
-        continua com a copia antiga; sem reler, o binario recem-instalado parece
-        ausente.
-
-        A versao anterior era Windows-only e no Linux causava DUAS falhas:
-
-          * `Join-Path $env:USERPROFILE` lancava sob StrictMode, porque
-            USERPROFILE nao existe no Linux (HOME e o equivalente). Era a falha
-            que interrompia o preparo depois de rematerializar a ponte.
-          * os escopos 'Machine'/'User' do registro do Windows retornam vazio no
-            Linux, e o join com ';' sobrescreveria o PATH herdado com uma string
-            vazia -- perdendo pwsh, python e git no meio da preparacao.
-
-        Agora o PATH herdado e a base em toda plataforma: so ACRESCENTAMOS o que
-        falta. Nunca substituimos, porque um PATH truncado transforma dependencia
-        presente em dependencia "ausente" e o diagnostico aponta para o lugar
-        errado.
-    #>
-    $separator = [System.IO.Path]::PathSeparator
-    $parts = New-Object System.Collections.Generic.List[string]
-
-    # PATH atual primeiro: preserva o que o processo pai ja resolveu.
-    if (-not [string]::IsNullOrWhiteSpace($env:Path)) {
-        $parts.Add($env:Path)
-    }
-
-    # Escopos persistidos existem apenas em Windows real; no Linux vem vazios.
-    if (Test-IsWindowsHost) {
-        foreach ($scope in @('Machine', 'User')) {
-            $scoped = [Environment]::GetEnvironmentVariable('Path', $scope)
-            if (-not [string]::IsNullOrWhiteSpace($scoped)) { $parts.Add($scoped) }
-        }
-    }
-
-    # Destino de `uv tool install` nos dois mundos. USERPROFILE no Windows, HOME
-    # no Linux/macOS; ausencia dos dois nao e fatal aqui, apenas nao acrescenta.
-    $homeDir = if (-not [string]::IsNullOrWhiteSpace($env:USERPROFILE)) {
-        $env:USERPROFILE
-    } elseif (-not [string]::IsNullOrWhiteSpace($env:HOME)) {
-        $env:HOME
-    } else {
-        $null
-    }
-    if ($null -ne $homeDir) {
-        $localBin = Join-Path (Join-Path $homeDir '.local') 'bin'
-        if (Test-Path -LiteralPath $localBin) { $parts.Add($localBin) }
-    }
-
-    if ($parts.Count -gt 0) {
-        # Dedup preservando ordem: a primeira ocorrencia ganha, entao o PATH
-        # herdado mantem precedencia sobre o que foi acrescentado.
-        $seen = New-Object System.Collections.Generic.HashSet[string]
-        $ordered = New-Object System.Collections.Generic.List[string]
-        foreach ($chunk in $parts) {
-            foreach ($entry in ($chunk -split [regex]::Escape($separator))) {
-                if (-not [string]::IsNullOrWhiteSpace($entry) -and $seen.Add($entry)) {
-                    $ordered.Add($entry)
-                }
-            }
-        }
-        $env:Path = ($ordered -join $separator)
-    }
+    $machinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+    $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $parts = @()
+    if (-not [string]::IsNullOrWhiteSpace($machinePath)) { $parts += $machinePath }
+    if (-not [string]::IsNullOrWhiteSpace($userPath)) { $parts += $userPath }
+    $homeRoot = $env:USERPROFILE
+    if ([string]::IsNullOrWhiteSpace($homeRoot)) { $homeRoot = $env:HOME }
+    if ([string]::IsNullOrWhiteSpace($homeRoot)) { $homeRoot = [Environment]::GetFolderPath('UserProfile') }
+    if ([string]::IsNullOrWhiteSpace($homeRoot)) { $homeRoot = "" }
+    $localBin = if ([string]::IsNullOrWhiteSpace($homeRoot)) { "" } else { Join-Path $homeRoot ".local/bin" }
+    if (-not [string]::IsNullOrWhiteSpace($localBin) -and (Test-Path -LiteralPath $localBin)) { $parts += $localBin }
+    if ($parts.Count -gt 0) { $env:Path = ($parts -join [System.IO.Path]::PathSeparator) }
 }
 
 function Resolve-ForgedRepoRoot {
@@ -187,6 +136,19 @@ function Ensure-Command {
     return $false
 }
 
+function Resolve-PowerShellHost {
+    $pwsh = Get-Command pwsh -ErrorAction SilentlyContinue
+    if ($null -ne $pwsh) { return $pwsh.Source }
+
+    $powershell = Get-Command powershell -ErrorAction SilentlyContinue
+    if ($null -ne $powershell) { return $powershell.Source }
+
+    $powershellExe = Get-Command powershell.exe -ErrorAction SilentlyContinue
+    if ($null -ne $powershellExe) { return $powershellExe.Source }
+
+    throw "Nenhum host PowerShell encontrado (pwsh/powershell/powershell.exe)."
+}
+
 function Ensure-RelativeBridge {
     param(
         [Parameter(Mandatory = $true)][string]$RepoRootPath,
@@ -218,30 +180,8 @@ function Ensure-RelativeBridge {
     }
 
     if (Test-Path -LiteralPath $fullBridge) {
-        # Checkout sem suporte a symlink (Windows sem dev mode, core.symlinks=false)
-        # materializa a ponte como arquivo de texto contendo o caminho-alvo.
-        # E um stub do git, nao conteudo do usuario: substituir e o unico
-        # caminho de recuperacao. Qualquer outro arquivo aqui e falha dura --
-        # devolver $true sobre uma ponte quebrada esconde a causa raiz.
-        $isGitPlaceholder = $false
-        try {
-            $item = Get-Item -LiteralPath $fullBridge -Force
-            if (-not $item.PSIsContainer -and -not $item.LinkType -and $item.Length -le 512) {
-                $stub = ([System.IO.File]::ReadAllText($fullBridge)).Trim()
-                $normalizedStub = $stub.Replace('\', '/')
-                $isGitPlaceholder = $normalizedStub -eq $TargetRelative.Replace('\', '/')
-            }
-        } catch {
-            Write-AgentEnvLog "WARN" "Nao foi possivel ler ${BridgePath}: $($_.Exception.Message)"
-        }
-
-        if ($isGitPlaceholder) {
-            Write-AgentEnvLog "INFO" "$BridgePath veio do checkout como arquivo stub; rematerializando."
-            Remove-Item -LiteralPath $fullBridge -Force
-        } else {
-            Write-AgentEnvLog "ERROR" "$BridgePath existe e nao e ponte nem stub do checkout; nao sobrescrevendo."
-            return $false
-        }
+        Write-AgentEnvLog "WARN" "$BridgePath existe mas nao e ponte reconhecida; mantendo sem sobrescrever."
+        return $true
     }
 
     try {
@@ -270,6 +210,10 @@ $uvOk = $false
 $graphifyOk = $false
 $graphStatus = "not_checked"
 $graphReason = ""
+$aiMemoryReady = $false
+$aiMemoryStatus = "not_checked"
+$aiMemoryCliPresent = $false
+$aiMemoryReportPath = Join-Path $root "out\logs\ai_memory_integration_report.json"
 $reportPath = Join-Path $root "graphify-out\AGENT_ENVIRONMENT_REPORT.json"
 $agentEnvMutex = $null
 $agentEnvLockTaken = $false
@@ -283,24 +227,65 @@ if (-not $bridgeTraeOk) { $failures++ }
 
 $pwshOk = Ensure-Command -Name 'pwsh' -Label 'PowerShell 7 (pwsh)' -WingetId 'Microsoft.PowerShell'
 if (-not $pwshOk) { $failures++ }
-$uvOk = Ensure-Command -Name 'uv' -Label 'uv' -WingetId 'astral-sh.uv'
-if (-not $uvOk) { $failures++ }
+if (-not $SkipGraphify) {
+    $uvOk = Ensure-Command -Name 'uv' -Label 'uv' -WingetId 'astral-sh.uv'
+    if (-not $uvOk) { $failures++ }
 
-Refresh-ProcessPath
-if (-not (Test-CommandAvailable -Name 'graphify')) {
-    if ($InstallMissing -and (Test-CommandAvailable -Name 'uv')) {
-        Write-AgentEnvLog "INFO" "Instalando Graphify via uv tool install graphifyy."
-        & uv tool install graphifyy | Out-Host
-        Refresh-ProcessPath
+    Refresh-ProcessPath
+    if (-not (Test-CommandAvailable -Name 'graphify')) {
+        if ($InstallMissing -and (Test-CommandAvailable -Name 'uv')) {
+            Write-AgentEnvLog "INFO" "Instalando Graphify via uv tool install graphifyy."
+            & uv tool install graphifyy | Out-Host
+            Refresh-ProcessPath
+        }
     }
+
+    if (Test-CommandAvailable -Name 'graphify') {
+        Write-AgentEnvLog "OK" "Graphify encontrado."
+        $graphifyOk = $true
+    } else {
+        Write-AgentEnvLog "ERROR" "Graphify ausente. Instale com: uv tool install graphifyy"
+        $failures++
+    }
+} else {
+    $uvOk = Test-CommandAvailable -Name 'uv'
+    $graphifyOk = Test-CommandAvailable -Name 'graphify'
+    Write-AgentEnvLog "INFO" "Graphify e uv nao sao obrigatorios porque -SkipGraphify foi solicitado."
 }
 
-if (Test-CommandAvailable -Name 'graphify') {
-    Write-AgentEnvLog "OK" "Graphify encontrado."
-    $graphifyOk = $true
+if (-not $SkipAiMemory) {
+    $aiMemoryScript = Join-Path $root "tools\sgdk_wrapper\prepare_ai_memory_integration.ps1"
+    if (-not (Test-Path -LiteralPath $aiMemoryScript -PathType Leaf)) {
+        Write-AgentEnvLog "ERROR" "Wrapper ai-memory ausente: $aiMemoryScript"
+        $aiMemoryStatus = "script_missing"
+        $failures++
+    } else {
+        try {
+            $powerShellHost = Resolve-PowerShellHost
+            $aiOut = (& $powerShellHost -NoProfile -ExecutionPolicy Bypass -File $aiMemoryScript -RepoRoot $root -Mode Prepare -OutputFormat Json 2>&1 | Out-String)
+            if ($LASTEXITCODE -ne 0) {
+                Write-AgentEnvLog "ERROR" "Falha ao preparar ai-memory consultivo."
+                Write-Host $aiOut.TrimEnd()
+                $aiMemoryStatus = "prepare_failed"
+                $failures++
+            } else {
+                $aiReport = $aiOut | ConvertFrom-Json
+                $aiMemoryReady = [bool]$aiReport.ready
+                $aiMemoryCliPresent = [bool]$aiReport.ai_memory_cli.present
+                $aiMemoryStatus = if ($aiMemoryReady) { "prepared" } else { "not_ready" }
+                Write-AgentEnvLog "OK" ("ai-memory consultivo preparado (cli_present={0})." -f $aiMemoryCliPresent.ToString().ToLowerInvariant())
+                if (-not $aiMemoryReady) {
+                    $failures++
+                }
+            }
+        } catch {
+            Write-AgentEnvLog "ERROR" "Excecao preparando ai-memory consultivo: $($_.Exception.Message)"
+            $aiMemoryStatus = "exception"
+            $failures++
+        }
+    }
 } else {
-    Write-AgentEnvLog "ERROR" "Graphify ausente. Instale com: uv tool install graphifyy"
-    $failures++
+    $aiMemoryStatus = "skipped"
 }
 
 if (-not $SkipGraphify -and $failures -eq 0) {
@@ -329,7 +314,7 @@ if (-not $SkipGraphify -and $failures -gt 0 -and $null -ne $agentEnvMutex) {
 if (-not $SkipGraphify -and $failures -eq 0) {
     try {
     $graphifyWrapper = Join-Path $root "tools\sgdk_wrapper\graphify_forge.ps1"
-    $statusOut = (& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root 2>&1 | Out-String)
+    $statusOut = (& pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root -GraphifyTimeoutSeconds $GraphifyTimeoutSeconds 2>&1 | Out-String)
     Write-Host $statusOut.TrimEnd()
     if ($statusOut -match 'graph_status=([a-z_]+)\s+reason=([a-z_]+)') {
         $graphStatus = $Matches[1]
@@ -345,13 +330,13 @@ if (-not $SkipGraphify -and $failures -eq 0) {
         }
 
         Write-AgentEnvLog "INFO" "Preparando Graphify com action=$action."
-        & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action $action -RepoRoot $root @extra | Out-Host
+        & pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action $action -RepoRoot $root -GraphifyTimeoutSeconds $GraphifyTimeoutSeconds @extra | Out-Host
         if ($LASTEXITCODE -ne 0 -and $action -eq 'update') {
             Write-AgentEnvLog "WARN" "Update falhou; tentando build limpo."
-            & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action build -RepoRoot $root -Force | Out-Host
+            & pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action build -RepoRoot $root -Force -GraphifyTimeoutSeconds $GraphifyTimeoutSeconds | Out-Host
         }
 
-        $finalStatus = (& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root 2>&1 | Out-String)
+        $finalStatus = (& pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root -GraphifyTimeoutSeconds $GraphifyTimeoutSeconds 2>&1 | Out-String)
         Write-Host $finalStatus.TrimEnd()
         if ($finalStatus -match 'graph_status=([a-z_]+)\s+reason=([a-z_]+)') {
             $graphStatus = $Matches[1]
@@ -388,6 +373,7 @@ $report = [pscustomobject]@{
     failures = [int]$failures
     install_missing_requested = [bool]$InstallMissing
     skip_graphify = [bool]$SkipGraphify
+    skip_ai_memory = [bool]$SkipAiMemory
     checks = [pscustomobject]@{
         agents_skills_bridge = [bool]$bridgeAgentsOk
         trae_skills_bridge = [bool]$bridgeTraeOk
@@ -400,6 +386,16 @@ $report = [pscustomobject]@{
         reason = $graphReason
         wrapper = "tools/sgdk_wrapper/graphify_forge.ps1"
         policy = "consultive_index_only"
+        timeout_seconds = [int]$GraphifyTimeoutSeconds
+    }
+    ai_memory = [pscustomobject]@{
+        status = $aiMemoryStatus
+        ready = [bool]$aiMemoryReady
+        cli_present = [bool]$aiMemoryCliPresent
+        report = $aiMemoryReportPath
+        wrapper = "tools/sgdk_wrapper/prepare_ai_memory_integration.ps1"
+        policy = "consultive_optional_layer"
+        closeout_gate = $false
     }
 }
 $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $reportPath -Encoding UTF8

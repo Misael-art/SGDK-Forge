@@ -12,6 +12,11 @@ Definir regras rigidas para animacao de sprites no Mega Drive que garantam fluid
 
 ## 1. PRINCIPIOS DE ANIMACAO PARA PIXEL ART 16-BIT
 
+A autoridade completa dos 12 principios adaptados ao Mega Drive e
+`tools/sgdk_wrapper/.agent/skills/art/sprite-animation/references/animation-principles-for-megadrive.md`.
+Os itens desta secao detalham restricoes tecnicas e nao formam uma lista
+alternativa de principios.
+
 ### 1.1 Regras Absolutas
 
 - Cada frame de animacao DEVE manter a mesma massa visual dominante do personagem. Variacao de bounding box entre frames de um mesmo ciclo NAO DEVE exceder 8px em qualquer eixo (largura ou altura).
@@ -350,17 +355,11 @@ Toda sprite animada critica DEVE ser comparada com pelo menos 1 dos seguintes:
 
 ## 8. FLUXO DE TRABALHO
 
-```
-1. Definir personagem e genero
-2. Consultar tabela de timing do genero (secao 1.3)
-3. Definir escala do sprite e budget de VRAM (secao 3.2)
-4. Produzir sprite sheet no formato canonico (secao 2.1)
-5. Validar pixel-rigido (megadrive-pixel-strict-rules)
-6. Medir metricas de animacao (secao 4.1)
-7. Rodar checklist (secao 4.2) — TUDO deve ser SIM
-8. Implementar no BENCHMARK_VISUAL_LAB
-9. Compilar e rodar em BlastEm
-10. Comparar com benchmark do genero (secao 5)
-11. Apresentar para aprovacao humana
-12. Se aprovado: CANONIZAR. Se reprovado: registrar no Feedback Bank e corrigir.
-```
+O unico fluxo global e o lifecycle de 12 etapas em
+`tools/sgdk_wrapper/.agent/skills/art/sprite-animation/references/canonical-animation-lifecycle.md`.
+Ele vai do brief de gameplay ate ROM/BlastEm e canonizacao. Os antigos itens
+desta secao foram absorvidos nesse lifecycle; nao devem ser executados como uma
+segunda ordem paralela.
+
+Os passes P0-P5 de sprite nativa ficam dentro da etapa 4. Os 12 principios de
+animacao atravessam todas as etapas e sao fechados por acao antes do gate humano.

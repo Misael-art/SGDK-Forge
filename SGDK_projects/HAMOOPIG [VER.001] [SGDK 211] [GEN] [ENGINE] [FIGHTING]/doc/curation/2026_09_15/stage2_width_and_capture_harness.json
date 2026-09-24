@@ -1,0 +1,34 @@
+{
+  "lesson_id": "L072",
+  "date": "2026-09-15",
+  "scope": "HAMOOPIG P09",
+  "title": "Largura do palco e identidade do input de captura",
+  "symptom": "O segundo cenário era declarado amplo, mas o conversor removia 32 pixels verticais e a captura curta não declarava o cenário no manifesto.",
+  "cause": "O pipeline de Stage 2 mantinha OUT_H=224 por herança do modo padrão; o harness retornava antes da criação do manifesto. A tecla c também não correspondia ao botão C no mapa A/S/D do BlastEm.",
+  "correction": [
+    "converter Stage 2 para 512x256, preservando a fonte 2:1 completa",
+    "marcar BGB2 como elegível para PAL/240 no StageDefinition",
+    "adicionar --stage2 ao harness, usando d para C no BlastEm",
+    "adicionar --h240 ao harness, navegando A/S pelo menu DEBUG e exportando a altura efetiva",
+    "emitir manifest.json no modo probe-short com ROM, região e stage"
+  ],
+  "preventive_tests": [
+    "tests/test_stage2_palette.py",
+    "tests/test_stage_definition_contract.py",
+    "tests/test_stage_selection_contract.py",
+    "tests/analyze_hprb_probe.py --self-check"
+  ],
+  "evidence": {
+    "source_report": "data/source_art/stage2_swamp/convert_stage2_report.json",
+    "rom_sha256": "4df3e5b9bbc1441c34595d3c464a54d41480dfb154f1d7e3bbaed884bee5c503",
+    "bundle": "out/emulator_evidence/visual_ko_20260915T062548Z/",
+    "pal_bundle": "out/emulator_evidence/visual_ko_20260915T062548Z/",
+    "manifest_stage": "BGB2",
+    "hprb": "PAL schema 7, 2430 samples, screen_height=240, 9568 queued DMA bytes, 17 sprites/scanline, within 17408-byte envelope"
+  },
+  "limitations": [
+    "A captura curta prova seleção/integração e não substitui a revisão artística do cenário.",
+    "O orçamento DMA permanece acima do envelope NTSC nominal; a rota PAL-240 cabe no envelope e agora exporta screen_height=240, mas áudio continua pendente."
+  ],
+  "status": "implemented_build_passed_ntsc_pal240_integration_visual_pending_ntsc_budget_pending"
+}

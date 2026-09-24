@@ -1,0 +1,216 @@
+{
+  "round": "p1_production",
+  "delivered": 1,
+  "total": 16,
+  "failed": 0,
+  "status": "pass",
+  "assets": [
+    {
+      "id": "A1",
+      "file": "ph_kirby.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "256x32, expected 256x32"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "10 colours excluding the key, ceiling 15"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "A2",
+      "file": "ph_enemy.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/A2/ph_enemy.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "A3",
+      "file": "ph_particle.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/A3/ph_particle.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "B1",
+      "file": "ph_sky.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/B1/ph_sky.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "B2",
+      "file": "ph_mount.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/B2/ph_mount.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "B3",
+      "file": "ph_hills.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/B3/ph_hills.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "B4",
+      "file": "ph_terrain.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/B4/ph_terrain.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "B5",
+      "file": "ph_fg.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/B5/ph_fg.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "C1",
+      "file": "ph_trunk.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/C1/ph_trunk.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "C2",
+      "file": "ph_boss_face.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/C2/ph_boss_face.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "C3",
+      "file": "ph_branch.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/C3/ph_branch.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "C4",
+      "file": "ph_apple.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/C4/ph_apple.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "D1",
+      "file": "ph_ability_fx.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/D1/ph_ability_fx.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "E1",
+      "file": "ph_title_stars.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/E1/ph_title_stars.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "E2",
+      "file": "ph_title_hill.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/E2/ph_title_hill.png"
+        }
+      ],
+      "status": "missing"
+    },
+    {
+      "id": "E3",
+      "file": "ph_title_logo.png",
+      "checks": [
+        {
+          "check": "delivered",
+          "status": "missing",
+          "detail": "not found: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/p1/E3/ph_title_logo.png"
+        }
+      ],
+      "status": "missing"
+    }
+  ]
+}

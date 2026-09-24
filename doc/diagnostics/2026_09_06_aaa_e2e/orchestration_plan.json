@@ -1,0 +1,240 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "orchestration_plan",
+  "tool": {
+    "name": "harness_orchestration",
+    "version": "1.1.0"
+  },
+  "generated_at": "2026-09-06T23:54:14.003563Z",
+  "run_id": "quality-forge_aaa_e2e_20260906",
+  "context_digest": "617264cc09006194abb4887558359d8c3a9b1e772cf62a104ad951e5c9a514f8",
+  "work_frontier_digest": "427bed9272fd20476189dbf22187070ba02a53c05be3776c7e515dd6989cdd55",
+  "coordinator_policy": {
+    "single_claim_owner": true,
+    "single_promotion_owner": true,
+    "single_final_memory_owner": true,
+    "worker_default_access": "read_only",
+    "human_gate_may_block_only_dependent_branches": true
+  },
+  "tasks": [
+    {
+      "task_id": "review_code",
+      "objective": "Independently review code for forge_aaa_e2e_20260906",
+      "task_kind": "code_review",
+      "owner_skill": "code/sgdk-code-reviewer",
+      "identity_scope": null,
+      "dependencies": [],
+      "execution_mode": "subagent_read_only",
+      "decision_reasons": [
+        "independent_read_heavy_work",
+        "protects_coordinator_context"
+      ],
+      "requested_model_tier": "balanced",
+      "model_tier": "balanced",
+      "expected_seconds": 120,
+      "context_capsule": {
+        "inherit_full_history": false,
+        "maximum_words": 900,
+        "canonical_context_digest": "617264cc09006194abb4887558359d8c3a9b1e772cf62a104ad951e5c9a514f8",
+        "work_frontier_digest": "427bed9272fd20476189dbf22187070ba02a53c05be3776c7e515dd6989cdd55",
+        "input_artifacts": [
+          {
+            "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+            "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a"
+          },
+          {
+            "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+            "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c"
+          },
+          {
+            "path": "doc/06_AI_MEMORY_BANK.md",
+            "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89"
+          }
+        ],
+        "required_output_paths": [],
+        "claim_ceiling": "independent_quality_review_only",
+        "acceptance_commands": [
+          "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+        ],
+        "prohibitions": [
+          "no writes",
+          "no self approval",
+          "no scope expansion",
+          "no claim promotion",
+          "no taste-only blocker"
+        ]
+      },
+      "write_lease": {
+        "mode": "none",
+        "paths": [],
+        "protected_paths": [
+          "."
+        ]
+      },
+      "result_contract": {
+        "maximum_summary_words": 350,
+        "raw_logs_must_be_files": true,
+        "hash_bindings_required": true,
+        "claim_ceiling": "independent_quality_review_only"
+      },
+      "planning_warnings": []
+    },
+    {
+      "task_id": "review_hardware",
+      "objective": "Independently review hardware for forge_aaa_e2e_20260906",
+      "task_kind": "budget_analysis",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "identity_scope": null,
+      "dependencies": [],
+      "execution_mode": "subagent_read_only",
+      "decision_reasons": [
+        "independent_read_heavy_work",
+        "protects_coordinator_context"
+      ],
+      "requested_model_tier": "balanced",
+      "model_tier": "balanced",
+      "expected_seconds": 120,
+      "context_capsule": {
+        "inherit_full_history": false,
+        "maximum_words": 900,
+        "canonical_context_digest": "617264cc09006194abb4887558359d8c3a9b1e772cf62a104ad951e5c9a514f8",
+        "work_frontier_digest": "427bed9272fd20476189dbf22187070ba02a53c05be3776c7e515dd6989cdd55",
+        "input_artifacts": [
+          {
+            "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+            "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a"
+          },
+          {
+            "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+            "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c"
+          },
+          {
+            "path": "doc/06_AI_MEMORY_BANK.md",
+            "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89"
+          }
+        ],
+        "required_output_paths": [],
+        "claim_ceiling": "independent_quality_review_only",
+        "acceptance_commands": [
+          "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+        ],
+        "prohibitions": [
+          "no writes",
+          "no self approval",
+          "no scope expansion",
+          "no claim promotion",
+          "no taste-only blocker"
+        ]
+      },
+      "write_lease": {
+        "mode": "none",
+        "paths": [],
+        "protected_paths": [
+          "."
+        ]
+      },
+      "result_contract": {
+        "maximum_summary_words": 350,
+        "raw_logs_must_be_files": true,
+        "hash_bindings_required": true,
+        "claim_ceiling": "independent_quality_review_only"
+      },
+      "planning_warnings": []
+    },
+    {
+      "task_id": "review_governance",
+      "objective": "Independently review governance for forge_aaa_e2e_20260906",
+      "task_kind": "documentation_audit",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "identity_scope": null,
+      "dependencies": [],
+      "execution_mode": "subagent_read_only",
+      "decision_reasons": [
+        "independent_read_heavy_work",
+        "protects_coordinator_context"
+      ],
+      "requested_model_tier": "balanced",
+      "model_tier": "balanced",
+      "expected_seconds": 120,
+      "context_capsule": {
+        "inherit_full_history": false,
+        "maximum_words": 900,
+        "canonical_context_digest": "617264cc09006194abb4887558359d8c3a9b1e772cf62a104ad951e5c9a514f8",
+        "work_frontier_digest": "427bed9272fd20476189dbf22187070ba02a53c05be3776c7e515dd6989cdd55",
+        "input_artifacts": [
+          {
+            "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+            "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a"
+          },
+          {
+            "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+            "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c"
+          },
+          {
+            "path": "doc/06_AI_MEMORY_BANK.md",
+            "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89"
+          }
+        ],
+        "required_output_paths": [],
+        "claim_ceiling": "independent_quality_review_only",
+        "acceptance_commands": [
+          "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+        ],
+        "prohibitions": [
+          "no writes",
+          "no self approval",
+          "no scope expansion",
+          "no claim promotion",
+          "no taste-only blocker"
+        ]
+      },
+      "write_lease": {
+        "mode": "none",
+        "paths": [],
+        "protected_paths": [
+          "."
+        ]
+      },
+      "result_contract": {
+        "maximum_summary_words": 350,
+        "raw_logs_must_be_files": true,
+        "hash_bindings_required": true,
+        "claim_ceiling": "independent_quality_review_only"
+      },
+      "planning_warnings": []
+    }
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "mode": "parallel_workers",
+      "task_ids": [
+        "review_code",
+        "review_governance",
+        "review_hardware"
+      ]
+    }
+  ],
+  "summary": {
+    "task_count": 3,
+    "delegated_count": 3,
+    "coordinator_count": 0,
+    "blocked_count": 0,
+    "runnable_count": 3,
+    "identity_serial_groups": [],
+    "writer_conflict_task_ids": [],
+    "worker_slots": 3,
+    "maximum_worker_context_and_result_words": 3750
+  },
+  "token_policy": {
+    "goal": "minimize_total_tokens_before_minimizing_wall_clock",
+    "static_instructions_first": true,
+    "dynamic_capsule_last": true,
+    "full_history_fork_default": false,
+    "raw_logs_in_coordinator_context": false,
+    "validation_cache_key": "tool_sha256+tool_version+args+input_manifest_sha256+schema_sha256",
+    "final_critical_validation_must_rerun": true
+  },
+  "claim_ceiling": "orchestration_plan_only",
+  "status": "ready"
+}

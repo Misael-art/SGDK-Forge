@@ -16,10 +16,16 @@ Esta skill existe para o gap puro de audio senior no workspace.
 - `z80-pcm-custom-driver`
   - dono de drivers Z80 customizados, streaming PCM avancado, manipulacao direta de DAC/YM2612, PSG por registrador e qualquer tecnica alem do wrapper XGM2; esta skill coordena mas nao implementa low-level
 
+Piso da cena viva (escola Diggo): `doc/03_art/18_live_scene_bar.md` axiomas
+D1-D3. Identidade Neo Geo/arcade se **traduz** para YM2612/PSG/PCM. Dump de
+sample nao e arrange. Trilha e co-autora da cena. Tech demo 3D (Shannon)
+prova audio **carregado** no DMA; XGM2 pode perder para XGM1 nesse recorte
+— declare o driver real (S2/S3).
+
 ## Ler antes de agir
 
 1. `doc/05_technical/93_16bit_hardware_mastery_registry.json`
-2. `sdk/sgdk-2.11/inc/xgm2.h`
+2. `sdk/sgdk-2.11/inc/snd/xgm2.h`
 3. samples oficiais relevantes em `sdk/sgdk-2.11/sample/`
 4. `tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/sgdk_211_api_reality.json`
 5. `references/audio_event_contract.json`
@@ -29,6 +35,11 @@ Esta skill existe para o gap puro de audio senior no workspace.
 9. `tools/sgdk_wrapper/schemas/audio_architecture_card.schema.json`
 10. `tools/sgdk_wrapper/schemas/composition_scope_contract.schema.json`
 11. `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/audio_architecture_card.example.json`
+12. `tools/audio-tools/README.md`
+
+Para criar notas, motivos e arranjo nativo, use tambem
+`../megadrive-music-composition/SKILL.md`. A composicao entrega VGM e fonte
+autoral; esta skill fecha ownership, eventos e prova da mix em runtime.
 
 ## Quando usar
 
@@ -107,6 +118,7 @@ Esta skill existe para o gap puro de audio senior no workspace.
 
 - tocar tudo no mesmo canal por conveniencia
 - tentar soar como SNES por acumulacao de samples/eco, ignorando que o Mega Drive depende de FM/PSG/DAC e budget de barramento
+- dump de PCM Neo Geo/arcade como BGM final (`chip_identity_not_translated`, D1/D3)
 - usar sample orchestral longo como identidade principal sem ROM budget, sample audit e fallback FM/PSG
 - dizer "FM synth" sem declarar patch palette, canal dono e papel perceptivo
 - usar DAC/PCM sem reconhecer tradeoff com FM_CH6/ownership XGM2
@@ -188,6 +200,14 @@ promove audio, ROM, runtime ou qualidade final sem prova auditiva/emulador.
 - combinar com `z80-pcm-custom-driver` quando audio AAA exigir drivers customizados, streaming PCM avancado, manipulacao de DAC ou efeitos alem do XGM2; esta skill define a arquitetura e ownership, z80-pcm-custom-driver implementa o low-level
 - combinar com `megadrive-vdp-budget-analyst` para coordenar DMA budget vs. bus contention com Z80 audio
 
+## Prova audiovisual de audio
+
+Separar `audio_signal_present`, sincronismo evento-audio e qualidade sonora.
+WAV/hash/ffprobe medem presença e integridade; nao sao audicao. `audio_quality`
+so pode passar com listener capaz ou revisor humano, intervalo realmente ouvido,
+audio preservado e erro de sincronismo medido. Captura sem WAV permanece
+`not_present`/`needs_review`, nunca silencio aprovado.
+
 ## Contrato Operacional
 
 ### Entrada minima
@@ -228,6 +248,11 @@ promove audio, ROM, runtime ou qualidade final sem prova auditiva/emulador.
 - trilha modular/adaptativa possui stems/layers, transicoes e fallback antes da integracao
 - `sound_chip_identity_plan` declara escola sonora, papeis FM/PSG/DAC, politica para referencias SNES/sampleadas e suposicoes proibidas
 - samples foram auditados por formato antes da integracao
+- assets declarados em `.res` passaram por
+  `tools/audio-tools/audit_audio_provenance.py --verify-hashes`; path, tipo e
+  taxa precisam coincidir com `res/resources.res`
+- WAV PCM de 8 bits foi tratado como unsigned com centro 128; signed vale para
+  o payload SDAT/XGM2, nao para os bytes armazenados no container WAV
 - `validate_audio.ps1` e planejado ou executado quando houver audio em `.res`
 - audio nao mascara feedback critico de gameplay
 - toda tecnica de audio aplicada consta no registry/manifesto; driver Z80 customizado, DAC direto, PSG PCM ou CSM continuam restritos ao status humano vigente

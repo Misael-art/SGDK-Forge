@@ -1,0 +1,39 @@
+{
+  "schema_version": "layer_plan.v1",
+  "scene_id": "vegetable_valley_golden_scene",
+  "canvas_contract": {"logical_resolution":"320x224", "camera":"side_on_h40", "hud_safe_strip":{"y0":0,"y1":24}, "gameplay_floor_top":170},
+  "depth_role_map": [
+    {"semantic_role":"sky_atmosphere", "hardware_surface":"BG_B", "band":"0-63", "parallax_ratio":0.0, "contrast":"lowest", "translation":"discrete sky bands and cloud tiles; no smooth gradient"},
+    {"semantic_role":"distant_mountains", "hardware_surface":"BG_B", "band":"64-104", "parallax_ratio":0.125, "contrast":"low", "translation":"cool silhouettes with sparse clusters"},
+    {"semantic_role":"rolling_hills_and_orchard", "hardware_surface":"BG_B", "band":"105-153", "parallax_ratio":0.34, "contrast":"medium_low", "translation":"reusable hill, tree and vegetable tiles"},
+    {"semantic_role":"playable_terrain", "hardware_surface":"BG_A", "band":"154-224", "parallax_ratio":1.0, "contrast":"high_at_collision_edge", "translation":"grass cap, soil strata, raised ledge and gap as modular tiles"},
+    {"semantic_role":"foreground_occlusion", "hardware_surface":"sprites_or_priority_art", "band":"190-224", "parallax_ratio":1.25, "contrast":"high_but_sparse", "translation":"leaf cluster kept clear of actor feet and collision top"},
+    {"semantic_role":"actors_and_ability_fx", "hardware_surface":"sprite_engine", "band":"118-188", "parallax_ratio":1.0, "contrast":"highest", "translation":"hero, enemy and wind/suction clusters remain separate assets"}
+  ],
+  "composition_schema": {
+    "route": "scene_local_preload",
+    "bg_b": "sky + mountains + hills/orchard, shared palette family, line-scroll bands",
+    "bg_a": "terrain only; no duplicate full background",
+    "foreground": "grafted sparse leaf clusters; fallback is priority terrain edge without foreground sprite",
+    "window": "HUD only; never used as third background plane or occlusion mask",
+    "camera_motion": "current dead-zone camera; no change to runtime camera in this cycle",
+    "seam_policy": "all source layers share 320px anchors and 8px tile boundaries; later world panels must hide seam behind foreground or collision-safe ridge"
+  },
+  "shared_canvas_contract": {"origin":"top_left", "grid":"8x8", "actor_anchor":"integer_pivot_at_feet", "collision_anchor":"grass_top_not_art_shadow", "forbidden":"free_scale_and_non_integer_motion"},
+  "route_decision_record": {"dominant_route":"A_sunlit_cultivation", "resource_loading_model":"scene_local_preload", "asset_strategy":"mixed_bg_tiles_foreground_sprite_graft", "fallback":"compare_flat_with_bg_a_terrain_and_bg_b_atmosphere", "status":"locked_visual_direction_composition_reference_only"},
+  "hardware_budget_review": {
+    "baseline_runtime_observation": {"sprites_per_frame": 25, "scanline_peak_sprites": 18, "scanline_limit_h40": 20, "peak_dma_bytes_per_frame": 1792, "ability_cpu_p99_percent": 60},
+    "offline_scene_steps": {
+      "base": {"hardware_sprite_links": 12, "max_sprites_per_scanline": 4, "max_pixels_per_scanline": 128, "status": "ok"},
+      "next_density": {"hardware_sprite_links": 20, "max_sprites_per_scanline": 7, "max_pixels_per_scanline": 192, "status": "ok"},
+      "stress_probe": {"hardware_sprite_links": 19, "max_sprites_per_scanline": 19, "max_pixels_per_scanline": 336, "status": "error", "blocker": "sprite_pixels_per_scanline_over_320"}
+    },
+    "integration_rule": "The stress probe is a measured stop line, not a target. Integrate only after native assets and runtime choreography are measured in the emulator."
+  },
+  "delivery_findings": [
+    "Candidate art is not native SGDK art and cannot enter res/.",
+    "Current res/ symbols remain procedural placeholders with acceptance_status=placeholder.",
+    "Palette, layer, anchor and provenance contracts exist; human approval and native translation remain open.",
+    "No claim of live-scene-bar compliance exists for this candidate because no new BlastEm evidence was captured."
+  ]
+}

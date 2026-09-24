@@ -54,6 +54,7 @@ Se um documento de menor prioridade contradizer um superior, ele deve ser tratad
 - Todo material especifico de projeto permanece no projeto. Fontes externas usadas sao copiadas para `rascunho/` e registradas por hash; apenas wrapper, SDK e emuladores permanecem como dependencias compartilhadas centrais.
 - Implementacao ou arquitetura alterada exige sincronizar `doc/10-memory-bank.md` e `doc/changelog/changelog.md`.
 - Aprendizado local estruturado vive em `doc/agent_learning/learning_ledger.json`; `Audit` e read-only e `Capture` nunca escreve fora do projeto.
+- `ai-memory` e camada opcional consultiva: marcadores `.ai-memory.toml` podem rotear handoff/busca por workspace/projeto, mas a autoridade continua nos docs canonicos, validators, changelog e evidencia BlastEm. O wrapper prepara apenas marcadores/politica/report; nao instala hooks/MCP globais nem aplica auto-improve.
 - Propostas de patch canonico permanecem locais, `not_applied` e pendentes de aprovacao humana, teste e regressao.
 - Claims de movimento critico, road physics e boss modular sao explicitamente
   classificados; o framework nao infere esses claims por palavras soltas.
@@ -176,12 +177,16 @@ Ele e definido por:
 1. `pipelines/aaa_scene_v1.json`
 2. `workflows/aaa-scene-pipeline.md`
 3. `workflows/production-loop.md`
-4. `workflows/project-methodology-adoption.md`
-5. `workflows/route-decision-gate.md` quando a rota tecnica ainda nao estiver congelada
-6. `workflows/visual-first-project-lifecycle.md` quando o projeto for
+4. `workflows/causal-persistence-loop.md` quando houver terminal condition,
+   blocker repetido ou falha de uma unica ferramenta
+5. `workflows/native-sprite-production-loop.md` quando concept, raster high-res
+   ou arte de IA precisar virar personagem/objeto/FX nativo
+6. `workflows/project-methodology-adoption.md`
+7. `workflows/route-decision-gate.md` quando a rota tecnica ainda nao estiver congelada
+8. `workflows/visual-first-project-lifecycle.md` quando o projeto for
    `aaa_game`, vertical slice, reseed ou estiver preso em runtime seed com
    `visual_gate_blocked`
-7. as `SKILL.md` reais invocadas por cada etapa
+9. as `SKILL.md` reais invocadas por cada etapa
 
 Workflows descrevem ordem.
 Skills descrevem como executar.
@@ -251,6 +256,7 @@ Para trabalho de cena visual, a cadeia oficial e:
 1c. Visual gate antecipado: antes de loops longos de runtime, aprovar direcao visual minima. Procedural/debug/lab nao pode virar final por exaustao.
 2. `art/multi-plane-composition`
 3. `art/art-translation-to-vdp`
+3b. `art/native-sprite-production` quando o alvo for sprite, sheet, objeto ou FX autoral
 4. `art/visual-excellence-standards`
 5. `hardware/megadrive-vdp-budget-analyst`
 6. `code/sgdk-runtime-coder`

@@ -1,0 +1,29 @@
+{
+  "schema_version": "forward_test_portfolio_matrix.v1",
+  "date": "2026-09-02",
+  "workspace": "SGDK_projects",
+  "selection_rule": "all recursive roots with a project context manifest, plus direct entries without one",
+  "res_modified": false,
+  "runtime_modified": false,
+  "projects": [
+    {"path": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "context": "aaa_game", "eligibility": "eligible", "actor": "blue_player", "decision": "blocked_native_authoring"},
+    {"path": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]", "context": "aaa_game", "eligibility": "eligible", "actor": "lio", "decision": "blocked_no_identity_authority"},
+    {"path": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]", "context": "technical_demo", "eligibility": "control_excluded", "actor": null, "decision": "lab_control"},
+    {"path": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]", "context": "technical_demo", "eligibility": "control_excluded", "actor": null, "decision": "validator_fixture_lab"},
+    {"path": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]", "context": "technical_demo", "eligibility": "control_excluded", "actor": null, "decision": "lab_control"},
+    {"path": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GAME] [ACTION_PLATFORMER]", "context": "unknown", "eligibility": "inconsistent", "actor": null, "decision": "documentation_inconsistent_empty_root"},
+    {"path": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "context": "aaa_game", "eligibility": "eligible", "actor": "kirby_player", "decision": "blocked_scale_contract"},
+    {"path": "KIRBY_FAN GAME GROK AX ALPHA [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "context": "unknown", "eligibility": "inconsistent", "actor": null, "decision": "documentation_inconsistent_empty_root"},
+    {"path": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "context": "aaa_game", "eligibility": "eligible", "actor": "kirby_player", "decision": "blocked_scale_contract"},
+    {"path": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]", "context": "aaa_game", "eligibility": "eligible", "actor": "taina_player", "decision": "blocked_native_authoring"},
+    {"path": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]", "context": "unknown", "eligibility": "control_excluded", "actor": null, "decision": "lab_or_smoke_control"},
+    {"path": "_agent_laboratory/LIVE_BAR_FR2 [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]", "context": "technical_demo", "eligibility": "control_excluded", "actor": null, "decision": "live_bar_lab_control"},
+    {"path": "_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]", "context": "exercise", "eligibility": "control_excluded", "actor": null, "decision": "training_control"},
+    {"path": "_agent_training/[ESTUDO]_mugen_sff_showdown_v1", "context": "exercise", "eligibility": "control_excluded", "actor": null, "decision": "training_control"},
+    {"path": "_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer", "context": "unclassified", "eligibility": "inconsistent", "actor": null, "decision": "unclassified_nested_viewer"}
+  ],
+  "eligible_project_count": 5,
+  "eligible_with_forward_test_artifacts": 4,
+  "eligible_blocked_before_runtime": 5,
+  "claim_ceiling": "concept_and_technical_candidate_staging_only"
+}

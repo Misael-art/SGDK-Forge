@@ -1,0 +1,62 @@
+{
+  "schema_version": "hybrid_cleanup_validation.v1",
+  "status": "technical_validation_only",
+  "candidates": [
+    {
+      "asset_id": "hybrid_cleanup_primary_im_lanczos3_v01",
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+      "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+      "status": "technical_candidate",
+      "blocking": false,
+      "content_sha256": "0ff3f0061a77d549201a48121edfe9f6b1a00b65820e830c848241dd82d693a3",
+      "visible_colors": 14,
+      "dimensions": [
+        56,
+        80
+      ],
+      "plte_entries": 16,
+      "bit_depth": 4,
+      "index0_role": "transparent0"
+    },
+    {
+      "asset_id": "hybrid_cleanup_challenger_im_mitchell_netravali_v01",
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/hybrid_cleanup_challenger_im_mitchell_netravali_v01.png",
+      "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61",
+      "status": "technical_candidate",
+      "blocking": false,
+      "content_sha256": "7a5b7d3d28d5d9098fd62bc9b9d0107b4970ab86918b07909ee771bef7397743",
+      "visible_colors": 15,
+      "dimensions": [
+        56,
+        80
+      ],
+      "plte_entries": 16,
+      "bit_depth": 4,
+      "index0_role": "transparent0"
+    },
+    {
+      "asset_id": "hybrid_cleanup_control_im_catmull_rom_v01",
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/hybrid_cleanup_control_im_catmull_rom_v01.png",
+      "sha256": "e4376a53b4aec651b50f57676e2550a14ba738dd01196a850f46a2762fcde45c",
+      "status": "technical_candidate",
+      "blocking": false,
+      "content_sha256": "d7788a8b5c83513a8d97e2514e856cf7aa8cc8315dafae7dbf6725471d364b5b",
+      "visible_colors": 14,
+      "dimensions": [
+        56,
+        80
+      ],
+      "plte_entries": 16,
+      "bit_depth": 4,
+      "index0_role": "transparent0"
+    }
+  ],
+  "human_gate_status": "pending_human_decision",
+  "promotion": {
+    "res": false,
+    "animation": false,
+    "runtime": false,
+    "rom": false,
+    "aaa": false
+  }
+}

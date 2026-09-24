@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "offline_sprite_candidate_budget",
+  "asset_id": "kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_c_v02_fitted_diagnostic",
+  "candidate_sha256": "9a54d03133232762470b3823002d772a762a9ecfe91d1b1aaafb45c0aa5a9eb8",
+  "scale": {"canvas_px": [88, 136], "visible_bbox": [0, 8, 87, 135], "visible_height_px": 128, "gdd_minimum_px": 128, "status": "passed"},
+  "vram_resident_set": {"canvas_tiles": 187, "raw_unique_tiles": 117, "flip_dedup_unique_tiles": 117, "tile_bytes_flip_dedup": 3744, "measurement": "offline indexed candidate; no rescomp integration"},
+  "rom_asset_cost": {"status": "not_measured", "reason": "candidate remains outside res/"},
+  "load_time_dma_cost": {"status": "not_measured", "reason": "candidate remains outside runtime"},
+  "per_frame_dma_cost": {"status": "not_measured", "reason": "candidate remains outside runtime"},
+  "active_animation_window": {"status": "not_defined", "reason": "idle key pose only; animation intentionally blocked"},
+  "scene_local_scope": ["kairo_c_candidate", "ryo_reference", "hit_spark_a", "hit_spark_b", "dust_a", "dust_b", "dust_c", "dust_d"],
+  "scanline_sprite_pressure": {"report": "rascunho/scale_correction_20260905/c_scale_candidate_worst_frame_scanline_report.json", "hardware_sprite_count": 29, "total_sprite_links": 29, "max_sprites_per_scanline": 9, "max_pixels_per_scanline": 216, "limits": {"sprites_per_scanline": 20, "pixels_per_scanline": 320}, "status": "offline_pass"},
+  "technical_verdict": "cabe_offline_com_geometry_margin",
+  "perceptual_verdict": "nao_medido_em_runtime",
+  "runtime_verdict": "not_proven",
+  "receding_conditions": ["measure rescomp tile residency after native authoring", "measure DMA with active animation window", "re-run two-fighter plus HUD and full FX worst frame", "capture BlastEm evidence bound to current ROM"],
+  "claim_ceiling": "mechanical_geometry_probe; no validado_budget and no visual_approved"
+}

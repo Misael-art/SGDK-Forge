@@ -55,6 +55,7 @@ Use esta skill para:
 ### Saida minima
 
 - `cutscene_scene_contract`
+- `cinematic_storyboard_contract`
 - `cutscene_fsm_script`
 - `cutscene_panel_layout`
 - `cutscene_resource_plan`
@@ -88,6 +89,7 @@ Use esta skill para:
 ## Saidas obrigatorias
 
 - `cutscene_scene_contract`
+- `cinematic_storyboard_contract`
 - `cutscene_fsm_script`
 - `cutscene_storyboard_board`
 - `cutscene_panel_layout`
@@ -95,12 +97,38 @@ Use esta skill para:
 - `cutscene_palette_script`
 - `cutscene_text_timing_map`
 - `cutscene_audio_cue_map`
+- `cutscene_motion_beat_map`
+- `cutscene_panel_animation_contract`
 - `cutscene_teardown_plan`
 - `cutscene_evidence_plan`
 
 ## Contrato de FSM
 
 Cutscene nao e video. Cada momento da cena e um estado.
+
+## Contrato machine-readable
+
+Para `aaa_gate`, a cutscene precisa apontar
+`doc/scene-contracts.json > cutscene_contract.cinematic_storyboard_contract`
+para um JSON valido contra
+`tools/sgdk_wrapper/schemas/cinematic_storyboard_contract.schema.json`.
+
+Esse contrato unifica o storyboard em dados verificaveis:
+
+- autoridade de roteiro/spec/contexto e tres referencias tecnicas;
+- direcao cinematica, ferramentas de fake cinema e signature moment;
+- FSM table-driven com estados, triggers, surfaces, paletas, texto, audio e teardown;
+- budget por estado: VRAM residente, DMA de entrada, DMA por frame, glyph cache e sprite pressure;
+- ownership de `WINDOW`, CRAM, scroll, audio e H-Int com reset/fallback;
+- gate visual: fonte premium, aprovacao humana e `visual_delivery_gate_report`;
+- plano de evidencia BlastEm: screenshot, SRAM, VDP dump, baseline e freshness.
+
+`lint_scene_contract.ps1 -Mode aaa_gate` bloqueia:
+
+- `SC107`: cutscene sem `cinematic_storyboard_contract`;
+- `SC108`: contrato ausente, JSON invalido ou campos estruturais faltando;
+- `SC109`: H-Int ativo sem owner, reset e fallback;
+- `SC110`: `ready_for_aaa=true` sem fonte de producao e aprovacao humana.
 
 Cada estado precisa declarar:
 
@@ -114,8 +142,28 @@ Cada estado precisa declarar:
 - `advance_trigger`: `WAIT_INPUT`, `WAIT_FRAMES`, `TEXT_DONE`, `AUDIO_CUE_DONE` ou combinacao declarada
 - `duration_frames`
 - `dynamic_fx`: palette cycle, fade seletivo, hscroll, H-Int, shake, blink, mouth, pan
+- `motion_beats`: hold, blink, mouth, pan, shake, palette pulse, actor reaction ou stillness intencional
+- `animation_link`: qual sprite/portrait/painel muda, quantos frames e qual regra de loop/retorno
 - `audio_cue`
 - `exit_teardown`
+
+### FSM table-driven para runtime SGDK
+
+Regra generalizada para handoff de cutscenes table-driven ao runtime SGDK.
+
+Quando a cutscene tiver quatro ou mais beats, o handoff para runtime deve nascer
+como tabela de estados/passos, nao como `update()` monolitico. O formato pode
+variar, mas precisa carregar no minimo:
+
+- frame inicial/final ou duracao por estado
+- texto/string id e posicao/ancora
+- trigger de avancar, skip ou completar typewriter
+- callbacks ou IDs de `on_enter`/`on_exit`
+- recursos/paleta/surface usados naquele estado
+- teardown esperado antes do proximo estado
+
+Isso reduz branching, facilita revisao temporal e impede que typewriter, skip,
+fade e troca de painel fiquem misturados em uma cadeia de `if/else`.
 
 ## Direcao visual anime 90s
 
@@ -162,12 +210,33 @@ Obrigatorio:
 - nenhuma chamada insegura de texto sem truncamento
 - owner unico de `WINDOW` ou regiao de `BG_A` usada para dialogo
 
+## Movimento cinematico minimo
+
+Cutscene AAA nao precisa animar tudo, mas precisa dirigir o tempo. Cada estado
+declara `cutscene_motion_beat_map`:
+
+- `hold`: pausa intencional com duracao e motivo dramatico;
+- `blink_or_mouth`: retrato vivo quando rosto estiver legivel;
+- `pan_or_scroll`: movimento de camera por scroll quando o painel pedir escala;
+- `reaction_frame`: pequena mudanca de expressao, mao, ombro ou silhueta;
+- `impact_motion`: shake, flash, speed line ou palette pulse separado;
+- `stillness_justification`: quando o quadro parado e escolha dramatica, nao falta de plano.
+
+Blockers:
+
+- `dead_panel_cutscene`
+- `portrait_static_without_justification`
+- `cutscene_motion_beat_missing`
+- `motion_steals_text_readability`
+- `cutscene_return_state_dirty`
+
 ## Truques de hardware permitidos
 
 Use truques para sugerir cinema com pouco movimento:
 
 - pan horizontal ou vertical por scroll
 - blink/mouth frames em retrato
+- special cut-in de golpe: gameplay pausado por poucos frames, rosto ou busto em tiles grandes, speed lines/palette flash separados e retorno de estado limpo
 - palette cycling para agua, neon, energia, alerta e brilho
 - fade seletivo por paleta
 - camera shake curto em revelacao ou impacto
@@ -175,6 +244,10 @@ Use truques para sugerir cinema com pouco movimento:
 - Shadow/Highlight apenas quando houver `palette_slot_audit`
 
 H-Int nao e tempero. E callback global. Sem owner e teardown, a cena fica bloqueada.
+
+Special cut-in nao e video nem sprite gigante em gameplay ativo. Ele exige
+estado proprio na FSM, `cutscene_resource_plan`, budget por estado, owner de
+paleta/texto/audio e teardown simetrico antes de voltar ao jogo.
 
 ## Budget por estado
 
@@ -206,7 +279,10 @@ Cutscene so fecha gate com:
 ## Passa quando
 
 - existe FSM de cutscene antes do runtime
+- `cinematic_storyboard_contract` existe e valida antes de qualquer claim AAA
 - todos os estados possuem assets, texto, trigger, FX, audio e teardown declarados
+- todos os estados narrativos AAA possuem `cutscene_motion_beat_map` ou `stillness_justification`
+- retrato falante/close-up com rosto legivel possui blink, mouth, reaction frame ou justificativa de silencio visual
 - paineis, retratos e texto possuem budget por estado
 - full-screen foi justificado ou substituido por painel/pan
 - texto tem cadence e controle de avanco
@@ -223,10 +299,15 @@ Cutscene so fecha gate com:
 ## Anti-padroes
 
 - prompt de imagem sem `cutscene_scene_contract`
+- cutscene AAA sem `cinematic_storyboard_contract`
 - usar uma ilustracao fullscreen gigante como ROM final sem budget
 - texto parado sobre imagem morta sem ritmo, som ou composicao
+- painel morto sem `cutscene_motion_beat_map` ou `stillness_justification`
+- retrato falante sem blink/mouth/reaction quando o rosto e grande o bastante para ler
 - importar expectativa de PC Engine CD, SNES ou Sega CD como se fosse capacidade SGDK automatica
 - H-Int sem owner
 - fade preto generico para toda emocao
 - cutscene que nao sabe como sai para a proxima cena
 - chamar de anime 90s uma imagem moderna suavizada e borrada
+- cutscene com muitos beats codificada como `update()` crescente sem tabela de
+  estados, sem `on_enter`/`on_exit` e sem teardown por passo

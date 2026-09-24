@@ -1,0 +1,827 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-07-20T23:50:26Z",
+  "source_digest": "b76f95ae1c07fea9213082e139ee781429f8cc61a3c0336d6b9609cc8dd48fd5",
+  "lessons": [
+    {
+      "lesson_id": "lesson_579bf0228d160f01",
+      "title": "BlastEm e metricas tecnicas poderiam ser interpretados como prova de audio, hardware real, qualidade criativa ou jogo completo.",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-20",
+      "problem_signature": "blastem_e_metricas_tecnicas_poderiam_ser_interpretados_como_prova_de_audio_hardware_real_qualidade_criativa_ou_jogo_completo",
+      "context": "escopo de validacao",
+      "observation": "BlastEm e metricas tecnicas poderiam ser interpretados como prova de audio, hardware real, qualidade criativa ou jogo completo.",
+      "diagnosis": "Claims distintos estavam proximos no mesmo closeout sem uma fronteira explicita por eixo.",
+      "resolution_or_preventive_heuristic": "Registrar status por eixo e manter hardware, audio humano, visual e release bloqueados ate evidencia propria.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/hardware_test_gate_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_027f73be47822dee",
+      "title": "Memory bank, changelog e reports podem manter hashes ou status de momentos diferentes.",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-20",
+      "problem_signature": "memory_bank_changelog_e_reports_podem_manter_hashes_ou_status_de_momentos_diferentes",
+      "context": "continuidade documental",
+      "observation": "Memory bank, changelog e reports podem manter hashes ou status de momentos diferentes.",
+      "diagnosis": "Relatorios mutaveis e narrativas historicas nao tinham um auditor unico de identidade e status ativo.",
+      "resolution_or_preventive_heuristic": "Executar `doc_sync_audit` antes de handoff forte; report stale nao pode permanecer como claim ativo.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/failure_patterns.md",
+          "doc/changelog/changelog.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/audit_doc_sync.py",
+        "owner_skill": "governance/aaa-pipeline-guardian",
+        "match_rule_id": "doc_claim_sync_audit_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/audit_doc_sync.py",
+        "summary": "Review existing owner against project lesson: Memory bank, changelog e reports podem manter hashes ou status de momentos diferentes.",
+        "required_tests": [
+          "doc sync contradiction regression",
+          "real project doc_sync_report"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_095576a1474b5b56",
+      "title": "O heartbeat continuava escrevendo depois da exportacao e podia corromper a serie de performance ja selada.",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-20",
+      "problem_signature": "o_heartbeat_continuava_escrevendo_depois_da_exportacao_e_podia_corromper_a_serie_de_performance_ja_selada",
+      "context": "exportacao SRAM",
+      "observation": "O heartbeat continuava escrevendo depois da exportacao e podia corromper a serie de performance ja selada.",
+      "diagnosis": "Dois produtores compartilhavam a mesma regiao de SRAM sem ownership temporal pos-exportacao.",
+      "resolution_or_preventive_heuristic": "Selar a janela somente quando completa e impedir qualquer escrita concorrente sobre o payload exportado.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/failure_patterns.md",
+          "out/evidence/blastem/save.sram",
+          "out/logs/performance_capture_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_79eb9c3b67d66bc6",
+      "title": "Uma captura quase branca foi aceita inicialmente como evidencia suficiente de runtime.",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-20",
+      "problem_signature": "uma_captura_quase_branca_foi_aceita_inicialmente_como_evidencia_suficiente_de_runtime",
+      "context": "evidencia visual",
+      "observation": "Uma captura quase branca foi aceita inicialmente como evidencia suficiente de runtime.",
+      "diagnosis": "O gate conferia presenca/hash do arquivo, mas nao verificava informacao visual minima nem limitava os claims derivados.",
+      "resolution_or_preventive_heuristic": "Exigir gate semantico de screenshot e reconciliar visual, gameplay e performance pelo menor status comprovado.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/failure_patterns.md",
+          "out/evidence/stale/scene2_capture_20260627_225407/screenshot.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_cc8ae88a2b613bbf",
+      "title": "Uma janela curta de 32 amostras podia parecer estavel sem representar uma janela regional completa.",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-20",
+      "problem_signature": "uma_janela_curta_de_32_amostras_podia_parecer_estavel_sem_representar_uma_janela_regional_completa",
+      "context": "telemetria de performance",
+      "observation": "Uma janela curta de 32 amostras podia parecer estavel sem representar uma janela regional completa.",
+      "diagnosis": "O probe nao tinha alvo regional, flag explicita de conclusao nem contrato de captura parcial.",
+      "resolution_or_preventive_heuristic": "Exigir alvo configuravel, contagem completa e `probe_window_complete`; captura parcial permanece `unproven`.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/evidence/blastem/runtime_metrics_mdrt.json",
+          "out/evidence/blastem_pal/runtime_metrics_mdrt.json",
+          "out/logs/performance_capture_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1548552f56ab4bac",
+      "title": "configurable_full_window_runtime_probe",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-20",
+      "problem_signature": "configurable_full_window_runtime_probe",
+      "context": "",
+      "observation": "Generalizar janela completa, conclusao explicita e reconciliacao entre serie e agregados sem fixar valores de um unico jogo.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Testar em outro projeto/cena com metas configuraveis; preservar fixture de captura parcial e regressao NTSC/PAL."
+      ],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/evidence/blastem/runtime_metrics_mdrt.json",
+          "out/evidence/blastem_pal/runtime_metrics_mdrt.json",
+          "out/logs/performance_capture_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/parse_blastem_sram_runtime.ps1",
+        "owner_skill": "operation/emulator-vdp-evidence-curator",
+        "match_rule_id": "configurable_full_window_runtime_probe_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/parse_blastem_sram_runtime.ps1",
+        "summary": "Review existing owner against project lesson: configurable_full_window_runtime_probe",
+        "required_tests": [
+          "complete and partial window parser regression",
+          "cross-project configurable window fixture"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_0b1b58b959367edf",
+      "title": "doc_claim_sync_audit",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-20",
+      "problem_signature": "doc_claim_sync_audit",
+      "context": "",
+      "observation": "Evitar contradicao forte entre ROM, status gerado, memoria, changelog e reports ativos.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Retomar apos P2-001 gerar `out/logs/doc_sync_report.json` real e a regressao bloquear hash/status contraditorio."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/changelog/changelog.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/audit_doc_sync.py",
+        "owner_skill": "governance/aaa-pipeline-guardian",
+        "match_rule_id": "doc_claim_sync_audit_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/audit_doc_sync.py",
+        "summary": "Review existing owner against project lesson: doc_claim_sync_audit",
+        "required_tests": [
+          "doc sync contradiction regression",
+          "real project doc_sync_report"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_0bdfe58bd62b46b1",
+      "title": "hardware_evidence_adoption_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-20",
+      "problem_signature": "hardware_evidence_adoption_gate",
+      "context": "",
+      "observation": "Fazer novos projetos que aleguem hardware/release nascerem com protocolo, manifesto e bloqueio externo proporcional.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Testar adocao em fixture nova e registrar pelo menos uma sessao externa valida antes de ampliar claims."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/hardware_test_protocol.md",
+          "out/logs/hardware_test_gate_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+        "owner_skill": "operation/rom-mastering",
+        "match_rule_id": "hardware_evidence_adoption_gate_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+        "summary": "Review existing owner against project lesson: hardware_evidence_adoption_gate",
+        "required_tests": [
+          "hardware manifest adoption fixture",
+          "external evidence remains blocking regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ea2e44c5d7f117a3",
+      "title": "independent_session_context_recovery",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-20",
+      "problem_signature": "independent_session_context_recovery",
+      "context": "",
+      "observation": "Garantir que uma nova sessao encontre blocker, ROM, claim ceiling e proxima acao sem reorientacao humana.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Retomar apos P2-001 e exigir log de sessao independente mais context recovery report sem promocao historica."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/changelog/changelog.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/workflows/handoff.md",
+        "owner_skill": "governance/aaa-pipeline-guardian",
+        "match_rule_id": "independent_session_context_recovery_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/workflows/handoff.md",
+        "summary": "Review existing owner against project lesson: independent_session_context_recovery",
+        "required_tests": [
+          "independent session recovery fixture",
+          "historical status non-promotion regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2463effdf3559856",
+      "title": "sealed_sram_export_ownership",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-20",
+      "problem_signature": "sealed_sram_export_ownership",
+      "context": "",
+      "observation": "Impedir que heartbeat ou outro produtor altere um payload de evidencia depois do selo.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Definir ownership de offsets, teste de corrupcao pos-exportacao e compatibilidade com probes existentes."
+      ],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/evidence/blastem/save.sram",
+          "out/logs/performance_capture_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md",
+        "owner_skill": "operation/emulator-vdp-evidence-curator",
+        "match_rule_id": "sealed_sram_export_ownership_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md",
+        "summary": "Review existing owner against project lesson: sealed_sram_export_ownership",
+        "required_tests": [
+          "post-export corruption fixture",
+          "SRAM offset ownership regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ea2d163583ea8931",
+      "title": "Capturas NTSC e PAL separadas, com regiao observada e metas distintas, evitaram inferir PAL a partir de uma sessao NTSC.",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "qualified_local",
+      "observed_at": "2026-07-20",
+      "problem_signature": "capturas_ntsc_e_pal_separadas_com_regiao_observada_e_metas_distintas_evitaram_inferir_pal_a_partir_de_uma_sessao_ntsc",
+      "context": "compatibilidade regional",
+      "observation": "Capturas NTSC e PAL separadas, com regiao observada e metas distintas, evitaram inferir PAL a partir de uma sessao NTSC.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao substitui console real ou FPGA e nao cobre todas as cenas."
+      ],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/evidence/blastem/session_runtime.json",
+          "out/evidence/blastem_pal/freshness_report.json",
+          "out/evidence/blastem_pal/session_runtime.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_a58527088c6dec5e",
+      "title": "Janela completa e selada por regiao, com serie bruta e agregados reconciliados, sustentou o claim de estabilidade apenas no recorte observado.",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "qualified_local",
+      "observed_at": "2026-07-20",
+      "problem_signature": "janela_completa_e_selada_por_regiao_com_serie_bruta_e_agregados_reconciliados_sustentou_o_claim_de_estabilidade_apenas_no_recorte_observado",
+      "context": "performance cena 3",
+      "observation": "Janela completa e selada por regiao, com serie bruta e agregados reconciliados, sustentou o claim de estabilidade apenas no recorte observado.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao generalizar para outras cenas, audio, hardware, jogo completo ou release."
+      ],
+      "evidence": {
+        "grade": "E4_budget_and_regression",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/evidence/blastem/runtime_metrics_mdrt.json",
+          "out/evidence/blastem_pal/runtime_metrics_mdrt.json",
+          "out/logs/performance_budget_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_f7a9256a05b4ac76",
+      "title": "Limitar cada conclusao ao menor escopo comprovado permitiu fechar P1-003 sem promover visual, audio, hardware ou AAA.",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-20",
+      "problem_signature": "limitar_cada_conclusao_ao_menor_escopo_comprovado_permitiu_fechar_p1_003_sem_promover_visual_audio_hardware_ou_aaa",
+      "context": "decisao conservadora",
+      "observation": "Limitar cada conclusao ao menor escopo comprovado permitiu fechar P1-003 sem promover visual, audio, hardware ou AAA.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao usar a decisao conservadora para esconder blockers ou deixar reports stale sem reconciliacao."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/success_patterns.md",
+          "doc/changelog/changelog.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_95125b67e5541469",
+      "title": "ROM, SRAM, screenshot, metricas e identificador de sessao no mesmo bundle reduziram ambiguidade e permitiram auditar frescor.",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "qualified_local",
+      "observed_at": "2026-07-20",
+      "problem_signature": "rom_sram_screenshot_metricas_e_identificador_de_sessao_no_mesmo_bundle_reduziram_ambiguidade_e_permitiram_auditar_frescor",
+      "context": "evidencia BlastEm",
+      "observation": "ROM, SRAM, screenshot, metricas e identificador de sessao no mesmo bundle reduziram ambiguidade e permitiram auditar frescor.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Um bundle coerente ainda nao prova automaticamente gameplay amplo, qualidade visual ou audio."
+      ],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/evidence/blastem/evidence_manifest.json",
+          "out/evidence/blastem/freshness_report.json",
+          "out/evidence/blastem/screenshot.png"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_234e2730ec3b1740",
+      "title": "Um manifesto de hardware pendente e um validador bloqueante preservaram a verdade quando nao havia console, FPGA, video ou atestacao.",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-20",
+      "problem_signature": "um_manifesto_de_hardware_pendente_e_um_validador_bloqueante_preservaram_a_verdade_quando_nao_havia_console_fpga_video_ou_atestacao",
+      "context": "gate externo",
+      "observation": "Um manifesto de hardware pendente e um validador bloqueante preservaram a verdade quando nao havia console, FPGA, video ou atestacao.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "O gate implementado nao equivale a uma sessao fisica executada."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/hardware_test_protocol.md",
+          "out/logs/hardware_test_gate_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_579bf0228d160f01",
+      "title": "BlastEm e metricas tecnicas poderiam ser interpretados como prova de audio, hardware real, qualidade criativa ou jogo completo.",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_027f73be47822dee",
+      "title": "Memory bank, changelog e reports podem manter hashes ou status de momentos diferentes.",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/audit_doc_sync.py"
+    },
+    {
+      "lesson_id": "lesson_095576a1474b5b56",
+      "title": "O heartbeat continuava escrevendo depois da exportacao e podia corromper a serie de performance ja selada.",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E3_blastem",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_79eb9c3b67d66bc6",
+      "title": "Uma captura quase branca foi aceita inicialmente como evidencia suficiente de runtime.",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_cc8ae88a2b613bbf",
+      "title": "Uma janela curta de 32 amostras podia parecer estavel sem representar uma janela regional completa.",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E3_blastem",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_1548552f56ab4bac",
+      "title": "configurable_full_window_runtime_probe",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E3_blastem",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/parse_blastem_sram_runtime.ps1"
+    },
+    {
+      "lesson_id": "lesson_0b1b58b959367edf",
+      "title": "doc_claim_sync_audit",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/audit_doc_sync.py"
+    },
+    {
+      "lesson_id": "lesson_0bdfe58bd62b46b1",
+      "title": "hardware_evidence_adoption_gate",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_ea2e44c5d7f117a3",
+      "title": "independent_session_context_recovery",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/workflows/handoff.md"
+    },
+    {
+      "lesson_id": "lesson_2463effdf3559856",
+      "title": "sealed_sram_export_ownership",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E3_blastem",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md"
+    }
+  ],
+  "canonical_promotion_performed": false
+}

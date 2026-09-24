@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "native_sprite_staging_review",
+  "asset_id": "kairo_vant_combat_idle_direct_pixel_art_v01",
+  "claim_ceiling": "technical_candidate",
+  "source": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/kairo_vant_direct_pixel_art_source_v01.png",
+    "sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3",
+    "route_decision": "doc/art/kairo_vant/direct_pixel_art_v01_route_decision.json"
+  },
+  "candidate": {
+    "path": "out/visual_jobs/kairo_vant_combat_idle_direct_pixel_art_v01_technical/99c73cd209bfe7f7/basic/kairo_vant_combat_idle_direct_pixel_art_v01_technical.png",
+    "sha256": "1c7c86a503ecc966b47f43cdf6e408ef90fba52fd48dbe9ceb1f65c5ea653df5",
+    "content_sha256": "d8ef6c8bf90b7a0ac53055eeac6e8cb960d862110be84cc11db834b564654f51",
+    "size": [88, 136],
+    "visible_colors": 15,
+    "index0_role": "transparent0",
+    "pixel_contract": "passed",
+    "conversion_report": "out/visual_jobs/kairo_vant_combat_idle_direct_pixel_art_v01_technical/99c73cd209bfe7f7/reports/conversion_report.json",
+    "pixel_compliance_report": "out/visual_jobs/kairo_vant_combat_idle_direct_pixel_art_v01_technical/99c73cd209bfe7f7/reports/pixel_compliance_report.json"
+  },
+  "offline_budget": {
+    "report": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/direct_pixel_art_v01_vdp_budget_report.json",
+    "status": "ok_offline_only",
+    "unique_tiles": 100,
+    "unique_tile_bytes": 3200,
+    "hardware_cells_32x32": 15,
+    "peak_opaque_pixels_single_pose": 57,
+    "envelope_peak_sprites_per_scanline": 9,
+    "envelope_peak_pixels_per_scanline": 280,
+    "envelope_total_sprite_links": 27,
+    "notes": "Envelope contains Kairo 88x136, Ryo 64x104 reference and four 32x32 FX. It does not prove runtime residency, DMA, animation, gameplay or final visual quality."
+  },
+  "visual_review": {
+    "status": "pending",
+    "observed": [
+      "directly generated pixel-cluster hypothesis is more legible at 1x than the previous fitted C probe",
+      "face, hands, feet and blue/gold material separation remain visible in staging preview"
+    ],
+    "unproven_or_blocked": [
+      "native authorship gate",
+      "independent material topology gate",
+      "human visual approval",
+      "animation continuity",
+      "SGDK integration and BlastEm evidence"
+    ]
+  },
+  "promotion": {
+    "promotable": false,
+    "res_touched": false,
+    "build_touched": false,
+    "rom_touched": false,
+    "next_action": "native reauthoring or explicit human review of the 1x candidate; keep staging-only"
+  }
+}

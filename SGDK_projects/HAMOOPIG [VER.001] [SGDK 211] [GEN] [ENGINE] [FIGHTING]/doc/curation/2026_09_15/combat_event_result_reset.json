@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "combat_event_result_reset_20260915",
+  "title": "Resultado e fila de eventos precisam sobreviver ao tick, mas não ao round",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "combat_feedback_without_explicit_result_or_round_boundary_reset",
+  "observation": "Sem um campo de resultado, consumidores futuros teriam de inferir HIT/KO olhando vida ou pixels. Sem um reset explícito, eventos residuais poderiam atravessar a reinicialização da luta.",
+  "resolution_or_preventive_heuristic": "CombatEvent.result é definido após a aplicação central da vida; COMBAT_EVENTS_RESET() é chamado por FUNCAO_INICIALIZACAO() e também reutilizado pelo reset de tick. O resultado ainda não decide a tela de vitória.",
+  "evidence": {
+    "source": ["inc/combat_event.h", "src/combat_event.c", "src/player.c", "src/init.c"],
+    "test": ["tests/test_health_event_contract.py", "tests/test_combat_event_contract.py"],
+    "build_log": "out/logs/continuation_p04_event_result_reset_build.log",
+    "rom_sha256": "e4a85eed0a4c297e13607e76da314ac62b8823e731c26c5b2530599112070e87",
+    "suite": "14/14_passed"
+  },
+  "status": "implemented_p04_partial",
+  "limitations": [
+    "O resultado é telemetria; a resolução de vencedor/empate ainda está na FSM legada.",
+    "A captura vinculada ao hash é exploratória e não contém probe de eventos, VDP ou budget.",
+    "VDP, budget e revisão auditiva continuam pendentes."
+  ]
+}

@@ -1,0 +1,340 @@
+{
+  "character_id": "musgo",
+  "ip_status": "original",
+  "style_id": "angular_cps2_fighter",
+  "facing": "right",
+  "claim_ceiling": "source_candidate_runtime_prototype",
+  "reference_policy": "cps2_heavy_grappler_used_as_scale_timing_mass_only",
+  "max_cell_px": 128,
+  "shared_palette": [
+    [
+      255,
+      0,
+      255
+    ],
+    [
+      34,
+      34,
+      34
+    ],
+    [
+      68,
+      102,
+      34
+    ],
+    [
+      34,
+      68,
+      34
+    ],
+    [
+      68,
+      34,
+      34
+    ],
+    [
+      102,
+      102,
+      34
+    ],
+    [
+      136,
+      136,
+      68
+    ],
+    [
+      34,
+      34,
+      34
+    ],
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      102,
+      102,
+      68
+    ],
+    [
+      136,
+      136,
+      68
+    ],
+    [
+      170,
+      136,
+      68
+    ],
+    [
+      102,
+      102,
+      102
+    ],
+    [
+      170,
+      136,
+      34
+    ],
+    [
+      68,
+      68,
+      34
+    ],
+    [
+      238,
+      204,
+      136
+    ]
+  ],
+  "states": {
+    "100": {
+      "png": "res/sprite/musgo/100.png",
+      "sha256": "50e27c14b10ca6e487ba6e70287335688e7c1f919874f23bbc44dce2c7e20eb2",
+      "cell_px": [
+        80,
+        104
+      ],
+      "frames": 4,
+      "sources": [
+        "data/source_art/musgo/video_frames/idle/f001.png",
+        "data/source_art/musgo/video_frames/idle/f013.png",
+        "data/source_art/musgo/video_frames/idle/f024.png",
+        "data/source_art/musgo/video_frames/idle/f036.png"
+      ]
+    },
+    "101": {
+      "png": "res/sprite/musgo/101.png",
+      "sha256": "ba404290b963d4d49b6a3006043f119e5bcdeda59487fb6e18561f67a2f7579e",
+      "cell_px": [
+        80,
+        104
+      ],
+      "frames": 1,
+      "sources": [
+        "data/source_art/musgo/poses/haymaker.jpg"
+      ]
+    },
+    "102": {
+      "png": "res/sprite/musgo/102.png",
+      "sha256": "f497ea40448fca4d66963b677cb4e0b300d38a968150ee30b2f7737d5b8242b4",
+      "cell_px": [
+        80,
+        104
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/haymaker.jpg",
+        "data/source_art/musgo/video_frames/idle/f001.png"
+      ]
+    },
+    "104": {
+      "png": "res/sprite/musgo/104.png",
+      "sha256": "4fa936f2f3acbea5425f725b9e6802659b0122ff523a12f1d36307ea8e87d9ec",
+      "cell_px": [
+        96,
+        120
+      ],
+      "frames": 2,
+      "sources": [
+        "data/source_art/musgo/poses/overhead_slam.jpg",
+        "data/source_art/musgo/poses/haymaker.jpg"
+      ]
+    },
+    "105": {
+      "png": "res/sprite/musgo/105.png",
+      "sha256": "f497ea40448fca4d66963b677cb4e0b300d38a968150ee30b2f7737d5b8242b4",
+      "cell_px": [
+        80,
+        104
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/haymaker.jpg",
+        "data/source_art/musgo/video_frames/idle/f001.png"
+      ]
+    },
+    "106": {
+      "png": "res/sprite/musgo/106.png",
+      "sha256": "7a14d2581422ed4f07914afe38313f2ca07ddd252d6943477a25dd3f0d0aedf7",
+      "cell_px": [
+        80,
+        104
+      ],
+      "frames": 2,
+      "sources": [
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/haymaker.jpg"
+      ]
+    },
+    "151": {
+      "png": "res/sprite/musgo/151.png",
+      "sha256": "f497ea40448fca4d66963b677cb4e0b300d38a968150ee30b2f7737d5b8242b4",
+      "cell_px": [
+        80,
+        104
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/haymaker.jpg",
+        "data/source_art/musgo/video_frames/idle/f001.png"
+      ]
+    },
+    "200": {
+      "png": "res/sprite/musgo/200.png",
+      "sha256": "c4562ef4e2489928a206927f99da4e33107921ce1479ca5151606eaf95b13877",
+      "cell_px": [
+        64,
+        88
+      ],
+      "frames": 1,
+      "sources": [
+        "data/source_art/musgo/poses/crouch.jpg"
+      ]
+    },
+    "201": {
+      "png": "res/sprite/musgo/201.png",
+      "sha256": "07bec3efb5be11039ffbc650b97b3531ad29fdd41b565a935ad0db91a70833e5",
+      "cell_px": [
+        72,
+        88
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/poses/crouch.jpg",
+        "data/source_art/musgo/video_frames/walk/f008.png",
+        "data/source_art/musgo/poses/crouch.jpg"
+      ]
+    },
+    "300": {
+      "png": "res/sprite/musgo/300.png",
+      "sha256": "1f0852d2e26a36e8601e210d48195cef670b0e37659f7c8aec86fbe743ab36d7",
+      "cell_px": [
+        88,
+        112
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/video_frames/walk/f008.png",
+        "data/source_art/musgo/poses/idle_side_master.jpg",
+        "data/source_art/musgo/video_frames/walk/f008.png"
+      ]
+    },
+    "420": {
+      "png": "res/sprite/musgo/420.png",
+      "sha256": "9a8f54f8054973e1710345cb21dbd54345da39d2ccc490948027f95a17cee2de",
+      "cell_px": [
+        88,
+        104
+      ],
+      "frames": 6,
+      "sources": [
+        "data/source_art/musgo/video_frames/walk/f001.png",
+        "data/source_art/musgo/video_frames/walk/f008.png",
+        "data/source_art/musgo/video_frames/walk/f016.png",
+        "data/source_art/musgo/video_frames/walk/f024.png",
+        "data/source_art/musgo/video_frames/walk/f032.png",
+        "data/source_art/musgo/video_frames/walk/f040.png"
+      ]
+    },
+    "501": {
+      "png": "res/sprite/musgo/501.png",
+      "sha256": "fd90a3da02a45bfd8bc03d60875d0c3c23e92c592c0efac4b8470bdbfd5a398c",
+      "cell_px": [
+        80,
+        96
+      ],
+      "frames": 2,
+      "sources": [
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/crouch.jpg"
+      ]
+    },
+    "550": {
+      "png": "res/sprite/musgo/550.png",
+      "sha256": "eed708d478c74bfc2a958bd7af80d2f34dda2649db448b833f05e125223ed124",
+      "cell_px": [
+        72,
+        88
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/poses/crouch.jpg",
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/crouch.jpg"
+      ]
+    },
+    "606": {
+      "png": "res/sprite/musgo/606.png",
+      "sha256": "c4562ef4e2489928a206927f99da4e33107921ce1479ca5151606eaf95b13877",
+      "cell_px": [
+        64,
+        88
+      ],
+      "frames": 1,
+      "sources": [
+        "data/source_art/musgo/poses/crouch.jpg"
+      ]
+    },
+    "700": {
+      "png": "res/sprite/musgo/700.png",
+      "sha256": "4fa936f2f3acbea5425f725b9e6802659b0122ff523a12f1d36307ea8e87d9ec",
+      "cell_px": [
+        96,
+        120
+      ],
+      "frames": 2,
+      "sources": [
+        "data/source_art/musgo/poses/overhead_slam.jpg",
+        "data/source_art/musgo/poses/haymaker.jpg"
+      ]
+    },
+    "710": {
+      "png": "res/sprite/musgo/710.png",
+      "sha256": "ea9802e2a5272258bac468f434cf01ad4ec371f808fec7c7c69855bcaee6fdb2",
+      "cell_px": [
+        96,
+        120
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/video_frames/punch/f010.png",
+        "data/source_art/musgo/poses/overhead_slam.jpg",
+        "data/source_art/musgo/poses/haymaker.jpg"
+      ]
+    },
+    "720": {
+      "png": "res/sprite/musgo/720.png",
+      "sha256": "00c6171057e95b4502eeeeb694369890d91c508e91ae4d28e6d46f39cc770006",
+      "cell_px": [
+        88,
+        104
+      ],
+      "frames": 4,
+      "sources": [
+        "data/source_art/musgo/video_frames/walk/f008.png",
+        "data/source_art/musgo/poses/haymaker.jpg",
+        "data/source_art/musgo/video_frames/walk/f032.png",
+        "data/source_art/musgo/video_frames/idle/f001.png"
+      ]
+    },
+    "730": {
+      "png": "res/sprite/musgo/730.png",
+      "sha256": "fcda1a3185f4948a32e3b00118740d01794c3e3f7fb9281459d3ff9516851bd8",
+      "cell_px": [
+        88,
+        112
+      ],
+      "frames": 3,
+      "sources": [
+        "data/source_art/musgo/video_frames/walk/f008.png",
+        "data/source_art/musgo/poses/haymaker.jpg",
+        "data/source_art/musgo/video_frames/walk/f008.png"
+      ]
+    }
+  }
+}

@@ -1,0 +1,47 @@
+﻿{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-12T00:54:38.3908689Z",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "manifest_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/project_hygiene_manifest.json",
+  "status": "blocked",
+  "ready": false,
+  "blocking_statuses": [
+    "orphan_project_root_entry",
+    "noncanonical_project_entry_name"
+  ],
+  "details": [
+    {
+      "status": "orphan_project_root_entry",
+      "message": "A raiz do projeto possui entradas nao classificadas no manifesto de higiene.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/project_hygiene_manifest.json",
+      "details": {
+        "entries": [
+          "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/HAMOOPIG_icon.png"
+        ]
+      }
+    },
+    {
+      "status": "noncanonical_project_entry_name",
+      "message": "Material ativo possui nome nao portatil ou ambiguo; use minusculas, ASCII, snake_case/kebab-case e sem espacos.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+      "details": {
+        "policy": "portable_descriptive_v1",
+        "entries": [
+          "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/HAMOOPIG_icon.png"
+        ]
+      }
+    }
+  ],
+  "observed": {
+    "suspicious_project_artifacts": [],
+    "unexpected_root_entries": [
+      "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/HAMOOPIG_icon.png"
+    ],
+    "noncanonical_project_entries": [
+      "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/HAMOOPIG_icon.png"
+    ],
+    "external_inputs_checked": 0,
+    "external_path_references": [],
+    "workspace_root_orphans": []
+  }
+}

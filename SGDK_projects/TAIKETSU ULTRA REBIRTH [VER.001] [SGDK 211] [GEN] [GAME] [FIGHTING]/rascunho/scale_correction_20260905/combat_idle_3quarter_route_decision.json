@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_combat_idle_3quarter",
+  "source_path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_visual_producer_output_v02_alpha_clean.png",
+  "source_sha256": "171846af73bdd131e85197aa4abf767a4ebb8720a3f029f154e8e29fa5d08b78",
+  "target": {"width": 88, "height": 136, "hypothesis": "C"},
+  "route_shootout_report": "rascunho/scale_correction_20260905/combat_idle_3quarter_route_shootout_C/route_shootout_report.json",
+  "route_shootout_board": "rascunho/scale_correction_20260905/combat_idle_3quarter_route_shootout_C/route_exploration_board.png",
+  "board_sha256": "c8f6405d0bb7f88feb11a3cd6653c11170085d0b1a2bd04f960d4300acdc9d50",
+  "primary_underlay": {
+    "route_id": "im_lanczos3",
+    "path": "rascunho/scale_correction_20260905/combat_idle_3quarter_route_shootout_C/routes/im_lanczos3/raw_rgba.png",
+    "sha256": "f9ba87d4e1eda89b094a83cb6bee0b00d1d48a428f168ae83db7be6d2c12948b"
+  },
+  "challenger_underlay": {
+    "route_id": "im_mitchell_netravali",
+    "path": "rascunho/scale_correction_20260905/combat_idle_3quarter_route_shootout_C/routes/im_mitchell_netravali/raw_rgba.png",
+    "sha256": "52efcc529e7a97ba55df1c20ea8d87b0f6662b76300135cebe6e78272b4c4d14"
+  },
+  "control_underlay": {
+    "route_id": "im_nearest",
+    "path": "rascunho/scale_correction_20260905/combat_idle_3quarter_route_shootout_C/routes/im_nearest/raw_rgba.png",
+    "sha256": "83797eef37d5891a8363d2b556b1fa29a1773784046fb1c0fbaa32cfe3aacc8e"
+  },
+  "automatic_winner": null,
+  "selection_status": "mechanical_underlays_selected_for_native_reauthoring",
+  "claim_ceiling": "mechanical_geometry_probe",
+  "native_reauthoring_status": "not_started_editor_or_manual_bitmap_authoring_unavailable_in_host",
+  "integration_status": "blocked_until_native_authoring_pixel_fidelity_scale_budget_and_human_gates"
+}

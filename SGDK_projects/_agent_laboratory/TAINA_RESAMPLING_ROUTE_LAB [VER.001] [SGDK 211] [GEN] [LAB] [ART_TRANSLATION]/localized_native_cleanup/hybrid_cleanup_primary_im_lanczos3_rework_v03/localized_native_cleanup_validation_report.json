@@ -1,0 +1,36 @@
+{
+  "schema_version": "localized_native_cleanup_validation.v2",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v03",
+  "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v03/hybrid_cleanup_primary_im_lanczos3_rework_v03.png",
+  "sha256": "99160ec422010d2ac68fbb4b10cc03db72012316508882e1b9b8cf336ec51a33",
+  "pixel_contract": {
+    "status": "technical_candidate",
+    "blocking": false,
+    "content_sha256": "7b4a66ce1080ea09b339c5d116ffed4a1033d2b502482248e0ba54ac065fd118",
+    "visible_colors": 14,
+    "plte_entries": 16,
+    "bit_depth": 4,
+    "width": 56,
+    "height": 80
+  },
+  "index0_role": "transparent0",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "not_run",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "independent_topology_map": "independent_material_topology_map.png",
+  "patch_log": "cleanup_actions.json",
+  "patch_count": 44,
+  "null_patches_count": 0,
+  "ground_contact_report": "ground_contact_report.json",
+  "human_gate_status": "pending_human_decision",
+  "visual_status": "technical_pass_visual_rework",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "notes": [
+    "v03 starts from the v01 parent control and preserves macrogeometry.",
+    "v02 is discarded as a broad-remap visual regression and is not a source.",
+    "the independent map is a diagnostic ownership hypothesis, not proof of artistic material separation."
+  ]
+}

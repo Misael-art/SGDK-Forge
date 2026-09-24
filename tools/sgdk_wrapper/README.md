@@ -4,6 +4,12 @@ Sistema centralizado de build para projetos SGDK com validacao, auto-fix e prepa
 
 ## Solucao canonica
 
+> **Limite de responsabilidade:** este wrapper prepara, valida, integra e builda
+> assets. Ele não cria direção artística, não autoria personagem/cenário final e
+> não transforma conversão mecânica em aprovação visual. O ciclo artístico
+> completo está em
+> [`doc/03_art/20_canonical_art_production_lifecycle.md`](../../doc/03_art/20_canonical_art_production_lifecycle.md).
+
 O fluxo oficial deste workspace e:
 
 1. guardar os assets brutos em `res/data/`;

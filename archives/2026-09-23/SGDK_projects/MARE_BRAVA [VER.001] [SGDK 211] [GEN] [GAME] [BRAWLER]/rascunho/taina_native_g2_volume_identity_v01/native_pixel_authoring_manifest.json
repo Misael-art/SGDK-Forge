@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "status": "rejected_technical_control_visual_fail",
+  "round": "native_geometry_volume_identity_g2_v01",
+  "target_asset_id": "taina_48x64_native_g2_volume_identity_v01",
+  "target_scale": "48x64",
+  "comparison_only_scales": [
+    "64x96"
+  ],
+  "source": {
+    "asset_id": "face_and_guard_topology_visual_source_v01",
+    "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+    "role": "visual_source_reference_only",
+    "source_kind": "ai_generated_high_res",
+    "pixel_source_restriction": "model_sheet_only; not a native_pixel_source; not direct conversion input"
+  },
+  "rejected_controls": [
+    {
+      "asset_id": "taina_48x64_native_a1_material_clean_v01",
+      "sha256": "54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567",
+      "role": "material_topology_control_only"
+    },
+    {
+      "asset_id": "taina_48x64_geometry_face_guard_v01",
+      "sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+      "role": "technical_control_only"
+    }
+  ],
+  "candidate": {
+    "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+    "sha256": "e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30",
+    "method": "mechanical_scale_probe_from_procedural_raster_authoring",
+    "visible_colors": 15,
+    "res_promotion": false,
+    "animation_authorization": false
+  },
+  "gates": {
+    "shape_block": "passed",
+    "lineart": "passed",
+    "color_blocking": "passed",
+    "material_topology": "passed",
+    "pixel_contract": "passed",
+    "native_visual": "failed",
+    "scale": "reopened_by_human_review",
+    "budget": "passed",
+    "human": "rejected",
+    "sgdk_integration": "not_started",
+    "emulator": "not_started"
+  },
+  "provenance": {
+    "source_kind": "procedural_primitive",
+    "acceptance_status": "placeholder",
+    "interaction_channel": "cli_headless",
+    "producer_identity": "procedural_raster_authoring_visual_lab_control",
+    "diagnostic_annotation": "agent_curated_diagnostic_annotation"
+  },
+  "promotion": {
+    "promotable": false,
+    "target": "none",
+    "res_touched": false
+  },
+  "classification": ["technical_pass_visual_fail", "source_detail_lost", "generic_blocky_redraw", "identity_hooks_lost"],
+  "map_status": "internal_consistency_evidence_only_not_independent_proof",
+  "scale_gate_reopened_by_human_review": true,
+  "next_action": "author_independent_native_48x64_and_64x96_from_v02_model_sheet_contract; no_animation_or_res"
+}

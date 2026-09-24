@@ -14,6 +14,7 @@ O grafo deve cobrir somente:
 - `doc/05_technical/`
 - `doc/07_game_design/`
 - `doc/06_AI_MEMORY_BANK.md`
+- `doc/AI_MEMORY_POLICY.md`
 
 Controle de escopo: `.graphifyignore` na raiz do workspace.
 
@@ -30,7 +31,7 @@ Controle de escopo: `.graphifyignore` na raiz do workspace.
 2. Se stale:
    - `pwsh -File tools/sgdk_wrapper/graphify_forge.ps1 -Action update`
 3. Consultar:
-   - `pwsh -File tools/sgdk_wrapper/graphify_forge.ps1 -Action query -Question "..."`  
+   - `pwsh -File tools/sgdk_wrapper/graphify_forge.ps1 -Action query -Question "..."`
 4. Para qualquer decisão/edição:
    - abrir os arquivos canônicos citados e validar pela hierarquia de verdade.
 
@@ -38,6 +39,7 @@ Controle de escopo: `.graphifyignore` na raiz do workspace.
 
 - O wrapper `tools/sgdk_wrapper/graphify_forge.ps1` bloqueia `query` quando o grafo está stale.
 - O wrapper deve ser chamado por `pwsh`/PowerShell 7; `powershell.exe` legado não é a superfície suportada para consultas Graphify.
+- Operacoes externas do Graphify rodam com timeout controlado pelo wrapper. Se o executavel for bloqueado pelo host, o status deve ser `graphify_start_failed`, nao stack trace solto nem espera indefinida.
 - O preparo de ambiente grava `graphify-out/AGENT_ENVIRONMENT_REPORT.json` e serializa updates concorrentes para evitar disputa de cache quando multiplos agentes iniciam juntos.
 - Sempre que editar `tools/sgdk_wrapper/.agent/`, `doc/05_technical/`, `doc/07_game_design/` ou `doc/06_AI_MEMORY_BANK.md`, trate o grafo como stale e rode `update` antes de usar resultados do grafo em decisões.
 - Um grafo com violação de escopo é inválido mesmo que timestamps e snapshot indiquem frescor: `graph_status` deve virar `stale` com `reason=graph_scope_violation` e a correção exigida é `-Action build`.

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "characters": [
+    {
+      "id": "lio",
+      "scale_contract": {
+        "target_sprite_bbox": "48x64 or 64x80 after model sheet",
+        "scale_lock_status": "draft",
+        "hitbox_policy": "smaller than silhouette, lane-centered"
+      },
+      "identity_hooks": ["small courier cloak", "Lumen satchel/core", "bright face/eye read"]
+    },
+    {
+      "id": "master_pursuer",
+      "scale_contract": {
+        "target_sprite_bbox": "multi-stage boss, not locked",
+        "scale_lock_status": "draft",
+        "hitbox_policy": "weak point windows, not full body collision"
+      },
+      "identity_hooks": ["horn crown", "iron/deer silhouette", "red-gold chest core"]
+    }
+  ]
+}

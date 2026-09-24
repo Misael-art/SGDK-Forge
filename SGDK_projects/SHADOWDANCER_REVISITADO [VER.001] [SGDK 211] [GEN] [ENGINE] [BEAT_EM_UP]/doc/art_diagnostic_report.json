@@ -1,0 +1,326 @@
+{
+  "project_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]",
+  "scenario_detected": "2_res_exists_check",
+  "summary": "Projeto tem 9 asset(s) ativos referenciados em /res: 9 ok, 0 precisam conversao, 0 inadequados, 0 ausentes. Ha tambem 0 asset(s) fonte em /data; issues de fonte roteiam conversao, mas nao bloqueiam o build enquanto nao forem referenciados pelo grafo .res.",
+  "total_assets": 9,
+  "ok": 9,
+  "needs_conversion": 0,
+  "inadequate": 0,
+  "absent": 0,
+  "assets": [
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap0.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2048,
+      "height": 256,
+      "color_count": 15,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap1.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2000,
+      "height": 416,
+      "color_count": 14,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap2.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2048,
+      "height": 256,
+      "color_count": 15,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap3.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2560,
+      "height": 512,
+      "color_count": 15,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap_colisao0.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2048,
+      "height": 256,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "2 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap_colisao1.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2000,
+      "height": 416,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "2 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap_colisao2.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2048,
+      "height": 256,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "2 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/bigmap_colisao3.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 2560,
+      "height": 512,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "2 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]/res/sprite/spr_player.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 2112,
+      "color_count": 15,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "info",
+          "message": "Imagem candidata a sprite mede 576x2112px; o tamanho total pode representar strip/sheet e nao uma celula.",
+          "suggestion": "Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": "SPRITE spr_player \"sprite/spr_player.png\" 72 264 FAST 5"
+    }
+  ],
+  "source_asset_status": {
+    "total": 0,
+    "ok": 0,
+    "needs_conversion": 0,
+    "inadequate": 0,
+    "absent": 0,
+    "critical_issues": 0
+  },
+  "active_res_asset_status": {
+    "total": 9,
+    "ok": 9,
+    "needs_conversion": 0,
+    "inadequate": 0,
+    "absent": 0,
+    "critical_issues": 0
+  },
+  "build_blocking_issues": [],
+  "discovered_artifacts": 15,
+  "art_inventory": {
+    "source_art": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    },
+    "evidence_art": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    },
+    "active_res_art": {
+      "count": 15,
+      "paths": [
+        "res/bigmap0.png",
+        "res/bigmap1.png",
+        "res/bigmap2.png",
+        "res/bigmap3.png",
+        "res/bigmap_colisao0.png",
+        "res/bigmap_colisao1.png",
+        "res/bigmap_colisao2.png",
+        "res/bigmap_colisao3.png",
+        "res/sprite/spr_bomb.png",
+        "res/sprite/spr_disco.png",
+        "res/sprite/spr_enemy01.png",
+        "res/sprite/spr_enemy02.png",
+        "res/sprite/spr_enemy03.png",
+        "res/sprite/spr_enemy04.png",
+        "res/sprite/spr_player.png"
+      ],
+      "paths_omitted": 0
+    },
+    "lab_work_art": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    },
+    "analysis_art": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    },
+    "staging_art": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    },
+    "historical_art": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    },
+    "generated_artifacts": {
+      "count": 0,
+      "paths": [],
+      "paths_omitted": 0
+    }
+  },
+  "nested_projects": [],
+  "discovery_policy": {
+    "scope": "project_root_only",
+    "follow_symlinks": false,
+    "external_directories_followed": false,
+    "mode": "active_only",
+    "inventory_path_preview_limit": 25,
+    "hygiene_manifest": {
+      "path": "doc/project_hygiene_manifest.json",
+      "present": true
+    }
+  },
+  "discovery_warnings": [],
+  "recommended_actions": [],
+  "conversion_commands": [
+    "# Medir conformidade pixel-strict dos assets ativos:",
+    "python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0",
+    "# Validar recursos:",
+    "powershell -File tools\\sgdk_wrapper\\validate_resources.ps1",
+    "# Auto-fix sprite.res:",
+    "powershell -File tools\\sgdk_wrapper\\autofix_sprite_res.ps1"
+  ]
+}

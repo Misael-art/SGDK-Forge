@@ -1,0 +1,43 @@
+{
+  "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+  "candidate_sha256": "e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30",
+  "scale": "48x64",
+  "hardware_cells": {
+    "count": 4,
+    "decomposition": "2x2 <=32x32 VDP cells"
+  },
+  "hero_plus_four_enemies": {
+    "status": "ok",
+    "display_mode": "h40",
+    "sprite_count": 5,
+    "hardware_sprite_count": 20,
+    "total_sprite_links": 20,
+    "max_sprites_per_scanline": 10,
+    "max_sprite_pixels_per_scanline": 248,
+    "limits": {
+      "sprites_per_scanline": 20,
+      "pixels_per_scanline": 320
+    },
+    "headroom_justification": "static geometry challenger budget; pose readability and material separation require the measured 48x64 density; no runtime claim"
+  },
+  "next_3_plus_3_comparison_only": {
+    "status": "comparison_only",
+    "display_mode": "h40",
+    "sprite_count": 7,
+    "hardware_sprite_count": 28,
+    "total_sprite_links": 28,
+    "max_sprites_per_scanline": 14,
+    "max_sprite_pixels_per_scanline": 348,
+    "limits": {
+      "sprites_per_scanline": 20,
+      "pixels_per_scanline": 320
+    },
+    "note": "above H40 pixel limit; not part of budget_pass"
+  },
+  "tiles": {
+    "raw_tiles": 48,
+    "unique_tiles": 37,
+    "vram_unique_bytes": 1184,
+    "dma_upper_bound_bytes": 1184
+  }
+}

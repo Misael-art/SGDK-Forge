@@ -95,3 +95,12 @@
 - Blockers: project_naming_invalid, project_methodology_manifest_invalid, gdd_substantial_insufficient, agent_context_degraded, visual_gate_blocked, visual_delivery_gate_missing, audio_validation_missing, freshness_audit_missing, scene_closeout_gate_missing
 - Emulator evidence: sem_sessao
 
+## 2026-09-09T13:18:00-03:00 - runtime_probe_f01_canonical_merge_linux_capture
+
+- Task: runtime_probe_f01_canonical_merge_linux_capture
+- Probe: `inc/system/runtime_probe.h` e `src/system/runtime_probe.c` alinhados byte a byte ao modelo canônico; decisão preservou `gApp.currentScene`, MDRT/heartbeat e buffers estáticos do fixture.
+- Build: `linux_wine_bridge` concluído; ROM anterior `18aec2f55902aa572a7c49fbc15de27c2e2c8e8ad2f2693a691537f1289459ae`; ROM vigente `0866208ba8d3fcd12cee5038b47491fb3cc2176352a4d66ddc88d78c28cdacac` (262144 bytes).
+- Emulator evidence: sessão BlastEm Flatpak Linux `blastem-linux-20260909T160124Z-2601036`, manifest `sealed`, screenshot semantic gate `passed`, `save.sram` e `visual_vdp_dump.bin` real presentes, freshness da sessão `ok`.
+- Runtime scope: `scene_id=2` observado; alvo solicitado 3; 32 amostras, 0 sprites/scanline, 0 frames acima do budget, título 59.9 fps. Não promove cena 3, performance sustentada, áudio audível, arte final ou AAA.
+- Validation: errors=4, warnings=15; blockers de metodologia/higiene/GDD/visual/evidência histórica permanecem explícitos.
+

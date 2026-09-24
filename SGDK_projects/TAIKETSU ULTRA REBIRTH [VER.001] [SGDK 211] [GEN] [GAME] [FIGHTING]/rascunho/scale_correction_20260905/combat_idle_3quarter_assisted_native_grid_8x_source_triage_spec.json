@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_assisted_native_grid_guide_v01_8x_normalized.png",
+  "source_class": "native_pixel_art_integer_scale",
+  "intended_role": "translation_source",
+  "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+  "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+  "matte_policy": "border_connected",
+  "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+  "derivation": "Deterministic Point normalization of the assisted native-grid guide to an exact 8x logical canvas: 704x1088 equals 8x88x136. This is a mechanical guide normalization and remains non-final.",
+  "reviewer": "agent_curated_review",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Nearest-only 8x normalization preserves hard clusters for the integer-scale route probe; border-connected matte extraction remains mandatory."
+  }
+}

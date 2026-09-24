@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L093",
+  "date": "2026-09-15",
+  "topic": "title_transition_e170_current_rom",
+  "source": "blastem_framebuffer_video_and_manual_visual_inspection",
+  "rom_sha256": "e17027c059396f296ee417da773e1a145bb59efc10999d005cfc5b23679ecf56",
+  "problem": "A transição abertura → título precisava ser verificada no binário final após a promoção do Stage 2 para 864 tiles; capturas de SHA anterior não podiam sustentar a entrega atual.",
+  "change": "Recapturar a sequência temporal com --transition em sessão BlastEm limpa, a 60 fps, incluindo abertura, fade-out, intervalo preto, título, seletor e entrada no combate.",
+  "result": "A captura atual mostra abertura legível, fade para preto sem sobreposição de mapas, título/menu separado, seletor e combate no mesmo vídeo; o manifesto confirma o SHA e a captura final não é preta.",
+  "limits": [
+    "a inspeção é deste agente e não substitui review visual independente",
+    "o vídeo não mede pior-frame, DMA ou suavidade perceptual em hardware real",
+    "a sessão é select-only e não prova cobertura de gameplay/KO"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T135842Z/opening_title_transition.mp4",
+    "out/emulator_evidence/visual_ko_20260915T135842Z/00_title.png",
+    "out/emulator_evidence/visual_ko_20260915T135842Z/selected_final.png",
+    "out/emulator_evidence/visual_ko_20260915T135842Z/manifest.json",
+    "tests/capture_visual_ko.py"
+  ],
+  "status": "documented_current_sha_temporal_pass_independent_review_pending"
+}

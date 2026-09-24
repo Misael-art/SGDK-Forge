@@ -21,6 +21,9 @@ active_frames: [3]
 smear_frames: [3]
 hitstop_hold_frame: 3
 recovery_frames: [4, 5, 6]
+motion_physics_contract: required
+state_transition_motion_contract: required
+arc_path_map: fist sweeps forward in a shallow upward arc, cloth trails 2 frames
 root_foot_policy: rear foot locks until recovery, front foot advances on active
 center_of_mass_curve: back 3px, forward 9px, return 4px
 silhouette_peak_frame: 3
@@ -118,6 +121,31 @@ Acceptance checks:
 - `recovery_curve_report` proves the character does not snap back to idle.
 - `impact_frame_contract` identifies the frame that will be held during hitstop.
 - `hitstop_hold_frame` must be visually clean, unclipped, strongly silhouetted and readable at 320x224.
+- `motion_physics_contract` proves center of mass, gravity/contact, arcs and secondary inertia before polish.
+- `state_transition_motion_contract` proves how the action enters and exits runtime states without snapping.
+
+## Motion physics and state continuity
+
+Premium motion must look authored by physics even when every frame is
+pre-rendered.
+
+- Locomotion needs foot contact, passing pose, rise/drop and loop closure.
+- Jump and landing need gravity beats: compression, takeoff, airborne read,
+  landing impact and recovery.
+- Organic actions need arcs. Straight-line hand, weapon, hair or cloth paths
+  are only valid for intentionally mechanical motion.
+- Squash/stretch is pre-rendered and must conserve visual mass.
+- Runtime transitions preserve momentum: attack recovery pays inertia, landing
+  responds to fall speed, hurt/getup keeps ground_y and scale coherent.
+
+Blockers:
+
+- `motion_physics_missing`
+- `gravity_not_readable`
+- `foot_contact_untracked`
+- `arc_path_missing`
+- `snap_to_idle`
+- `state_transition_missing`
 
 ## Strike anatomy
 
@@ -171,12 +199,14 @@ Pixel art lighting is topology, not a filter.
 Required artifacts:
 
 - `shading_motion_report`
+- `subpixel_shading_motion_report` when micro-motion is simulated by ramps
 - `palette_flash_policy`
 - `palette_domain_report` when FX, P2 palette or HUD share CRAM space
 
 Blockers:
 
 - `static_shading_on_rotating_body`
+- `subpixel_shading_breaks_silhouette`
 - `muddy_requantized_flash`
 - `fx_palette_coupled_to_character_without_contract`
 - `white_material_palette_contract_failed`

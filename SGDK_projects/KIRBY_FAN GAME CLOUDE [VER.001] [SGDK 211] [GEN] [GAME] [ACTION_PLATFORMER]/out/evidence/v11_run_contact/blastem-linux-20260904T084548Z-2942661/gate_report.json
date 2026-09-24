@@ -1,0 +1,291 @@
+{
+  "schema_version": "1.0.0",
+  "tool_name": "harness_gates",
+  "verdict": "pass",
+  "hard_failure_count": 0,
+  "warning_count": 1,
+  "limits": {
+    "max_simultaneous_colors": 58,
+    "max_sprites_per_frame": 80,
+    "max_sprites_per_scanline": 20,
+    "max_cpu_load_p99": 100,
+    "max_over_budget_frames": 0,
+    "max_screenshot_colors": 174
+  },
+  "context": {
+    "session": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/evidence/v11_run_contact/blastem-linux-20260904T084548Z-2942661",
+    "vlab_schema_version": 1,
+    "vlab_metrics": {
+      "scene_id": 11,
+      "frame_counter_hi": 0,
+      "frame_counter_lo": 600,
+      "screen_width": 320,
+      "screen_height": 224,
+      "plane_width": 64,
+      "plane_height": 32,
+      "hscroll_mode": 0,
+      "vscroll_mode": 0,
+      "bga_address": 57344,
+      "bgb_address": 49152,
+      "window_address": 53248,
+      "sprite_list_address": 62464,
+      "hscroll_table_address": 61440,
+      "background_color": 0,
+      "frame_counter_snapshot": 600,
+      "sample_count": 32,
+      "over_budget_frames": 0,
+      "max_cpu_load": 22,
+      "max_cpu_jitter": 7,
+      "max_scanline_sprites": 1,
+      "max_used_vdp_sprites": 1,
+      "active_sprite_count": 1,
+      "target_fps": 60
+    },
+    "vlab_frame_counter": 600,
+    "mdrt_available": true,
+    "mdrt_error": null,
+    "capture_request": null,
+    "sealer_window_title": "SAMPLE PROGRAM - BlastEm - 60.2 fps",
+    "rom_sha256": "55b5759a27e18e0064653a285b80dcef378397c777f63704ed05025faa2e3b8c"
+  },
+  "gates": [
+    {
+      "name": "scene_identity",
+      "status": "pass",
+      "hard": true,
+      "summary": "requested scene 11, probe measured scene 11",
+      "detail": {
+        "requested_scene_id": 11,
+        "actual_scene_id": 11,
+        "requested_scene_name": null
+      }
+    },
+    {
+      "name": "color_budget",
+      "status": "pass",
+      "hard": true,
+      "summary": "43 distinct simultaneous colours (42 non-transparent CRAM entries + backdrop), limit 58",
+      "detail": {
+        "distinct_non_transparent": 42,
+        "simultaneous_colors": 43,
+        "limit": 58,
+        "backdrop_index": 0,
+        "backdrop_value": 1602,
+        "note": "Structural invariant: 60 non-transparent slots + 1 backdrop means this count can never exceed 61. Failing here means the VLAB dump is malformed, not that art overspent the budget."
+      }
+    },
+    {
+      "name": "cram_rgb333_legal",
+      "status": "pass",
+      "hard": true,
+      "summary": "0 CRAM entries outside the 0000BBB0GGG0RRR0 layout",
+      "detail": {
+        "illegal_entries": [],
+        "mask": "0x0EEE",
+        "note": "Structural invariant on this path: PAL_getColors() masks every entry with VDPPALETTE_COLORMASK (0x0EEE) as it reads CRAM, so an illegal value cannot reach the dump. Kept as a corruption canary only."
+      }
+    },
+    {
+      "name": "screenshot_color_count",
+      "status": "pass",
+      "hard": false,
+      "summary": "168 distinct colours in the 640x480 screenshot, limit 174",
+      "detail": {
+        "distinct_colors": 168,
+        "limit": 174,
+        "image_size": [
+          640,
+          480
+        ],
+        "note": "SOFT: cannot bound a scene that uses raster palette changes. One CRAM entry driven through N raster stops yields up to N*3 screen colours. Use color_budget (CRAM occupancy) as the real constraint. BlastEm scales the framebuffer with nearest-neighbour, so screenshot colours map 1:1 onto on-screen colours. Raise the limit to 183 if the project uses shadow/highlight."
+      }
+    },
+    {
+      "name": "sprites_per_frame",
+      "status": "pass",
+      "hard": true,
+      "summary": "peak 1 hardware VDP sprites, limit 80",
+      "detail": {
+        "peak": 1,
+        "limit": 80
+      }
+    },
+    {
+      "name": "sprites_per_scanline",
+      "status": "pass",
+      "hard": true,
+      "summary": "peak 1 sprites on a sampled scanline, limit 20",
+      "detail": {
+        "peak": 1,
+        "limit": 20,
+        "note": "SAMPLED, not exhaustive: the probe watches 4 scanlines per frame and rotates them, so a one-frame spike on an unwatched line is invisible. A pass is weak evidence; a fail is strong."
+      }
+    },
+    {
+      "name": "plane_size_locked",
+      "status": "pass",
+      "hard": true,
+      "summary": "plane is 64x32 tiles (4096 bytes per nametable); doc/VRAMMAP.md section 2 locks 64x32",
+      "detail": {
+        "plane_width": 64,
+        "plane_height": 32,
+        "plane_bytes": 4096,
+        "expected": [
+          64,
+          32
+        ]
+      }
+    },
+    {
+      "name": "vram_tables_in_range",
+      "status": "pass",
+      "hard": true,
+      "summary": "0 VDP tables extend past the 64KB VRAM window",
+      "detail": {
+        "regions": [
+          {
+            "name": "bg_a",
+            "start": 57344,
+            "end": 61440,
+            "bytes": 4096
+          },
+          {
+            "name": "bg_b",
+            "start": 49152,
+            "end": 53248,
+            "bytes": 4096
+          },
+          {
+            "name": "window",
+            "start": 53248,
+            "end": 57344,
+            "bytes": 4096
+          },
+          {
+            "name": "sprite_list",
+            "start": 62464,
+            "end": 63104,
+            "bytes": 640
+          },
+          {
+            "name": "hscroll_table",
+            "start": 61440,
+            "end": 62336,
+            "bytes": 896
+          }
+        ],
+        "vram_size": 65536,
+        "out_of_range": []
+      }
+    },
+    {
+      "name": "vram_tables_disjoint",
+      "status": "pass",
+      "hard": true,
+      "summary": "0 overlapping VDP table pairs",
+      "detail": {
+        "overlaps": [],
+        "regions": [
+          {
+            "name": "bg_a",
+            "start": 57344,
+            "end": 61440,
+            "bytes": 4096
+          },
+          {
+            "name": "bg_b",
+            "start": 49152,
+            "end": 53248,
+            "bytes": 4096
+          },
+          {
+            "name": "window",
+            "start": 53248,
+            "end": 57344,
+            "bytes": 4096
+          },
+          {
+            "name": "sprite_list",
+            "start": 62464,
+            "end": 63104,
+            "bytes": 640
+          },
+          {
+            "name": "hscroll_table",
+            "start": 61440,
+            "end": 62336,
+            "bytes": 896
+          }
+        ],
+        "note": "The window plane legitimately shares its address with BG_A in some SGDK configurations; investigate a bg_a~window hit before treating it as a bug."
+      }
+    },
+    {
+      "name": "vram_tile_budget",
+      "status": "pass",
+      "hard": true,
+      "summary": "declared tile usage 32128 bytes vs 49152 bytes available below the lowest VDP table (0xC000)",
+      "detail": {
+        "declared": {
+          "declared_tiles": 1004,
+          "declared_bytes": 32128,
+          "matched": "total[^\\n\\d]{0,40}?(\\d+)\\s*tiles"
+        },
+        "tile_area_bytes": 49152,
+        "lowest_table_address": 49152,
+        "note": "Checks the DECLARATION in the doc, not the ROM. It cannot detect tiles the code uploads without declaring them."
+      }
+    },
+    {
+      "name": "krb1_present",
+      "status": "warn",
+      "hard": false,
+      "summary": "no KRB1 telemetry block in save.sram; the KRB1-based gates below cannot run. Only scenes that call PROBE_STAGE_exportToSram emit it.",
+      "detail": {
+        "sram": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/evidence/v11_run_contact/blastem-linux-20260904T084548Z-2942661/save.sram"
+      }
+    },
+    {
+      "name": "zero_over_budget_frames",
+      "status": "pass",
+      "hard": true,
+      "summary": "0 frames exceeded the CPU budget in the sampled window",
+      "detail": {
+        "over_budget_frames": 0,
+        "limit": 0
+      }
+    },
+    {
+      "name": "cpu_load_p99",
+      "status": "pass",
+      "hard": true,
+      "summary": "CPU load p99 = 21% over 32 samples, limit 100%",
+      "detail": {
+        "p50": 14,
+        "p95": 15,
+        "p99": 21,
+        "worst": 21,
+        "sample_count": 32,
+        "limit": 100,
+        "note": "32 consecutive frames is roughly half a second. This is a snapshot, not sustained-performance evidence."
+      }
+    },
+    {
+      "name": "section_attribution",
+      "status": "pass",
+      "hard": false,
+      "summary": "peak raster lines per subsystem: input=2, scene=2, audio=2, sprite=188, vblank_idle=244",
+      "detail": {
+        "sections": {
+          "input": 2,
+          "scene": 2,
+          "audio": 2,
+          "sprite": 188,
+          "vblank_idle": 244
+        },
+        "note": "Resolution is one scanline (~0.4% of a frame). 'vblank_idle' is headroom, not work. Interrupts firing inside a section are charged to that section."
+      }
+    }
+  ],
+  "claim_limit": "These gates check ONE captured window of ONE scene. They prove nothing about scenes, inputs or durations that were not captured. Several gates are structural invariants that cannot fail; see tools/harness/README.md."
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "native_idle_key_pose_palette_role_map.v1",
+  "status": "candidate_palette_role_plan_pending_human_visual_approval",
+  "shared_contract": {
+    "index0": "transparent",
+    "grid": "RGB333 / 9-bit Mega Drive color grid",
+    "outline": "dark continuous contour, shared index 1",
+    "light_direction": "single upper-left",
+    "shadow_direction": "lower-right",
+    "material_roles": ["body_pink", "cheeks", "feet_red", "eyes"],
+    "forbidden": ["continuous_gradient", "skin_dithering", "anti_alias_microcolors", "ground_shadow", "checkerboard"]
+  },
+  "variants": {
+    "basic": {
+      "asset_id": "native_idle_key_pose_basic_v01",
+      "sha256": "473bcdeab5b1b7edf7d32aeafe4d5d7f49aedb780684e94fddfde66c5aec3ecd",
+      "visible_colors": 9,
+      "palette": {
+        "0": {"rgb": "#EE00EE", "role": "transparent0"},
+        "1": {"rgb": "#220022", "role": "outline"},
+        "2": {"rgb": "#EE88AA", "role": "body_pink_light"},
+        "3": {"rgb": "#CC6688", "role": "body_pink_base"},
+        "4": {"rgb": "#884466", "role": "body_pink_shadow"},
+        "5": {"rgb": "#CC4466", "role": "cheeks"},
+        "6": {"rgb": "#CC2222", "role": "feet_red_base"},
+        "7": {"rgb": "#660022", "role": "feet_red_shadow"},
+        "8": {"rgb": "#000044", "role": "eyes_dark"},
+        "9": {"rgb": "#EEEEEE", "role": "eyes_white"}
+      },
+      "material_roles": {"body_pink": [2, 3, 4], "cheeks": [5], "feet_red": [6, 7], "eyes": [8, 9]}
+    },
+    "elite": {
+      "asset_id": "native_idle_key_pose_elite_v01",
+      "sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29",
+      "visible_colors": 12,
+      "palette": {
+        "0": {"rgb": "#EE00EE", "role": "transparent0"},
+        "1": {"rgb": "#220022", "role": "outline"},
+        "2": {"rgb": "#EEAACC", "role": "body_pink_highlight"},
+        "3": {"rgb": "#EE88AA", "role": "body_pink_light"},
+        "4": {"rgb": "#CC6688", "role": "body_pink_base"},
+        "5": {"rgb": "#884466", "role": "body_pink_shadow"},
+        "6": {"rgb": "#CC4466", "role": "cheeks"},
+        "7": {"rgb": "#AA2244", "role": "cheeks_shadow"},
+        "8": {"rgb": "#EE4444", "role": "feet_red_highlight"},
+        "9": {"rgb": "#CC2222", "role": "feet_red_base"},
+        "10": {"rgb": "#660022", "role": "feet_red_shadow"},
+        "11": {"rgb": "#000044", "role": "eyes_dark"},
+        "12": {"rgb": "#EEEEEE", "role": "eyes_white"}
+      },
+      "material_roles": {"body_pink": [2, 3, 4, 5], "cheeks": [6, 7], "feet_red": [8, 9, 10], "eyes": [11, 12]}
+    }
+  },
+  "source_boundary": "Palette is authored for the native grid from the approved v03-A model-sheet reference; neither candidate is direct model-sheet quantization and neither is approved for res/ yet."
+}

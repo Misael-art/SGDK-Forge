@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "source": "data/builders/build_chase_audio.py",
+  "patches": [
+    {
+      "id": "pursuit_bass",
+      "ym2612_channel": 1,
+      "algorithm_feedback": "0x07",
+      "multipliers": [1, 2, 3, 4],
+      "total_levels": [36, 44, 52, 24],
+      "role": "bass ostinato"
+    },
+    {
+      "id": "celestial_lead",
+      "ym2612_channel": 2,
+      "algorithm_feedback": "0x07",
+      "multipliers": [2, 1, 2, 6],
+      "total_levels": [48, 38, 52, 20],
+      "role": "upper response voice"
+    }
+  ],
+  "global_envelope": {"attack_rate": 31, "decay_rate": 10, "sustain_rate": 4, "release": 38},
+  "human_timbre_approval": "pending"
+}

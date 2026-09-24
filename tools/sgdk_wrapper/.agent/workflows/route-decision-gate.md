@@ -116,6 +116,11 @@ Regra SGDK importante:
 - Nao carregar prancha grande inteira como `IMAGE` quando a cena pede streaming, paineis, metatiles ou camera.
 - Nao mexer em `resources.res` para "ver se aparece" antes de provar posicao, plano e budget.
 - Nao declarar `testado_em_emulador` por build ou por `READY`; precisa evidencia semantica da cena correta.
+- Operacao deterministica feita por screenshot, ponteiro ou GUI e
+  `interaction_channel_mismatch`: voltar para CLI/headless antes de repetir.
+- Duas tentativas equivalentes sem evidencia nova encerram a rota. Se o projeto
+  continua aberto, reclassificar ferramenta, representacao ou hipotese via
+  `workflows/causal-persistence-loop.md`.
 
 ---
 

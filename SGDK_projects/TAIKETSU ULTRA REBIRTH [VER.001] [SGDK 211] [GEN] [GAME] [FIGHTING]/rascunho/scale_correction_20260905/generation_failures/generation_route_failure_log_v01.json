@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "kairo_vant_visual_generation_route_failures",
+  "generated_at": "2026-09-05",
+  "source_authority": {
+    "path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_visual_producer_output_v02_alpha_clean.png",
+    "sha256": "171846af73bdd131e85197aa4abf767a4ebb8720a3f029f154e8e29fa5d08b78",
+    "role": "approved_visual_translation_source_only"
+  },
+  "route_policy": "Two equivalent visual-generation retries with contamination are closed; neither output is eligible for translation, native authorship, workset production_sources, res, or runtime.",
+  "attempts": [
+    {
+      "attempt_id": "imagegen_edit_v03",
+      "output": "rascunho/scale_correction_20260905/generation_failures/kairo_vant_combat_idle_3quarter_visual_producer_output_v03_glow_background.png",
+      "sha256": "78f8b8b6c2d2069730e6df38831d4a5de6c52fb301cdb1fe860339a53f4551b9",
+      "dimensions": [1024, 1536],
+      "symptom": "glow, gradient and opaque studio-like background were generated around the fighter",
+      "cause_class": "visual_producer_background_contamination",
+      "status": "rejected_reference_only",
+      "next_action": "do_not_matte_or_quantize; preserve approved alpha-clean source and hand off to native authoring"
+    },
+    {
+      "attempt_id": "imagegen_edit_v04",
+      "output": "rascunho/scale_correction_20260905/generation_failures/kairo_vant_combat_idle_3quarter_visual_producer_output_v04_checkerboard_baked.png",
+      "sha256": "464bcc6eadb79a238e6a694d7c86ee4b0d37c1e4210f3f895862f2a1bb79ad1b",
+      "dimensions": [1124, 1399],
+      "symptom": "checkerboard transparency pattern is baked into opaque RGB pixels",
+      "cause_class": "visual_producer_alpha_contamination",
+      "status": "rejected_reference_only",
+      "next_action": "do_not remove by global threshold; preserve approved alpha-clean source and hand off to native authoring"
+    }
+  ],
+  "route_decision": "generation_route_closed_after_two_equivalent_contamination_failures",
+  "remaining_gate": "native_reauthoring_over_fitted_c_scale_guide"
+}

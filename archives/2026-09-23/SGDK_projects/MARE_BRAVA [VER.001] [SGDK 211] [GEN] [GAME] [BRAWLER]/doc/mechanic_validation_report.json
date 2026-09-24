@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_mechanics_v01",
+  "timestamp": "2026-08-30T17:45:00Z",
+  "target_scope": "cais_01",
+  "mechanic_results": [
+    {
+      "mechanic_id": "combo_de_mare",
+      "status": "warn",
+      "laws_status": {"agency": "passed", "feedback": "passed", "flow": "warn", "consistency": "passed", "reward": "passed"},
+      "pillars_status": {"space": "passed", "trigger": "passed", "challenge": "passed", "limitation": "passed", "probability": "not_applicable"},
+      "issues": [{"code": "mechanic_flow_playtest_pending", "severity": "warn", "message": "Curva e tutorial estao declarados; o playtest BlastEm das tres arenas ainda falta."}]
+    }
+  ],
+  "summary": {"total": 1, "passed": 0, "warn": 1, "failed": 0, "orphan_mechanic_ids": [], "underused_mechanic_ids": []},
+  "blocking_statuses": []
+}

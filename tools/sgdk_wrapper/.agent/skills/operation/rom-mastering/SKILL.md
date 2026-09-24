@@ -51,8 +51,7 @@ Esta skill fecha a camada final da ROM. Ela nao torna o jogo bom; ela prova que 
 
 ## Evidencia de probe SRAM por escopo
 
-Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_RACING]`, evidencia `E2_project_runtime_probe`.
+Regra generalizada para interpretar probes SRAM por escopo.
 
 - `READY` em SRAM prova somente liveness/boot do runtime.
 - `SCN` em SRAM pode provar uma cena ou transicao nomeada quando cena esperada

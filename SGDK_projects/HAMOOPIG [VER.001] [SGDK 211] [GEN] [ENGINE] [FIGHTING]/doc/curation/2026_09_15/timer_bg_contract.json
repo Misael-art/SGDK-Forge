@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "timer_bg_compact_surface_20260915",
+  "title": "Contraste do relógio deve ser opcional e local",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "timer_background_full_width_black_or_unreachable_toggle",
+  "observation": "O relógio transparente resolve o fundo opaco, mas alguns fundos podem exigir contraste adicional. Um painel WINDOW global reintroduziria a faixa preta e esconderia o cenário.",
+  "resolution_or_preventive_heuristic": "Adicionar TIMER BG como preferência visual OFF por padrão; quando ON, escrever somente 6×2 tiles atrás dos dois dígitos e limpar ao sair da luta.",
+  "evidence": {
+    "source": "src/hud.c",
+    "config": "inc/config.h",
+    "menu": "src/title.c",
+    "test": "tests/test_clock_transparency.py",
+    "suite": "12/12_passed",
+    "rom_sha256": "90688a5d4f8dc5e613b12fc3a4e8e81ef1df5c5c56916e2d9f978b6fba811651",
+    "emulator_capture": "out/emulator_evidence/current_rom_20260915_options_cpu/",
+    "visual_scope": "title_boot_observed; in-fight ON/OFF review pending"
+  },
+  "status": "implemented_static_pass_visual_review_pending"
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "name": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "display_name": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "version": "1.0",
+  "sgdk_version": "2.11",
+  "layout": "flat",
+  "project_root": ".",
+  "sgdk_root": ".",
+  "build_policy": "enabled",
+  "kind": "technical_demo",
+  "category": "reference",
+  "notes": "Fixture tecnica neutra para contratos canonicos; sem claim de jogo completo ou AAA.",
+  "scene_regression": {
+    "required": false,
+    "manifest_path": "doc/scene-regression.json",
+    "report_path": "out/logs/scene_regression_report.json",
+    "scenes": []
+  },
+  "scene_contracts": {
+    "source_spec_path": "doc/13-spec-cenas.md",
+    "regression_manifest_path": "doc/scene-regression.json",
+    "compiled_path": "doc/scene-contracts.json",
+    "compile_mode": "lab"
+  },
+  "qa_proof_plan": {
+    "path": "doc/14-plano-de-provas-qa.md",
+    "required_for_new_projects": true
+  },
+  "methodology": {
+    "manifest_path": "doc/project_methodology_manifest.json",
+    "technique_usage_manifest_path": "doc/technique_usage_manifest.json",
+    "validator_report_path": "out/logs/project_methodology_report.json",
+    "required_for_closeout": true
+  },
+  "validation_artifacts": {
+    "validation_report_path": "out/logs/validation_report.json",
+    "project_methodology_report_path": "out/logs/project_methodology_report.json",
+    "runtime_metrics_path": "out/logs/runtime_metrics.json",
+    "scene_budget_report_path": "out/logs/scene_budget_report.json",
+    "scene_regression_report_path": "out/logs/scene_regression_report.json",
+    "emulator_session_path": "out/logs/emulator_session.json"
+  }
+}

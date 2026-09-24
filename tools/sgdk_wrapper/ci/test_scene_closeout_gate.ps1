@@ -1,4 +1,4 @@
-<# 
+<#
 .SYNOPSIS
     Smoke test for tools/sgdk_wrapper/scene_closeout_gate.ps1 plan mode.
 #>
@@ -48,11 +48,24 @@ Assert-True ($report.status -eq "ok") "Expected common status ok, got '$($report
 Assert-True ([int]$report.summary.planned -ge 1) "Expected planned steps"
 
 $stepNames = @($report.steps | ForEach-Object { $_.name })
-foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "validate_resources", "runtime_capture", "scene_regression", "promotion_claim_audit", "freshness_audit", "evidence_finalize")) {
+foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "validate_resources", "runtime_capture", "screenshot_semantic_gate", "scene_regression", "promotion_claim_audit", "fresh_evidence_bundle_audit", "freshness_audit", "doc_sync_audit", "evidence_finalize")) {
     Assert-True ($stepNames -contains $expected) "Expected planned step '$expected'"
 }
 $compilerStep = $report.steps | Where-Object { $_.name -eq "scene_contract_compiler" } | Select-Object -First 1
 Assert-True ($compilerStep -and (@($compilerStep.arguments) -contains "production")) "Expected closeout compiler to use production mode"
+$captureStep = $report.steps | Where-Object { $_.name -eq "runtime_capture" } | Select-Object -First 1
+$routeReportPath = Join-Path $LogDir "blastem_capture_route_report.json"
+Assert-True (Test-Path -LiteralPath $routeReportPath -PathType Leaf) "Expected host-bound BlastEm route report"
+$routeReport = Get-Content -LiteralPath $routeReportPath -Raw | ConvertFrom-Json
+$isWindowsHost = [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Win32NT
+if ($isWindowsHost) {
+    Assert-True ($routeReport.selected_route -eq "windows_powershell_blastem") "Windows plan selected the wrong BlastEm backend"
+    Assert-True ((@($captureStep.arguments) -join " ") -match "run_runtime_capture.ps1") "Windows plan did not select the Win32 capture script"
+} else {
+    Assert-True ($routeReport.selected_route -eq "linux_flatpak_blastem") "Linux plan selected the wrong BlastEm backend"
+    Assert-True ((@($captureStep.arguments) -join " ") -match "capture_blastem_evidence_linux.sh") "Linux plan did not select the Linux capture script"
+    Assert-True ((@($captureStep.arguments) -join " ") -notmatch "run_runtime_capture.ps1") "Linux plan leaked the Win32 capture script"
+}
 
 $BlockedProjectRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("sgdk_scene_closeout_blocked_test_{0}" -f ([guid]::NewGuid().ToString("N")))
 $BlockedDocDir = Join-Path $BlockedProjectRoot "doc"
@@ -66,7 +79,7 @@ $FakeToolDir = Join-Path ([System.IO.Path]::GetTempPath()) ("sgdk_scene_closeout
 New-Item -ItemType Directory -Force -Path $FakeToolDir | Out-Null
 [System.IO.File]::WriteAllText((Join-Path $FakeToolDir "py.bat"), "@echo off`r`nexit /b 0`r`n", [System.Text.Encoding]::ASCII)
 $OriginalPath = $env:PATH
-$env:PATH = "$FakeToolDir;$env:PATH"
+$env:PATH = "$FakeToolDir$([System.IO.Path]::PathSeparator)$env:PATH"
 
 & $ScriptUnderTest -ProjectRoot $BlockedProjectRoot -SceneId "visual_gate_fixture" -SkipBuild -SkipRuntimeCapture -SkipSceneRegression
 $blockedNoWarnExit = $LASTEXITCODE

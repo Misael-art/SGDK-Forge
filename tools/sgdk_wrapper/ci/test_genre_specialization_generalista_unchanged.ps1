@@ -10,10 +10,6 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-# Executor real do host; nunca "powershell" literal (ausente no Linux).
-. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
-$script:HostPwsh = Get-PowerShellExecutable
-
 $wrapperRoot = $null
 if ($args.Count -gt 0 -and $args[0]) {
     $wrapperRoot = $args[0]
@@ -25,6 +21,13 @@ $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $validator = Join-Path $wrapperRoot 'validate_fighting_specialization.ps1'
 $fixtureRoot = Join-Path $workspaceRoot 'out\ci\fighting_specialization_generalista_fixture'
 $reportPath = Join-Path $fixtureRoot 'out\logs\fighting_specialization_report.json'
+$powerShellHost = Get-Command pwsh -ErrorAction SilentlyContinue
+if ($null -eq $powerShellHost) {
+    $powerShellHost = Get-Command powershell -ErrorAction SilentlyContinue
+}
+if ($null -eq $powerShellHost) {
+    throw 'Nenhum host PowerShell encontrado (pwsh/powershell).'
+}
 
 $passed = 0
 $failed = 0
@@ -57,7 +60,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $fixtureRoot 'out\logs') | 
 
 # No doc/genre_specialization_manifest.json => generalista path.
 # No doc/project_methodology_manifest.json => validator must default to safe ceiling.
-& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
+& $powerShellHost.Source -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
 $validatorExit = $LASTEXITCODE
 Assert-True 'validator exits 0 on generalista (no manifest) project' ($validatorExit -eq 0) ("exit=$validatorExit")
 Assert-True 'report file emitted' (Test-Path -LiteralPath $reportPath) $reportPath

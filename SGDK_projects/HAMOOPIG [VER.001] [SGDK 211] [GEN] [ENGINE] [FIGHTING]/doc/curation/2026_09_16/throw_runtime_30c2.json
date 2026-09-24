@@ -1,0 +1,21 @@
+{
+  "lesson_id": "L114",
+  "date": "2026-09-16",
+  "topic": "throw_runtime_after_stage_asset_change",
+  "source": "P04_runtime_probe_review",
+  "rom_sha256": "30c2b7f779b98b9f594c7b605f6b8cc14a86793cddf804be846e5c30bc7ae873",
+  "problem": "A rota curta de aproximação podia terminar antes de a borda Y coincidir com estado neutro, produzindo resultado não determinístico.",
+  "change": "A aproximação real-keyboard de ambos os jogadores foi estendida para cinco segundos antes das bordas isoladas de Y.",
+  "result": "HSEM registrou throw_frames_p1=64 e throw_frames_p2=3; HPRB do mesmo SRAM registrou combat_total_throws=2 e combat_total_hits=2, com decisão de budget cabe.",
+  "limits": [
+    "prova alcançabilidade do evento, não animação, balanceamento ou combo completo",
+    "P10 e demais sessões serão recapturados no SHA 30c2"
+  ],
+  "artifacts": [
+    "tests/capture_visual_ko.py",
+    "out/logs/throw_only_30c2_v3.log",
+    "out/logs/throw_only_30c2_v3_hsem.json",
+    "out/logs/throw_only_30c2_v3_hprb.json"
+  ],
+  "status": "runtime_throw_event_observed_current_rom"
+}

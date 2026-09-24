@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "project": {"name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]"},
+  "specialization_id": "fighting_2d_traditional",
+  "registry_source": "doc/07_game_design/genre_specialization_registry.json",
+  "time_unit": "frames",
+  "head_metric_policy": "advisory",
+  "archetype_policy": "design_tool_not_law",
+  "balance_evidence_required": true,
+  "rollback_netcode": "not_applicable",
+  "roster": {
+    "size": 6,
+    "characters": [
+      {"id": "jack", "display_name": "Jack", "role": "primary", "archetype": "pressure_balanced", "moveset_frame_data_path": "doc/characters/jack/moveset_frame_data.json", "lore_id": "jack", "head_metric": "M"},
+      {"id": "ryo", "display_name": "Ryo", "role": "primary", "archetype": "footsies_power", "moveset_frame_data_path": "doc/characters/ryo/moveset_frame_data.json", "lore_id": "ryo", "head_metric": "M"},
+      {"id": "kairo_vant", "display_name": "Kairo Vant", "role": "primary", "archetype": "giant_counter_puncher", "moveset_frame_data_path": "doc/characters/kairo_vant/moveset_frame_data.json", "lore_id": "kairo_vant", "head_metric": "XL"},
+      {"id": "mira_quell", "display_name": "Mira Quell", "role": "primary", "archetype": "mobile_trap_fighter", "moveset_frame_data_path": "doc/characters/mira_quell/moveset_frame_data.json", "lore_id": "mira_quell", "head_metric": "S"},
+      {"id": "orion_flux", "display_name": "Orion Flux", "role": "primary", "archetype": "aerial_power_channeler", "moveset_frame_data_path": "doc/characters/orion_flux/moveset_frame_data.json", "lore_id": "orion_flux", "head_metric": "M"},
+      {"id": "vanta_zero", "display_name": "Vanta Zero", "role": "boss", "archetype": "unlockable_final_boss", "moveset_frame_data_path": "doc/characters/vanta_zero/moveset_frame_data.json", "lore_id": "vanta_zero", "head_metric": "XL"}
+    ]
+  },
+  "lore": {
+    "characters": [
+      {"id": "jack", "summary": "O veterano da engine que luta para provar que tecnica tambem pode ter alma.", "ip_status": "homage", "ip_notes": "Personagem da referencia HAMOOPIG; credito GameDevBoss / Daniel Moura preservado."},
+      {"id": "ryo", "summary": "O rival disciplinado que mede cada distancia antes de gastar seu golpe.", "ip_status": "homage", "ip_notes": "Personagem da referencia HAMOOPIG; credito GameDevBoss / Daniel Moura preservado."},
+      {"id": "kairo_vant", "summary": "Um colosso de rua que transforma o proprio peso em contragolpe e espaco.", "ip_status": "original"},
+      {"id": "mira_quell", "summary": "Uma cartografa de frequencias que converte passos curtos em armadilhas de ritmo.", "ip_status": "original"},
+      {"id": "orion_flux", "summary": "Um condutor de plasma que domina o ar e faz cada especial redesenhar a arena.", "ip_status": "original"},
+      {"id": "vanta_zero", "summary": "A sombra final do torneio, liberada quando o jogador prova dominio sobre o roster.", "ip_status": "original"}
+    ]
+  },
+  "modes": [
+    {"id": "versus", "kind": "versus", "human_or_cpu_opponent": "human_vs_human", "round_config": {"round_time_limit_frames": 5940, "rounds_to_win": 2, "max_rounds": 3}},
+    {"id": "arcade", "kind": "arcade", "human_or_cpu_opponent": "human_vs_cpu", "round_config": {"round_time_limit_frames": 5940, "rounds_to_win": 2, "max_rounds": 3}},
+    {"id": "training", "kind": "training", "human_or_cpu_opponent": "human_vs_cpu", "round_config": {"round_time_limit_frames": 1, "rounds_to_win": 1, "max_rounds": 1}, "training_features": ["input_display", "frame_advantage_display", "hitbox_viewer", "dummy_state_machine", "damage_meter_reset"]}
+  ],
+  "stages": [
+    {"id": "cinder_circuit", "display_name": "Cinder Circuit", "camera_bounds_px": {"left": 0, "right": 320, "top": 0, "bottom": 224}, "floor_y_px": 184, "hazard_policy": "no_hazards"},
+    {"id": "glass_forge", "display_name": "Glass Forge", "camera_bounds_px": {"left": 0, "right": 640, "top": 0, "bottom": 224}, "floor_y_px": 184, "hazard_policy": "soft_hazards"},
+    {"id": "skyline_chamber", "display_name": "Skyline Chamber", "camera_bounds_px": {"left": 0, "right": 480, "top": 0, "bottom": 224}, "floor_y_px": 184, "hazard_policy": "no_hazards"}
+  ],
+  "balance": {
+    "method": "hybrid",
+    "evidence_paths": ["doc/balance/vertical_slice_matrix.md", "doc/balance/d1_playtest_log.md"],
+    "tier_targets": {"jack": "baseline", "ryo": "baseline", "kairo_vant": "high_commitment", "mira_quell": "mobility", "orion_flux": "air_control", "vanta_zero": "boss_only"}
+  },
+  "doc_refs": ["doc/11-gdd.md", "doc/13-spec-cenas.md", "doc/15-tdd.md", "doc/12-roteiro.md"]
+}

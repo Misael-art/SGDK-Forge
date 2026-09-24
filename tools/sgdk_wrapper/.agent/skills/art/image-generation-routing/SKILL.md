@@ -7,6 +7,33 @@ description: Use para decidir o canal de geracao visual (nativo callable, nativo
 
 Skill canonica de roteamento de geracao visual no MegaDrive_DEV. Resolve a pergunta: **qual canal vai produzir esta imagem agora?**
 
+## Arvore de 3 ramos (obrigatoria antes de qualquer promessa)
+
+Antes de responder o usuario "sim, gero", aplique a arvore da regra `SGDK_GLOBAL.md` secao 38
+(capacidade declarada com prova). A ordem de canais 1-6 abaixo vive DENTRO desta arvore:
+
+```
+RAMO A — agente gera nativo com prova
+    Sonda: existe ferramenta callable/inline nesta sessao?
+    Probe passou -> gere e persista agora (canais 1-2).
+
+RAMO B — host tem requisitos e preparo
+    Sonda: imagegen_tool.py status + healthcheck do perfil.
+    Probe passou (ou custo de install medido e aceito) -> circuito local (canais 3-5).
+
+RAMO C — nem agente nem host
+    Nao ha canal nativo, API/CLI falhou por estrutura, host sem GPU/runtime ou
+    install recusada. Desfecho OBRIGATORIO: emitir successor_asset_directive
+    (diretriz para modelo sucessor capaz) COM o successor_quality_protocol
+    populado (prompt magico: pisos numericos + rejeicao automatica + crítico
+    cego >= blind_critic_floor) e registrar blocked_image_tooling com
+    outcome_branch=C. Bloqueio morto sem diretriz, ou diretriz sem protocolo
+    de insatisfacao mensuravel, sao anti-padrao.
+```
+
+Estados de capacidade permitidos (sem quarto estado): `capaz_com_prova_agora`,
+`capaz_apos_preparo_medido`, `nao_capaz_neste_host`.
+
 Carregue esta skill antes de:
 
 - gerar qualquer prompt de imagem em Rota A da `art-creation-sourcing`
@@ -15,6 +42,11 @@ Carregue esta skill antes de:
 - aceitar imagem inline como entregue
 
 Esta skill nao redige prompts, nao escolhe estilo e nao converte para VDP. Para isso, use `art-creation-sourcing`, `art-direction-selector`, `art-conversion-pipeline` ou `art-translation-to-vdp`.
+
+Quando o canal for nativo (Ramo A) e o projeto for `aaa_game`, o output
+valido e **fonte premium** (concept, volume, material), nunca sprite
+sheet Mega Drive como imagem final. Piso: `doc/03_art/18_live_scene_bar.md`.
+`pixel_art_prompted_as_final` e anti-padrao mesmo com canal excelente.
 
 ---
 
@@ -72,8 +104,8 @@ Use exatamente estas chamadas; nomes de perfil aceitos incluem aliases (`deck-sa
 # 1. Estado do host
 python tools/ai_imagegen/imagegen_tool.py --json status
 
-# 2. Roteamento (responder native_callable / native_inline conforme realidade do agente)
-python tools/ai_imagegen/imagegen_tool.py --json route --native-callable false --native-inline false
+# 2. Roteamento (auto detecta Codex/ChatGPT; use false/true para override)
+python tools/ai_imagegen/imagegen_tool.py --json route
 
 # 3. Healthcheck especifico do perfil
 python tools/ai_imagegen/imagegen_tool.py --json healthcheck --profile deck_safe_sd15
@@ -91,7 +123,8 @@ python tools/ai_imagegen/imagegen_tool.py convert --source data/source_art/<asse
 
 ## Regra de selecao
 
-- Se `native_callable=true`, retornar `native_chat_image_generation_callable`.
+- Se `native_callable=true` ou o ambiente do agente auto-detectar Codex/ChatGPT
+  com ferramenta nativa, retornar `native_chat_image_generation_callable`.
 - Senao, se `native_inline=true`, retornar `native_chat_inline_generation`.
 - Senao, se `api_cli_generation` disponivel e nao falhar por billing/quota/key, retornar `api_cli_generation`.
 - Senao, rodar `status` + `healthcheck` do perfil recomendado:
@@ -119,15 +152,26 @@ Antes de declarar `BLOCKED_IMAGE_TOOLING`, emitir os dois reports (schemas em `t
 - `tooling_capability_report` (schema `capability_report.schema.json`)
 - `generation_channel_decision` (schema `generation_channel_decision.schema.json`)
 
+Se o desfecho for o **Ramo C** (nem agente nem host gera), emitir tambem:
+
+- `successor_asset_directive` (schema `tools/sgdk_wrapper/schemas/successor_asset_directive.schema.json`,
+  template em `tools/sgdk_wrapper/.agent/references/successor_asset_directive_template.md`) —
+  a diretriz para um modelo sucessor capaz assumir o papel de criador de assets.
+
 Campos minimos da decisao:
 
 ```yaml
+agent_native_probe_attempted: true|false
+host_readiness_probed: true|false
 native_chat_image_generation_callable: true|false
 native_chat_inline_generation_available: true|false
 api_cli_generation_attempted: true|false
 api_cli_failure_reason: none|billing_hard_limit_reached|insufficient_quota|missing_key|other
 local_comfyui_available: true|false
 local_comfyui_profile_ready: true|false
+capability_state: capaz_com_prova_agora|capaz_apos_preparo_medido|nao_capaz_neste_host
+outcome_branch: A_generate_now|B_host_fallback|C_successor_directive
+successor_directive_emitted: true|false   # obrigatorio true quando outcome_branch=C
 procedural_generation_used_as_asset_source: false
 selected_generation_channel: <um dos canais 1-4 ou blocked>
 blocked_image_tooling: true|false
@@ -181,14 +225,17 @@ Sempre devolva:
 A partir de 2026-06-01, o agente NAO chama `imagegen_tool.py generate` diretamente em Rota A passo 3. Em vez disso, chama o circuit:
 
 ```powershell
-# Dry-run (read-only, sempre funciona)
+# Dry-run (read-only, sempre funciona; nativo e auto-detectado por default)
 .\tools\ai_imagegen\run_imagegen_circuit.ps1 preflight `
     --project "<NOME DO PROJETO>" `
     --asset-role concept_art `
     --write-decision `
     --json
 
-# Run real (requer license ack + host NVIDIA + asset_role permitido)
+# Run real pelo circuit e apenas para backends locais; se o preflight retornar
+# `native_chat_image_generation_callable` ou `native_chat_inline_generation`,
+# o agente deve usar a ferramenta nativa da sessão, persistir o output em
+# data/source_art/ e registrar lineage/status source_candidate.
 .\tools\ai_imagegen\run_imagegen_circuit.ps1 run `
     --project "<NOME DO PROJETO>" `
     --asset-role concept_art `
@@ -200,14 +247,16 @@ A partir de 2026-06-01, o agente NAO chama `imagegen_tool.py generate` diretamen
 O circuit:
 
 1. Carrega `master_style_manifest.json` via lookup multi-path (`--style-manifest` > `doc/art/` > `data/source_art/<role>/` > `out/logs/`).
-2. Avalia os 3 gates em ordem: **license** > **scope** > **host**.
-3. Se license ack ausente/invalido, retorna `selected_source: license_blocked` e nao cria arquivo.
-4. Se asset_role nao esta em `{concept_art, tileset_concept, dither_mask, contrast_study}` OU esta em `{animated_sprite_final, hud_final, res_direct, aaa_final_asset}`, retorna `scope_blocked`.
-5. Se host nao tem GPU NVIDIA/Apple Silicon OU VRAM<4 OU RAM<6, retorna `blocked_host_capability`.
-6. Se todos os gates passam, despacha para `imagegen_tool.py bonsai generate` (Bonsai) ou ComfyUI (default).
-7. Persiste em `<P>/data/raw_ai/<run>/{output.png, prompt_pack_manifest.json, generation_report.json}` e `<P>/data/source_art/<role>/{source.png, premium_source_manifest.json}` (sempre status=`source_candidate`).
-8. Emite `<P>/out/logs/generation_channel_decision.json` e `asset_lineage_record_<lineage>.json`.
-9. **NUNCA** escreve em `<P>/res/`. Promocao a `res/` e via `imagegen_tool.py convert` apos pipeline externo.
+2. Antes de qualquer gate local, resolve canal nativo: callable > inline.
+3. Se o canal nativo existir, retorna `selected_source: native_chat_image_generation_callable` ou `native_chat_inline_generation` e `next_action: use_native_channel`; nao pedir license Bonsai, nao instalar ComfyUI, nao bloquear por host AMD.
+4. So se nao houver canal nativo/API, avalia os 3 gates Bonsai em ordem: **license** > **scope** > **host**.
+5. Se license ack ausente/invalido, retorna `selected_source: license_blocked` e nao cria arquivo.
+6. Se asset_role nao esta em `{concept_art, tileset_concept, dither_mask, contrast_study}` OU esta em `{animated_sprite_final, hud_final, res_direct, aaa_final_asset}`, retorna `scope_blocked`.
+7. Se host nao tem GPU NVIDIA/Apple Silicon OU VRAM<4 OU RAM<6, retorna `blocked_host_capability`.
+8. Se todos os gates locais passam, despacha para `imagegen_tool.py bonsai generate` (Bonsai) ou ComfyUI (default).
+9. Persiste em `<P>/data/raw_ai/<run>/{output.png, prompt_pack_manifest.json, generation_report.json}` e `<P>/data/source_art/<role>/{source.png, premium_source_manifest.json}` (sempre status=`source_candidate`) quando o backend local produzir arquivo; para nativo inline/callable, o agente deve salvar manualmente o arquivo real e registrar lineage equivalente.
+10. Emite `<P>/out/logs/generation_channel_decision.json` e `asset_lineage_record_<lineage>.json`.
+11. **NUNCA** escreve em `<P>/res/`. Promocao a `res/` e via `imagegen_tool.py convert` apos pipeline externo.
 
 Schemas novos (canonicos):
 
@@ -220,7 +269,15 @@ Schemas novos (canonicos):
 
 ## Anti-padroes
 
+- prometer geracao ao usuario sem sonda executada nesta sessao (regra `SGDK_GLOBAL.md` secao 38)
+- alegar canal nativo por fama do modelo ou memoria de outra sessao, sem `probe_attempted`
+- confundir "host capaz" com "host preparado": GPU existente nao dispensa healthcheck e install medida
+- declarar bloqueio no Ramo C sem emitir `successor_asset_directive`
+- emitir `successor_asset_directive` sem `successor_quality_protocol` (insatisfacao sem piso numerico nao protocola nada)
+- aceitar round do gerador antes de `min_rounds` ou por sensacao de qualidade — julgamento final e dos gates (`final_judgment`), nunca auto-satisfacao
 - gerar prompt sem rodar `route` ou declarar canal selecionado
+- no Ramo A, pedir sprite sheet Mega Drive / fake pixel art como fonte final (`pixel_art_prompted_as_final`); a barra viva exige concept forte + traducao
+- declarar Bonsai/ComfyUI bloqueante quando o agente atual possui geracao nativa callable ou inline
 - declarar `BLOCKED_IMAGE_TOOLING` sem rodar `healthcheck` do perfil recomendado
 - usar `procedural_renderer` como fonte final
 - promover `data/raw_ai/` direto para `res/`

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "source_project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "analysis_status": "completed_for_specs",
+  "source_context": {
+    "context_type": "technical_demo",
+    "context_validation": "passed_after_classification",
+    "methodology_status": "blocked",
+    "methodology_blockers": ["perceptual_motion_unvalidated"],
+    "hygiene_status": "blocked",
+    "hygiene_blockers": ["external_input_inventory_invalid", "external_path_reference_outside_project"]
+  },
+  "usable_lessons": [
+    "BG_A/B plus line scroll is plausible for a chase scene when measured.",
+    "Visual and technical gates must remain separate.",
+    "Sprite transparency and matte gates are mandatory for hero assets.",
+    "Multi-frame BlastEm evidence is stronger than static screenshots for motion claims.",
+    "Benchmark evidence does not transfer to a new project."
+  ],
+  "blocked_from_inheritance": [
+    "ready_for_aaa status",
+    "source art",
+    "absolute paths",
+    "LABORATORIO techniques as delivery features",
+    "human perceptual approval"
+  ],
+  "revive_decision": "Use benchmark as budget/risk reference only; create authorial docs, assets and evidence inside the Revive project."
+}

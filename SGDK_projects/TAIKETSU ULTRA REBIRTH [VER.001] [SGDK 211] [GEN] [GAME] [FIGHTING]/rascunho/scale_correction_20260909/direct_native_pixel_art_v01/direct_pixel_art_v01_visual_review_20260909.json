@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "staging_visual_review",
+  "review_id": "kairo_direct_pixel_art_v01_20260909",
+  "reviewed_at": "2026-09-09",
+  "reviewer": "visual-excellence-standards",
+  "claim_ceiling": "technical_candidate",
+  "source_bindings": {
+    "source_path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/kairo_vant_direct_pixel_art_source_v01.png",
+    "source_sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3",
+    "candidate_path": "out/visual_jobs/kairo_vant_combat_idle_direct_pixel_art_v01_technical/99c73cd209bfe7f7/basic/kairo_vant_combat_idle_direct_pixel_art_v01_technical.png",
+    "candidate_sha256": "1c7c86a503ecc966b47f43cdf6e408ef90fba52fd48dbe9ceb1f65c5ea653df5",
+    "candidate_size": [88, 136],
+    "evidence": {
+      "native_1x": "out/visual_jobs/kairo_vant_combat_idle_direct_pixel_art_v01_technical/99c73cd209bfe7f7/basic/kairo_vant_combat_idle_direct_pixel_art_v01_technical.png",
+      "light_background": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/background_light.png",
+      "dark_background": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/background_dark.png",
+      "nearest_8x": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/evidence/direct_pixel_art_v01_nearest_8x.png",
+      "combat_composition": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/composition_320x224.png"
+    }
+  },
+  "observations": {
+    "silhouette": {"status": "pass_observed", "notes": "Wide grounded stance and asymmetric scarf tail remain distinct at 1x."},
+    "scale_and_ground": {"status": "pass_observed", "notes": "Visible bbox reaches 128px and feet remain on the ground anchor."},
+    "identity_markers": {"status": "pass_observed", "notes": "Indigo sleeveless coat, cyan seam language and amber gauntlets survive the candidate."},
+    "face_and_gaze": {"status": "needs_review", "notes": "Eye and brow clusters are readable only after enlargement; the 1x gaze is not yet a stable combat read."},
+    "hands_and_gloves": {"status": "needs_review", "notes": "Both hand silhouettes read, but finger/gauntlet separation collapses in the 1x native candidate."},
+    "materials": {"status": "needs_review", "notes": "Coat/scarf and boot/gauntlet highlight boundaries need native cluster decisions rather than reduction artifacts."},
+    "pixel_strict": {"status": "pass_technical_only", "notes": "15 visible colors and transparent index 0 passed the technical conversion report; this does not prove visual quality."},
+    "animation": {"status": "unproven", "notes": "There is one pose only; no contact sheet, timing, pivot or motion evidence exists."},
+    "runtime": {"status": "unproven", "notes": "Candidate is staging-only and is absent from res, build and the current ROM."}
+  },
+  "blockers": [
+    "native_visual_review_incomplete",
+    "human_asset_approval_missing",
+    "animation_continuity_unproven",
+    "runtime_integration_unproven"
+  ],
+  "correction_request": {
+    "symptom": "At 1x the fighter reads, but the face/eyes and hand-to-gauntlet joins lose deliberate structure.",
+    "diagnosis": "The 88x136 candidate is still a mechanically reduced guide; high-resolution clusters were not reauthored per native pixel cell.",
+    "next_asset": "kairo_vant_combat_idle_3quarter_native_88x136_v02",
+    "required_native_pass": [
+      "rebuild brow/eye/ear clusters for a focused gaze at 1x",
+      "separate both hands from gauntlets with hard 1px contour decisions",
+      "restate coat-to-scarf overlap and amber highlight planes",
+      "recheck feet contact and scarf silhouette after edits",
+      "rerun pixel strict and offline VDP budget",
+      "obtain human visual approval before any res promotion"
+    ]
+  },
+  "promotion": {
+    "status": "blocked",
+    "promotable": false,
+    "res_touched": false,
+    "rom_touched": false,
+    "human_visual_approval": "pending"
+  }
+}

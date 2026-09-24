@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "build_version": "build_v001",
+  "timestamp": "2026-07-08T19:58:40Z",
+  "status": "buildado_com_boot_blastem_limitado",
+  "claim_scope": "compilacao_link_rom_gerada_e_boot_menu_observado_no_blastem_por_screenshot_manual_selado",
+  "rom_path": "doc/changelog/roms/build_v001/rom.bin",
+  "current_out_rom_path": "out/rom.bin",
+  "rom_size_bytes": 262144,
+  "rom_sha256": "5c1489fa944be7f62a06192beef4c783c3f0f2d2939b59d08958b996b0131e75",
+  "build_route": {
+    "host": "linux_via_wine_overlay",
+    "wrapper_context": "tools/sgdk_wrapper makefile.gen via temporary /tmp/sgdk_win_overlay",
+    "reason": "O caminho canonico do workspace contem espaco e o GCC Linux m68k-elf-gcc 16.1.0 e incompativel com a libmd.a LTO 13.0 do SGDK local; o overlay usa os binarios Windows GCC 13.2.0 do proprio sdk/sgdk-2.11.",
+    "canonical_sdk_source": "sdk/sgdk-2.11",
+    "temporary_aliases": [
+      "/tmp/sgdk_forge_nospace",
+      "/tmp/sgdk_win_overlay"
+    ],
+    "command_class": "OS=Windows_NT GDK=/tmp/sgdk_win_overlay make SHELL=/bin/sh -f /tmp/sgdk_win_overlay/makefile.gen"
+  },
+  "validation_summary": {
+    "validation_report": "out/logs/validation_report.json",
+    "summary": {
+      "errors": 0,
+      "warnings": 8,
+      "checked": 5,
+      "recovered": 0,
+      "closeout_gate": false
+    },
+    "blocking_statuses": [
+      "visual_gate_blocked",
+      "visual_direction_failed",
+      "animation_gate_failed",
+      "scene_tilemap_conversion_report_missing",
+      "per_tile_palette_conflict_report_missing",
+      "freshness_audit_stale",
+      "scene_closeout_gate_missing"
+    ]
+  },
+  "emulator_status": {
+    "blastem_gate": "limited_boot_menu_screenshot_sealed",
+    "runtime_capture_present": true,
+    "evidence_session": "out/logs/emulator_session.json",
+    "evidence_closeout": "out/logs/evidence_closeout_report.json",
+    "screenshot": "out/blastem_env_manual_20260708_build_v001/screenshots/blastem_after_font_20260708_build_v001.png",
+    "screenshot_sha256": "39223130566104848e310565216554f49ec1b274b68b3e0a6ce686dfbd71c3af",
+    "stdout_stderr_log": "out/blastem_env_manual_20260708_build_v001/blastem_stdout_stderr_after_font.log",
+    "stdout_stderr_sha256": "3685bc1730e1b3f5e0d42267ca7798e50a16b2fcafa08ef674577ca77d3e8cdb",
+    "claim_scope": "boot/menu rendered in BlastEm window for ROM hash 5c1489fa944be7f62a06192beef4c783c3f0f2d2939b59d08958b996b0131e75",
+    "limitations": [
+      "manual fallback capture after canonical WinForms automation failed on Linux",
+      "no SRAM artifact captured",
+      "no visual_vdp_dump.bin captured",
+      "temporary Wine prefix was removed after capture and is not part of the sealed evidence package",
+      "not a gameplay, audio, full performance, budget, or visual delivery approval"
+    ]
+  },
+  "creative_status": {
+    "taina_lineart_latest_candidate": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+    "taina_lineart_latest_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v07.json",
+    "taina_lineart_best_identity_candidate_so_far": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+    "taina_animation_planning_gate_report": "doc/art/characters/taina/animation/animation_planning_gate_report_v01.json",
+    "visual_promotion": "blocked",
+    "reason": "TAINA v07 e tecnicamente valida e reduz parte do drift de escala, mas regride identidade visual; v05 continua melhor referencia parcial de identidade. Contratos de animacao v01 existem, mas faltam key poses, contact sheet, pivot/foot/frame-delta e runtime. Nenhum asset novo foi promovido para res/."
+  }
+}

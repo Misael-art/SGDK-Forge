@@ -38,6 +38,33 @@ uma falha que ainda pertence ao host.
   telemetria, SRAM ou efeito observavel inequívoco.
 - Boot nao prova gameplay. Screenshot isolado nao prova performance.
 
+## Contratos de fixture sem falso verde
+
+Toda fixture reutilizavel e todo gate promovido ao framework deve obedecer aos
+sete contratos abaixo:
+
+1. gate amostrado com denominador zero nunca retorna `passed`; quando a amostra
+   e obrigatoria, falha, e quando e contextual, retorna `warning`/`not_run` com
+   motivo;
+2. telemetria declara `schema_version` e comprimento; campo obrigatorio ausente
+   falha fechado, campo opcional ausente degrada para `warning`/`SKIP`, e campos
+   novos desconhecidos nao derrubam leitores antigos;
+3. playtest deterministico conta estados observados pela ROM, nunca apenas os
+   comandos pedidos pelo script ou enviados pelo host;
+4. em cena com atualizacao de paleta mid-frame, ocupacao e legalidade de CRAM
+   vem de dump/telemetria de hardware; contagem de cores do screenshot e apenas
+   informativa;
+5. bundle, gate e aprendizado que alegam a mesma prova devem apontar para o
+   mesmo SHA-256 de ROM;
+6. antes de acionar degradacao visual, elimine rebuild, copia ou upload cujo
+   payload ficou byte-identico; se um pixel muda, a mudanca e degradacao e deve
+   ser declarada;
+7. todo gate declara `scope`; `static_contract` aprovado nao implica
+   `runtime_observation`, `feature_readiness` nem `ready_for_aaa`.
+
+Regressao executavel: `tools/sgdk_wrapper/ci/test_canonical_fixture_contracts.py`.
+Fixture neutra: `SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]`.
+
 ## Build transacional
 
 Reporte separadamente:

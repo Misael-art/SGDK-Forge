@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "authoring_mode": "explicit_pixel_patch",
+  "source_candidate_sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+  "visual_source_sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+  "target_asset_id": "taina_48x64_native_a1_face_guard_feet_v01",
+  "target_scale": "48x64",
+  "palette_indices_allowed": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "groups": [
+    {
+      "id": "face_jaw_eye_opening",
+      "region": "face",
+      "justification": "Open the face plane, add a one-pixel eye/brow break and define the jaw notch at native scale.",
+      "operations": [
+        {"x":23,"y":13,"old_index":1,"new_index":4},
+        {"x":24,"y":13,"old_index":1,"new_index":4},
+        {"x":25,"y":13,"old_index":1,"new_index":4},
+        {"x":24,"y":14,"old_index":4,"new_index":5},
+        {"x":25,"y":14,"old_index":1,"new_index":4},
+        {"x":24,"y":15,"old_index":1,"new_index":4},
+        {"x":20,"y":16,"old_index":4,"new_index":5},
+        {"x":21,"y":16,"old_index":1,"new_index":3},
+        {"x":24,"y":16,"old_index":4,"new_index":1},
+        {"x":25,"y":16,"old_index":0,"new_index":4},
+        {"x":22,"y":17,"old_index":1,"new_index":3},
+        {"x":23,"y":17,"old_index":1,"new_index":4},
+        {"x":25,"y":17,"old_index":0,"new_index":1},
+        {"x":22,"y":18,"old_index":1,"new_index":4},
+        {"x":23,"y":18,"old_index":1,"new_index":3},
+        {"x":25,"y":18,"old_index":1,"new_index":0},
+        {"x":27,"y":18,"old_index":1,"new_index":4},
+        {"x":28,"y":19,"old_index":1,"new_index":0}
+      ]
+    },
+    {
+      "id": "hair_outline_separation",
+      "region": "hair",
+      "justification": "Replace isolated dark hair pixels with deliberate highlight clusters so hair does not merge into the single outline ink.",
+      "operations": [
+        {"x":13,"y":8,"old_index":1,"new_index":2},
+        {"x":14,"y":8,"old_index":1,"new_index":2},
+        {"x":11,"y":9,"old_index":1,"new_index":2},
+        {"x":22,"y":9,"old_index":1,"new_index":2},
+        {"x":23,"y":10,"old_index":1,"new_index":2},
+        {"x":20,"y":11,"old_index":1,"new_index":2}
+      ]
+    },
+    {
+      "id": "guard_fist_seams",
+      "region": "arms_or_guard_and_hands",
+      "justification": "Insert explicit dark seams at the wrap/fist transitions so the hands do not fuse into the forearms.",
+      "operations": [
+        {"x":17,"y":21,"old_index":9,"new_index":1},
+        {"x":17,"y":22,"old_index":9,"new_index":1},
+        {"x":33,"y":22,"old_index":9,"new_index":1},
+        {"x":34,"y":22,"old_index":12,"new_index":4},
+        {"x":33,"y":23,"old_index":12,"new_index":1}
+      ]
+    },
+    {
+      "id": "feet_contact_read",
+      "region": "feet",
+      "justification": "Extend each planted foot laterally at the existing baseline to make contact readable without changing ground_y.",
+      "operations": [
+        {"x":5,"y":59,"old_index":4,"new_index":3},
+        {"x":42,"y":59,"old_index":0,"new_index":3},
+        {"x":5,"y":60,"old_index":0,"new_index":3},
+        {"x":42,"y":60,"old_index":0,"new_index":3}
+      ]
+    }
+  ],
+  "patch_sha256": "7c053ff94908178be68e3a8a985a2ee11cbd1fae1cba74b783da7ea6020419e4",
+  "result_png_sha256": "1033e5a387047c320b9f2bbf6b0bddaafb2d29fd9b74810a40af8001c0947794"
+}

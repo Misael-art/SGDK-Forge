@@ -99,6 +99,78 @@
             "type": "integer",
             "minimum": 1,
             "default": 1
+          },
+          "lineage": {
+            "type": "object",
+            "required": ["source_frame_id", "transformation"],
+            "properties": {
+              "source_frame_id": { "type": "string", "minLength": 1 },
+              "source_frame_sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+              "source_artifact": {
+                "type": "object",
+                "required": ["path", "sha256", "pixel_sha256"],
+                "properties": {
+                  "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+                  "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+                  "pixel_sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+                  "region": {
+                    "type": "object",
+                    "required": ["x", "y", "w", "h"],
+                    "properties": {
+                      "x": { "type": "integer", "minimum": 0 },
+                      "y": { "type": "integer", "minimum": 0 },
+                      "w": { "type": "integer", "minimum": 1 },
+                      "h": { "type": "integer", "minimum": 1 }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "approved_source_frame_id": { "type": "string", "minLength": 1 },
+              "approved_source_frame_sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+              "transformation": {
+                "type": "string",
+                "enum": ["native_reauthored", "authored_inbetween", "approved_hold", "source_cell_reorder", "mechanical_affine_probe"]
+              },
+              "duplicate_role": { "type": "string", "enum": ["none", "approved_hold"] }
+            },
+            "additionalProperties": false
+          },
+          "support": {
+            "type": "object",
+            "required": ["grounded", "measurement_method", "contacts"],
+            "properties": {
+              "grounded": { "type": "boolean" },
+              "measurement_method": {
+                "type": "string",
+                "enum": ["pixel_derived", "human_annotated_hash_bound", "declared_only"]
+              },
+              "evidence": {
+                "type": "object",
+                "required": ["path", "sha256", "subject_sha256"],
+                "properties": {
+                  "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+                  "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+                  "subject_sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+                },
+                "additionalProperties": false
+              },
+              "contacts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "x", "y"],
+                  "properties": {
+                    "id": { "type": "string", "minLength": 1 },
+                    "x": { "type": "integer" },
+                    "y": { "type": "integer" }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
           }
         },
         "additionalProperties": false
@@ -111,6 +183,138 @@
     "motion_phase_map": {
       "type": "string",
       "minLength": 1
+    },
+    "state_lineart_lineage": {
+      "type": "object",
+      "required": [
+        "action",
+        "lineart_role",
+        "source_asset_id",
+        "source_sha256",
+        "approval_status",
+        "authorship_method",
+        "derivation_method",
+        "approval_record",
+        "key_pose_ids"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineart_role": {
+          "type": "string",
+          "const": "native_key_pose_lineart"
+        },
+        "source_asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9_\\-]+$"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "source_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "approval_status": {
+          "type": "string",
+          "const": "approved_for_strip_authoring"
+        },
+        "authorship_method": {
+          "type": "string",
+          "enum": ["hand_authored_native", "assisted_native_reauthored", "procedural_contour_probe"]
+        },
+        "derivation_method": {
+          "type": "string",
+          "enum": ["hand_drawn_native", "assisted_native_redraw", "procedural_contour_extraction", "mask_boundary_trace", "hardcoded_spans"]
+        },
+        "approval_record": {
+          "type": "object",
+          "required": ["path", "sha256", "subject_sha256"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+            "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+            "subject_sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+          },
+          "additionalProperties": false
+        },
+        "key_pose_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z0-9_\\-]+$"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["path", "sha256", "transparent_index", "cell_policy", "allowed_boundary_contacts"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+        "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "transparent_index": { "type": "integer", "const": 0 },
+        "cell_policy": { "type": "string", "const": "fixed_cell_coordinate_scoped" },
+        "allowed_boundary_contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["frame_index", "edge", "reason"],
+            "properties": {
+              "frame_index": { "type": "integer", "minimum": 0 },
+              "edge": { "type": "string", "enum": ["left", "right", "top", "bottom"] },
+              "reason": { "type": "string", "minLength": 3 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "motion_profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "timing_contract": {
+      "type": "object",
+      "required": ["vblank_hz", "loop", "frame_holds_vblank"],
+      "properties": {
+        "vblank_hz": { "type": "number", "minimum": 49, "maximum": 61 },
+        "loop": { "type": "boolean" },
+        "frame_holds_vblank": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "preview": {
+          "type": "object",
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+            "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "metasprite_layout": {
+      "type": "object",
+      "required": ["hardware_cells_per_frame", "peak_sprites_per_scanline", "peak_pixels_per_scanline"],
+      "properties": {
+        "hardware_cells_per_frame": { "type": "integer", "minimum": 1 },
+        "peak_sprites_per_scanline": { "type": "integer", "minimum": 1 },
+        "peak_pixels_per_scanline": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
     },
     "style_motion_reverse_engineering": {
       "type": "string",
@@ -176,6 +380,40 @@
         "blocked"
       ]
     },
+    "production_provenance": {
+      "type": "object",
+      "required": ["source_kind", "producer_kind", "authored_source", "producer_record"],
+      "properties": {
+        "source_kind": {
+          "type": "string",
+          "enum": ["hand_authored_pixel", "ai_generated", "photo_or_render_derived", "procedural_composed_from_authored", "procedural_primitive", "validator_fixture"]
+        },
+        "producer_kind": {
+          "type": "string",
+          "enum": ["pixel_editor_export", "visual_generation_tool", "assisted_native_translation", "mechanical_conversion", "procedural_code_probe", "validator_fixture"]
+        },
+        "authored_source": {
+          "type": "object",
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.(?:png|gif|bmp)$" },
+            "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+          },
+          "additionalProperties": false
+        },
+        "producer_record": {
+          "type": "object",
+          "required": ["path", "sha256", "subject_sha256"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+            "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+            "subject_sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
     "blockers": {
       "type": "array",
       "items": {
@@ -183,5 +421,38 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "pattern": "^(?:[2-9]|[1-9][0-9]+)\\."
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "state_lineart_lineage"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": { "schema_version": { "pattern": "^(?:[3-9]|[1-9][0-9]+)\\." } }
+      },
+      "then": {
+        "required": ["artifact", "motion_profile_id", "timing_contract", "metasprite_layout", "production_provenance"],
+        "properties": {
+          "state_lineart_lineage": { "required": ["source_path"] },
+          "frames": {
+            "items": {
+              "required": ["lineage", "support"],
+              "not": { "required": ["hold_frames"] }
+            }
+          }
+        }
+      }
+    }
+  ],
   "additionalProperties": false
 }

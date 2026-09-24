@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0.0",
+  "context_type": "technical_demo",
+  "context_status": "classified",
+  "delivery_claim_ceiling": "technical_demo",
+  "documentation_profile": "demo",
+  "project_intent": {
+    "one_sentence_goal": "Demonstracao tecnica e prova de conceito dos efeitos visuais mais avancados do Mega Drive (pseudo-3D multi-eixo, chefe modular, gerenciamento massivo de sprites/particulas e iluminacao dinamica Dark Deco).",
+    "success_definition": "O projeto prova tecnicas de raster scroll multi-eixo, boss modular biônico, gerenciamento de alta densidade de sprites a 60 FPS estaveis no BlastEm com telemetria ao vivo.",
+    "non_goals": [
+      "Promover projeto sem evidencia",
+      "Exigir pacote completo de jogo comercial AAA para demo tecnica",
+      "Tratar consultoria como entrega de ROM"
+    ]
+  },
+  "blocking_policy": {
+    "levels": [
+      "blocking",
+      "phase_blocking",
+      "recommended",
+      "optional",
+      "not_applicable"
+    ],
+    "documents": [
+      {
+        "path": "doc/project_context_manifest.json",
+        "role": "classificacao do contexto de trabalho",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise",
+          "game_review",
+          "consulting"
+        ]
+      },
+      {
+        "path": "doc/00-project-brief.md",
+        "role": "one-pager, pilares, escopo e nao-escopo",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise"
+        ]
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "role": "design jogavel, loop, regras e fantasia",
+        "requirement": "recommended",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/15-tdd.md",
+        "role": "arquitetura tecnica executavel e orcamentos",
+        "requirement": "recommended",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "role": "contrato de cenas, tecnicas e evidencia",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/14-plano-de-provas-qa.md",
+        "role": "plano de validacao proporcional ao contexto",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/16-ldd.md",
+        "role": "layout, ritmo, progressao e navegacao de fases",
+        "requirement": "optional",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/17-audio-design.md",
+        "role": "direcao musical, SFX e integracao com gameplay",
+        "requirement": "optional",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/18-asset-register.json",
+        "role": "inventario vivo de assets, owners e status",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/19-roadmap-risk-register.md",
+        "role": "milestones, riscos, cortes e decisoes de producao",
+        "requirement": "optional",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/20-release-marketing-legal.md",
+        "role": "release, marca, localizacao, loja e direitos",
+        "requirement": "optional",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/21-review-consulting-context.md",
+        "role": "escopo de review ou consultoria e limites de parecer",
+        "requirement": "not_applicable",
+        "required_for_contexts": [
+          "game_review",
+          "consulting"
+        ]
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "role": "estado operacional real",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise",
+          "game_review",
+          "consulting"
+        ]
+      },
+      {
+        "path": "doc/changelog/changelog.md",
+        "role": "registro cronologico de mudancas",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise"
+        ]
+      }
+    ]
+  },
+  "context_decision_record": {
+    "selected_by": "Antigravity",
+    "rationale": "O projeto e uma demonstracao tecnica (LAB/TECHDEMO) focada em demonstrar a forca bruta do hardware do Mega Drive (raster pseudo-3D, boss modular, sprites/particulas macicos e iluminacao Dark Deco).",
+    "evidence_or_prompt": "Direcionamento do usuario para criar um MVP/Tech Demo mostrando todo o potencial de raster multi-eixo, boss colossal e gerenciamento de hardware a 60 FPS.",
+    "human_confirmation_required_for_mode_change": true,
+    "last_reviewed_at": "2026-08-15"
+  }
+}

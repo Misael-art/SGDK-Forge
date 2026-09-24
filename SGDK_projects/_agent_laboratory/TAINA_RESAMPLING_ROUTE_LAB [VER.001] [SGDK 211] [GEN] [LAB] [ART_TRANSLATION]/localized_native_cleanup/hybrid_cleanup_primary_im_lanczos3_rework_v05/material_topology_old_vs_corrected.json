@@ -1,0 +1,40 @@
+{
+  "schema_version": "material_topology_old_vs_corrected.v1",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+  "asset_sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+  "legacy": {
+    "map": "material_owner_map_v01.json",
+    "map_sha256": "98be51565752e08beaedd3f3c4218457b6878ca3b72d7d757e7f506f45a9a3b4",
+    "fallback_skin_present": true,
+    "owner_at_rectangular_or_legacy": true,
+    "non_authoritative": true,
+    "v04": {
+      "ownership_annotation_error": 4,
+      "material_palette_leakage": 832
+    },
+    "v05": {
+      "ownership_annotation_error": 0,
+      "material_palette_leakage": 827
+    }
+  },
+  "corrected": {
+    "annotation": "material_owner_shade_annotation_v01.json",
+    "annotation_sha256": "56127ff951fa72f0ad1022751cd3cf6861895a1471dbb67e384d5388abda1d02",
+    "two_layers": [
+      "material_owner_map",
+      "shade_role_map"
+    ],
+    "fallback_skin": false,
+    "v04": {
+      "ownership_annotation_error": 9,
+      "material_palette_leakage": 837
+    },
+    "v05": {
+      "ownership_annotation_error": 0,
+      "material_palette_leakage": 829,
+      "leakage_components": 44,
+      "boundary_status": true
+    }
+  },
+  "interpretation": "The corrected count is trusted for diagnosis; the legacy count is comparison only and does not authorize patch count."
+}

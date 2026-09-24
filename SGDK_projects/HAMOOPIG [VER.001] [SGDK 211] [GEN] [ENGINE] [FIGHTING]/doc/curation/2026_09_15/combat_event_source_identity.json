@@ -1,0 +1,26 @@
+{
+  "id": "L064",
+  "date": "2026-09-15",
+  "title": "Identidade de origem e instância no ledger de combate",
+  "scope": "HAMOOPIG P04",
+  "lesson": "Deduplicar apenas por atacante, defensor, estado e tipo mistura impactos de fontes diferentes. A origem física e a instância persistente do projétil precisam participar da chave do evento.",
+  "implementation": [
+    "CombatEvent.source classifica BODY, PROJECTILE, THROW e DOUBLE.",
+    "CombatEvent.sourceInstance identifica cada disparo enquanto ele existe.",
+    "COMBAT_EVENTS_EMIT permanece compatível e usa BODY/0; projéteis usam COMBAT_EVENTS_EMIT_SOURCE.",
+    "FUNCAO_INICIALIZACAO reinicia a instância junto com o fireball."
+  ],
+  "evidence": {
+    "tests": "tests/test_combat_event_contract.py",
+    "suite": "14/14",
+    "build_log": "out/logs/continuation_p04_event_source_victory_build.log",
+    "rom_sha256": "54333ae8109bb499dab9a3fae109e2886c313dceb0e1c698cbda8f0b4e7f6dcb",
+    "projectile_chip_build_log": "out/logs/continuation_p04_projectile_chip_build.log",
+    "emulator_capture": "out/emulator_evidence/visual_ko_20260915T045548Z/"
+  },
+  "limitations": [
+    "A captura do emulador ainda não expõe a trilha de eventos; a validação de simultaneidade/projétil permanece pendente.",
+    "A revisão visual e o budget de frame não são inferidos deste contrato host."
+  ],
+  "status": "implemented_build_passed_host_contract_pending_emulator_trace"
+}

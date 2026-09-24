@@ -1,0 +1,23 @@
+{
+  "id": "L067",
+  "date": "2026-09-15",
+  "title": "Índice 0 transparente no segmento de vida",
+  "scope": "HAMOOPIG P07",
+  "lesson": "Um asset pequeno pode corromper o HUD inteiro se o índice 0 não for transparente. O SGDK reserva o índice 0 para transparência; a cor visível deve permanecer compatível com a PAL1 realmente carregada.",
+  "implementation": [
+    "normalize_segment.py remove o preto do índice 0 e conserva o amarelo no índice 2 da PAL1.",
+    "test_hud_segment_contract.py valida dimensão, índices usados e paleta.",
+    "O renderer continua compartilhando a célula 16x8 entre as instâncias da barra."
+  ],
+  "evidence": {
+    "suite": "15/15",
+    "build_log": "out/logs/continuation_p07_hud_segment_palette_build.log",
+    "capture": "out/emulator_evidence/visual_ko_20260915T051731Z/combat_005.png",
+    "rom_sha256": "74d402437490e31b0dc95332bf2b30c98ccae19a9b18f85154cbc03fd4b268ac"
+  },
+  "limitations": [
+    "A captura confirma o desaparecimento do padrão corrompido naquele percurso, mas não substitui uma revisão independente de todos os estados do HUD.",
+    "DMA, SAT e pior-frame ainda não foram medidos nesta ROM."
+  ],
+  "status": "implemented_build_passed_emulator_capture_pending_budget_and_independent_review"
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "identity": "mythic pursuit pulse expressed with native Mega Drive synthesis",
+  "roles": {
+    "YM2612_FM_CH1": "low pursuit ostinato",
+    "YM2612_FM_CH2": "high celestial response voice",
+    "SN76489_PSG_CH1": "alternating pulse accent",
+    "DAC_PCM_CH2": "critical impacts, Pulse and result stingers",
+    "DAC_PCM_CH3": "movement, UI, pickup and pressure cues"
+  },
+  "forbidden_substitutions": [
+    "sampled PCM score bed",
+    "direct PSG writes outside XGM2",
+    "unbudgeted PCM_CH1 project ownership"
+  ],
+  "fallback": "retain two FM voices first; remove optional pressure PCM before reducing the FM/PSG identity"
+}

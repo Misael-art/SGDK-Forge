@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_camera_runtime_v01",
+  "generated_at": "2026-08-30T18:20:00Z",
+  "scene_id": "cais_01",
+  "runtime_owner": "src/system/camera.c",
+  "contract_ref": "doc/contracts/camera_behavior_contract.json",
+  "implementation": {
+    "coordinate_model": "fix32_internal",
+    "dead_zone_px": {"left": 16, "right": 16, "top": 8, "bottom": 8},
+    "lookahead_x_px": 32,
+    "smoothing": "fixed_step_4_px_per_frame",
+    "clamp_px": {"min_x": 0, "max_x": 192, "min_y": 0, "max_y": 0},
+    "render_snap": "integer_pixels_only",
+    "reset_path": "APP_changeScene -> CAMERA_reset"
+  },
+  "evidence": {
+    "rom_sha256": "144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4",
+    "blastem_session": "out/blastem_evidence/blastem-linux-20260830T180348Z-3682089",
+    "scene_boot_observed": true,
+    "input_driven_camera_regression": false
+  },
+  "status": "implemented_runtime_evidence_pending",
+  "blockers": ["camera_input_regression_pending", "camera_shake_event_not_implemented"]
+}

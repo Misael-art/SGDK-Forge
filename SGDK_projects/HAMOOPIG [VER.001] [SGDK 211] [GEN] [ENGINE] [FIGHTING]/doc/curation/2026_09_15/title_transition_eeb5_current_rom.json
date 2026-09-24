@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L101",
+  "date": "2026-09-15",
+  "topic": "title_transition_eeb5_current_rom",
+  "source": "fresh_blastem_framebuffer_video_and_frame_review",
+  "rom_sha256": "eeb50ff819ba5e3027dd3a23067f2329038039027ef4b1a7a1add97cddf9f750",
+  "problem": "A correção de KO gerou um novo binário; a evidência temporal de abertura/título precisava ser recapturada no mesmo SHA.",
+  "change": "Captura `--transition --select-only` em sessão BlastEm limpa, com vídeo de 60 fps desde o boot e manifest vinculado ao eeb5.",
+  "result": "A sequência observada é abertura legal -> título persistente com START/OPTION -> seletor -> entrada no combate. Não houve sobreposição entre créditos e painel; a composição do título aparece antes da seleção.",
+  "limits": [
+    "esta inspeção visual é preliminar e não substitui review independente exigida pelo gate",
+    "vídeo demonstra continuidade de estados, mas não certifica legibilidade final, ritmo sensorial ou áudio",
+    "a curta tela preta entre cenas de gameplay permanece uma transição protegida de carga, não um claim de qualidade visual"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T191614Z/opening_title_transition.mp4",
+    "out/emulator_evidence/visual_ko_20260915T191614Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T191614Z/00_title.png",
+    "out/emulator_evidence/visual_ko_20260915T191614Z/00_select.png",
+    "tests/capture_visual_ko.py"
+  ],
+  "status": "current_sha_transition_capture_passed_independent_review_pending"
+}

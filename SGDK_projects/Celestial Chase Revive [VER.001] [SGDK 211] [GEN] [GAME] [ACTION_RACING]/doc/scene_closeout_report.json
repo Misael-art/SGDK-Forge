@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "scene": "sector_01_farol_quebrado",
+  "status": "technical_closeout_complete_creative_blocked",
+  "build_verified": true,
+  "build_variant": "build_v020",
+  "rom_sha256": "4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e",
+  "rom_size_bytes": 131072,
+  "closeout_date": "2026-06-19",
+  "runtime_validated": true,
+  "first_playable_technical": true,
+  "ready_for_aaa": false,
+  "sprite_animation_cause": "spr_lumen_orb animation 0 has numFrame=3 and received invalid frame 3 from a hardcoded modulo 4 selector",
+  "sprite_animation_fix": "race_scene derives numFrame from SpriteDefinition and uses SPR_setAnimAndFrame",
+  "components": [
+    {"name": "sprite_animation_frame_selection", "status": "testado_em_emulador"},
+    {"name": "lane_movement", "status": "testado_em_emulador"},
+    {"name": "track_driver", "status": "testado_em_emulador"},
+    {"name": "collision_aabb", "status": "testado_em_emulador"},
+    {"name": "entity_pool", "status": "testado_em_emulador"},
+    {"name": "lumen_system", "status": "testado_em_emulador"},
+    {"name": "pulse_system", "status": "testado_em_emulador"},
+    {"name": "pressure_gate", "status": "testado_em_emulador"},
+    {"name": "pursuer", "status": "testado_em_emulador"},
+    {"name": "jump", "status": "testado_em_emulador"},
+    {"name": "hud_window", "status": "testado_em_emulador"},
+    {"name": "beacon", "status": "testado_em_emulador"},
+    {"name": "result_success_failure", "status": "testado_em_emulador"},
+    {"name": "return_to_title", "status": "testado_em_emulador"}
+  ],
+  "verification": {
+    "python_regression": "14_passed",
+    "powershell_regression": "passed",
+    "success_route": "out/evidence/blastem/routes/success/route_manifest.json",
+    "failure_route": "out/evidence/blastem/routes/failure/route_manifest.json",
+    "title_opening_route": "out/evidence/blastem/scenes/title_opening/scene_manifest.json",
+    "evidence_seal": "sealed",
+    "freshness_audit": "ok",
+    "scene_closeout_gate": "warn_creative_hold",
+    "runtime_samples_per_route": 1800,
+    "over_budget_frames": 0,
+    "cpu_load_max": 53,
+    "cpu_load_p95": 34,
+    "sprite_engine_peak": 15,
+    "max_scanline_sprites": 9,
+    "work_ram_static_used_bytes": 10720,
+    "road_resident_exact_tiles": 17,
+    "vram_overlaps": 0,
+    "palette_conflicts": 0
+  },
+  "known_tooling_limitations": [
+    "res_graph_audit reports code_loaded_tiles_unmeasured because its static scan includes nametable draw calls even when explicit VRAM evidence is valid",
+    "the central build wrapper emits a post-build PowerShell quoting warning after producing the successful ROM"
+  ],
+  "creative_blockers": [
+    "visual_gate_blocked",
+    "procedural_fallback_as_final",
+    "visual_direction_failed",
+    "definitive_art_not_started",
+    "audio_production_not_started"
+  ],
+  "release_hold": [
+    "definitive_art",
+    "audio",
+    "upgrade_beacon_intermission",
+    "sector_02"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-27T19:40:00Z",
+  "project_root": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "owner": "codex_runtime_pipeline",
+  "decision_date": "2026-06-27T19:40:00Z",
+  "dominant_blockers": [
+    "blocked_no_vdp_conversion",
+    "blocked_no_runtime",
+    "blocked_no_blastem_evidence"
+  ],
+  "strategy": "Unlock one build attempt because the dominant visual and runtime blockers were addressed with human-approved source gates, VDP assets, local tests and a playable runtime slice.",
+  "why_now_different": "The previous blocked reports were pre-art/pre-runtime. This attempt has approved visual source records, generated 4bpp VDP PNG assets, resources.res declarations, asset reports, runtime contracts and RED-GREEN tests passing before build.",
+  "progress_justification": {
+    "new_evidence": [
+      {
+        "kind": "art_review",
+        "path": "doc/human_approval_record.md",
+        "rom_sha256": null
+      },
+      {
+        "kind": "budget_report",
+        "path": "out/logs/vdp_budget_preflight_report.json",
+        "rom_sha256": null
+      },
+      {
+        "kind": "other",
+        "path": "rascunho/tests/validate_blue_circuit_assets.py",
+        "rom_sha256": null
+      },
+      {
+        "kind": "other",
+        "path": "rascunho/tests/validate_blue_circuit_runtime_contract.py",
+        "rom_sha256": null
+      }
+    ],
+    "meaningful_change_summary": "Human approval, VDP asset conversion, resources.res integration and runtime scene implementation changed the project state since the repeated pre-runtime blockers.",
+    "human_decision_record": {
+      "approved_by": "human_user",
+      "record_path": "doc/human_approval_record.md"
+    }
+  }
+}

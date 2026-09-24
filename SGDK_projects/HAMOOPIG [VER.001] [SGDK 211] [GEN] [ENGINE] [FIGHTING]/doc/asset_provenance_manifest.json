@@ -1,0 +1,1311 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "declared_at": "2026-09-10T19:43:27.365324+00:00",
+  "validator_fixture": false,
+  "entries": [
+    {
+      "res_symbol": "room_0_bga",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/room_0_bga.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "room_0_bgb",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/room_0_bgb.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "gfx_bgb1",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/bgb1.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "gfx_bgb2",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/bgb2.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/stage2_swamp/convert_stage2.py: explicit 512x256 Mega Drive translation, 14 visible colours, 960-tile resident budget",
+      "authored_source": "data/source_art/stage2_swamp/generated_stage2_v02.png",
+      "authored_source_hash": "136bd72c8860f04c223eb6844f879920c9ea193695c4fb7fc4eb831c3b8f30cf",
+      "notes": "Reautoria v02; fonte anterior generated_stage2_v01.png, prompt em data/source_art/stage2_swamp/stage2_prompt_v02.txt; medicao em out/logs/scene_tilemap_conversion_report.json e out/logs/per_tile_palette_conflict_report.json."
+    },
+    {
+      "res_symbol": "gfx_showdown",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/showdown.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/showdown/convert_tile_budget.py: local requested preview, nearest 512x256, 14 opaque colors at indices 1..14 snapped to 9-bit, index 0 reserved, 768 source tile representatives. Lossy tile reuse with 1px detail; compare_flat study, no parallax.",
+      "authored_source": "rascunho/showdown_native_crop_preview.png",
+      "authored_source_hash": "1b9bc2e6bb96f0f27218cacc189477c5689dca687ef557bc91ca3d3ed5f4715f"
+    },
+    {
+      "res_symbol": "gfx_select_surface",
+      "res_kind": "IMAGE",
+      "asset_path": "../data/source_art/select/generated_select_surface_v03.png",
+      "source_kind": "ai_generated",
+      "acceptance_status": "placeholder",
+      "generated_by": "imagegen built-in raster generation; 2x nearest reduction, Mega Drive 9-bit quantization and regional 204-tile reuse for the selection surface",
+      "authored_source": "data/source_art/select/generated_select_surface_v03.png",
+      "authored_source_hash": "cd5cff211a691e51cc281519cebfc72d92358deb3b3f56dd359c409ba5164bb6",
+      "notes": "Runtime text, portraits and fighter previews remain data-driven overlays; the surface occupies tiles 655..858 below the sprite region at 892. Independent visual review is still required."
+    },
+    {
+      "res_symbol": "spr_point",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/point.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_rect_bb",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/spr_rect_bb.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_rect_hb",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/spr_rect_hb.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_spark0",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/spr_spark0.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_spark1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/spr_spark1.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_spark2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/spr_spark2.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_spark3",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/spr_spark3.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_pal1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/palettes/pal1.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_pal2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/palettes/pal2.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_000",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/000.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_100",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/100.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_101",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/101.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_102",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/102.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_103",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/103.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_104",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/104.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_105",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/105.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_106",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/106.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_107",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/107.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_108",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/108.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_113",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/113.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_151",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/151.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_152",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/152.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_154",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/154.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_155",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/155.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_200",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/200.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_201",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/201.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_202",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/202.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_204",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/204.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_205",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/205.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_207",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/207.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_208",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/208.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_300",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/300.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_301",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/301.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_302",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/302.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_304",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/304.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_306",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/306.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_310",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/310.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_320",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/320.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_324",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/324.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_325",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/325.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_410",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/410.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_420",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/420.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_471",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/471.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_472",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/472.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_501",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/501.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_502",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/502.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_503",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/503.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_550",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/550.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_551",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/551.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_552",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/552.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_570",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/570.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_606",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/606.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_607",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/607.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_608",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/608.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_611",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/611.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_612",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/612.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_615",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/615.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_700",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/700.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_701",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/701.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_702",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/702.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_710",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/710.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_ryo_730",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ryo/730.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "upstream github.com/humbertodias/sgdk-HAMOOPIG (HAMOOPI by GameDevBoss/Daniel Moura), res.zip importado na porta SGDK 2.11 de 2026-09-10; aceitacao pendente de curadoria neste projeto (ceiling prototype)"
+    },
+    {
+      "res_symbol": "spr_n0",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n0.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_0.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n1.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_1.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n2.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_2.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n3",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n3.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_3.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n4",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n4.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_4.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n5",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n5.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_5.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n6",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n6.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_6.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n7",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n7.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_7.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n8",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n8.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_8.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_n9",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/n9.png",
+      "source_kind": "hand_authored_pixel",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 spr_num_9.pcx HAMOOPI GPL v2 remapeado a PAL1 16x16"
+    },
+    {
+      "res_symbol": "spr_sombra",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/sombra.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_hamoopi_complements.py \u2014 silhueta do primeiro frame de sprite/ryo/100.png achatada em blob 64x16 PAL1",
+      "authored_source": "res/sprite/ryo/100.png",
+      "authored_source_hash": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b"
+    },
+    {
+      "res_symbol": "spr_ken_100",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/100.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_101",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/101.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_102",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/102.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_104",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/104.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_105",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/105.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_106",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/106.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_151",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/151.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_200",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/200.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_201",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/201.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_300",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/300.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_420",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/420.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_501",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/501.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_550",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/550.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_606",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/606.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_700",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/700.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_710",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/710.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_720",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/720.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_730",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/730.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_pal1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/palettes/pal1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype. Palette carrier pal1.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_ken_pal2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/palettes/pal2.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ken_arcade.py \u2014 recorte nativo da sheet arcade SSF2 Ken (MSSF2T ken_arcade_st_v1.png, Capcom IP, estudo de engine/fan). Sem downscale 32x64 SMS. Magenta index 0, paleta 15 cores 9-bit. acceptance placeholder / teto prototype. Palette carrier pal2.",
+      "authored_source": "data/source_art/ken_arcade/ken_arcade_st_v1.png",
+      "authored_source_hash": "23ae91760e7c946010332cc24a218496c32295a20a6fb5e77444544ff5cada07"
+    },
+    {
+      "res_symbol": "spr_hud_energy_y",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/energy_authorial_p1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/build_authorial_energy_bars.py: authored blue/gold chassis plus authored fill states",
+      "authored_source": "res/sprite/hud/life_track_empty.png + res/sprite/hud/energy_yellow.png",
+      "authored_source_hash": "5e19c25fb89917edd060bb4f978e0903fd9944698ef1e55eda146de812b05aec",
+      "notes": "Fill source hash: 2ed22a956fc800d09b8b2a91a868717d3f78d526e33e60aeadf3d05968a7e25d. Output hash: dcec86985841869b6137f6f1dfd885fe688a4babef1c71b8e1e69df5550dda50."
+    },
+    {
+      "res_symbol": "spr_hud_energy_r",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/energy_red.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_sf_hud.py \u2014 recorte da sheet SF HUD (shezzor). placeholder / prototype. P2 via HFlip.",
+      "authored_source": "data/source_art/sf_hud/sf_hud_sheet.png",
+      "authored_source_hash": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b"
+    },
+    {
+      "res_symbol": "spr_hud_ko",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/ko.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/sf_hud/rebuild_runtime_hud.py: crop/pad/palette only",
+      "authored_source": "data/source_art/sf_hud/sf_hud_sheet.png",
+      "authored_source_hash": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b"
+    },
+    {
+      "res_symbol": "spr_hud_ko_banner",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/ko_banner_big.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "nearest 2x scale of the authored KO banner, preserving its palette and alpha for a stronger 12x6-tile event letreiro",
+      "authored_source": "data/source_art/hud/generated_ko_banner_v01.png",
+      "authored_source_hash": "d0429720c44cfc0745de8d9db05cb170e1bb98b8bb023479b2c0cbbe1e5f1c9f",
+      "notes": "Derivada de sprite/hud/ko_banner.png (sha256 3b3f2368fab0a7239eceac270e04c9418beb132d5e88c1c5a6974b604e935ffa); asset final sha256 65b3ab6f4cf8a9dd804bd96cf724410cb2829b0033db2cdfa717cd0d9a874efe."
+    },
+    {
+      "res_symbol": "spr_hud_energy_y_p2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/energy_authorial_p2.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/build_authorial_energy_bars.py: authored blue/gold chassis plus mirrored authored fill states",
+      "authored_source": "res/sprite/hud/life_track_empty.png + res/sprite/hud/energy_yellow.png",
+      "authored_source_hash": "5e19c25fb89917edd060bb4f978e0903fd9944698ef1e55eda146de812b05aec",
+      "notes": "Fill source hash: 2ed22a956fc800d09b8b2a91a868717d3f78d526e33e60aeadf3d05968a7e25d. Output hash: 1fff05097175547d33786a5384350b43374a7287d86490d7ef501ae20def890b."
+    },
+    {
+      "res_symbol": "spr_hud_energy_r_p2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/energy_red_p2.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "FLIP_LEFT_RIGHT por frame de energy_red.png. Sem HFlip runtime.",
+      "authored_source": "res/sprite/hud/energy_red.png",
+      "authored_source_hash": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b"
+    },
+    {
+      "res_symbol": "ts_hud_p2_bar",
+      "res_kind": "TILESET",
+      "asset_path": "sprite/hud/energy_yellow_p2_window.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/sf_hud/rebuild_runtime_hud.py: crop/pad/palette only",
+      "authored_source": "data/source_art/sf_hud/sf_hud_sheet.png",
+      "authored_source_hash": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b"
+    },
+    {
+      "res_symbol": "ts_hud_p1_bar",
+      "res_kind": "TILESET",
+      "asset_path": "sprite/hud/energy_yellow_p1_window.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/sf_hud/rebuild_runtime_hud.py: crop/pad/palette only",
+      "authored_source": "data/source_art/sf_hud/sf_hud_sheet.png",
+      "authored_source_hash": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b"
+    },
+    {
+      "res_symbol": "ts_hud_clock",
+      "res_kind": "TILESET",
+      "asset_path": "sprite/hud/clock_digits_window.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "Pack spr_n0-n9 160x16; index 0 (magenta) remapeado para PAL1 index 11. Relogio no WINDOW rows 3-4.",
+      "authored_source": "res/sprite/hud/n0.png",
+      "authored_source_hash": "9875ae95b7c81060c090a768a4a8245281e1f89e456ab7e9f28177139a1ff2fd"
+    },
+    {
+      "res_symbol": "ts_hud_message_font",
+      "res_kind": "TILESET",
+      "asset_path": "sprite/hud/message_font.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/sf_hud/rebuild_runtime_hud.py: crop/pad/palette only",
+      "authored_source": "data/source_art/sf_hud/sf_hud_sheet.png",
+      "authored_source_hash": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b"
+    },
+    {
+      "res_symbol": "spr_hud_portrait_ryo",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/portrait_ryo.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/build_fighter_portraits.py: explicit head-and-shoulder crop from the native Ryo idle frame, nearest 32x32, native palette preserved",
+      "authored_source": "res/sprite/ryo/100.png",
+      "authored_source_hash": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b"
+    },
+    {
+      "res_symbol": "spr_hud_portrait_ken",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/portrait_ken.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/build_fighter_portraits.py: explicit head-and-shoulder crop from the native Ken idle frame, nearest 32x32, native palette preserved",
+      "authored_source": "res/sprite/ken/100.png",
+      "authored_source_hash": "1d02ec90d351d99307f5749191ab168cc3de394bf01373eca04e3cf359dbf56d"
+    },
+    {
+      "res_symbol": "spr_hud_portrait_musgo",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/portrait_musgo.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/build_fighter_portraits.py: explicit head-and-shoulder crop from the native Musgo idle frame, nearest 32x32, native palette preserved",
+      "authored_source": "res/sprite/musgo/100.png",
+      "authored_source_hash": "2a8ce3a71f4a3b0e92d974386a392eb35444e95b2d61a7980d46be6e2cba8f0b"
+    },
+    {
+      "res_symbol": "ts_hud_special_segment",
+      "res_kind": "TILESET",
+      "asset_path": "sprite/hud/special_blue_segment.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/build_fighter_portraits.py: authored HUD segment geometry with PAL1 blue accent index 9",
+      "authored_source": "res/sprite/hud/energy_yellow_segment.png",
+      "authored_source_hash": "e5ea8fe079c0247b626ccc1925407881995f930c3cfe6c9b269f587b2a03e49c"
+    },
+    {
+      "res_symbol": "spr_hud_life_track",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/life_track_empty.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/convert_life_track.py: transparent original generated chassis cropped, nearest reduced to 128x16 and indexed to 15 visible colors",
+      "authored_source": "data/source_art/hud/generated_life_track_v02.png",
+      "authored_source_hash": "ff1e38bc00e7562179c200f3438313992d64868f27f2bada7cdadbd463823f08"
+    },
+    {
+      "res_symbol": "ts_hud_life_track",
+      "res_kind": "TILESET",
+      "asset_path": "sprite/hud/life_track_chassis.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/convert_life_track_window.py: authored life chassis cropped to a repeating 3-tile BG_A unit",
+      "authored_source": "res/sprite/hud/life_track_empty.png",
+      "authored_source_hash": "71df4c72815257f662527c772e4bf511c633b0c675573d809aee10da9afba65e"
+    },
+    {
+      "res_symbol": "spr_hud_damage_segment",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/energy_damage_segment.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/build_hud_segments.py: authored yellow cell with its fill remapped to the PAL1 damage accent",
+      "authored_source": "res/sprite/hud/energy_yellow_segment.png",
+      "authored_source_hash": "e5ea8fe079c0247b626ccc1925407881995f930c3cfe6c9b269f587b2a03e49c"
+    },
+    {
+      "res_symbol": "spr_hud_energy_segment",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/energy_yellow_segment.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/hud/normalize_segment.py: authored HUD cell normalized for PAL1",
+      "authored_source": "res/sprite/hud/energy_yellow_segment.png",
+      "authored_source_hash": "e5ea8fe079c0247b626ccc1925407881995f930c3cfe6c9b269f587b2a03e49c"
+    },
+    {
+      "res_symbol": "spr_hud_clock_digit",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/hud/clock_digits_transparent.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/sf_hud/convert_clock_mask.py: background mask and PAL1 remap",
+      "authored_source": "res/sprite/hud/clock_digits_window.png",
+      "authored_source_hash": "9875ae95b7c81060c090a768a4a8245281e1f89e456ab7e9f28177139a1ff2fd"
+    },
+    {
+      "res_symbol": "spr_musgo_pal1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/palettes/pal1.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py",
+      "notes": "Legacy generated fighter palette; not accepted as final art. Requires native reauthoring before visual promotion."
+    },
+    {
+      "res_symbol": "spr_musgo_pal2",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/palettes/pal2.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py",
+      "notes": "Legacy generated fighter palette; not accepted as final art. Requires native reauthoring before visual promotion."
+    },
+    {
+      "res_symbol": "spr_musgo_100",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/100.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py",
+      "notes": "Legacy generated fighter frame; not accepted as final art."
+    },
+    {
+      "res_symbol": "spr_musgo_101",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/101.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_102",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/102.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_104",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/104.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_105",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/105.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_106",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/106.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_151",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/151.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_200",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/200.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_201",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/201.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_300",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/300.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_420",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/420.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_501",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/501.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_550",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/550.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_606",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/606.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_700",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/700.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_710",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/710.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_720",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/720.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_730",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/730.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_arara_gi_fighter_assets.py"
+    },
+    {
+      "res_symbol": "spr_musgo_fall_v1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/fall_v1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ko_victory.py; built-in image_gen source, nearest resize and palette mapping",
+      "authored_source": "data/source_art/musgo/ko_victory_source_v1.png",
+      "authored_source_hash": "5b0772b5678f3e98063f87eee3612601aa65b5df3848879b7f842e3259ee5cb1"
+    },
+    {
+      "res_symbol": "spr_musgo_defeat_v1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/defeat_v1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ko_victory.py; built-in image_gen source, nearest resize and palette mapping",
+      "authored_source": "data/source_art/musgo/ko_victory_source_v1.png",
+      "authored_source_hash": "5b0772b5678f3e98063f87eee3612601aa65b5df3848879b7f842e3259ee5cb1"
+    },
+    {
+      "res_symbol": "spr_musgo_victory_v1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/musgo/victory_v1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "convert_ko_victory.py; built-in image_gen source, nearest resize and palette mapping",
+      "authored_source": "data/source_art/musgo/ko_victory_source_v1.png",
+      "authored_source_hash": "5b0772b5678f3e98063f87eee3612601aa65b5df3848879b7f842e3259ee5cb1"
+    },
+    {
+      "res_symbol": "spr_ken_defeat_v1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/defeat_v1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/ken/convert_ken_terminal.py; authored image_gen pose, alpha crop, nearest resize and Ken PAL1 mapping",
+      "authored_source": "data/source_art/ken/ken_terminal_defeat_source_v1.png",
+      "authored_source_hash": "46c31415a148905fe1cf06cda3e12b353da20dfe27ec84c313a7f1a8a5c6d8f5"
+    },
+    {
+      "res_symbol": "spr_ken_victory_v1",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/ken/victory_v1.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/ken/convert_ken_terminal.py; authored image_gen pose, alpha crop, nearest resize and Ken PAL1 mapping",
+      "authored_source": "data/source_art/ken/ken_terminal_victory_source_v1.png",
+      "authored_source_hash": "4eca30355a020562161fb5eee98a63398bf14dc30ea36693aaa4bc2797a7f9a4"
+    },
+    {
+      "res_symbol": "title_backdrop",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/title_backdrop.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/title/prepare_title_assets.py: image_gen source resized to 320x224, snapped to Mega Drive 9-bit and reduced to 256 reusable tiles",
+      "authored_source": "data/source_art/title/title_backdrop_generated_v01.png",
+      "authored_source_hash": "see data/source_art/title/title_assets_report.json",
+      "notes": "new title backdrop generated with imagegen prompt; no text, character or logo pixels"
+    },
+    {
+      "res_symbol": "title_logo_overlay",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/title_logo_overlay.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/title/prepare_title_assets.py: border-connected black background made transparent; internal outlines preserved",
+      "authored_source": "res/gfx/room_0_bgb.png",
+      "authored_source_hash": "see data/source_art/title/title_assets_report.json",
+      "notes": "existing GameDevBoss artwork reused without redrawing"
+    },
+    {
+      "res_symbol": "title_scene",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/title_scene.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/title/prepare_title_assets.py: backdrop and transparent logo composited into one 15-colour, 151-tile indexed scene",
+      "authored_source": "data/source_art/title/title_backdrop_generated_v01.png + res/gfx/room_0_bgb.png",
+      "authored_source_hash": "see data/source_art/title/title_assets_report.json",
+      "notes": "runtime uses one indexed plane to avoid palette and plane-order conflicts; visual review required"
+    },
+    {
+      "res_symbol": "spr_stage_water_glint",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/stage/water_glint.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/stage2_swamp/build_water_glints.py: four 16x8 reflection frames derived from authored BGB2 pixels and quantized to the resident stage palette",
+      "authored_source": "res/gfx/bgb2.png",
+      "authored_source_hash": "51adcf7bb5eb0e80909be5c0fadc084c64995c68e521804062d4df87dc477272",
+      "notes": "Three PAL0 sprites, two tiles each, depth 1 behind fighters; ambient derivative only, not a third BG plane or parallax claim. Output sha256 30751a6b7fd4c631a232bd78331530fa76f909a4f0f6a5310e7664db9e508ad9."
+    },
+    {
+      "res_symbol": "spr_select_roster",
+      "res_kind": "SPRITE",
+      "asset_path": "sprite/select/roster_icons.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/select/build_roster_icons.py: nearest 24x24 reduction, identity frame and shared curated PAL0 remap from authored HUD portraits",
+      "authored_source": "res/sprite/hud/portrait_ryo.png + res/sprite/hud/portrait_ken.png + res/sprite/hud/portrait_musgo.png",
+      "authored_source_hash": "see data/source_art/select/roster_icons_v01_report.json",
+      "notes": "Three 16x16 frames on the selection rail; technical candidate, visual review required."
+    }
+  ]
+}

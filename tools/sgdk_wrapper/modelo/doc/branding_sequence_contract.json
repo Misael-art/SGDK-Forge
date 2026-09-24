@@ -1,247 +1,696 @@
 {
-  "contract_id": "branding_sequence_v1",
-  "status": "buildado_blastem_observed_closeout_blocked",
+  "contract_id": "branding_sequence_v2",
+  "status": "documentado",
+  "supersedes": "branding_sequence_v1",
   "applies_to": "tools/sgdk_wrapper/modelo",
   "scene_id": "APP_SCENE_BRANDING",
   "expected_app_scene_id": 0,
-  "purpose": "tela padrao de assinatura para todo projeto nascido do modelo canonico",
-  "runtime_model": {
+  "purpose": "Abertura padrao de assinatura de todo projeto nascido do modelo canonico, desenhada para demonstrar o poderio real do VDP do Mega Drive em vez de exibir tres cartoes estaticos.",
+  "authoring_note": "Este contrato e o fundamento. A arte final NAO existe ainda: todo simbolo visual listado em asset_contract esta pendente e sera produzido por um agente de arte seguindo doc/15-prompt-telas-assinatura.md. Nenhum status de entrega pode ser declarado a partir deste arquivo.",
+  "why_v1_failed": {
+    "verdict": "v1 nao e uma abertura AAA; e um slideshow com poke de paleta.",
+    "measured_evidence_from_v1": {
+      "sprite_engine_peak": 0,
+      "max_scanline_sprites": 0,
+      "palettes_idle": [
+        "PAL2",
+        "PAL3"
+      ],
+      "per_frame_dma": "nenhum",
+      "over_budget_frames": 1,
+      "cpu_load_max": 401,
+      "performance_gate": "blocked_by_single_cpu_budget_spike",
+      "known_blocker": "visual_aesthetic_report_has_rework_for_existing_author_logo_until_art_pass"
+    },
+    "diagnosis": [
+      "hardware ocioso: 0 sprites de 80, 2 paletas de 4, nenhum H-Int, Shadow/Highlight nunca ligado",
+      "line scroll (assinatura do MD) usado com amplitude 2 por 36 frames e depois desligado",
+      "BG_B e um unico tile pack de 4x16 repetido por toda a tela: o padrao `template repetido` que SGDK_GLOBAL bloqueia",
+      "cursor de maquina de escrever via VDP_drawTextBG: estetica de painel de debug",
+      "FX de paleta sao pokes de um indice unico (PAL1[14], PAL1[6], PAL1[9..11]), nao um modelo de luz",
+      "tres cortes a preto entre os slots destroem qualquer continuidade cinematografica",
+      "o spike de CPU com zero sprites indica custo no upload da tabela de HScroll por CPU e nos VDP_drawImageEx de entrada de fase"
+    ]
+  },
+  "creative_direction": {
+    "art_direction_doc": "doc/branding_v2_art_direction.md",
+    "art_direction_decision_record": "doc/art_direction_decision_record.json",
+    "art_direction_status": "approved_assets_released",
+    "concept_id": "a_forja",
+    "one_line": "Uma unica tomada continua dentro de uma forja: uma brasa cai, o martelo bate, e o impacto forja a marca em metal incandescente.",
+    "why_this_concept": "A metafora da forja e a desculpa mecanica perfeita para os pontos fortes reais do VDP: emissividade por Shadow/Highlight, metal liquido por rotacao de CRAM, ar quente por line scroll, estilha\u00e7os por multiplexacao de sprites e um impacto pesado por FM + DAC. A marca nao e apresentada, ela e fabricada na frente do jogador.",
+    "continuity_rule": "Zero cortes a preto, E cada elemento tem uma SAIDA DESENHADA. Proibir VDP_clearPlane sem declarar a alternativa foi implementado como 'nunca remova nada', e o ato 3 acumulou quatro elementos na mesma faixa vertical. Continuidade nao e ausencia de remocao: e ter saida declarada por scroll, fade ou substituicao para cada elemento que entra.",
+    "escalation_rule": "Cada ato adiciona uma camada de hardware. O ato 1 estabelece luz, o ato 2 adiciona sprites e Shadow/Highlight, o ato 3 adiciona scroll por coluna. A abertura e, ela mesma, a demonstracao.",
+    "authoriality": "Referencias de mesma geracao servem como ancora tecnica de direcao de luz, densidade e timing. Nenhum nome de estudio, jogo, artista ou IP pode virar prompt de copia; exige authoriality_gate_report.",
+    "scene_conception_doc": "doc/branding_v2_scene_conception.md",
+    "cinematic_storyboard": "doc/branding_v2_cinematic_storyboard.json",
+    "stage_rule": "PALCO em y=56..144 aceita UM wordmark por vez. Quem entra, entra porque o anterior saiu. Zonas: COIFA y=0..56, PALCO y=56..144, FORJA y=144..200, ASSINATURA y=200..224 no plano WINDOW.",
+    "act3_storyboard": "doc/act3_storyboard.md"
+  },
+  "acts": [
+    {
+      "act": 1,
+      "id": "ignition",
+      "role": "environment_and_light",
+      "frames_ntsc": [
+        0,
+        120
+      ],
+      "beats": [
+        "F0-F8 tela praticamente preta; apenas a rampa de brasa inferior viva",
+        "F8-F96 uma brasa unica cai em arco, com rastro de afterimage",
+        "F8-F96 a mascara de highlight da brasa acende os tiles da bigorna conforme se aproxima",
+        "F96-F120 antecipacao: o martelo entra em silhueta no plano de foreground"
+      ],
+      "techniques": [
+        {
+          "registry_id": "hint_palette_blending",
+          "function": "7 bandas horizontais de paleta dao um gradiente vertical de calor que estoura o teto de 61 cores por quadro",
+          "owner": "brandHIntHandler",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "este hardware produz um gradiente que nao deveria caber em 61 cores",
+          "brand_comprehension_negative_test": "achatar para uma paleta unica: a sala vira um retangulo escuro chapado e o espectador nao aprende nada sobre profundidade nem calor",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "h_int_control_plane",
+          "function": "owner unico do H-Int na cena; libera o handler no exit",
+          "owner": "scene_branding",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "masked_shadow_highlight_lighting",
+          "function": "a brasa carrega mascara de highlight que ilumina tiles vizinhos",
+          "owner": "brandEmber",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a luz e dinamica e reage a um objeto movel, nao esta pintada no fundo",
+          "brand_comprehension_negative_test": "remover a mascara: a brasa flutua sobre arte estatica e le como adesivo colado",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "priority_split_foreground",
+          "function": "bigorna e martelo em BG_A com prioridade sobre a brasa",
+          "owner": "scene_branding",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "existe profundidade real em planos separados, nao uma imagem so",
+          "brand_comprehension_negative_test": "colapsar em um plano: a bigorna encosta no fundo e a cena perde eixo Z",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "ghost_afterimage_sprites",
+          "function": "rastro de 4 a 6 sprites atras da brasa",
+          "owner": "brandEmber",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o movimento tem velocidade legivel",
+          "brand_comprehension_negative_test": "remover o rastro: a brasa teleporta de quadro em quadro e a queda perde peso",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "palette_cycling",
+          "function": "rotacao de CRAM em 4 indices da rampa de brasa = metal liquido no piso",
+          "owner": "brandForgePalette",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o metal esta liquido e o ambiente esta vivo, nao congelado",
+          "brand_comprehension_negative_test": "congelar o ciclo: a fornalha vira textura morta e a forja parece desligada",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "tile_dedup_hvflip_hashing",
+          "function": "alvenaria da forja deduplicada com hash de flip H/V para caber a parede irregular em VRAM sem repetir padrao visivel",
+          "owner": "img_forge_bg_b",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "e o que permite parede irregular dentro do orcamento; a leitura de nao-modularidade e da arte, nao da tecnica"
+        }
+      ],
+      "audio": [
+        {
+          "registry_id": "ym2612_fm_timbre_design",
+          "function": "swell de sub-graves FM crescendo ate o impacto; nenhum PCM neste ato",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a voz do chip de FM e deste console e nao um sample generico",
+          "brand_comprehension_negative_test": "trocar por PCM chapado: perde a assinatura timbrica do hardware",
+          "brand_comprehension_strength": "strong"
+        }
+      ],
+      "sprite_budget": {
+        "peak_total": 7,
+        "peak_per_scanline": 2,
+        "measurement_level": "estimated"
+      }
+    },
+    {
+      "act": 2,
+      "id": "strike",
+      "role": "engine_logo_forged",
+      "frames_ntsc": [
+        120,
+        300
+      ],
+      "beats": [
+        "F120 impacto: flash branco de CRAM por 2 quadros e hit de DAC",
+        "F122-F180 o logo da engine se monta a partir de um enxame de estilha\u00e7os de metal convergindo",
+        "F180 os estilha\u00e7os somem e o logo em tilemap assume o lugar; o budget de sprites volta a zero",
+        "F180-F300 varredura especular percorre o logo da esquerda para a direita",
+        "F180-F300 ar quente ondula as 48 scanlines inferiores, com amplitude caindo de 6px para 1px"
+      ],
+      "techniques": [
+        {
+          "registry_id": "cram_dot_masking_strategy",
+          "function": "o flash de CRAM e escrito com mascara de linhas para nao gerar CRAM dots",
+          "owner": "brandFlash",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "sprite_temporal_multiplexing",
+          "function": "enxame de 56 estilhacos distribuido verticalmente e escalonado no tempo para nunca cruzar 20 sprites na mesma scanline; multiplexacao POR CONSTRUCAO, sem flicker",
+          "owner": "brandShardSwarm",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a marca e FABRICADA na frente do jogador, nao exibida",
+          "brand_comprehension_negative_test": "substituir por fade-in do logo: morre a tese central da abertura e sobra um cartao estatico",
+          "brand_comprehension_strength": "strong",
+          "no_flicker_policy": "flicker esta excluido por decisao: o skill de budget do workspace exige ausencia de flicker para claim canonico, e numa abertura de marca ele leria como defeito em painel moderno"
+        },
+        {
+          "registry_id": "sat_double_buffering",
+          "function": "SAT em duplo buffer para o enxame nao piscar durante a convergencia",
+          "owner": "brandShardSwarm",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "tile_flipping",
+          "function": "1 sprite de estilha\u00e7o com 4 quadros gera 16 orientacoes por flip H/V: zero DMA de tile de sprite por quadro",
+          "owner": "brandShardSwarm",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "arcade_tile_redraw_substitution",
+          "function": "substituicao do enxame de sprites pelo logo em tilemap no quadro de pouso",
+          "owner": "scene_branding",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "shadow_highlight_mode",
+          "function": "coluna de highlight marchando sobre os tiles do logo = varredura de cromo pelo operador de hardware, nao assada no asset",
+          "owner": "brandSpecularSweep",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "isto e metal, nao plastico laranja",
+          "brand_comprehension_negative_test": "remover a varredura: a rampa quente sozinha le como plastico colorido",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "shadow_highlight_slot_rule",
+          "function": "a rampa do logo reserva folga no topo para o operador de highlight ter para onde clarear",
+          "owner": "palette_slot_plan",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "line_scrolling",
+          "function": "ar quente sobre a forja, amplitude com easing de saida",
+          "owner": "brandHeatHaze",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o ar acima da forja esta quente \u2014 efeito com consequencia fisica",
+          "brand_comprehension_negative_test": "remover a ondulacao: o calor passa a ser afirmado pela cor e nao demonstrado pelo ar",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "dma_transfer_safety",
+          "function": "tabela de HScroll enviada por DMA no VBlank, nunca por CPU: e a correcao do spike medido no v1",
+          "owner": "brandHeatHaze",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "mutable_tile_decal_mutation",
+          "function": "o golpe grava uma cicatriz incandescente permanente na face da bigorna, escrita em tiles no F120 e mantida ate o fim da abertura",
+          "owner": "brandAnvilScar",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o mundo guarda memoria do que aconteceu nele; isto e um lugar, nao um fundo",
+          "brand_comprehension_negative_test": "remover a cicatriz: o martelo bate e a bigorna fica intacta, entao o impacto nao teve consequencia e o cenario vira papel de parede",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "smear_frame_animation",
+          "function": "quadro de contato do martelo desenhado como smear, com a cabeca alongada no eixo do golpe",
+          "owner": "spr_forge_hammer",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o golpe tem velocidade que uma pose parada nao mostra",
+          "brand_comprehension_negative_test": "usar pose limpa no contato: a 60fps o olho le o martelo como teletransportado ate a bigorna, e o impacto perde a aceleracao",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "sprite_frame_vram_slot_streaming",
+          "function": "janela dupla de 72 tiles para os 7 quadros do martelo, decidida em branding_v2_dma_queue_contract.json",
+          "owner": "brandHammer",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "e o que torna os 7 quadros viaveis; nao ensina nada ao espectador por si, mas sem ela a animacao teria que ser cortada"
+        },
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "function": "fila com look-ahead de 2 quadros para o proximo quadro do martelo chegar antes de ser exibido",
+          "owner": "brandHammer",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne quadro faltando no meio do swing; disciplina de upload, nao afirmacao visual"
+        },
+        {
+          "registry_id": "large_metasprite_vblank_fit_audit",
+          "function": "o martelo e metasprite de 48x48 e cada troca de quadro precisa caber no envelope de VBlank medido",
+          "owner": "brandHammer",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "auditoria de cabimento; previne estouro de VBlank, nao comunica nada"
+        }
+      ],
+      "audio": [
+        {
+          "registry_id": "dac_direct_manipulation",
+          "function": "impacto de martelo no DAC no F120",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o impacto do martelo tem massa fisica",
+          "brand_comprehension_negative_test": "remover o hit de DAC: o golpe vira gesto visual sem peso",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "xgm2_audio_architecture",
+          "function": "arquitetura de driver XGM2 e posse de canal para as cues do ato; o conteudo da cauda de reverb vive em audio_contract.new_cue_map, nao neste ID",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "reclassificado durante a aplicacao da trava_5: o ID descreve arquitetura de driver, nao uma afirmacao ao espectador. A funcao declarada antes confundia encanamento com conteudo."
+        }
+      ],
+      "sprite_budget": {
+        "peak_total": 33,
+        "peak_per_scanline": 16,
+        "pixels_per_scanline": 256,
+        "measurement_level": "measured_by_simulator_on_shipped_params",
+        "shard_count": 32,
+        "note": "Re-medido contra os parametros que estao na ROM. A declaracao anterior (56 estilhacos, 18/20) descrevia uma coreografia que nao foi implementada."
+      }
+    },
+    {
+      "act": 3,
+      "id": "signature",
+      "role": "author_and_presents",
+      "frames_ntsc": [
+        300,
+        520
+      ],
+      "beats": [
+        "F300-F360 cortina por coluna: a cena da forja se abre em colunas verticais que sobem",
+        "F360-F430 wordmark do autor entra por tras da cortina, iluminado por Shadow/Highlight",
+        "F430-F480 wordmark do projeto assume o centro",
+        "F480-F510 wordmark `presents` entra abaixo, com timing de respiracao",
+        "F510-F520 handoff por fade de paleta para a cena seguinte, sem corte a preto"
+      ],
+      "techniques": [
+        {
+          "registry_id": "column_scrolling",
+          "function": "cortina por coluna revelando a assinatura",
+          "owner": "brandCurtain",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a cena nao corta, ela se transforma",
+          "brand_comprehension_negative_test": "trocar por fade: a continuidade sobrevive, entao o ganho e de carater e nao estrutural",
+          "brand_comprehension_strength": "weak"
+        },
+        {
+          "registry_id": "expressive_text_presentation_system",
+          "function": "timing de entrada e respiracao dos wordmarks",
+          "owner": "brandSignature",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "quem assina tem confianca para respirar antes de entregar",
+          "brand_comprehension_negative_test": "usar timing arbitrario: nada quebra visivelmente, o que expoe o risco de virar decoracao",
+          "brand_comprehension_strength": "weak"
+        },
+        {
+          "registry_id": "dithering_crt_smearing",
+          "function": "gradiente na base do wordmark com dither consciente de CRT",
+          "owner": "asset",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a paleta e administrada e o gradiente e intencional",
+          "brand_comprehension_negative_test": "trocar por rampa longa: gasta slots de CRAM e revela banda no CRT",
+          "brand_comprehension_strength": "moderate"
+        },
+        {
+          "registry_id": "contextual_scene_transition_system",
+          "function": "entrega para APP_SCENE_BOOT por fade de paleta",
+          "owner": "scene_branding",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a abertura e uma tomada continua e nao um slideshow",
+          "brand_comprehension_negative_test": "cortar a preto: volta exatamente o defeito estrutural do v1",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "window_plane_static_hud",
+          "function": "o wordmark presents vive no plano WINDOW, imovel enquanto a cortina por coluna move BG_A e BG_B por baixo",
+          "owner": "brandPresents",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "existe uma terceira superficie de composicao independente do scroll",
+          "brand_comprehension_negative_test": "por o presents em BG_A: ele viaja junto com a cortina e o plano WINDOW, que o v1 e o v2 deixavam 100% ocioso, continua sem existir para o espectador",
+          "brand_comprehension_strength": "moderate"
+        }
+      ],
+      "audio": [
+        {
+          "registry_id": "ym2612_fm_timbre_design",
+          "function": "acorde de assinatura sustentado",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "a voz do chip de FM e deste console e nao um sample generico",
+          "brand_comprehension_negative_test": "trocar por PCM chapado: perde a assinatura timbrica do hardware",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "channel_ownership_templates_audio",
+          "function": "mapa de posse de canal declarado no audio_architecture_card",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        }
+      ],
+      "sprite_budget": {
+        "peak_total": 0,
+        "peak_per_scanline": 0,
+        "measurement_level": "estimated"
+      },
+      "hard_rule": "Nenhum wordmark pode usar VDP_drawText/VDP_drawTextBG. Autor, projeto e `presents` sao assets de pixel art reais. O cursor de maquina de escrever do v1 esta proibido."
+    }
+  ],
+  "rejected_techniques": [
+    {
+      "registry_id": "interlaced_448_display_mode",
+      "reason": "corta a resolucao vertical por campo e briga com a leitura do ar quente; ganho perceptivo negativo aqui"
+    },
+    {
+      "registry_id": "procedural_raster_glitch_suite",
+      "reason": "le como dano ou erro; emocao errada para uma tela de confianca de marca"
+    },
+    {
+      "registry_id": "pseudo3d_road_stack",
+      "reason": "espetaculo sem funcao nesta cena; a filosofia maximalista exige ligacao com consequencia, e aqui nao existe"
+    },
+    {
+      "registry_id": "software_affine_pseudo3d",
+      "reason": "custo de CPU alto contra um v1 que ja media over_budget_frames=1"
+    },
+    {
+      "registry_id": "cellular_microbuffer_sim",
+      "reason": "faisca por simulacao celular custa CPU num projeto cujo v1 ja media over_budget_frames=1, e a brasa com afterimage ja carrega o claim de fogo vivo; seria tecnica por tecnica"
+    },
+    {
+      "registry_id": "bg_b_bypassing",
+      "reason": "nao existe boss gigante nesta cena; plane takeover sem objeto grande e espetaculo sem consequencia"
+    },
+    {
+      "registry_id": "forward_kinematics",
+      "reason": "nao ha cadeia articulada; o martelo e corpo rigido em 7 quadros autorais"
+    },
+    {
+      "registry_id": "prerendered_sprite_scaling",
+      "reason": "a cena nao tem eixo de profundidade que escale; a profundidade vem de valor atmosferico e priority split"
+    },
+    {
+      "registry_id": "tile_cache_streaming_refcount",
+      "reason": "nao ha mapa maior que a VRAM; a abertura e de tela unica"
+    }
+  ],
+  "palette_slot_plan": {
+    "note": "v1 deixava PAL2 e PAL3 ociosas. O v2 usa as quatro. Index 0 e transparente em todas; 15 cores visiveis por paleta.",
+    "PAL0": {
+      "owner": "ambiente da forja",
+      "cycling_indices": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "note": "rampa de brasa em rotacao de CRAM"
+    },
+    "PAL1": {
+      "owner": "metal e logo da engine",
+      "highlight_headroom_indices": [
+        13,
+        14
+      ],
+      "note": "shadow_highlight_slot_rule: topo da rampa fica abaixo do maximo para o highlight ter para onde clarear"
+    },
+    "PAL2": {
+      "owner": "wordmarks de autor, projeto e presents"
+    },
+    "PAL3": {
+      "owner": "sprites de brasa, estilha\u00e7o e FX"
+    },
+    "hint_band_plan": "7 bandas verticais reescrevem a rampa de PAL0 por banda durante o ato 1; mapa de linhas obrigatorio em h_int_ownership_map"
+  },
+  "budget_plan": {
+    "measurement_level": "estimated",
+    "gate": "Nenhum numero deste bloco vale como aprovacao. Exige res_graph_report.json, sprite_scanline_pressure_report via tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py e visual_vdp_dump.bin.",
+    "v1_measured_reference": {
+      "vram_unique_tiles": 347,
+      "sprite_reserve_tiles": 420,
+      "vram_overlap_count": 0
+    },
+    "vram_derivation": "2048 tiles de 32 bytes = 64KB. Nametables BG_A + BG_B 64x32 consomem ~8KB (equivalente a 256 tiles), SAT ~640 bytes, tabela de HScroll por linha ~896 bytes. Teto util estimado ~1700 tiles, contra 767 usados pelo v1.",
+    "vram_target_v2": {
+      "bg_forge_set": 640,
+      "logo_and_wordmarks": 420,
+      "sprite_reserve": 320,
+      "hint_and_tables": 28,
+      "headroom": "restante do teto util"
+    },
+    "per_frame_dma_policy": "Somente a tabela de HScroll durante as janelas de ar quente (448 bytes por quadro), por DMA no VBlank. Estilha\u00e7os nao geram DMA de tile porque reusam 4 quadros com flip H/V. Nenhum streaming de tile de sprite.",
+    "cpu_policy": "O spike de CPU medido no v1 deve ser eliminado antes de aceitar o v2: mover upload de HScroll de CPU para DMA e tirar VDP_drawImageEx do caminho de troca de ato, ja que o v2 nao tem cortes.",
+    "scanline_policy": "O enxame do ato 2 e distribuido verticalmente por construcao. Pico estimado de 12 sprites por scanline contra o limite fisico de 20; claim exige o simulador."
+  },
+  "h_int_ownership_map": {
+    "owner": "scene_branding.brandHIntHandler",
+    "single_owner": true,
+    "acquired_at": "SCENE_brandingEnter",
+    "released_at": "SCENE_brandingExit",
+    "consumers": [
+      "hint_palette_blending (ato 1)",
+      "shadow_highlight sweep (ato 2, opcional por banda)"
+    ],
+    "conflict_policy": "Nenhum outro modulo pode registrar H-Int enquanto a cena de branding estiver ativa. Violacao e blocker formal."
+  },
+  "asset_contract": {
+    "status": "released_for_production",
+    "provenance_rule": "Todo simbolo abaixo exige registro em doc/asset_provenance_manifest.json. source_kind procedural_primitive nunca pode ser final. Nenhum destes assets pode nascer de PIL/ImageDraw.",
+    "model_sheet_first": "Obrigatorio. Pedido de pacote de assets finais sem model sheet aprovado reprova; a rota que funciona entrega model sheet e style board primeiro, depois os assets.",
+    "symbols": [
+      {
+        "res_symbol": "img_forge_bg_b",
+        "res_kind": "IMAGE",
+        "path": "branding/forge_bg_b_320x224.png",
+        "tiles": "40x28",
+        "palette": "PAL0",
+        "role": "interior da forja, escuro, piso lavado por brasa",
+        "act": 1,
+        "composition_constraint": "as 48 scanlines inferiores sofrem cisalhamento por linha no ato 2: material continuo, sem detalhe fino nem aresta que dependa de alinhamento horizontal"
+      },
+      {
+        "res_symbol": "img_forge_bg_a_props",
+        "res_kind": "IMAGE",
+        "path": "branding/forge_bg_a_props_320x224.png",
+        "tiles": "40x28",
+        "palette": "PAL0",
+        "role": "bigorna e ferramentas em foreground com priority split; MARTELO REMOVIDO, ele virou sprite",
+        "act": 1,
+        "composition_constraint": "a face da bigorna em (128,104) recebe a cicatriz incandescente escrita em tiles pelo runtime no F120 (mutable_tile_decal_mutation). Mantenha essa area com material limpo e legivel: detalhe fino, textura carregada ou aresta exatamente ali competem com a marca e a cicatriz nao le. Reserve aproximadamente 32x16 px de superficie util centrada no ponto de contato."
+      },
+      {
+        "res_symbol": "spr_forge_ember",
+        "res_kind": "SPRITE",
+        "path": "branding/spr_forge_ember_16x16_strip.png",
+        "tiles": "2x2",
+        "frames": 6,
+        "palette": "PAL3",
+        "role": "brasa que cai com mascara de highlight; 4 quadros de rotacao em queda + 1 de esmagamento no contato + 1 de assentamento",
+        "act": 1
+      },
+      {
+        "res_symbol": "spr_forge_hammer",
+        "res_kind": "SPRITE",
+        "path": "branding/spr_forge_hammer_48x48_strip.png",
+        "tiles": "6x6",
+        "frames": 7,
+        "palette": "PAL1",
+        "role": "martelo que sobe em F96-120 e bate em F120; repouso, recuo, 2 intermediarios, CONTATO EM SMEAR, retorno, assentamento",
+        "act": 1,
+        "budget_blocker": "6 quadros de 36 tiles = 216 tiles residentes. Decidir entre reduzir quadros, reduzir para 40x40 ou fazer streaming ANTES de autorar; a decisao muda o desenho e exige res_graph_report real.",
+        "smear_requirement": "o quadro de contato e smear: cabeca alongada no eixo do golpe. Pose limpa no contato reprova por perder a aceleracao a 60fps."
+      },
+      {
+        "res_symbol": "spr_forge_shard",
+        "res_kind": "SPRITE",
+        "path": "branding/spr_forge_shard_16x16_strip.png",
+        "tiles": "2x2",
+        "frames": 4,
+        "palette": "PAL3",
+        "role": "estilha\u00e7o de metal do enxame; 4 quadros geram 16 orientacoes por flip",
+        "act": 2
+      },
+      {
+        "res_symbol": "img_logo_engine_v2",
+        "res_kind": "IMAGE",
+        "path": "branding/logo_engine_224x64.png",
+        "tiles": "28x8",
+        "palette": "PAL1",
+        "role": "wordmark da engine em metal, rampa com folga de highlight",
+        "act": 2,
+        "non_negotiable": "degrau de luz em PAL1[13..14] com canal <= 0xCC na aresta inferior das hastes; sem ele a varredura especular do ato 2 nao existe"
+      },
+      {
+        "res_symbol": "img_logo_author_v2",
+        "res_kind": "IMAGE",
+        "path": "branding/logo_author_192x32.png",
+        "tiles": "24x4",
+        "palette": "PAL2",
+        "role": "wordmark do autor; substitui o cursor textual do v1",
+        "act": 3
+      },
+      {
+        "res_symbol": "img_logo_project_v2",
+        "res_kind": "IMAGE",
+        "path": "branding/logo_project_224x48.png",
+        "tiles": "28x6",
+        "palette": "PAL2",
+        "role": "wordmark do projeto",
+        "act": 3
+      },
+      {
+        "res_symbol": "img_presents_text_v2",
+        "res_kind": "IMAGE",
+        "path": "branding/presents_text_96x16.png",
+        "tiles": "12x2",
+        "palette": "PAL2",
+        "role": "wordmark `presents` em pixel art, nunca VDP_drawText",
+        "act": 3
+      }
+    ],
+    "deprecated_symbols": {
+      "note": "Os 5 simbolos brand_* do v1 sao desenhados por primitiva em tools/image-tools/build_branding_intro_assets.py e estao declarados como procedural_primitive/placeholder. Permanecem no res enquanto o v2 nao entregar substitutos, e nunca podem ser promovidos a final.",
+      "symbols": [
+        "img_brand_fx_tiles",
+        "img_brand_engine_logo",
+        "img_brand_author_logo",
+        "img_brand_project_logo",
+        "img_brand_presents_text"
+      ]
+    },
+    "model_sheet_gate": {
+      "enforcement": "tools/sgdk_wrapper/validate_model_sheet_contract.py",
+      "report": "doc/model_sheet_contract_report.json",
+      "checks": [
+        "canvas 512x384",
+        "os 5 paineis carregam conteudo",
+        "painel B e silhueta de tinta unica",
+        "PAL1[13..14] com canal maximo <= 0xCC (folga de highlight)",
+        "PAL0[9..12] fecha como anel uniforme (razao <= 3.0)",
+        "painel E em escala real, nao ampliacao"
+      ],
+      "complements": "art_diagnostic.py cobre formato tecnico; art_quality_gate.py cobre qualidade artistica",
+      "limit": "nenhum check julga se a luz esta correta; direcao de luz e aprovacao humana"
+    },
+    "choreography_revision": {
+      "reason": "A concepcao de cena invalidou parte desta lista: objeto que se move nao pode viver dentro de imagem estatica de fundo.",
+      "authority": "doc/branding_v2_cinematic_storyboard.json#asset_contract_deltas",
+      "asset_count_before": 8,
+      "asset_count_after": 9
+    },
+    "showcase_revision": "Vitrine: +3 tecnicas comprehension_bearing (cicatriz persistente, smear de contato, plano WINDOW) e +4 enabling_discipline declaradas. Custo em sprites: ZERO. Custo em arte: 1 quadro a mais no martelo (6 -> 7)."
+  },
+  "audio_contract": {
+    "status": "reuse_v1_card_until_art_pass",
+    "note": "O audio_architecture_card do v1 continua valido como base: FM_CH6_DAC para PCM, PSG para acentos. O v2 exige reescrita do desenho de cues porque a linha do tempo mudou de 3 cortes para 3 atos continuos.",
+    "new_cue_map": [
+      {
+        "frame": 0,
+        "event": "forge_ambience_in",
+        "path": "FM sub swell"
+      },
+      {
+        "frame": 120,
+        "event": "hammer_strike",
+        "path": "DAC"
+      },
+      {
+        "frame": 180,
+        "event": "logo_lock",
+        "path": "FM + PSG chime"
+      },
+      {
+        "frame": 300,
+        "event": "curtain_lift",
+        "path": "FM sweep"
+      },
+      {
+        "frame": 480,
+        "event": "signature_chord",
+        "path": "FM sustain"
+      }
+    ],
+    "fallback_plan": "Se XGM2/DAC falhar, manter FM + PSG e registrar audio=placeholder, sem bloquear o gate visual."
+  },
+  "runtime_plan": {
     "scene_module": "src/scenes/scene_branding.c",
-    "enter_update_exit": true,
-    "resource_loading_model": "scene_local_preload",
-    "skip_policy": "START ou A chama APP_changeScene(APP_SCENE_BOOT) em qualquer frame",
-    "runtime_probe": "MDRuntimeProbe_init em APP_boot e MDRuntimeProbe_tick uma vez por frame no loop principal"
-  },
-  "screens": [
-    {
-      "slot": 1,
-      "role": "engine",
-      "label": "MEGA FORGE ENGINE",
-      "duration_frames_ntsc": 150,
-      "timeline": [
-        "F0 enter/reset, BG_B brand_fx_tiles, BG_A brand_engine_logo",
-        "F0-42 logo sobe por VScroll ate repouso",
-        "F0-150 BG_B contramovimento por scroll de plano",
-        "F0/F18/F46 cues PSG com bell_forge XGM2 no impacto inicial",
-        "F0-150 shimmer em PAL1[14] a cada 8 frames"
-      ],
-      "vdp_owner": {
-        "BG_A": "img_brand_engine_logo",
-        "BG_B": "img_brand_fx_tiles",
-        "sprites": "nenhum neste baseline",
-        "PAL0": "fx tiles",
-        "PAL1": "logo engine",
-        "PAL2": "reservado",
-        "PAL3": "reservado/debug"
-      },
-      "palette_script": "BRAND_ENGINE_SHIMMER em PAL1[14]",
-      "audio_cues": [
-        "AUDIO_CUE_BRAND_ENGINE_HIT -> brand_bell_forge WAV XGM2 13300 em SOUND_PCM_CH2",
-        "PSG ch0/ch1 reforco tonal curto; sem uso de PSG noise como canal tonal"
-      ]
-    },
-    {
-      "slot": 2,
-      "role": "author",
-      "label": "MISAEL OLIVEIRA",
-      "duration_frames_ntsc": 165,
-      "timeline": [
-        "F0 enter/reset, BG_B brand_fx_tiles, BG_A brand_author_logo",
-        "F0-165 BG_B scroll leve no sentido oposto ao slot engine",
-        "F42-126 cursor textual temporario com click XGM2 a cada 6 frames",
-        "F110 bell_terminal XGM2",
-        "F0-165 scan em PAL1[6] a cada 4 frames"
-      ],
-      "vdp_owner": {
-        "BG_A": "img_brand_author_logo e cursor temporario",
-        "BG_B": "img_brand_fx_tiles",
-        "sprites": "nenhum neste baseline",
-        "PAL0": "fx tiles",
-        "PAL1": "logo author",
-        "PAL2": "reservado",
-        "PAL3": "reservado/debug"
-      },
-      "palette_script": "BRAND_AUTHOR_SCAN em PAL1[6]",
-      "audio_cues": [
-        "AUDIO_CUE_BRAND_AUTHOR_CLICK -> brand_typewriter_click WAV XGM2 6650 em SOUND_PCM_CH3 halfRate=true",
-        "AUDIO_CUE_BRAND_AUTHOR_BELL -> brand_bell_terminal WAV XGM2 13300 em SOUND_PCM_CH2"
-      ]
-    },
-    {
-      "slot": 3,
-      "role": "project",
-      "label": "MEGA MASTER GAMES",
-      "duration_frames_ntsc": 205,
-      "timeline": [
-        "F0 enter/reset, BG_B brand_fx_tiles, BG_A brand_project_logo + brand_presents_text",
-        "F0-36 HSCROLL_LINE em BG_A com amplitude 2",
-        "F0 stamp_whoosh XGM2",
-        "F28 reverb_tail XGM2 + PSG ch2 chime",
-        "F0-48 flash em PAL1[10..11], depois shimmer lento em PAL1[9]"
-      ],
-      "vdp_owner": {
-        "BG_A": "img_brand_project_logo e img_brand_presents_text",
-        "BG_B": "img_brand_fx_tiles",
-        "sprites": "nenhum neste baseline",
-        "PAL0": "fx tiles",
-        "PAL1": "logo project e presents",
-        "PAL2": "reservado",
-        "PAL3": "reservado/debug"
-      },
-      "palette_script": "BRAND_PROJECT_FLASH em PAL1[9..11]",
-      "audio_cues": [
-        "AUDIO_CUE_BRAND_PROJECT_WHOOSH -> brand_stamp_whoosh WAV XGM2 13300 em SOUND_PCM_CH2",
-        "AUDIO_CUE_BRAND_PROJECT_TAIL -> brand_reverb_tail WAV XGM2 13300 em SOUND_PCM_CH3"
-      ]
-    }
-  ],
-  "resource_plan_by_slot": {
-    "shared": {
-      "images": [
-        "res/branding/brand_fx_tiles.png"
-      ],
-      "audio": [],
-      "resident_model": "shared scene-local preload"
-    },
-    "engine": {
-      "images": [
-        "res/branding/brand_engine_logo.png"
-      ],
-      "audio": [
-        "res/audio/branding/bell_forge.wav"
-      ]
-    },
-    "author": {
-      "images": [
-        "res/branding/brand_author_logo.png"
-      ],
-      "audio": [
-        "res/audio/branding/typewriter_click.wav",
-        "res/audio/branding/bell_terminal.wav"
-      ]
-    },
-    "project": {
-      "images": [
-        "res/branding/brand_project_logo.png",
-        "res/branding/brand_presents_text.png"
-      ],
-      "audio": [
-        "res/audio/branding/stamp_whoosh.wav",
-        "res/audio/branding/reverb_tail.wav"
-      ]
-    }
-  },
-  "budget_summary": {
-    "budget_decision": "cabe com recuo",
-    "recuo": "baseline usa IMAGE + palette/scroll e nenhum sprite runtime; monograma 3D/sprites complexos ficam fora ate novo res_graph e scanline report",
-    "current_res_graph": "out/logs/res_graph_report.json",
-    "current_vram_unique_tiles_estimate": 347,
-    "sprite_reserve_tiles": 420,
-    "vram_overlap_count": 0,
-    "per_frame_dma_policy": "sem DMA por frame; HScroll line table usa CPU apenas em F0-F36 do slot project e limpeza unica no primeiro frame estatico",
-    "scanline_sprite_pressure": "0 sprites neste baseline"
-  },
-  "audio_architecture_card": {
-    "schema_version": "1.0.0",
-    "scene_id": "branding_sequence",
-    "audio_role": "cutscene",
-    "xgm2_mode": "standard_with_pcm",
-    "sample_format_audit": "WAV resources declared as XGM2 13300 or 6650; no raw 11k PCM path",
-    "channel_ownership_map": {
-      "FM_CH1": { "owner": "unused", "stealable": true },
-      "FM_CH2": { "owner": "unused", "stealable": true },
-      "FM_CH3": { "owner": "unused", "stealable": true },
-      "FM_CH4": { "owner": "unused", "stealable": true },
-      "FM_CH5": { "owner": "unused", "stealable": true },
-      "FM_CH6_DAC": { "owner": "XGM2 PCM SFX", "stealable": false },
-      "PSG_CH1": { "owner": "branding tonal accents", "stealable": true },
-      "PSG_CH2": { "owner": "branding tonal accents", "stealable": true },
-      "PSG_CH3": { "owner": "branding chime", "stealable": true },
-      "PSG_NOISE": { "owner": "unused in branding baseline", "stealable": true }
-    },
-    "sfx_priority_table": [
-      { "event": "engine_hit", "priority": 12, "channel": "SOUND_PCM_CH2", "steals_lower_priority": true },
-      { "event": "author_click", "priority": 4, "channel": "SOUND_PCM_CH3", "steals_lower_priority": true },
-      { "event": "author_bell", "priority": 10, "channel": "SOUND_PCM_CH2", "steals_lower_priority": true },
-      { "event": "project_whoosh", "priority": 11, "channel": "SOUND_PCM_CH2", "steals_lower_priority": true },
-      { "event": "project_tail", "priority": 8, "channel": "SOUND_PCM_CH3", "steals_lower_priority": true }
+    "status": "v1_implementation_present_v2_not_implemented",
+    "interface_header": "inc/branding_v2.h",
+    "implementation_order": [
+      "1. corrigir o spike de CPU do v1 movendo HScroll para DMA",
+      "2. registrar o owner unico de H-Int e o mapa de bandas",
+      "3. implementar o ato 1 com a brasa e a luz mascarada",
+      "4. implementar o enxame de estilha\u00e7os com o simulador de scanline em maos",
+      "5. implementar a substituicao sprite->tilemap e a varredura especular",
+      "6. implementar a cortina por coluna e o handoff sem corte"
     ],
-    "dac_budget": {
-      "dac_used": true,
-      "sample_rate_hz": 13300,
-      "max_concurrent_pcm": 2,
-      "clipping_policy": "synthetic samples normalized below full scale; validate_audio must pass"
-    },
-    "fallback_plan": "Se XGM2 falhar, manter PSG tonal curto e registrar audio=placeholder.",
-    "approval_status": "approved_for_runtime"
+    "hard_rules": [
+      "nenhum VDP_drawText/VDP_drawTextBG em conteudo de marca",
+      "nenhum VDP_clearPlane entre atos",
+      "nenhum pixel de tile escrito como literal const u32 em C",
+      "DMA apenas no VBlank",
+      "sem float, sem malloc"
+    ]
   },
-  "teardown_reset_plan": [
-    "AUDIO_stopAll()",
-    "SPR_reset()",
-    "SPR_update()",
-    "VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE)",
-    "VDP_setHorizontalScroll(BG_A, 0)",
-    "VDP_setHorizontalScroll(BG_B, 0)",
-    "VDP_setVerticalScroll(BG_A, 0)",
-    "VDP_setVerticalScroll(BG_B, 0)",
-    "PAL_setPalette(PAL0..PAL3, palette_black, CPU) on screen reset"
-  ],
-  "promotion_rules": [
-    "baseline brand_* PNGs sao assets reais e nao devem ser apagados por suposicao",
-    "arte final precisa de lineage, conversao, validacao de paleta e budget",
-    "nao promover PNG bruto de IA direto para res/",
-    "nao declarar pronto sem BlastEm",
-    "ready_for_aaa do projeto permanece bloqueado enquanto GDD/template generico nao for preenchido"
-  ],
   "evidence_plan": {
-    "build": "out/rom.bin existe e SHA256 registrado",
-    "res_graph": "out/logs/res_graph_report.json status ok",
-    "audio_validation": "out/logs/audio_validation_report.json pass=true depois dos WAV XGM2",
-    "runtime_capture": "run_runtime_capture.ps1 -ProjectDir tools/sgdk_wrapper/modelo -TargetScene 0 -Emulator blastem",
-    "required_runtime_scene_id": 0,
-    "blastem": [
-      "screenshot dedicada da janela",
-      "save.sram com MDRT e heartbeat READY",
-      "runtime_metrics.json com scene_id=0",
-      "visual_vdp_dump.bin quando disponivel ou visual_delivery_gate_report marcando missing/blocked"
-    ],
-    "freshness": "out/logs/freshness_audit_report.json sem drift bloqueante para artefatos capturados",
-    "closeout": "out/logs/scene_closeout_gate_report.json"
+    "note": "Herda o plano do v1 e adiciona os gates que o v1 nao precisava por nao ter sprites nem H-Int.",
+    "required": [
+      "doc/model_sheet_contract_report.json sem blockers, gerado por validate_model_sheet_contract.py",
+      "out/logs/res_graph_report.json status ok, sem overlap com a reserva de sprites",
+      "sprite_scanline_pressure_report gerado por tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py para o pior quadro do ato 2",
+      "h_int_ownership_map conferido contra o runtime",
+      "palette_slot_audit provando folga de highlight em PAL1",
+      "doc/asset_provenance_manifest.json cobrindo os 8 simbolos novos",
+      "audit_procedural_asset_provenance.py sem blockers",
+      "screenshot dedicada do BlastEm por ato, nao apenas uma da sequencia",
+      "visual_vdp_dump.bin (o v1 esta com visual_vdp_dump_status=missing)",
+      "runtime_metrics.json com over_budget_frames=0",
+      "doc/brand_comprehension_gate_report.json sem blockers, gerado por validate_brand_comprehension_gate.py",
+      "sprite_scanline_pressure_report do pior quadro do ato 2 (F150-180, pico estimado 33 sprites)"
+    ]
   },
-  "runtime_capture_current": {
-    "rom_sha256": "22a80b7cf9f514550f21073226c2bec63efdcc6a95af9d18c62d5e810ce95c8f",
-    "blastem_status": "ok",
-    "target_scene": 0,
-    "runtime_scene_id": 0,
-    "capture_status": "partial",
-    "frames_seen": 151,
-    "samples_recorded": 32,
-    "over_budget_frames": 1,
-    "cpu_load_max": 401,
-    "frame_cpu_ratio_p95": 6,
-    "sprite_engine_peak": 0,
-    "max_scanline_sprites": 0,
-    "screenshot_path": "out/evidence/blastem/screenshot.png",
-    "sram_path": "out/evidence/blastem/save.sram",
-    "runtime_metrics_path": "out/logs/runtime_metrics.json",
-    "visual_vdp_dump_path": "out/evidence/blastem/visual_vdp_dump.bin",
-    "visual_vdp_dump_status": "missing",
-    "performance_gate": "blocked_by_single_cpu_budget_spike"
-  },
-  "verification_current": {
-    "direct_sgdk_make": "stale_prior_evidence",
-    "wrapper_build": "ok_build_v002",
-    "res_graph": "pass_10_declarations",
-    "validate_audio": "pass_5_wav_xgm2_29_97_kb",
-    "blastem": "ok_target_scene_0_partial_runtime_capture",
-    "freshness": "ok",
-    "scene_closeout_gate": "blocked",
-    "known_blockers": [
-      "agent_context_drift_architecture_manifest",
-      "gdd_substantial_insufficient_for_project_ready_for_aaa",
-      "visual_aesthetic_report_has_rework_for_existing_author_logo_until_art_pass",
-      "visual_vdp_dump_missing",
-      "runtime_metrics_partial_one_cpu_budget_spike"
+  "promotion_rules": [
+    "este contrato e fundamento e nao promove nada; status permanece `documentado` ate existir arte, runtime e BlastEm",
+    "os 5 assets brand_* procedurais nunca podem ser promovidos a final",
+    "arte v2 exige model sheet aprovado antes do pacote de assets",
+    "claim de scanline exige o simulador, nunca SPR_getUsedVDPSprite",
+    "abertura sem visual_vdp_dump.bin nao fecha gate visual",
+    "claim marcado weak (column_scrolling, expressive_text_presentation_system) nao pode ser apresentado como forte no closeout e exige prova perceptiva no runtime",
+    "o orcamento de VRAM do spr_forge_hammer precisa de res_graph_report antes de liberar a arte"
+  ],
+  "brand_comprehension_gate": {
+    "axis": "brand_comprehension_consequence",
+    "status": "approved_by_human_curator",
+    "approved_at": "2026-08-17",
+    "substitutes": "art_gameplay_direction_gate.gameplay_consequence, inaplicavel a cena de marca",
+    "definition": "cada decisao de arte precisa mudar o que o espectador entende sobre quem fez este jogo em 8,7 segundos",
+    "rule": "toda tecnica carrega claim com teste negativo, ou e enabling_discipline; tecnica sem classificacao reprova",
+    "enforcement": "tools/sgdk_wrapper/validate_brand_comprehension_gate.py",
+    "report": "doc/brand_comprehension_gate_report.json",
+    "decision_record": "doc/art_direction_decision_record.json#trava_5_art_gameplay_direction_gate",
+    "weak_claims_to_prove_at_runtime": [
+      "column_scrolling",
+      "expressive_text_presentation_system"
     ]
   }
 }

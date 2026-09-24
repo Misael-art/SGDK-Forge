@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "status": "none_in_first_slice",
+  "h_int_owner": null,
+  "line_scroll_owner": "race_road_when_enabled",
+  "cram_owner": "scene_owner",
+  "teardown_required": ["remove_h_int_callback_if_installed", "reset_scroll_tables", "restore_palette"],
+  "fallback": "plane scroll plus palette_state_transitions"
+}

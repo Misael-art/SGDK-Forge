@@ -1,0 +1,30 @@
+{
+  "schema_version": "runtime_probe_f01_merge_decision.v1",
+  "generated_at": "2026-09-09T16:05:00Z",
+  "fixture": "SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "canonical_probe": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+  "decision": "merge_canonical_probe_preserve_fixture_app_abi",
+  "pre_merge_findings": {
+    "project_scene_owner": "src/core/app.c::gApp",
+    "loop_order": ["INPUT_update", "APP_update", "SPR_update", "SYS_doVBlankProcess", "MDRuntimeProbe_tick"],
+    "custom_sram_offset": false,
+    "custom_vlab_writer": false,
+    "export_visual_api": false,
+    "scene_hold_api": false,
+    "project_specific_probe_fields": false,
+    "legacy_measurement": "four rotating scanline samples per frame; no complete 224-line sweep"
+  },
+  "preserved_contracts": [
+    "gApp.currentScene scene identifier",
+    "MDRT SRAM offset 0 and READY heartbeat offset 0x100",
+    "main-loop ownership and existing scene runtime",
+    "static-buffer/no-malloc project rules"
+  ],
+  "planned_verification": [
+    "canonical source/header hashes",
+    "Linux build route and ROM hash",
+    "BlastEm Linux sealed evidence",
+    "freshness and project learning capture"
+  ],
+  "claim_ceiling": "fixture_probe_contract_only_until_build_and_runtime_evidence"
+}

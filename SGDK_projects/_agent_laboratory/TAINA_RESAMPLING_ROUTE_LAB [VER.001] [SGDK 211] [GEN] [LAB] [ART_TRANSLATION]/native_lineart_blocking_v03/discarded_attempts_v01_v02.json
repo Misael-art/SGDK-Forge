@@ -1,0 +1,34 @@
+{
+  "schema_version": "taina_native_lineart_discarded_attempts.v1",
+  "scale": "56x80",
+  "source_policy": "preserved_as_negative_evidence_not_pixel_source",
+  "attempts": [
+    {
+      "stage": "native_lineart_blocking_v01",
+      "candidates": {
+        "A": "5895613ff2d10f904c959915f4da16e41de5b069bde7558c415cd3ebb0543011",
+        "B": "1c9e7bbd9bdd8a98142d2784f050745cc7bcf5152d4e223ae39943f93bfd69e1"
+      },
+      "discard_reason": "torso_and_upper_limb_structure_read_as_generic_block_mass_at_1x"
+    },
+    {
+      "stage": "native_lineart_blocking_v02",
+      "candidates": {
+        "A": "7828a5fb8d658661adc5d45eeffcc859e5f995f98c4f13a2d6389c24ddb4b5d6",
+        "B": "da32c27c82dedd95efccd319508a77556ec37b12a0f8b41b8379d2ca9f6d36aa"
+      },
+      "discard_reason": "negative_space_improved_but_diagonal_guard_still_read_lateral_and_face_gaze_remained_weak"
+    }
+  ],
+  "not_attempted": [
+    "material_color_blocking",
+    "shadow_or_highlight_authoring",
+    "palette_reseed",
+    "animation",
+    "res_promotion",
+    "sgdk_integration",
+    "rom_or_emulator_validation"
+  ],
+  "current_stage": "native_lineart_blocking_v03",
+  "current_gate": "pending_human_decision"
+}

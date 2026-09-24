@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "harness_context_snapshot",
+  "tool": {
+    "name": "harness_orchestration",
+    "version": "1.1.0"
+  },
+  "generated_at": "2026-09-06T23:54:12.423916Z",
+  "workspace_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "objective": "Auditoria independente AAA ponta a ponta do framework",
+  "harness": {
+    "surface": "codex_desktop",
+    "subagents_available": true,
+    "max_concurrency": 4,
+    "supports_wait": true,
+    "supports_interrupt": true,
+    "permission_profile": "unrestricted",
+    "selected_skills": [
+      "code/sgdk-code-reviewer",
+      "governance/aaa-pipeline-guardian",
+      "hardware/megadrive-vdp-budget-analyst"
+    ],
+    "selected_pipelines": []
+  },
+  "host": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "python": "3.14.7",
+    "execution_mode": "native"
+  },
+  "git": {
+    "branch": "codex/taiketsu-ultra-rebirth-aaa",
+    "scope": ".",
+    "dirty": true,
+    "dirty_path_count": 50,
+    "dirty_path_examples": [
+      ".agents/skills",
+      ".ai-memory.toml",
+      "SSEngine_Engines/README.md",
+      "doc/07_game_design/genre_coverage_state.json",
+      "doc/AI_MEMORY_POLICY.md",
+      "doc/agent_session_state.json",
+      "tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md",
+      "tools/sgdk_wrapper/.agent/skills/art/native-sprite-production/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/art/native-sprite-production/references/source-route-triage-protocol.md",
+      "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/operation/harness-orchestration/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+      "tools/sgdk_wrapper/.agent/workflows/production-diagnostic-triage.md",
+      "tools/sgdk_wrapper/.agent/workflows/production-loop.md",
+      "tools/sgdk_wrapper/capture_blastem_evidence_linux.sh",
+      "tools/sgdk_wrapper/ci/test_harness_orchestration.py",
+      "tools/sgdk_wrapper/ci/test_native_sprite_semantic_gate.py",
+      "tools/sgdk_wrapper/ci/test_runtime_capture_blastem_noninteractive.ps1",
+      "tools/sgdk_wrapper/ci/test_scene_closeout_gate.ps1",
+      "tools/sgdk_wrapper/forge_art/__main__.py"
+    ]
+  },
+  "tools": [
+    {
+      "name": "python3",
+      "path": "/usr/sbin/python3",
+      "state": "found"
+    },
+    {
+      "name": "pwsh",
+      "path": "/usr/sbin/pwsh",
+      "state": "found"
+    },
+    {
+      "name": "git",
+      "path": "/usr/sbin/git",
+      "state": "found"
+    },
+    {
+      "name": "magick",
+      "path": "/usr/sbin/magick",
+      "state": "found"
+    },
+    {
+      "name": "gimp",
+      "path": "/usr/sbin/gimp",
+      "state": "found"
+    },
+    {
+      "name": "java",
+      "path": "/usr/sbin/java",
+      "state": "found"
+    },
+    {
+      "name": "wine",
+      "path": "/usr/sbin/wine",
+      "state": "found"
+    },
+    {
+      "name": "blastem",
+      "path": null,
+      "state": "not_found"
+    }
+  ],
+  "canonical_context": {
+    "sources": [
+      {
+        "role": "workspace_instructions",
+        "path": "AGENTS.md",
+        "exists": true,
+        "sha256": "762b3a1a17b8228e461d6cd01e280a3cdf185b6414164247566411a45dcc9148",
+        "size_bytes": 23487
+      },
+      {
+        "role": "global_rules",
+        "path": "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md",
+        "exists": true,
+        "sha256": "2093e9abcfe3508362ddbf1adf47c45b1a22709d6940ba550ab68ee78fc44c1b",
+        "size_bytes": 83464
+      },
+      {
+        "role": "project_truth:doc/10-memory-bank.md",
+        "path": "doc/10-memory-bank.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/11-gdd.md",
+        "path": "doc/11-gdd.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/13-spec-cenas.md",
+        "path": "doc/13-spec-cenas.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/00-diretrizes-agente.md",
+        "path": "doc/00-diretrizes-agente.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/project_context_manifest.json",
+        "path": "doc/project_context_manifest.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/project_methodology_manifest.json",
+        "path": "doc/project_methodology_manifest.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/project_hygiene_manifest.json",
+        "path": "doc/project_hygiene_manifest.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/active_iteration.json",
+        "path": "doc/active_iteration.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:.mddev/project.json",
+        "path": ".mddev/project.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "selected_skill:code/sgdk-code-reviewer",
+        "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-code-reviewer/SKILL.md",
+        "exists": true,
+        "sha256": "171e7f0a596453261e15a45adaa848769a17d7bb5033f7c45c91ef769bbedde5",
+        "size_bytes": 1909
+      },
+      {
+        "role": "selected_skill:governance/aaa-pipeline-guardian",
+        "path": "tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+        "exists": true,
+        "sha256": "d45d96b99b93544ab2dcfb0ebefaa30a843b5cba531ec0d888af81773864cf14",
+        "size_bytes": 5468
+      },
+      {
+        "role": "selected_skill:hardware/megadrive-vdp-budget-analyst",
+        "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "exists": true,
+        "sha256": "8c2edbc5a8b8a29f669429be7822a3401d64476557448bb8f2a2dba5c249fa86",
+        "size_bytes": 39523
+      }
+    ],
+    "digest": "617264cc09006194abb4887558359d8c3a9b1e772cf62a104ad951e5c9a514f8",
+    "stale_state_policy": "reject_or_refresh"
+  },
+  "orchestration_policy": {
+    "coordinator_is_single_claim_owner": true,
+    "coordinator_is_single_promotion_owner": true,
+    "default_worker_access": "read_only",
+    "default_worker_slots": 2,
+    "maximum_context_capsule_words": 1200,
+    "maximum_result_summary_words": 600,
+    "full_history_fork_default": false
+  },
+  "status": "ready",
+  "blockers": [],
+  "claim_ceiling": "orchestration_diagnostic_only"
+}

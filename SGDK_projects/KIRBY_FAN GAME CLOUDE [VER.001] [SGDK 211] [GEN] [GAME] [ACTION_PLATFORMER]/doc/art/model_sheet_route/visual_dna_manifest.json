@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "cloude_hero_puffball_v01",
+  "revision": "v03_a_idle_runtime_review_2026-09-01",
+  "supersedes": "v02_draft_2026-08-10",
+  "candidate_source_of_truth": "model_sheet_challenger_v03_a_cluster_strict",
+  "candidate_source_path": "rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_a_cluster_strict.png",
+  "candidate_source_sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241",
+  "candidate_source_policy": "v03-A is the bound visual source by exact SHA. ELITE is approved as one native idle key pose for isolated runtime visual proof; up to three additional poses may be authored for a separate motion package. No full-turnaround, complete sheet, final animation or first_playable replacement is approved.",
+  "fan_game_identity": "Fan game derivado da identidade de Kirby/Nintendo/HAL, com execução gráfica original, sem reutilização ou extração de pixels dos jogos de referência.",
+  "execution_identity_boundary": "Execução gráfica original não equivale a personagem ou propriedade intelectual original.",
+  "asset_role": "hero_character_model_sheet_challenger_v03_a_limited_source",
+  "authorial_source": "autoral. Desenho original a ser produzido nesta rota; nenhuma sheet de terceiro e traçada, decalcada ou usada como base de geração. Referências de MESMA GERAÇÃO foram medidas (rampa, direção de luz, proporção) e descartadas do pipeline de arte. Referência de geração inferior (NES) é explicitamente rejeitada como calibrador de teto.",
+  "license": "arte autoral do projeto; referência de estudo não redistribuída e não promovida a res/",
+  "benchmark_used_as": "scale_density_timing_only",
+
+  "style_pillars": [
+    "silhueta primeiro: a forma comunica o personagem a 32 px mesmo reduzida a uma mancha sólida",
+    "a rampa codifica luz, não decora: cada degrau existe para descrever a curvatura da esfera sob uma direção de luz declarada",
+    "acting facial legível: o olho é a feature-assinatura e nunca é sacrificado"
+  ],
+
+  "shape_language": [
+    "corpo esférico simples com dois lobos de pé e dois cotos de braço; nenhum apêndice adicional",
+    "contorno escuro fechado em 100% da silhueta, sem interrupção",
+    "razão corpo : pé maior ou igual a 3:1; o pé é lobo saturado e pequeno, nunca bota",
+    "olho como oval vertical ocupando cerca de 1/4 da altura do corpo, com 1 px de brilho; nunca retângulo",
+    "nenhuma forma interna sem referente anatômico declarado no model sheet",
+    "sombra de contato na base do corpo, para o personagem assentar no chão em vez de flutuar"
+  ],
+
+  "material_rules": [
+    "direção de luz declarada e única: superior-esquerda. Todo degrau da rampa deve ser posicionável a partir dela; mancha clara que não decorre da luz é defeito, não brilho",
+    "pele rosa em rampa de 5 degraus com queda monotônica de área: o preenchimento claro domina e cada degrau seguinte ocupa menos pixels que o anterior",
+    "rim highlight no quadrante superior-esquerdo e terminador acompanhando a curvatura; degrau mais escuro concentrado no quadrante inferior-direito",
+    "contorno em tom escuro dedicado, nunca reaproveitado como degrau de sombra da pele",
+    "pé em dois tons saturados mais quentes que a pele, com 1 px de brilho próprio",
+    "especular branco no olho e no rim; máximo 1 slot, aplicado em cluster de poucos pixels",
+    "sem gradiente suave: transição de degrau em cluster, nunca dithering em pele"
+  ],
+
+  "palette_intent": {
+    "max_palettes": 1,
+    "reserved_slots": [
+      { "palette": 2, "slot": 0, "purpose": "transparência de hardware; nenhum pixel de corpo pode cair aqui" },
+      { "palette": 2, "slot": 6, "purpose": "contorno escuro dedicado" },
+      { "palette": 2, "slot": 9, "purpose": "olho" },
+      { "palette": 2, "slot": 10, "purpose": "especular branco: brilho do olho e do rim" },
+      { "palette": 2, "slot": 11, "purpose": "sombra de contato na base" }
+    ],
+    "material_ramps": [
+      {
+        "material": "pele_rosa",
+        "slots": [1, 2, 3, 4, 5],
+        "contrast_goal": "cinco degraus calibrados no tier SNES (Kirby Super Star, 24x25, rampa medida 154/64/43/29/25 px). Queda monotônica de área: cada degrau ocupa menos pixels que o anterior. O degrau 1 domina o quadrante superior-esquerdo sob a luz declarada; o degrau 5 concentra-se no inferior-direito. Alvo total do personagem: 10 a 12 tons, dentro dos 15 de PAL2 — NAO reduzir por economia"
+      },
+      {
+        "material": "pe",
+        "slots": [7, 8],
+        "contrast_goal": "dois degraus saturados mais quentes que a pele, com brilho próprio de 1 px; pequenos o bastante para não dominar o terço inferior"
+      }
+    ]
+  },
+
+  "scale_contract": {
+    "native_resolution": "320x224",
+    "native_bbox": "32x32",
+    "nominal_bbox_px": { "w": 32, "h": 32 },
+    "pivot_policy": "pivô inteiro na base central do sprite (16,31); contato de pé estável, sem oscilação de 1 px entre frames de idle",
+    "scale_class": "medium_24_48",
+    "scale_lock_status": "locked",
+    "scale_lock_scope": "idle_elite_runtime_review_only; motion_package_draft",
+    "authorized_native_pose": "native_idle_key_pose_elite_v01",
+    "authorized_native_scale": "32x32",
+    "native_bbox": "32x32",
+    "pivot": [16,31],
+    "baseline_y": 30,
+    "gameplay_scale_fit": {
+      "camera_fov_role": "balanced_action",
+      "hitbox_alignment_role": "coarse_body",
+      "animation_workload_policy": "solo_fast_iteration",
+      "integer_pixel_motion_policy": "fixed_point_logic_integer_render"
+    },
+    "scale_change_policy": "requires_reseed_before_art"
+  },
+  "turnaround_challengers": [
+    {"asset_id":"model_sheet_challenger_v01", "path":"rascunho/nexialist_visual_nucleus_v01/revised_character_model_sheet_v01.png", "sha256":"0f2866de710ae3c920d003b1955d9a19029f7bcce2c50dbb79bac025552b501d", "status":"needs_rework", "promotable":false, "translation_authorized":false},
+    {"asset_id":"model_sheet_challenger_v02", "path":"rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v02.png", "sha256":"0d9be1e502eddedf1a364498180102fdc6e49b8ff7a48fa580d4b1ed36b8880a", "accepted_as":"turnaround_volume_reference_only", "status":"rework_before_native_translation", "promotable":false, "translation_authorized":false},
+    {"asset_id":"model_sheet_challenger_v03_a_cluster_strict", "path":"rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_a_cluster_strict.png", "sha256":"989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241", "status":"approved_as_model_sheet_source_for_single_native_key_pose", "promotable":false, "translation_authorized":true, "translation_scope":"single_idle_native_key_pose_translation", "native_scale":"32x32", "route":"cluster_strict"},
+    {"asset_id":"model_sheet_challenger_v03_b_silhouette_first", "path":"rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_b_silhouette_first.png", "sha256":"85a93885fec97490a8c220f3a35e66538e1a829e3c21f8c3392768c563b52f88", "status":"comparison_only", "promotable":false, "translation_authorized":false, "reference_status":"new_challenger_unreferenced_after_moderation_block"}
+  ],
+
+  "forbidden_drift": [
+    "anatomy",
+    "scale",
+    "face",
+    "palette",
+    "bounding_box"
+  ],
+
+  "approval_status": "approved_idle_runtime_review_limited_scope",
+  "visual_gate": "approved_for_native_idle_key_pose_and_runtime_visual_proof",
+  "promotable": false,
+  "translation_authorized": true,
+  "translation_authorization_scope": "single_idle_native_key_pose_translation",
+  "human_gate": {
+    "status": "approved_limited_scope",
+    "required_binding": [
+      "asset_id",
+      "sha256",
+      "revision",
+      "route",
+      "native_scale",
+      "authorized_uses"
+    ],
+    "authorized_uses": [
+      "model_sheet_reference",
+      "single_idle_native_key_pose_translation",
+      "dedicated_isolated_runtime_visual_proof"
+    ],
+    "forbidden_outside_scope": [
+      "complete_sprite_sheet",
+      "final_animation",
+      "first_playable_hero_replacement",
+      "final_animation",
+      "res_promotion_as_final",
+      "runtime_replacement"
+    ]
+  },
+  "revised_checks": {
+    "status": "observed_in_v03_a_for_limited_source_scope",
+    "arms_separated": "observed",
+    "feet_contact_baseline": "observed",
+    "three_quarter_back_distinct_from_back": "observed",
+    "facial_marks_present": "observed",
+    "cell_margin_preserved": "observed",
+    "light_and_volume_indicated": "observed",
+    "reason": "The v03-A turnaround visibly provides these checks for the approved model-sheet/source scope; this does not approve the full turnaround for native translation or prove the native 32x32 pose."
+  },
+  "blockers": [
+    "full_turnaround_not_approved",
+    "motion_package_human_gate_pending",
+    "native_sprite_production_gates_pending",
+    "res_promotion_as_final_forbidden",
+    "runtime_integration_not_authorized_for_first_playable"
+  ]
+}

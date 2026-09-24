@@ -11,6 +11,7 @@ Permitidos na raiz:
 - `AGENTS.md`
 - `README.md`
 - arquivos de configuracao ja canonicos e existentes
+- `.ai-memory.toml` como marcador consultivo controlado por `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`
 - documentos historicos explicitamente mantidos por curadoria
 
 Todo material operacional de projeto deve ficar dentro do proprio projeto em `SGDK_projects/<project>/` ou `SGDK_Engines/<project>/`.
@@ -37,6 +38,20 @@ Excecoes so sao validas quando:
 1. o artefato e parte canonica do workspace em `doc/` ou `tools/sgdk_wrapper/`;
 2. o artefato externo esta declarado em `doc/technique_usage_manifest.json > allowed_external_artifacts`;
 3. ha motivo e autorizacao humana registrados.
+
+## Areas de ferramentas na raiz (gitignored)
+
+Permitidas somente para saidas geradas pelas ferramentas do workspace, nunca para material de projeto:
+
+| Area | Dono |
+|---|---|
+| `out/host_tools/`, `out/cmd_.wine/` | ferramentas de host (xgm2tool via wine/flatpak) |
+| `out/ci/` | fixtures de `tools/sgdk_wrapper/ci/` |
+| `out/logs/` | reports do workspace (`host_operation_router`) |
+| `assets/reference/` | casos `translation_curation` de `tools/image-tools/` |
+| `graphify-out/` | grafo consultivo do Graphify |
+
+Build de ROM na raiz, evidencias e experimentos de projeto continuam proibidos aqui.
 
 ## Curadoria
 

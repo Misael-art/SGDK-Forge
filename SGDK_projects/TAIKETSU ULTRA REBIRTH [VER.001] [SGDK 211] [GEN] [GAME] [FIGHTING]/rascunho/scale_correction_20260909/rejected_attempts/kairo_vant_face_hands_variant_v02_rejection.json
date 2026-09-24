@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "rejected_visual_attempt",
+  "asset_id": "kairo_vant_face_hands_variant_v02",
+  "created_at": "2026-09-09",
+  "source_path": "rascunho/scale_correction_20260909/rejected_attempts/kairo_vant_face_hands_variant_v02_checkerboard_rejected.png",
+  "source_sha256": "30d819ab3442771102b3b406df86e5b170384b140639c08f925e1e363af16fae",
+  "source_kind": "ai_generated",
+  "acceptance_status": "rejected",
+  "rejection_codes": [
+    "baked_checkerboard_background",
+    "transparency_not_trustworthy",
+    "not_eligible_for_workset_production_sources",
+    "not_eligible_for_res"
+  ],
+  "observed": "Face and hand separation improved in the generated view, but the checkerboard is part of the raster rather than transparent pixels.",
+  "action": "preserve_as_negative_evidence_only"
+}

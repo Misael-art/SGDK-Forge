@@ -1,0 +1,35 @@
+{
+  "lesson_id": "L068",
+  "date": "2026-09-15",
+  "title": "Telemetria de eventos de combate precisa de schema versionado",
+  "status": "implemented_build_passed_sram_decode_passed_hit_projectile_session_pending_guard_throw_double_ko",
+  "rule": "Quando o ledger de combate ganha novas fontes ou resultados, a evidência de emulador deve exportar contadores versionados junto do probe de budget; nunca inferir colisões a partir de pixels ou de um schema antigo.",
+  "implementation": [
+    "src/hamoopig_runtime_probe.c: HPRB schema 6, contadores saturantes de eventos HIT/GUARD/THROW, projétil, DOUBLE e KO",
+    "src/main.c: consolidação depois de FUNCAO_CONSUME_COMBAT_EVENTS",
+    "tests/analyze_hprb_probe.py: decoder fechado para schema 6 e compatibilidade explícita com schemas 1-5",
+    "tests/test_hprb_event_probe_contract.py: round-trip e rejeição de layouts incompatíveis"
+  ],
+  "evidence": {
+    "build_log": "out/logs/continuation_p04_runtime_event_probe_build.log",
+    "suite_log": "out/logs/continuation_p04_runtime_event_probe_suite.log",
+    "rom_sha256": "713cfe0751e49706bd6d75e844e114032963dfe04e228e02bc475f8b4e792e7b",
+    "sram_report": "out/emulator_evidence/visual_ko_20260915T052605Z/hprb_probe_report.json",
+    "schema": 6,
+    "declared_size": 68,
+    "short_session_event_total": 0,
+    "directed_session": "out/emulator_evidence/visual_ko_20260915T054142Z/hprb_probe_report.json",
+    "directed_session_event_total": 16,
+    "directed_session_hit_total": 16,
+    "directed_session_projectile_total": 1,
+    "directed_session_guard_total": 0,
+    "directed_session_throw_total": 0,
+    "directed_session_double_total": 0,
+    "directed_session_ko_total": 0
+  },
+  "pending": [
+    "capturar uma sessão que produza GUARD, THROW, colisão dupla e KO para validar os contadores restantes",
+    "medir budget de VBlank/worst-frame e revisar visualmente o cenário fora do agente host"
+  ],
+  "provenance": "orientação do desenvolvedor original da engine aplicada ao projeto; telemetria é diagnóstico, não promoção visual"
+}

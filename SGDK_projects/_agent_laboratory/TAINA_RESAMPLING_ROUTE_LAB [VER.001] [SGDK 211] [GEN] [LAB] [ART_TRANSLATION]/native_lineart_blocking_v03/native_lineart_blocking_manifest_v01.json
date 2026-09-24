@@ -1,0 +1,78 @@
+{
+  "schema_version": "taina_native_lineart_blocking_manifest.v1",
+  "stage": "native_lineart_blocking_v03",
+  "iteration_reason": "v01 and v02 retained a block-mass torso; v03 redraws the authored structural mask with two raised fists, diagonal forearms and explicit ribcage negative space",
+  "identity_authority": {
+    "file": "inputs/model_sheet_v02.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "underlays": {
+    "A_underlay_im_lanczos3": {
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+      "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+      "role": "guide_only_not_pixel_source"
+    },
+    "B_underlay_im_mitchell_netravali": {
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/hybrid_cleanup_challenger_im_mitchell_netravali_v01.png",
+      "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61",
+      "role": "guide_only_not_pixel_source"
+    }
+  },
+  "candidates": {
+    "A": {
+      "asset_id": "taina_56x80_native_lineart_blocking_a_v03",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/native_lineart_blocking_v03/A/taina_56x80_native_lineart_blocking_a_v03.png",
+      "sha256": "cd911846f1eab6f05e59be714fdf0520a021ea88b9fdc008f2279112133c10ff",
+      "report": "A/taina_56x80_native_lineart_blocking_a_v03_report.json",
+      "identity_report": "A/taina_56x80_native_lineart_blocking_a_v03_identity_report.json"
+    },
+    "B": {
+      "asset_id": "taina_56x80_native_lineart_blocking_b_v03",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/native_lineart_blocking_v03/B/taina_56x80_native_lineart_blocking_b_v03.png",
+      "sha256": "2783c59c6c26e645825295d570c70d2a1ea01be1580fa02c306e35017e045264",
+      "report": "B/taina_56x80_native_lineart_blocking_b_v03_report.json",
+      "identity_report": "B/taina_56x80_native_lineart_blocking_b_v03_identity_report.json"
+    }
+  },
+  "source_file_unchanged": true,
+  "forbidden_pixel_sources": [
+    "BASIC",
+    "ELITE",
+    "v02_regressiva",
+    "G2",
+    "RGB_diagnostic_maps",
+    "v05"
+  ],
+  "comparison": {
+    "pixels_different": 93,
+    "visible_pixel_denominator": 1678,
+    "difference_ratio": 0.05542312276519666,
+    "near_duplicate": false,
+    "affected_regions": {
+      "face": 16,
+      "hair": 19,
+      "guard": 24,
+      "hem": 4,
+      "sash": 19,
+      "feet": 14
+    },
+    "meaningful_visual_alternatives": true,
+    "intended_gain": "recover internal drawing, identity, gaze, guard separation and volume before color"
+  },
+  "not_attempted": [
+    "material_color_blocking",
+    "shadow_or_highlight_authoring",
+    "palette_reseed",
+    "animation",
+    "res_promotion",
+    "sgdk_integration",
+    "rom_or_emulator_validation"
+  ],
+  "human_gate_status": "pending_human_decision",
+  "decision_required": "select_one_structurally_valid_lineart_candidate",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "ready_for_aaa": false
+}

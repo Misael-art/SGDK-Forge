@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-08-06T02:48:16Z",
+  "source_digest": "ed23228d8695e30fc694051136ee96ba425330a8727c16a7eb957afbbca6898a",
+  "lessons": [
+    {
+      "lesson_id": "lesson_3a67be353d7bacfa",
+      "title": "Manter gate fechado, separar os owners de SRAM e recapturar ap\u00f3s a \u00faltima mudan\u00e7a de ROM produziu bundle selado e cobertura ROM-side observada sem IP ou assets externos",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "qualified_local",
+      "observed_at": "2026-08-06",
+      "problem_signature": "manter_gate_fechado_separar_os_owners_de_sram_e_recapturar_ap_s_a_ltima_mudan_a_de_rom_produziu_bundle_selado_e_cobertura_rom_side_observada_sem_ip_ou_assets_externos",
+      "context": "sete contratos de fixture",
+      "observation": "Manter gate fechado, separar os owners de SRAM e recapturar ap\u00f3s a \u00faltima mudan\u00e7a de ROM produziu bundle selado e cobertura ROM-side observada sem IP ou assets externos",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Prova somente `technical_fixture_contracts`; nao prova audio, performance sustentada, jogo completo ou AAA"
+      ],
+      "evidence": {
+        "grade": "E4_budget_and_regression",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/evidence/forge_reference/blastem-linux-20260806T024237Z-253942/evidence_manifest.json",
+          "out/evidence/forge_reference/blastem-linux-20260806T024237Z-253942/fref_final_gate_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [],
+  "canonical_promotion_performed": false
+}

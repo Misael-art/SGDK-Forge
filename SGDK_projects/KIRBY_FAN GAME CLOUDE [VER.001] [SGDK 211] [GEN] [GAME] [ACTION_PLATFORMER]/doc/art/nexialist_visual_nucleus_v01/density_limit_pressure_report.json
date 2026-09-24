@@ -1,0 +1,97 @@
+{
+  "blockers": [
+    "sprite_pixels_per_scanline_over_320"
+  ],
+  "display_mode": "h40",
+  "hardware_sprite_count": 19,
+  "headroom": {
+    "binding_limit": "sprite_pixels",
+    "justification": "Measured stress step: hero and enemy remain critical while 17 small FX/debris cells share one horizontal band.",
+    "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos.",
+    "peak_utilization": 1.05,
+    "pixel_utilization": 1.05,
+    "sprite_utilization": 0.95,
+    "unexploited_threshold": 0.6
+  },
+  "limits": {
+    "pixels_per_scanline": 320,
+    "sprites_per_scanline": 20
+  },
+  "max_sprite_pixels_per_scanline": 336,
+  "max_sprites_per_scanline": 19,
+  "over_limit_lines": [],
+  "over_pixel_limit_lines": [
+    {
+      "scanline": 144,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 145,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 146,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 147,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 148,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 149,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 150,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 151,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 152,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 153,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 154,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 155,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 156,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 157,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 158,
+      "sprite_pixels": 336
+    },
+    {
+      "scanline": 159,
+      "sprite_pixels": 336
+    }
+  ],
+  "sprite_count": 19,
+  "status": "error",
+  "tool_name": "vdp_scanline_simulator",
+  "tool_version": "1.2.0",
+  "total_sprite_links": 19,
+  "warnings": [
+    "scanline_pressure_near_limit"
+  ]
+}

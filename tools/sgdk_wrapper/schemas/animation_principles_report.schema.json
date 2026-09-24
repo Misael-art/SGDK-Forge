@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/animation_principles_report.schema.json",
+  "title": "Animation Principles Report",
+  "type": "object",
+  "required": ["schema_version", "candidate_id", "subject_sha256", "status", "actions"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "candidate_id": { "type": "string", "pattern": "^[a-z0-9_\\-]+$" },
+    "subject_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "status": { "type": "string", "enum": ["passed", "needs_review", "failed"] },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["action", "strip_sha256", "production_method", "assessments"],
+        "properties": {
+          "action": { "type": "string", "minLength": 1 },
+          "strip_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "production_method": { "type": "string", "enum": ["pose_to_pose", "straight_ahead", "hybrid"] },
+          "assessments": {
+            "type": "array",
+            "minItems": 12,
+            "maxItems": 12,
+            "items": {
+              "type": "object",
+              "required": ["principle_id", "status", "observation", "evidence_kinds", "evidence_refs"],
+              "properties": {
+                "principle_id": {
+                  "type": "string",
+                  "enum": [
+                    "squash_and_stretch", "anticipation", "staging",
+                    "straight_ahead_and_pose_to_pose",
+                    "follow_through_and_overlapping_action", "slow_in_and_slow_out",
+                    "arcs", "secondary_action", "timing", "exaggeration",
+                    "solid_drawing", "appeal"
+                  ]
+                },
+                "status": { "type": "string", "enum": ["passed", "not_applicable", "needs_review", "failed"] },
+                "observation": { "type": "string", "minLength": 3 },
+                "evidence_kinds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "type": "string", "enum": ["automated_measurement", "human_visual_review", "artifact_inspection", "runtime_evidence"] }
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": ["path", "sha256", "subject_sha256", "action", "evidence_kind"],
+                    "properties": {
+                      "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" },
+                      "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "subject_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "action": { "type": "string", "minLength": 1 },
+                      "evidence_kind": { "type": "string", "enum": ["automated_measurement", "human_visual_review", "artifact_inspection", "runtime_evidence"] }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "not_applicable_reason": { "type": "string", "minLength": 3 }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

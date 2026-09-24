@@ -1,0 +1,72 @@
+{
+ "schema_version": "1.0.0",
+ "record_status": "historical_superseded",
+ "superseded_by": "doc/art/characters/taina/native_authoring_route_recovery_record_v01.json",
+ "status": "critical_blocker_reproduced",
+ "blocker_id": "native_pixel_authoring_route_unavailable_after_two_causal_attempts",
+ "claim_ceiling": "blocked_native_pixel_authoring",
+ "decision_scope": {
+  "decision": "approved_for_native_authoring_scale",
+  "asset_id": "taina_idle_guard_56x80_visual_source_v01",
+  "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f",
+  "scale": "56x80"
+ },
+ "identity_source": {
+  "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "path": "rascunho/taina_native_authoring_56x80_v01/producer_attempts/attempt_01_checkerboard_rejected.png",
+   "sha256": "791e1e9748f71158cc6dd472782ba6d514868d63ba6925a8b5a31db6ed5f583a",
+   "dimensions": [
+    1049,
+    1499
+   ],
+   "format": "RGB PNG",
+   "observed_failure": "checkerboard_baked",
+   "classification": "visual_source_rejected_for_native_authoring"
+  },
+  {
+   "attempt": 2,
+   "path": "rascunho/taina_native_authoring_56x80_v01/producer_attempts/attempt_02_flat_matte_visual_source.png",
+   "sha256": "a14edfd3de6449022e1e8954cfad20e288af97b0485ea99c5fb38655df3a1f3b",
+   "dimensions": [
+    1049,
+    1499
+   ],
+   "format": "RGB PNG",
+   "observed_failure": "high_res_rgb_not_native_56x80",
+   "classification": "visual_source_only"
+  }
+ ],
+ "assisted_translation": {
+  "tool": "python3 -m forge_art translate",
+  "request": "rascunho/taina_native_authoring_56x80_v01/translation_assisted_grid_request_v01.json",
+  "status": "blocked_pending_capable_producer",
+  "output_pixels": false,
+  "observed_reason": "route B records handoff and deliberately does not synthesize native pixels"
+ },
+ "host_routes_checked": {
+  "native_chat_image_generation_callable": "available_but_high_res_rgb_only_in_two_attempts",
+  "forge_art_assisted_native_translation": "available_as_handoff_only",
+  "gimp_batch_preflight": "operational_but_registered_production_operations_empty",
+  "aseprite": "not_found",
+  "pointer_gui": "forbidden_by_request",
+  "procedural_pixel_authoring": "forbidden_by_project_rule",
+  "safe_native_56x80_png": "not_produced_by_the_two_historical_routes"
+ },
+ "not_attempted_because_no_native_candidate": [
+  "P/4bpp 56x80 candidate with transparent index 0",
+  "1x/2x/3x/8x candidate evidence bound to one native SHA",
+  "silhouette, semantic map and contour for a native candidate",
+  "palette role map and material topology for a native candidate",
+  "matte/halo report bound to a native candidate",
+  "res/ promotion, animation, ROM, BlastEm, visual_pass, AAA"
+ ],
+ "next_safe_action": "provide_or_enable a capable native pixel-authoring route, then author directly on 56x80 grid; do not open 64x96 fallback until two actual 56x80 native iterations fail visually",
+ "res_promotion": false,
+ "animation_authorization": false,
+ "rom_authorization": false
+}

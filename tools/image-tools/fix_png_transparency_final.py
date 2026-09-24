@@ -1,78 +1,66 @@
 #!/usr/bin/env python3
-"""Fix common indexed PNG transparency issues for SGDK resources.
+"""DEPRECATED — removido do caminho canonico pelo P0.2 do plano forge-art.
 
-This utility rebuilds the palette of a PNG by converting it to RGBA and then
-requantizing to a fresh 16-color palette. It creates a `.original` backup on
-first run so the previous file can still be recovered manually.
+Defeito lido no proprio codigo antes da substituicao (git mostra a versao
+anterior): `fix_png()` convertia para RGBA, compunha sobre um fundo **preto**
+(`Image.new("RGB", size, (0, 0, 0))` + `paste(..., mask=alpha)`), requantizava
+com median-cut e entao fazia `quantized.info.pop("transparency", None)`.
+
+Ou seja: a ferramenta chamada de "fix de transparencia" **removia** a
+transparencia por construcao, e ainda pintava de preto todo pixel que era
+transparente. Depois salvava por cima do arquivo original.
+
+O nome dizia o oposto do que o codigo fazia. Foi por isso que
+`test_art_pipeline.py` conseguia chamar isso de "pipeline completo" e ficar
+verde: o teste media que o modo virou `P`, e nunca que o index 0 sobreviveu.
+
+O que usar no lugar
+-------------------
+
+- PNG que JA e indexado e so tem PLTE inflada ou index 0 no papel errado:
+    python3 tools/image-tools/normalize_indexed_sgdk_png.py transparent0 <arquivo.png>
+    python3 tools/image-tools/normalize_indexed_sgdk_png.py unused0      <arquivo.png>
+- PNG que ainda nao e indexado: a indexacao pertence a `forge-art convert`
+  (rota `technical_conversion`), com index 0 declarado por papel do asset e
+  saida imutavel + hash + report. Nao existe atalho aprovado.
+
+Nunca componha sobre preto (nem sobre magenta) para "resolver" transparencia.
+Transparencia vem de indice e papel declarado.
+
+Referencia: doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md
 """
 
 from __future__ import annotations
 
-import argparse
-import shutil
 import sys
-from pathlib import Path
 
-from PIL import Image
+DEPRECATION_BLOCKER = "deprecated_transparency_destroyer"
 
+MESSAGE = """\
+[BLOQUEADO] fix_png_transparency_final.py foi removido do caminho canonico (forge-art P0.2).
 
-def iter_pngs(target: Path) -> list[Path]:
-    if target.is_file():
-        return [target] if target.suffix.lower() == ".png" else []
-    if target.is_dir():
-        return sorted(path for path in target.rglob("*.png") if path.is_file())
-    return []
+Motivo (medido no codigo anterior, nao suposto):
+  - compunha a imagem sobre PRETO usando o alpha como mascara
+  - requantizava com median-cut e entao removia o marcador `transparency`
+  - salvava por cima do arquivo original
 
+O nome prometia consertar transparencia; o codigo a destruia.
 
-def backup_path(path: Path) -> Path:
-    return path.with_suffix(path.suffix + ".original")
+Proxima acao causal:
+  * PNG ja indexado com PLTE inflada ou index 0 no papel errado:
+      python3 tools/image-tools/normalize_indexed_sgdk_png.py transparent0 <arquivo.png>
+    (use `unused0` quando o contrato do asset reservar o index 0 como nao visivel)
+  * PNG ainda nao indexado:
+      a indexacao pertence a `forge-art convert`. Ela precisa declarar o papel do
+      index 0 antes de escolher a paleta. Nao ha atalho aprovado.
 
-
-def fix_png(path: Path) -> bool:
-    backup = backup_path(path)
-    if not backup.exists():
-        shutil.copy2(path, backup)
-
-    with Image.open(path) as image:
-        rgba = image.convert("RGBA")
-        # SGDK resources are safest when the palette is rebuilt from opaque RGB.
-        rgb = Image.new("RGB", rgba.size, (0, 0, 0))
-        rgb.paste(rgba, mask=rgba.getchannel("A"))
-        quantized = rgb.quantize(colors=16, method=Image.MEDIANCUT)
-        quantized.info.pop("transparency", None)
-        quantized.save(path, format="PNG")
-
-    return True
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Fix palette/transparency corruption in SGDK PNG assets."
-    )
-    parser.add_argument("target", help="PNG file or directory to process")
-    return parser.parse_args()
+Este script falha fechado de proposito. Nenhuma flag o reabilita.
+"""
 
 
 def main() -> int:
-    args = parse_args()
-    target = Path(args.target).expanduser()
-    files = iter_pngs(target)
-
-    if not files:
-        print(f"[WARN] No PNG files found at: {target}")
-        return 1
-
-    fixed = 0
-    for path in files:
-        try:
-            if fix_png(path):
-                fixed += 1
-                print(f"[OK] Fixed {path}")
-        except Exception as exc:  # noqa: BLE001
-            print(f"[ERROR] Failed to process {path}: {exc}")
-
-    print(f"[INFO] Finished. Fixed {fixed} file(s).")
-    return 0
+    sys.stderr.write(MESSAGE)
+    return 1
 
 
 if __name__ == "__main__":

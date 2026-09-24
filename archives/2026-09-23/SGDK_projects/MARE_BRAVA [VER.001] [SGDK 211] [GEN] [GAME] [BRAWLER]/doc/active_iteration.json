@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-30T22:00:00Z",
+  "tool_name": "correcao_recuperacao_conhecimento",
+  "tool_version": "1.0.0",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+  "workspace_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "memory_bank_path": "doc/10-memory-bank.md",
+  "status": "in_progress",
+  "iteration_count": 5,
+  "active_claim": "vertical slice CAIS_01 com TAINA autoral e combate observavel",
+  "blocker_leaf": "taina_scale_48x64_vs_64x96_probe_measurement",
+  "route": "native-sprite-production: reabrir scale gate formal (48x64 vs 64x96) antes de reautorizar a lineart",
+  "hypothesis": "O exercício taina_visual_challenger_exercise_v01 provou (measured_limits + visual_finding) que 48x64 perde rosto/hands/feet/presenca enquanto 64x96 preserva identidade e permanece pixel-contract compliant. A causa da recaída para lineart esparsa foi discretizar a produção direto para 48x64 sem passar pela escada (silhueta -> regioes semanticas -> clusters -> color blocking -> palette clean) nem checar a escala. Reabrir o scale gate e medir os dois tamanhos na camera 320x224 evita repetir a perda.",
+  "evidence_before": "exercise_record.json (taina_visual_challenger_exercise_v01): generation_route=ai_generated_semantic_redraw_then_coarse_cluster_then_color_blocking; native_48x64_visual_gate=failed_face_hands_feet_and_presence; native_64x96_visual_gate=promising_pending_human_scale_camera_and_vdp_budget_gate; native_48x64_claim=false; next_causal_step=abrir scale gate formal comparando 48x64 direto-nativo contra 64x96 na camera real. Este exercicio nao estava no active_iteration nem no memory bank (perda de conhecimento).",
+  "evidence_after": "Exercise_record reancorado como methodology_reference (nunca fonte de pixels). A candidata taina_reseed_native_lineart_editor_candidate_v01 foi reprovada como technical_pass_visual_fail; o validador semantico (validate_native_sprite_production.py) reprovou 5 falsos verdes: provenance_human_unproven, visual_evidence_not_distinct, native_1x_not_candidate, palette_lock_on_binary_lineart, scale_pass_without_report. Rota fechada: binary_pointer_editor_as_primary_visual_producer. Incumbente comparativa (pose anterior com 11-14 cores, leitura superior) preservada.",
+  "delta_status": "advanced",
+  "cause": null,
+  "routes_closed": [
+    {
+      "route": "codex_builtin_image_generation",
+      "reason": "representation_mismatch: devolveu 1086x1448 RGB/RGBA, nao grade nativa indexada; rejeitado como fake pixel art. Nao reutilizar saidas como fonte."
+    },
+    {
+      "route": "interactive_gimp_3_2_local_editor",
+      "reason": "environment_failure: GIMP terminou durante init; editor local indisponivel para authoring interativo."
+    },
+    {
+      "route": "author_stamp_8x8_grid_v01_v02_v03",
+      "reason": "technical_pass_visual_fidelity_pending: tres mapas autorados medidos; rota nao promove basic/elite enquanto face, guarda e assimetria nao forem legiveis como TAINA."
+    },
+    {
+      "route": "binary_pointer_editor_as_primary_visual_producer",
+      "reason": "technical_pass_visual_fail: editor binario 48x64 produziu esqueleto de pose (2 cores visiveis, 198 cliques), nao traducao completa. Editor nativo vira qa_corrective, nunca produtor primario. Record reprovado pelo validador semantico (5 blockers)."
+    }
+  ],
+  "human_gate_pending": {
+    "decision_question": "Qual fonte/licenca externa autoriza o BGM/SFX de gameplay de CAIS_01?",
+    "options": [
+      "fornecer fonte licenciada e hash",
+      "autorizar composicao original local"
+    ],
+    "depends_on_artifact": "stage_bgm_source_missing"
+  },
+  "independent_branches": [
+    "camera_runtime_owner_implemented_but_requires_blastem_regression",
+    "branding_audio_vdp_ownership_corrected_but_requires_runtime_audio_proof",
+    "design_gate_artifacts_emitted_but_audio_source_and_playtest_remain_pending"
+  ],
+  "memory_bank_hash": "f2574e7bba3d32860307baf00d60e2005a5d1c42246d9571ed6b54a54c896f25",
+  "next_causal_action": "Medir os dois probes (48x64 e 64x96) na camera 320x224 (legibilidade de rosto/maos/pes/cabelo/guarda/sash, ocupacao, hitbox/FOV, metasprite, sprites+px por scanline, tiles/VRAM, DMA, workload de animacao) e comparar vs incumbent (perceptual_win E system_win). Somente entao abrir a decisao humana de escala. Nao discretizar direto para 48x64.",
+  "stop_reason": null
+}

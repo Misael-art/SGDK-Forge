@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v01",
+  "review_kind": "source_to_rom_visual_review",
+  "generated_at": "2026-07-29T06:08:30-03:00",
+  "status": "technical_runtime_pass_visual_fail",
+  "delivery_status": "runtime_candidate_not_source",
+  "ready_for_aaa": false,
+  "source_of_truth": {
+    "human_baseline": "data/processed/contact_sheets/authorial_style_validation_contact_sheet_v01.png",
+    "approved_character_source": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "forbidden_generation_sources": ["v05", "v06", "v07", "taina_idle_guard_native_48x64_v01"]
+  },
+  "runtime_evidence": {
+    "rom_sha256": "3c4c6c5d4294a9f0042e1bbfdd1e66b7f2b2b3eca167489f23b54d2add99eb44",
+    "rom_size_bytes": 262144,
+    "session_id": "blastem-linux-20260729T090809Z-192035",
+    "scene_id": 3,
+    "screenshot": "out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/screenshot.png",
+    "animation_gif": "out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/runtime_animation.gif",
+    "runtime_metrics": "out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/runtime_metrics.json",
+    "semantic_capture_valid": true,
+    "bundle_sealed": false,
+    "bundle_blockers": ["vlab_block_missing", "artifact_missing:vdp_dump"]
+  },
+  "technical_checks": {
+    "rescomp": "passed",
+    "build": "passed",
+    "scene_boot_injection": "passed",
+    "sprite_visible": true,
+    "animation_visible": true,
+    "pivot_stability": "passed",
+    "foot_contact": "passed",
+    "frame_delta": "passed_technical",
+    "cpu_load_max_percent": 28,
+    "max_scanline_sprites_measured": 1
+  },
+  "visual_findings": [
+    "A massa do cabelo e o contorno dos cachos perdem a assinatura da fonte aprovada.",
+    "Rosto, olhos e expressão viram símbolos genéricos em 320x224.",
+    "A silhueta fica curta e larga demais em relação à figura atlética aprovada.",
+    "Top laranja, faixa verde assimétrica e materiais existem cromaticamente, mas não sustentam a mesma autoria visual.",
+    "A guarda lê como pose de luta genérica; não preserva com força a diagonal e a atitude da TAÍNA.",
+    "O ciclo funciona, porém a respiração e o atraso de cabelo/faixa são discretos demais para um idle heroico premium."
+  ],
+  "decision": "Reprovar como fonte e como arte final. Preservar somente como evidência técnica/negativa da primeira integração. A próxima versão deve ser um redesenho pixel nativo a partir da imagem 04 e da fonte individual aprovada.",
+  "next_required_artifact": "taina_idle_guard_native_48x64_v02_redrawn_from_approved_source"
+}

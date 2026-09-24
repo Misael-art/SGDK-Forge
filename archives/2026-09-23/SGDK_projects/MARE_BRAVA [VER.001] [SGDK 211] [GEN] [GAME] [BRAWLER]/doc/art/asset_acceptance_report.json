@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_source_asset_acceptance_2026_07_04",
+  "generated_at": "2026-07-04",
+  "last_updated_at": "2026-07-09T05:11:38-03:00",
+  "scope": "authorial_line_correction_prompt_revision_and_inline_generation",
+  "global_status": "documentado",
+  "declaration": "Tudo permanece source_candidate ou referencia curatorial; nada esta pronto para res/, ROM, build ou AAA.",
+  "new_images_generated_in_this_revision": true,
+  "allowed_new_asset_status": "source_candidate",
+  "prohibited_statuses": [
+    "ready_for_conversion",
+    "ready_for_res_promotion",
+    "ready_for_aaa",
+    "sprite_final",
+    "tilemap_final",
+    "production_tilemap_source"
+  ],
+  "accepted_existing_source_candidates": [
+    "taina_turnaround",
+    "taina_key_poses",
+    "taina_hud_portrait",
+    "cria_model_sheet",
+    "cria_telegraph_alt",
+    "estivador_model_sheet",
+    "estivador_telegraph_alt",
+    "hud_frame",
+    "fx_hitspark_splash",
+    "logo_lettering_studies",
+    "logo_escolhido"
+  ],
+  "generated_source_candidates_pending_human_ratification": [
+    "taina_identity_turnaround_authorial",
+    "cria_estivador_silhouette_authorial",
+    "dock_scene_kit_authorial",
+    "logo_mare_brava_authorial_studies",
+    "hud_fx_authorial_studies",
+    "taina_action_key_poses_authorial",
+    "taina_identity_turnaround_native_callable_v01",
+    "taina_identity_turnaround_native_callable_v02"
+  ],
+  "reference_only_existing_assets": [
+    {
+      "asset_id": "cais_arena1",
+      "status": "mood_reference_only",
+      "allowed_use": "paleta, clima e materiais",
+      "forbidden_use": "tilemap final, layout de arena, res/"
+    },
+    {
+      "asset_id": "cais_arena2",
+      "status": "landmark_reference_only",
+      "allowed_use": "barco lacrado, guarita, banca e linguagem de landmark",
+      "forbidden_use": "tilemap final, composicao pronta, res/"
+    },
+    {
+      "asset_id": "cais_arena3",
+      "status": "landmark_reference_only",
+      "allowed_use": "beirada, espuma, farolete e contraste de ring-out",
+      "forbidden_use": "zona de payoff pronta, streaming world source, res/"
+    },
+    {
+      "asset_id": "bgb_loop",
+      "status": "mood_reference_only",
+      "allowed_use": "referencia de bandas horizontais BG_B e line-scroll",
+      "forbidden_use": "camada final residente, streaming source direto, res/"
+    }
+  ],
+  "pending_generation_assets": [
+    "taina_action_key_poses",
+    "taina_face_hud_expressions",
+    "taina_sprite_readability_silhouette_board",
+    "cria_identity_model_sheet",
+    "cria_attack_telegraph_sheet",
+    "cria_hit_down_poses",
+    "estivador_identity_model_sheet",
+    "estivador_grab_telegraph_sheet",
+    "estivador_hit_down_poses",
+    "character_silhouette_comparison",
+    "dock_floor_edge_tile_kit",
+    "dock_props_obstruction_kit",
+    "dock_large_landmark_plates",
+    "dock_bg_b_parallax_layers",
+    "dock_foreground_occlusion_kit",
+    "dock_background_ecology_loops",
+    "dock_pickups_small_props",
+    "logo_lettering_studies",
+    "logo_title_context_study",
+    "logo_monochrome_thumbnail_test",
+    "hud_frame_study",
+    "hud_health_bar_chip_damage_study",
+    "hud_digit_glyph_seed",
+    "taina_hud_portrait_seed",
+    "fx_small_hitspark_3f",
+    "fx_medium_hitburst_3f",
+    "fx_ringout_splash_3f",
+    "fx_waterline_foam_loop_seed"
+  ],
+  "discarded_assets": [
+    {
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/descartes/dock_scene_kit_labeled_rejected_v01.png",
+      "status": "rejected_generation",
+      "reason": "rotulos e numeracao violam no_text"
+    },
+    {
+      "path": "data/source_art/concept/taina_identity_turnaround/descartes/taina_identity_turnaround_discard_v01_tall_illustrative.png",
+      "status": "discarded_source_variant",
+      "reason": "identidade forte, mas anatomia alta/ilustrativa demais para compressao 48px"
+    },
+    {
+      "path": "data/source_art/concept/taina_identity_turnaround/descartes/taina_identity_turnaround_discard_v02_tall_illustrative.png",
+      "status": "discarded_source_variant",
+      "reason": "retorna a corpo alto/fashion; uso permitido apenas como evidencia negativa"
+    }
+  ],
+  "gaps": [
+    "Board modular combinado existe, mas ainda precisa ser decomposto em familias A-G, normalizado e traduzido para VDP.",
+    "Teste de silhueta existe em concept; o teste pixel 3.5 heads ainda depende do model sheet pixel.",
+    "Logo autoral existe, mas a onda no A final precisa de ratificacao humana e teste monocromatico/miniatura separado.",
+    "HUD/FX ainda precisam ser separados em assets menores por funcao.",
+    "Contact sheet 320x224 + 15 cores + snap 9-bit deve ser refeita apos novos source candidates.",
+    "TAINA agora tem 2 source candidates nativos melhores, mas ainda precisa de model sheet pixel 3.5 heads e lineart 1px antes de qualquer strip ou promocao."
+  ],
+  "next_canonical_agent": "Produzir model sheet pixel 3.5 heads da TAINA a partir dos source candidates nativos aceitos; em paralelo, manter decomposicao do kit do cais, prova VDP e montagem CAIS_01 a partir do level blueprint."
+}

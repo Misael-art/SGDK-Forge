@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/capability_report.schema.json",
+  "title": "Tooling Capability Report",
+  "description": "Sonda de capacidade do host para geracao visual local. Emitido por imagegen_tool.py --json status (regra SGDK_GLOBAL.md secao 38: sem sonda nao ha claim de capacidade).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "timestamp",
+    "os",
+    "platform_tag",
+    "python_version",
+    "git_present",
+    "disk_free_gb",
+    "ram_free_gb",
+    "gpu_info",
+    "comfyui_detected",
+    "comfyui_online",
+    "models_present",
+    "profile_recommended"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "os": {
+      "type": "string"
+    },
+    "platform_tag": {
+      "type": "string"
+    },
+    "python_version": {
+      "type": "string"
+    },
+    "git_present": {
+      "type": "boolean"
+    },
+    "disk_free_gb": {
+      "type": "number"
+    },
+    "ram_free_gb": {
+      "type": "number"
+    },
+    "gpu_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vendor", "model", "vram_gb"],
+      "properties": {
+        "vendor": {
+          "enum": ["NVIDIA", "AMD", "Intel", "Apple", "Unknown"]
+        },
+        "model": {
+          "type": "string"
+        },
+        "vram_gb": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "comfyui_detected": {
+      "type": "boolean"
+    },
+    "comfyui_online": {
+      "type": "boolean"
+    },
+    "models_present": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "size_mb"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "size_mb": {
+            "type": "number"
+          },
+          "checksum_ok": {
+            "type": ["boolean", "null"]
+          }
+        }
+      }
+    },
+    "profile_recommended": {
+      "type": "string"
+    }
+  }
+}

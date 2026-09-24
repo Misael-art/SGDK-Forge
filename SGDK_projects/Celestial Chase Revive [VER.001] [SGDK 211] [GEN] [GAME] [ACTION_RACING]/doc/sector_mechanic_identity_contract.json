@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "sector_mechanic_identity_v001",
+  "design_thesis": "Each sector must change what the player thinks about, not only how fast the same track scrolls.",
+  "sectors": [
+    {
+      "sector": "sector_01_farol_quebrado",
+      "identity": "first chase contact",
+      "unique_rule": "pursuer silhouette appears as Pressure rises; Lumen pressure grace teaches economy gently",
+      "new_event_kinds": ["pursuer_shadow_hint"],
+      "player_memory_test": "player remembers the first time the horizon moved"
+    },
+    {
+      "sector": "sector_02_meteor_garden",
+      "identity": "falling stars become terrain",
+      "unique_rule": "meteor impacts persist as temporary lane blockers for 3 to 5 track steps",
+      "new_event_kinds": ["meteor_warning", "meteor_impact_persistent"],
+      "player_memory_test": "player remembers where a meteor landed and plans lane return"
+    },
+    {
+      "sector": "sector_03_glass_bridge",
+      "identity": "the road is unreliable",
+      "unique_rule": "glass lanes phase out on a visible rhythm; missing lane is unsafe but predictable",
+      "new_event_kinds": ["glass_lane_warning", "glass_lane_missing"],
+      "player_memory_test": "player times movement to the bridge rhythm"
+    },
+    {
+      "sector": "sector_04_shadow_tunnel",
+      "identity": "read by sound and silhouette",
+      "unique_rule": "telegraph duration is shorter and some hazards preview through audio/shadow before full visual reveal",
+      "new_event_kinds": ["shadow_hazard_short_telegraph", "audio_first_warning"],
+      "player_memory_test": "player recognizes the pursuer by rhythm, not only pixels"
+    },
+    {
+      "sector": "boss_approach_crown_road",
+      "identity": "the chase becomes the road",
+      "unique_rule": "boss attacks manipulate safe lane while weakpoint previews teach final rules",
+      "new_event_kinds": ["boss_lane_pressure", "weakpoint_preview"],
+      "player_memory_test": "player understands the boss before the boss room"
+    },
+    {
+      "sector": "final_boss_master_pursuer",
+      "identity": "turn the chase around",
+      "unique_rule": "charged Pulse damages active weakpoints while lane runner pressure continues",
+      "new_event_kinds": ["boss_weakpoint_window", "boss_wave"],
+      "player_memory_test": "player feels the same run grammar become combat"
+    }
+  ],
+  "rules": [
+    "A sector may reuse hazards, but must add one rule that changes planning.",
+    "A unique rule must have a tutorial beat, combination beat and spike beat.",
+    "A unique rule must have fallback if visual budget fails.",
+    "A unique rule must be visible in track data or runtime metrics, not only text."
+  ],
+  "validation_plan": [
+    "Each sector has at least one unique event kind.",
+    "Each unique rule appears in LDD, track data plan and QA checklist.",
+    "No sector relies only on speed increase as identity."
+  ]
+}

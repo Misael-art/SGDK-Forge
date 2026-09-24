@@ -1,0 +1,57 @@
+{
+  "schema": "live_scene_bar_report.v1",
+  "bar_id": "live_scene_bar_rheo_pigsy_craft",
+  "project": "LIVE_BAR_FR2 [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "target": { "kind": "scene", "id": "fr2_palette_roles" },
+  "school": "rheo_density",
+  "schools": ["rheo_density", "sgdk_base_not_ceiling"],
+  "status": "needs_review",
+  "shared_floor": {
+    "native_pixel_not_shrunken_photo": "pass",
+    "material_three_ramps_minimum": "pass",
+    "silhouette_reads_320x224_and_in_black_white": "pass",
+    "palette_roles_declared": "pass",
+    "stage_reauthored_as_tiles": "pass",
+    "plane_hierarchy_player_wins": "pass",
+    "hardware_serves_the_picture": "not_applicable",
+    "motion_proven_from_output": "pass",
+    "promised_fps_with_promised_density": "not_applicable",
+    "source_basic_elite_rom_comparison_when_translated": "pass",
+    "crt_240p_reading": "not_applicable",
+    "authorship_craft_not_their_pixels": "pass"
+  },
+  "axioms_applied": {
+    "R2": "pass",
+    "R9": "pass",
+    "G1": "pass",
+    "P1": "pass"
+  },
+  "blockers": [
+    "compare_flat_lab_not_dual_plane",
+    "vlab_block_missing",
+    "visual_vdp_dump_missing",
+    "lab_not_delivery",
+    "not_an_aaa_game"
+  ],
+  "evidence": {
+    "native_320x224": true,
+    "motion_if_moving": true,
+    "source_basic_elite_rom": true,
+    "blastem_bundle": true,
+    "paths": [
+      "out/rom.bin",
+      "out/evidence/blastem-linux-20260829T160037Z-2172149/screenshot.png",
+      "out/evidence/blastem-linux-20260829T160037Z-2172149/runtime_animation.gif",
+      "data/processed/motion/hero_punch.gif",
+      "data/processed/motion/thug_punch.gif",
+      "data/processed/motion/hero_iwp_sheet.png",
+      "doc/changelog/roms/build_v007/rom.bin",
+      "doc/changelog/roms/build_v007/runtime_animation.gif"
+    ]
+  },
+  "authorship": {
+    "benchmark_used_as": "quality_bar",
+    "their_pixels_in_source_art": false
+  },
+  "notes": "Punch 4-frame (anticipation/active/hitstop/recovery, 8-4-10-12) on locked 48x64 plus idle+walk. ROM sha256 a34c2d0fd8f074b0dee1cb84c6468b91a36f8647da168f91fa1071a1d9cd79da. Native sheet proves four punch phases; BlastEm still screenshot looks like walk; punch travel is short; legs still sausage. F-R2 remains lab, not aaa_game. visual_pass=false. ready_for_aaa=false."
+}

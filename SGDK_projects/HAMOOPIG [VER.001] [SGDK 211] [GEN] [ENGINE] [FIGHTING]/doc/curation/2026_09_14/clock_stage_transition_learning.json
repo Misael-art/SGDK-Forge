@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "clock_mask_and_transition_capture_20260914",
+  "title": "Máscara transparente precisa compartilhar PAL1; captura fresca ainda exige probe",
+  "source_kind": "implementation_and_capture",
+  "observed_at": "2026-09-14",
+  "problem_signature": "clock_atlas_background_opaque_and_fresh_bundle_missing_runtime_probe",
+  "observation": "O atlas do relógio usava índice 11 como fundo, mas o runtime aplicava a PAL1 da barra; a conversão direta produzia retângulo opaco. A ROM atual mostra a abertura e o menu no BlastEm, porém o selador rejeita o bundle por ausência de VLAB/VDP/runtime metrics.",
+  "resolution_or_preventive_heuristic": "Converter o fundo do atlas para índice 0 transparente e remapear os glifos para a paleta compartilhada. Para qualquer claim de transição, HUD, câmera ou budget, manter a captura vinculada ao SHA da ROM e separar inspeção visual manual de validação canônica com probe.",
+  "evidence": {
+    "rom_sha256": "0a10f366bdd47dd6969862dc466fccb6e7bde5cd5b3dc554fd2879ddfe7088f4",
+    "static_test": "tests/test_clock_transparency.py",
+    "static_suite": "12/12_passed",
+    "fresh_capture": "out/emulator_evidence/current_rom_20260914_final8/",
+    "capture_result": "visual_frames_available; canonical_bundle_blocked_vlab_block_missing_and_runtime_metrics"
+  },
+  "status": "implemented_static_pass_visual_review_pending"
+}

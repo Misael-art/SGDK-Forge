@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "capture_manifest_optional_config_20260915",
+  "title": "Ausência de blastem.cfg deve ser registrada, não confundida com falha da ROM",
+  "source_kind": "tooling",
+  "observed_at": "2026-09-15",
+  "problem_signature": "capture_harness_aborts_after_valid_session_when_flatpak_config_file_is_not_materialized",
+  "observation": "O wrapper Flatpak iniciou o emulador e produziu telas/vídeo, mas o harness falhou ao calcular SHA de blastem.cfg em um caminho inexistente, deixando a sessão sem manifesto final.",
+  "resolution_or_preventive_heuristic": "Calcular o hash somente quando o arquivo existir e registrar config_sha256=null/config_path_present=false. A ausência permanece uma limitação explícita, não uma aprovação implícita.",
+  "evidence": {
+    "source": ["tests/capture_visual_ko.py"],
+    "capture": "out/emulator_evidence/visual_ko_20260915T043123Z/manifest.json",
+    "build_rom_sha256": "b0734777882bffb18e2ea2b01ae9eeb0329583b9e665ab04abb4ac6faa4f1441",
+    "test": ["python3 -m py_compile tests/capture_visual_ko.py"]
+  },
+  "status": "implemented_tooling",
+  "limitations": [
+    "Configuração Flatpak não foi encontrada nesta sessão.",
+    "Manifesto exploratório não substitui bundle canônico nem revisão visual/auditiva."
+  ]
+}

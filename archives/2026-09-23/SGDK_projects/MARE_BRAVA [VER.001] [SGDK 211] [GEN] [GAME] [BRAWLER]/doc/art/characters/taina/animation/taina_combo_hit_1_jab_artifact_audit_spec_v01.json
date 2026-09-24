@@ -1,0 +1,55 @@
+{
+  "asset_id": "taina_combo_hit_1_jab",
+  "project_root": "../../../../..",
+  "sheet": "rascunho/taina_combo_hit_1_jab_v01/taina_combo_hit_1_jab_native_64x64_v01.png",
+  "cell": {
+    "w": 64,
+    "h": 64
+  },
+  "transparent_index": 0,
+  "pivot": {
+    "x": 24,
+    "y": 60
+  },
+  "pivot_tolerance_px": 20,
+  "frame_delta_min": 0.005,
+  "frame_delta_max": 0.2,
+  "actions": [
+    {
+      "name": "combo_hit_1_jab",
+      "row": 0,
+      "start": 0,
+      "count": 5,
+      "grounded": [true, true, true, true, true],
+      "hold_ms": 50,
+      "manual_anatomy_review": [
+        {
+          "status": "passed",
+          "note": "TAÍNA v02 guard topology, one head, two connected arms and two grounded legs."
+        },
+        {
+          "status": "passed",
+          "note": "Launch arm remains connected; face, outfit and lower-body scale are unchanged."
+        },
+        {
+          "status": "passed",
+          "note": "Human-approved active key pose; continuous shoulder-to-fist line."
+        },
+        {
+          "status": "passed",
+          "note": "Recoil arm remains connected; sash secondary cluster stays attached."
+        },
+        {
+          "status": "passed",
+          "note": "Returns to the approved idle guard topology."
+        }
+      ]
+    }
+  ],
+  "previews": {
+    "contact_sheet": "doc/art/characters/taina/review/taina_combo_hit_1_jab_artifact_audit_contact_v01.png",
+    "animation_root": "doc/art/characters/taina/review/taina_combo_hit_1_jab_audit_animation_v01",
+    "scale": 6,
+    "animation_scale": 8
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "status": "source_candidate",
+  "tool": "built-in image_gen plus indexed nearest-palette conversion",
+  "palette_source": "res/sprite/ken/100.png",
+  "outputs": {
+    "victory_v1.png": {
+      "source": "data/source_art/ken/ken_terminal_victory_source_v1.png",
+      "source_sha256": "4eca30355a020562161fb5eee98a63398bf14dc30ea36693aaa4bc2797a7f9a4",
+      "output": "res/sprite/ken/victory_v1.png",
+      "output_sha256": "89ed371c393253cbe9e0018f58d12110da8634a997a0db7a102357b67a610f61",
+      "cell": [
+        96,
+        128
+      ],
+      "visible_source_bbox": [
+        88,
+        116
+      ],
+      "scale": 0.08133086876155268,
+      "visible_colors": 15
+    },
+    "defeat_v1.png": {
+      "source": "data/source_art/ken/ken_terminal_defeat_source_v1.png",
+      "source_sha256": "46c31415a148905fe1cf06cda3e12b353da20dfe27ec84c313a7f1a8a5c6d8f5",
+      "output": "res/sprite/ken/defeat_v1.png",
+      "output_sha256": "0a064a71b33d9fd88fc3e708baefa290b59d1a580c503c54a1048c1bddf8551c",
+      "cell": [
+        128,
+        96
+      ],
+      "visible_source_bbox": [
+        120,
+        88
+      ],
+      "scale": 0.08498583569405099,
+      "visible_colors": 15
+    }
+  }
+}

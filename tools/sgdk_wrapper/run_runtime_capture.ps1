@@ -21,6 +21,11 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+$isWindowsHost = [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Win32NT
+if (-not $isWindowsHost) {
+    throw "host_executor_route_mismatch: run_runtime_capture.ps1 is Windows-only; use capture_blastem_evidence_linux.sh on Linux."
+}
+
 $BlastEmAutomationModule = Join-Path $PSScriptRoot "lib\blastem_automation.psm1"
 Import-Module -Name $BlastEmAutomationModule -Force
 

@@ -17,6 +17,15 @@
 #define PROBE_TARGET_FPS_NTSC 60
 #define PROBE_TARGET_FPS_PAL 50
 #define PROBE_CPU_BUDGET_THRESHOLD 100
+
+/* Bloco visual canonico (espelha seal_fresh_evidence_bundle.py):
+   24 words de metrica + 64 words de paleta CRAM, magic "VLAB". */
+#define PROBE_VLAB_OFFSET 0x200
+#define PROBE_VLAB_SCHEMA_VERSION 1
+#define PROBE_VLAB_METRIC_WORDS 32
+#define PROBE_VLAB_PALETTE_WORDS 64
+#define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
+
 #define PROBE_SAMPLE_OFFSET 32
 #define PROBE_SCENE_WARMUP_FRAMES 90
 #define PROBE_SCANLINE_COUNT 224
@@ -33,6 +42,13 @@ static u32 s_lastExportFrame;
 static u16 s_sceneWarmupFrames;
 static u32 s_heartbeatCounter;
 static u16 s_scanlineCursor;
+static u16 s_vlabPalette[PROBE_VLAB_PALETTE_WORDS];
+static u16 s_peakCpuFrameHi;
+static u16 s_peakCpuFrameLo;
+static u16 s_peakScanlineFrameHi;
+static u16 s_peakScanlineFrameLo;
+static u16 s_peakSpriteFrameHi;
+static u16 s_peakSpriteFrameLo;
 
 static u16 measure_max_scanline_sprites(void)
 {
@@ -84,6 +100,12 @@ static void sram_write_u16be(u32 offset, u16 value)
     SRAM_writeByte(offset + 1, (u8)(value & 0xFF));
 }
 
+static void sram_write_visual_word(u32* offset, u16 value)
+{
+    sram_write_u16be(*offset, value);
+    *offset += 2;
+}
+
 static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
 {
     u16 i;
@@ -109,6 +131,14 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
     s_lastExportFrame = 0;
     s_sceneWarmupFrames = PROBE_SCENE_WARMUP_FRAMES;
     s_scanlineCursor = 0;
+    s_peakCpuFrameHi = 0;
+    s_peakCpuFrameLo = 0;
+    s_peakScanlineFrameHi = 0;
+    s_peakScanlineFrameLo = 0;
+    s_peakSpriteFrameHi = 0;
+    s_peakSpriteFrameLo = 0;
+    g_mdRuntimeProbe[24] = 0;
+    g_mdRuntimeProbe[25] = 0;
 }
 
 static u16 clamp_u16(s32 value)
@@ -190,6 +220,100 @@ void MDRuntimeProbe_exportToSRAM(void)
     SRAM_disable();
 }
 
+static void export_visual_probe_to_sram(void)
+{
+    u32 offset = PROBE_VLAB_OFFSET;
+    u32 frame = gApp.totalFrames;
+    u16 i;
+
+    PAL_getColors(0, s_vlabPalette, PROBE_VLAB_PALETTE_WORDS);
+
+    SRAM_enable();
+
+    SRAM_writeByte(offset + 0, 'V');
+    SRAM_writeByte(offset + 1, 'L');
+    SRAM_writeByte(offset + 2, 'A');
+    SRAM_writeByte(offset + 3, 'B');
+    sram_write_u16be(offset + 4, PROBE_VLAB_SCHEMA_VERSION);
+    sram_write_u16be(offset + 6, PROBE_VLAB_TOTAL_BYTES);
+
+    offset += 8;
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[5]);
+    sram_write_visual_word(&offset, (u16)((frame >> 16) & 0xFFFF));
+    sram_write_visual_word(&offset, (u16)(frame & 0xFFFF));
+    sram_write_visual_word(&offset, VDP_getScreenWidth());
+    sram_write_visual_word(&offset, VDP_getScreenHeight());
+    sram_write_visual_word(&offset, VDP_getPlaneWidth());
+    sram_write_visual_word(&offset, VDP_getPlaneHeight());
+    sram_write_visual_word(&offset, VDP_getHorizontalScrollingMode());
+    sram_write_visual_word(&offset, VDP_getVerticalScrollingMode());
+    sram_write_visual_word(&offset, VDP_getBGAAddress());
+    sram_write_visual_word(&offset, VDP_getBGBAddress());
+    sram_write_visual_word(&offset, VDP_getWindowAddress());
+    sram_write_visual_word(&offset, VDP_getSpriteListAddress());
+    sram_write_visual_word(&offset, VDP_getHScrollTableAddress());
+    sram_write_visual_word(&offset, VDP_getBackgroundColor());
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[8]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[9]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[10]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[11]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[13]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[14]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[16]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[17]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[4]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[24]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[25]);
+    sram_write_visual_word(&offset, s_peakScanlineFrameHi);
+    sram_write_visual_word(&offset, s_peakScanlineFrameLo);
+    sram_write_visual_word(&offset, s_peakCpuFrameHi);
+    sram_write_visual_word(&offset, s_peakCpuFrameLo);
+    sram_write_visual_word(&offset, s_peakSpriteFrameHi);
+    sram_write_visual_word(&offset, s_peakSpriteFrameLo);
+
+    for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
+        sram_write_visual_word(&offset, s_vlabPalette[i]);
+    }
+
+    SRAM_disable();
+}
+
+static void export_tile_stream_to_sram(void)
+{
+    /* Bloco "TSTR" v2: telemetria de streaming do scene_demo.
+       8 contadores u32 (hi/lo) + varredura P3: 5 picos u16, 5 pedidos u16,
+       mascara de paradas concluidas. Total = 8 + 32 + 22 = 62 bytes. */
+    extern u32 gTileStreamStats[8];
+    extern u16 sSweepPeakPerStop[5];
+    extern u16 sSweepReqPerStop[5];
+    extern u16 sSweepStopsDone;
+    u32 offset = 0x300;
+    u16 i;
+
+    SRAM_enable();
+    SRAM_writeByte(offset + 0, 'T');
+    SRAM_writeByte(offset + 1, 'S');
+    SRAM_writeByte(offset + 2, 'T');
+    SRAM_writeByte(offset + 3, 'R');
+    sram_write_u16be(offset + 4, 2);          /* schema v2 */
+    sram_write_u16be(offset + 6, 62);         /* total bytes */
+
+    offset += 8;
+    for (i = 0; i < 8; i++) {
+        u32 v = gTileStreamStats[i];
+        sram_write_visual_word(&offset, (u16)((v >> 16) & 0xFFFF));
+        sram_write_visual_word(&offset, (u16)(v & 0xFFFF));
+    }
+    for (i = 0; i < 5; i++) {
+        sram_write_visual_word(&offset, sSweepPeakPerStop[i]);
+    }
+    for (i = 0; i < 5; i++) {
+        sram_write_visual_word(&offset, sSweepReqPerStop[i]);
+    }
+    sram_write_visual_word(&offset, sSweepStopsDone);
+    SRAM_disable();
+}
+
 void MDRuntimeProbe_tick(void)
 {
     u16 cpuLoad = SYS_getCPULoad();
@@ -231,6 +355,8 @@ void MDRuntimeProbe_tick(void)
     }
     if (cpuLoad > g_mdRuntimeProbe[11]) {
         g_mdRuntimeProbe[11] = cpuLoad;
+        s_peakCpuFrameHi = (u16)((gApp.totalFrames >> 16) & 0xFFFF);
+        s_peakCpuFrameLo = (u16)(gApp.totalFrames & 0xFFFF);
     }
     if (s_hasPrevSample && jitter > g_mdRuntimeProbe[13]) {
         g_mdRuntimeProbe[13] = jitter;
@@ -239,11 +365,17 @@ void MDRuntimeProbe_tick(void)
     maxScanlineSprites = measure_max_scanline_sprites();
     if (maxScanlineSprites > g_mdRuntimeProbe[14]) {
         g_mdRuntimeProbe[14] = maxScanlineSprites;
+        s_peakScanlineFrameHi = (u16)((gApp.totalFrames >> 16) & 0xFFFF);
+        s_peakScanlineFrameLo = (u16)(gApp.totalFrames & 0xFFFF);
     }
 
     if (g_mdRuntimeProbe[15] < 1) g_mdRuntimeProbe[15] = 1;
     g_mdRuntimeProbe[16] = clamp_u16(SPR_getNumActiveSprite());
-    g_mdRuntimeProbe[17] = 1;
+    if (g_mdRuntimeProbe[16] > g_mdRuntimeProbe[17]) {
+        g_mdRuntimeProbe[17] = g_mdRuntimeProbe[16];
+        s_peakSpriteFrameHi = (u16)((gApp.totalFrames >> 16) & 0xFFFF);
+        s_peakSpriteFrameLo = (u16)(gApp.totalFrames & 0xFFFF);
+    }
 
     if (samplesRecorded < MD_RUNTIME_PROBE_MAX_SAMPLES) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + samplesRecorded] = cpuLoad;
@@ -256,6 +388,8 @@ void MDRuntimeProbe_tick(void)
     samplesRecorded = g_mdRuntimeProbe[9];
     if (samplesRecorded > 0 && (samplesRecorded != s_lastExportSamples) && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
         MDRuntimeProbe_exportToSRAM();
+        export_visual_probe_to_sram();
+        export_tile_stream_to_sram();
         s_lastExportSamples = samplesRecorded;
         s_lastExportFrame = gApp.totalFrames;
     }

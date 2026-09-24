@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "teardown_steps": ["stop_typewriter", "clear_window", "release_portrait_sprites", "reset_palette_owner", "reset_scroll", "clear_cutscene_flags", "handoff_to_race_start"],
+  "dirty_return_blockers": ["cutscene_return_state_dirty", "h_int_owner_left_installed", "window_owner_conflict"]
+}

@@ -1,16 +1,23 @@
 {
-  "schema": "blastem_audio_proof_plan_v1",
+  "schema": "blastem_audio_proof_plan_v2",
   "required_scenarios": [
-    "score loop during normal traffic",
-    "score plus damage cue",
-    "score plus Pulse cue",
-    "pause silence and deterministic resume",
-    "victory and failure cue ownership"
+    "FM/PSG score during chase",
+    "score plus PCM SFX",
+    "failure cue ownership",
+    "non-silent unclipped emulator capture"
   ],
-  "required_metrics": [
-    "XGM2_getCPULoad(TRUE)",
-    "XGM2_getDMAWaitTime(TRUE)",
-    "XGM2_getDebugMissedFrames()"
-  ],
-  "status": "pending_current_rom"
+  "objective_metrics": {
+    "xgm2_probe": "passed_with_one_missed_frame_warning",
+    "music_sfx_simultaneous_samples": 8,
+    "sfx_accepted": "5/5",
+    "dma_wait_max": 0,
+    "audio_duration_seconds": 24.064,
+    "audio_peak_dbfs": -16.457347453696176,
+    "audio_rms_dbfs": -34.28273630565177,
+    "clipping": false
+  },
+  "evidence_root": "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076",
+  "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+  "status": "objective_proof_complete_human_review_pending",
+  "blockers": ["human_audio_review_pending"]
 }

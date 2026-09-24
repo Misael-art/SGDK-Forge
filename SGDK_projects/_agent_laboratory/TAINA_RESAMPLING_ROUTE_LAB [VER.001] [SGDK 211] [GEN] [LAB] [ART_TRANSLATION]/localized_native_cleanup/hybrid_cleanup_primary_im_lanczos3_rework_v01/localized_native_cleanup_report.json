@@ -1,0 +1,35 @@
+{
+  "schema_version": "localized_native_cleanup_rework.v1",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v01",
+  "status": "localized_native_cleanup_candidate",
+  "parent": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_v01",
+    "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+    "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png"
+  },
+  "selected_by": "contracts/human_hybrid_cleanup_shootout_selection_v01.json",
+  "target": "56x80",
+  "scope": "localized_native_cleanup_only",
+  "geometry_policy": "parent silhouette retained except removal of baked ground-shadow strip between feet; no resize or primitives",
+  "modified_regions": [
+    "face_eye",
+    "shoulder_arm_attachment",
+    "diagonal_guard",
+    "sash_knot",
+    "feet_ground"
+  ],
+  "patch_count": 27,
+  "ground_shadow_between_feet_removed": true,
+  "claim_ceiling": "localized_native_cleanup_candidate",
+  "human_gate_status": "pending_human_decision",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "output": {
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v01/hybrid_cleanup_primary_im_lanczos3_rework_v01.png",
+    "sha256": "cb6ff5c695c5e7b76e80d84ebd497f8f55e162561c0f2caeb0f345604c31529e"
+  },
+  "action_log": {
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v01/cleanup_actions.json",
+    "sha256": "96f0f0f7d1a7f1aa9f726cd74cb7fe8f6631a0eb150b8cce98f019bff5daf486"
+  }
+}

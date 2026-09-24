@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L087",
+  "date": "2026-09-15",
+  "topic": "audio_signal_current_rom",
+  "source": "isolated_blastem_audio_capture_and_signal_audit",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "A revalidação precisava distinguir áudio realmente emitido pela ROM de uma captura silenciosa ou roteada para outro sink.",
+  "change": "Capturar o áudio isolado da sessão BlastEm no mesmo SHA da promoção Showdown 864 e executar audit_captured_audio_signal.py com verificação de rota PulseAudio exclusiva.",
+  "result": "O WAV tem 48 kHz estéreo, 13.55 s, RMS -27.2115 dBFS, pico 5842, zero clipping e sinal/rota presentes.",
+  "limits": [
+    "o agente não consegue ouvir criticamente timbre, mix, ruído ou volume percebido",
+    "a captura não prova que cada SFX e a retomada de MUSIC estão musicalmente corretos",
+    "audição independente e revisão de mix permanecem pendentes"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T125437Z/emulator_audio.wav",
+    "out/emulator_evidence/visual_ko_20260915T125437Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T125437Z/audio_signal_report.json",
+    "tests/audit_captured_audio_signal.py"
+  ],
+  "status": "documented_signal_and_route_pass_critical_listening_pending"
+}

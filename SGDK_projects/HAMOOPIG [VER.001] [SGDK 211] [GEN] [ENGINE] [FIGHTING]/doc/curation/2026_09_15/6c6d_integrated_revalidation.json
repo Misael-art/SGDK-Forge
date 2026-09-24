@@ -1,0 +1,28 @@
+{
+  "lesson_id": "L104",
+  "date": "2026-09-15",
+  "topic": "current_rom_integrated_revalidation",
+  "source": "fresh_build_and_emulator_evidence_after_persistent_gate_v2",
+  "rom_sha256": "6c6da7e38dc8d382ec329a604457b1053be4eae2dba00bb327a73230871e3005",
+  "problem": "A mudança no ledger de overlap tornou todas as capturas anteriores stale; qualquer contagem 36/36 baseada em ae9f não poderia ser reutilizada.",
+  "change": "Build v2, recaptura dos 36 probes HPRB (33 diretos e três retries com espera ampliada), título/retorno, KO Musgo, transição INTRO/FADE, áudio isolado e 100 resets; relatórios operacionais e inventário P11 foram vinculados ao mesmo SHA.",
+  "result": "Build passou; P10 fechou 36/36 probes com HPRB schema 7; máximos 8.024 B DMA, 41 sprites ativos, 60 sprites VDP e 17 sprites/scanline; título 5 capturas, áudio com sinal sem clipping, 100/100 resets e auditoria doc_sync ok.",
+  "limits": [
+    "capturas P10 continuam probes bounded, não substituem gameplay completo por matchup",
+    "revisão visual independente e audição crítica permanecem pendentes",
+    "pior-frame SGDK, streaming/cache nativo e hardware físico permanecem pendentes"
+  ],
+  "artifacts": [
+    "out/logs/combat_event_persistent_gate_v2_build.log",
+    "out/logs/p10_matrix_after_6c6d.log",
+    "out/logs/p10_matrix_retry_6c6d.log",
+    "out/logs/p10_matrix_hprb_summary.json",
+    "out/emulator_evidence/title_return_20260915T202005Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T202102Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T202302Z/audio_signal_report.json",
+    "out/emulator_evidence/scene_reset_cycles_20260915T202424Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T202512Z/opening_title_transition.mp4",
+    "out/logs/doc_sync_report.json"
+  ],
+  "status": "instrumental_revalidation_passed_sensorial_and_full_gameplay_pending"
+}

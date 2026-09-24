@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_pivot_and_scale_contract_v01",
+  "generated_at": "2026-07-08T21:18:32-03:00",
+  "asset_id": "taina",
+  "status": "scale_contract_locked_for_next_lineart_pass",
+  "measurement_level": "declared_plus_current_candidate_measurement",
+  "source_scale_contract": "doc/art/characters/taina/visual_dna_manifest.json",
+  "frame_cell_px": { "w": 48, "h": 64 },
+  "pivot": {
+    "role": "bottom_center_feet",
+    "x_px": 24,
+    "y_px": 60,
+    "integer_pixel_required": true,
+    "horizontal_drift_allowed_px": 0,
+    "vertical_drift_allowed_px": 0,
+    "airborne_exception": "jump/fall may declare vertical displacement in motion_phase_map only"
+  },
+  "visible_figure_contract": {
+    "target_visible_height_px": 48,
+    "allowed_range_px": [46, 50],
+    "target_top_y_range_px": [10, 12],
+    "target_foot_y_range_px": [58, 60],
+    "head_height_target_px": [13, 15],
+    "head_to_visible_height_target_ratio": "0.27_to_0.31",
+    "torso_and_pants_policy": "longer torso/leg mass than v05; avoid oversized head/body compression",
+    "feet_policy": "feet/gloves may be enlarged for readability but cannot turn the body into SD/chibi proportions"
+  },
+  "current_candidate_v05_measurement": {
+    "candidate": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+    "cell_visible_height_px": [62, 61, 61, 62],
+    "cell_foot_y_px": [62, 62, 62, 62],
+    "status": "scale_ratio_chibi_drift",
+    "diagnosis": "v05 preserves useful hair/face/guard hooks but fills almost the entire 64px cell; the approved contract targets about 48px visible body height inside a 48x64 cell."
+  },
+  "next_candidate_constraints": {
+    "target_candidate_id": "taina_lineart_clean_native_48x64_candidate_v06",
+    "must_preserve_from_v05": [
+      "curly_hair_mass",
+      "wedge_face",
+      "high_guard",
+      "gloves_or_hand_wraps",
+      "teal_sash_asymmetry",
+      "baggy_pants_silhouette"
+    ],
+    "must_fix_from_v05": [
+      "reduce head/body ratio",
+      "restore 3.3_to_3.7_head_read",
+      "lower visual density around the face so eyes/jaw survive color blocking",
+      "leave vertical breathing space in the 64px cell for strike arcs and foot-lock overlays"
+    ],
+    "not_allowed": [
+      "runtime scaling",
+      "downscale direct from source art as final lineart",
+      "promoting v05 or v06 to res without measured key poses and visual review"
+    ]
+  },
+  "pass_fail": {
+    "scale_lock_declared": true,
+    "current_candidate_matches_scale": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false
+  }
+}

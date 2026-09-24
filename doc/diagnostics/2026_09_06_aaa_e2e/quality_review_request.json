@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "quality_review_request",
+  "review_id": "forge_aaa_e2e_20260906",
+  "review_stage": "pre_growth",
+  "project_context": "consulting",
+  "project_root": ".",
+  "as_of": "2026-09-06",
+  "current_claim_ceiling": "documentado",
+  "changed_domains": [
+    "code",
+    "hardware",
+    "governance"
+  ],
+  "risk_flags": [
+    "runtime_risk",
+    "hardware_pressure",
+    "claim_risk"
+  ],
+  "requested_domains": [
+    "code",
+    "hardware",
+    "governance"
+  ],
+  "commercial_intent": false,
+  "narrative_weight": "light",
+  "audio_weight": "critical",
+  "artifacts": [
+    {
+      "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+      "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a",
+      "role": "other"
+    },
+    {
+      "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+      "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c",
+      "role": "other"
+    },
+    {
+      "path": "doc/06_AI_MEMORY_BANK.md",
+      "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89",
+      "role": "other"
+    }
+  ],
+  "producer_ids": [
+    "existing_workspace_authors"
+  ]
+}

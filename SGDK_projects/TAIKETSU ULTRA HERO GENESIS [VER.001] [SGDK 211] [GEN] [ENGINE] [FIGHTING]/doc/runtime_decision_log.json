@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "runtime_decision_log",
+  "scene_id": "branding_sequence_v2",
+  "updated_at": "2026-08-18",
+  "status": "testado_em_emulador_starfield_v02",
+  "resource_loading_model": "full_resident",
+  "budget_decision": "cabe com recuo",
+  "budget_notes": "bg_b unique_with_flip 642 (alvo 644). Ember 6 e shard 4 passam a residir inteiros. Martelo continua animation_window_streaming 72/252. Act 3 NÃO reusa sVramBgA: wordmarks vão para depois da janela do martelo (bisect ponto 6). Nao e validado_budget sem BlastEm.",
+  "h_int_why": {
+    "bisection_proved": "SYS_setHIntCallback + VDP_setHInterrupt(TRUE) jumps PC to 0x23080000 on first fire",
+    "why": "handler was void so GCC emitted RTS; H-Int exception frame is SR+PC and RTS pops SR 0x2308 as the high word of the next PC",
+    "header": "sdk/sgdk-2.11/inc/sys.h HINTERRUPT_CALLBACK = __attribute__((interrupt)) void emits RTE",
+    "second_risk": "enable during enter() DMA and H-Int during VBlank DMA flush collide on VDP_CTRL; V-Int masks, VBlank callback rearms after DMA",
+    "not_the_cause": "PAL_setColor vs raw CRAM poke. Direct CRAM still crashed because RTS remained."
+  },
+  "h_int_ownership": {
+    "owner": "SCENE_brandingV2",
+    "technique": "hint_palette_blending",
+    "acquire": "end of brandEnterIgnition, enable delayed to second VBlank",
+    "release": "brandEnterStrike and SCENE_brandingV2Exit",
+    "fallback": "ember cycle on PAL0[9..12] without raster bands"
+  },
+  "vram_layout": {
+    "act1_act2": "TILE_USER_INDEX: bg_b, bg_a, logo_engine, shard frames, ember frames, hammer double window",
+    "act3": "bg_b + bg_a + logo kept; author/project/presents load after hammer window. sVramAuthor = sVramBgA destroyed the live anvil tileset (bisect/bis_6)."
+  },
+  "act3_bisect": {
+    "method": "one disablement per build, warmup 6s, F451 screenshot",
+    "baseline": "out/evidence/re6",
+    "symptom_anvil": "revealed by point 6 (sVramAuthor = sVramBgA). evidence bis_6",
+    "symptom_wordmark": "author was drawn; at F451 it is covered by project tilemap. point 2 removed MASTER and showed MISAEL. evidence bis_2",
+    "symptom_magenta": "none of the 6 points changed F451 letterbox (stayed black). magenta only in burst frame_1, pre-act-3",
+    "non_causes": ["curtain", "SPR_reset", "presents", "fade"]
+  },
+  "act3_followup": {
+    "presents_bug": "VDP_setWindowVPos(FALSE, 22) covered rows 0-21; draw at y=23 was outside the window. F480 before/after in act3_presents vs act3_pres_fix",
+    "master_contrast": "priority FALSE + leftover HilightShadow darkened PAL2 wordmarks. priority TRUE at F451 act3_master",
+    "shard_alloc": "probe[18]=56 probe[19]=0. scanline peak 6 is not allocation failure"
+  },
+  "act3_presentation_2026_08_18": {
+    "rom": "40fec78b44c36200b2329d26bae7129062b2bba2b9240722700fb3c322ed73f9",
+    "forge_locked": true,
+    "curtain": "removed_vscroll_column_cannot_lift_coifa_only",
+    "forge_exit": "single_setTileMapEx_restore_of_props_not_clear",
+    "names": "wall_band_y_lt_64_cpu_stamp",
+    "presents": "bg_a_y26_over_fire_no_window",
+    "haze_act3": false,
+    "end_frame": 600,
+    "evidence": {
+      "F271": "out/evidence/fin2 over_budget=0 cpu=70",
+      "F331": "out/evidence/fin4 over_budget=0 cpu=70",
+      "F451": "out/evidence/fin6 over_budget=0 cpu=97",
+      "F511": "out/evidence/fin72 over_budget=0 cpu=97 MASTER+PRESENTS"
+    }
+  },
+  "the_forge_starfield_v02_2026_08_18": {
+    "rom": "661e408694457859da97af6e3afa729be152bcff46b9984efd5eab3f777801a5",
+    "channel": "native_chat_image_generation_callable",
+    "source": "data/source_art/branding_v2/raw/starfield_v02b.jpg",
+    "translation": "data/source_art/branding_v2/translate_starfield_v02.py",
+    "unique_tiles": 26,
+    "acceptance_status": "placeholder",
+    "evidence": {
+      "d5_sky": "observed navy+clusters+ember sprites; seal rejected blank_or_low_information_capture",
+      "d5_lock": "sealed ob=0 cpu=45",
+      "d5_hit1": "sealed ob=0 cpu=83",
+      "d5_forge": "sealed ob=0 cpu=83"
+    }
+  },
+  "the_forge_nametable_baked_2026_08_18": {
+    "rom": "ceaa7028bf8fc3a350d4cacc901003f955de55a464f0fea3666a6079b0887fdf",
+    "api": "sdk/sgdk-2.11/inc/vdp_tile.h VDP_setTileMapDataRect after baking TILE_ATTR_FULL into static u16[40*28]; DMA_QUEUE on unpacked RAM",
+    "fix": "prelude bake pal/prio/index; reveal four 14-row halves; prefetch hammer frames 1 and 2 at F12-F13",
+    "measured": {
+      "d4_reveal": "ob=0 cpu=45 spr=13",
+      "d4_lock": "ob=0 cpu=45 spr=13",
+      "d4_hit1": "ob=0 cpu=83 spr=13 scan=5",
+      "d4_forge": "ob=0 cpu=83 spr=13 scan=14"
+    },
+    "budget_decision": "cabe com recuo",
+    "recuo": "pico 83 residual (slam PCM / hammer frame 3 / SPR_update); below threshold 100"
+  },
+  "the_forge_wall_unpack_2026_08_18": {
+    "rom": "e6437530f7951d404417f278c77fb93135822159a95e6f31075d5bc43756b7e5",
+    "diagnosis": "F151 ob=0 cpu=45; F211 ob=9 cpu=160; F331 still ob=9. Spike is wall APLIB at F154-F155, not slam or FORGE stamp.",
+    "api": "sdk/sgdk-2.11/inc/tools.h unpackTileMap(src, dest) with dest.tilemap = static u16[40*28]; no MEM_alloc",
+    "fix": "prelude F8-F10 unpack B/A/logo; reveal/logo stamp use uncompressed TileMap; lock t==21 prefetch hammer frame 4 into slot 0",
+    "measured": {
+      "d3_reveal": "ob=0 cpu=45 spr=13",
+      "d3_lock": "ob=0 cpu=45 spr=13",
+      "d3_hit1": "ob=0 cpu=92 spr=13 scan=5",
+      "d3_forge": "ob=0 cpu=92 spr=13 scan=14"
+    },
+    "budget_decision": "cabe com recuo",
+    "recuo": "pico residual 92 no limiar 100; unpack pago no warmup do probe"
+  },
+  "the_forge_descent_2026_08_18": {
+    "rom": "e79a9de43b994cd799b4e7b60016672effe6f9cb1cb653778fc52c5761624b82",
+    "descent": "vscroll_t2_then_split_wall_reveal_at_154",
+    "climax": "no_56_shard_swarm_12_sparks_are_the_thread",
+    "vlab_frame_counter": "quantized_about_60_screenshot_is_authority",
+    "evidence": {
+      "sky": "out/evidence/d2_sky and d2_sky2 observed; seal rejected blank_or_low_information_capture",
+      "drop": "out/evidence/d2_drop still stars at warmup 2.4; same seal reject",
+      "reveal": "out/evidence/d2_reveal sealed dark wall+anvil+fire+sparks ob=0 cpu=45 spr=13",
+      "lock": "out/evidence/d2_lock sealed lit forge hammer up ob=0 cpu=45 spr=13",
+      "hit1": "out/evidence/d2_hit1 sealed hammer on anvil sparks out no swarm ob=9 cpu=160 spr=13 scan=5",
+      "forge": "out/evidence/d2_forge sealed FORGE stamped hammer hidden ob=9 cpu=160 spr=13 scan=14"
+    }
+  },
+  "claims_not_made": [
+    "ready_for_aaa",
+    "validado_budget"
+  ]
+}

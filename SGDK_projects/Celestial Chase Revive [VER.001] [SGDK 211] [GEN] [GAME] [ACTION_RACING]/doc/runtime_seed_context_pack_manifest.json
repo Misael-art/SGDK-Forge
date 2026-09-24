@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-06-16",
+  "status": "runtime_seed_context",
+  "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "task": "Create first bootable SGDK runtime seed for BlastEm",
+  "workspace_wrapper": "<workspace_root>/tools/sgdk_wrapper",
+  "project_root": "<project_root>",
+  "source_context": [
+    "AGENTS.md instructions supplied in chat",
+    "doc/10-memory-bank.md",
+    "doc/build_system_contract.json",
+    "doc/14-plano-de-provas-qa.md",
+    "doc/agent_learning/learning_ledger.json",
+    "tools/sgdk_wrapper/build.bat",
+    "tools/sgdk_wrapper/makefile.gen.elite",
+    "tools/sgdk_wrapper/modelo/src/boot/sega.s"
+  ],
+  "headers_checked": [
+    "sdk/sgdk-2.11/inc/pal.h",
+    "sdk/sgdk-2.11/inc/vdp.h",
+    "sdk/sgdk-2.11/inc/vdp_bg.h",
+    "sdk/sgdk-2.11/inc/sram.h",
+    "sdk/sgdk-2.11/inc/sys.h"
+  ],
+  "scope_guard": {
+    "allowed": [
+      "boot screen",
+      "ROM header",
+      "SRAM READY heartbeat",
+      "minimal resources.res",
+      "build and BlastEm boot evidence"
+    ],
+    "deferred": [
+      "scene manager",
+      "title scene",
+      "opening cutscene",
+      "Sector 01 gameplay",
+      "final art",
+      "audio"
+    ]
+  }
+}

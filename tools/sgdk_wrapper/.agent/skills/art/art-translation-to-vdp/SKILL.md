@@ -24,6 +24,21 @@ sem tentar preservar, de forma ingenua, tudo o que o hardware nao suporta.
 
 ## Regra critica para sprites 48x64
 
+Quando o alvo for sprite, sheet, objeto ou FX autoral, esta traducao deve ser
+orquestrada por `native-sprite-production` e registrada em
+`native_sprite_production_record.json`. O produtor visual, a probe mecanica e o
+autor nativo sao papeis diferentes:
+
+- imagem visualmente forte em RGB/high-res continua `visual_source`
+- `forge-art convert` pode gerar `technical_candidate` ou probe de escala
+- somente pixels decididos no grid alvo podem ser `native_candidate`
+- uma probe maior nunca substitui silenciosamente a escala travada
+
+Se 48x64 falhar e 64x96 parecer melhor, classifique
+`scale_density_mismatch`: em escala `locked`, reautorize clusters em 48x64; em
+escala `provisional`, meca camera, hitbox, workload, metasprite e scanline antes
+de abrir a decisao humana de produto.
+
 Concept art high-res de personagem critico nao pode virar sprite 48x64 por
 downscale direto, quantizacao global ou limpeza cosmetica posterior. Essa rota
 normalmente destrói olhos, maos, roupas, materiais e contraste.
@@ -195,6 +210,30 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `route_decision_record`
 - `locked_visual_direction`
 
+### Triagem obrigatoria para raster high-res de sprite
+
+Quando `translation_target` for `sprite_single` ou `sprite_sheet` e a fonte
+nao for pixel art nativa limpa, leia
+`../native-sprite-production/references/source-route-triage-protocol.md`.
+
+- rode `forge-art source-audit` antes de reamostrar;
+- fonte com checkerboard assado, sombra de chao, poeira, fumaça, nuvem,
+  particulas, floor line, texto, membro cortado ou oclusao de identidade nao
+  entra como `translation_source`; preserve apenas o papel de referencia seguro
+  e obtenha model sheet limpo;
+- rode `forge-art route-shootout` para todas as rotas aplicaveis quando a
+  classe ainda nao tiver evidencia, ou preferred+challengers quando o prior for
+  sustentado;
+- `route_prior_registry.json` e contextual por classe de fonte. Nearest ruim
+  para reduzir ilustracao high-res continua correto para escala inteira de
+  pixel art nativa;
+- o painel escolhe underlay para reautoria. Nenhuma saida de filtro ultrapassa
+  `mechanical_geometry_probe`.
+
+Rotulo de rota exige causalidade: hash da fonte, matte canonico,
+backend/versao/algoritmo/parametros e hash de saida. Um redraw posterior deve
+ser nomeado `native_reauthoring_over_<route>_guide`, nunca apenas pelo filtro.
+
 ### Passa quando
 
 - o parsing semantico foi emitido antes de qualquer promocao final
@@ -213,6 +252,9 @@ informacao via quantizacao cega e o anti-padrao classico.
 - fonte IA/high-res nao foi promovida como sprite nativo sem nearest-neighbor/redesenho, indexacao limpa e rejeicao de fake pixel art
 - `elite` se sustenta melhor que `basic`
 - quando houver duas ou mais leituras fortes, a exploracao de rotas foi registrada antes da promocao final
+- nenhuma rota compete usando fonte, crop, matte, escala ou anchor diferente;
+  near-duplicate, recolor cosmetico e alternativa sem hipotese visual distinta
+  nao compram um gate humano
 - o caso ja aponta sua classe dominante: `erro_de_asset`, `erro_de_recurso_sgdk`, `erro_de_budget` ou `erro_de_pipeline`
 
 ### Handoff para proxima etapa
@@ -272,12 +314,13 @@ Exemplo canonico:
 
 ## Checklist obrigatorio
 
-1. Ler `doc/03_art/00_visual_quality_bar.md`
-2. Ler `doc/03_art/01_visual_cohesion_system.md`
-3. Ler `doc/03_art/02_visual_feedback_bank.md`
-4. Aplicar `visual-excellence-standards`
-5. Validar contra `megadrive-pixel-strict-rules`
-6. Quando houver cena real, consultar `megadrive-vdp-budget-analyst`
+1. Ler `doc/03_art/18_live_scene_bar.md` (P1-P4, P8, R4 sao o piso desta skill)
+2. Ler `doc/03_art/00_visual_quality_bar.md`
+3. Ler `doc/03_art/01_visual_cohesion_system.md`
+4. Ler `doc/03_art/02_visual_feedback_bank.md`
+5. Aplicar `visual-excellence-standards`
+6. Validar contra `megadrive-pixel-strict-rules`
+7. Quando houver cena real, consultar `megadrive-vdp-budget-analyst`
 
 Competencias complementares obrigatorias por contexto:
 
@@ -754,7 +797,7 @@ O laudo deve sair acompanhado de um painel visual lado a lado para validacao hum
 - `emulator_ok`
   - foi visto rodando com evidencia
 
-### Curadoria 2026-06-03 - Celestial Chase: motion_gif + pivos + contact points
+### Curadoria - motion_gif + pivos + contact points
 
 Licao: aprovacao de sprite sheet de animacao via screenshot estatico nao comprova movimento, continuidade de poses nem leitura sob FX. Antes de promover um sprite strip para `elite_ready` ou `delivered`, a traducao deve produzir:
 
@@ -782,6 +825,7 @@ Primeiro:
 
 - quantizacao cega
 - downscale sem redesenho
+- tratar a barra viva (Rheo/Pigsy) como licenca para dump de palco arcade ou de high-color; o oficio e reautoria + curadoria 9-bit
 - excesso de detalhe fino
 - dithering decorativo
 - fidelidade servil a imagem-fonte

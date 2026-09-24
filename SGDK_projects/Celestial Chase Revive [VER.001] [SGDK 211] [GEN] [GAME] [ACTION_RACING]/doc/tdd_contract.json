@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planning",
+  "state_fsm_map": "doc/15-tdd.md",
+  "memory_pool_map": "doc/15-tdd.md",
+  "vblank_dma_ownership": "doc/15-tdd.md",
+  "h_int_ownership": "none_in_first_slice",
+  "audio_ownership": "doc/audio_architecture_card.json",
+  "save_scope": "required_after_upgrade_slice",
+  "region_timing_scope": "doc/region_timing_contract.json",
+  "rom_mastering_scope": "doc/rom_mastering_report.json",
+  "technique_selection": "doc/technique_usage_manifest.json",
+  "risk_mitigation_table": "doc/19-roadmap-risk-register.md"
+}

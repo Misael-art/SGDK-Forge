@@ -1,0 +1,34 @@
+{
+  "asset_kind": "animation_strip",
+  "actions": [
+    "idle_guard_breathing",
+    "walk_34_inplace"
+  ],
+  "sheet": [
+    192,
+    128
+  ],
+  "cell": [
+    48,
+    64
+  ],
+  "anims": 2,
+  "frames_per_anim": 4,
+  "time_vblank": 12,
+  "source_motion": [
+    "data/source_art/motion/hero_walk_source.mp4",
+    "data/source_art/motion/thug_walk_source.mp4"
+  ],
+  "pixel_route": "locked_48x64_gait_stamps_not_video_downscale",
+  "walk_phases": [
+    "contact_R",
+    "pass_L",
+    "contact_L",
+    "pass_R"
+  ],
+  "pivot": {
+    "role": "foot_plant",
+    "y": 63
+  },
+  "not_aaa_claim": true
+}

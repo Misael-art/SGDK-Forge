@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_arcade_hi_bit_v011",
+  "authorial_source": "data/source_art/hibrido_fighter_v010/source_concept.png",
+  "approval_status": "v011_arcade_hi_bit_candidate",
+  "scale_contract": {
+    "native_resolution": "320x224",
+    "nominal_bbox_px": {
+      "w": 96,
+      "h": 96
+    },
+    "pivot_policy": "locked bottom-center pivot at 32,88 with stable ground_y 88",
+    "scale_class": "arcade_hi_bit_medium_large",
+    "scale_lock_status": "locked_for_v011_candidate",
+    "scale_change_policy": "v011 supersedes v010 runtime-lab candidate for AAA visual route"
+  },
+  "palette_intent": {
+    "max_palettes": 1,
+    "body_palette": "PAL2",
+    "runtime_fx_palette": "PAL3"
+  },
+  "forbidden_drift": [
+    "anatomy",
+    "face",
+    "lava_arm",
+    "outfit",
+    "material",
+    "scale",
+    "pivot"
+  ]
+}

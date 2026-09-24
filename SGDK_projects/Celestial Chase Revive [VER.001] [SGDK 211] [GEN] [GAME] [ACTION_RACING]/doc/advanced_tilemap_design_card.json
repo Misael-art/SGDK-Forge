@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "scene_scope": "race road and boss approach",
+  "model": "scene_local_preload_first",
+  "future_model": "tilemap_streaming_after_first_slice",
+  "route_readability": "lane boundaries and telegraphs outrank background detail",
+  "metatile_policy": "dedup and HV flip reports required before delivery",
+  "streaming_boundary": "not used in first slice",
+  "collision_visual_contract": "visual lanes must match logical lane centers",
+  "fallback": "flat perspective road with palette-state transitions"
+}

@@ -1,0 +1,19 @@
+--- SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h
++++ tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h
+@@ -25,7 +25,7 @@
+ 
+ #define MD_RUNTIME_PROBE_WORD_COUNT 64
+ #define MD_RUNTIME_PROBE_MAX_SAMPLES 32
+-#define MD_RUNTIME_PROBE_SRAM_OFFSET 0x0200u
++#define MD_RUNTIME_PROBE_SRAM_OFFSET 0
+ #define MD_RUNTIME_PROBE_HEARTBEAT_OFFSET 0x100
+ #define MD_RUNTIME_PROBE_HEARTBEAT_PERIOD 30
+ 
+@@ -35,5 +35,7 @@
+ void MDRuntimeProbe_tick(void);
+ void MDRuntimeProbe_exportToSRAM(void);
+ void MDRuntimeProbe_writeHeartbeat(void);
++/* brandEnsureShard falha em silencio; a cena reporta spawned/failed aqui. */
++void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed);
+ 
+ #endif

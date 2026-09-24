@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v02",
+  "asset_kind": "animation_strip",
+  "action": "idle_guard",
+  "strip_layout": "horizontal_single_action",
+  "frame_count": 6,
+  "metadata_only": false,
+  "frames": [
+    { "index": 0, "x": 0, "y": 0, "w": 48, "h": 64, "pivot_x": 24, "pivot_y": 60, "bbox": [15, 2, 38, 60], "palette_id": "taina_pal1_v02", "phase": "neutral_guard", "hold_frames": 11 },
+    { "index": 1, "x": 48, "y": 0, "w": 48, "h": 64, "pivot_x": 24, "pivot_y": 60, "bbox": [15, 2, 38, 60], "palette_id": "taina_pal1_v02", "phase": "inhale_start", "hold_frames": 7 },
+    { "index": 2, "x": 96, "y": 0, "w": 48, "h": 64, "pivot_x": 24, "pivot_y": 60, "bbox": [15, 2, 38, 60], "palette_id": "taina_pal1_v02", "phase": "inhale_peak", "hold_frames": 10 },
+    { "index": 3, "x": 144, "y": 0, "w": 48, "h": 64, "pivot_x": 24, "pivot_y": 60, "bbox": [15, 2, 38, 60], "palette_id": "taina_pal1_v02", "phase": "secondary_follow", "hold_frames": 7 },
+    { "index": 4, "x": 192, "y": 0, "w": 48, "h": 64, "pivot_x": 24, "pivot_y": 60, "bbox": [15, 2, 38, 60], "palette_id": "taina_pal1_v02", "phase": "exhale", "hold_frames": 11 },
+    { "index": 5, "x": 240, "y": 0, "w": 48, "h": 64, "pivot_x": 24, "pivot_y": 60, "bbox": [15, 2, 38, 60], "palette_id": "taina_pal1_v02", "phase": "secondary_settle", "hold_frames": 12 }
+  ],
+  "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+  "motion_phase_map": "doc/art/characters/taina/animation/motion_phase_map_p0_v01.json",
+  "style_motion_reverse_engineering": "doc/art/characters/taina/style_motion_reverse_engineering_v02.json",
+  "turnaround_tracking_contract": "doc/art/characters/taina/turnaround_tracking_contract_v02.json",
+  "motion_physics_contract": "doc/art/characters/taina/animation/motion_physics_contract_idle_guard_v02.json",
+  "state_transition_motion_contract": "doc/art/characters/taina/animation/state_transition_motion_contract_idle_guard_v02.json",
+  "pivot_policy": "bottom_center_feet",
+  "drift_thresholds": {
+    "pivot_px": 0,
+    "bbox_px": 0,
+    "palette_changed_allowed": false,
+    "scale_percent": 0
+  },
+  "approval_status": "human_visual_approved_rescomp_builded_blastem_observed_partial",
+  "blockers": [
+    "visual_vdp_dump_missing",
+    "full_gameplay_budget_pending",
+    "scene_closeout_gate_missing"
+  ]
+}

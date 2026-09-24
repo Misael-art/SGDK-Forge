@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_lineart_blocking_1px_v02",
+  "generated_at": "2026-08-30",
+  "asset_id": "taina",
+  "asset_kind": "lineart_blocking_1px_native_candidate",
+  "measurement_level": "tool_measured_plus_visual_inspection",
+  "source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "status": "approved_authorial_source_for_pixel_translation"
+  },
+  "output": {
+    "path": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v03.png",
+    "sha256": "a9a678480abed70c7ba1d5dc7bfd1a892e5fe84b8f9c2d9a1315bb700c9cab12",
+    "cell_px": {"w": 48, "h": 64},
+    "pivot": {"x": 24, "y": 60},
+    "tile_grid": {"w": 6, "h": 8, "tile_px": 8}
+  },
+  "contracts_used": [
+    "doc/art/characters/taina/visual_dna_manifest.json",
+    "doc/art/characters/taina/design_inheritance.json",
+    "doc/art/characters/taina/art_gameplay_direction_gate_reseed_v02.json",
+    "doc/art/authorial_line_style_contract.json",
+    "doc/art/characters/taina/taina_reseed_native_translation_contract_v01.json"
+  ],
+  "must_preserve_checks": [
+    {"id": "curly_tied_hair_mass", "expected": "irregular tied hair silhouette", "observed": "top hair mass and side curls are present", "status": "weak"},
+    {"id": "wedge_face_and_brow", "expected": "compact face with strong brow and wedge nose", "observed": "face opening exists but facial marks are not readable at 1x", "status": "failed"},
+    {"id": "high_diagonal_guard", "expected": "muay thai guard with readable fists and feet", "observed": "upper limbs and fists are present but guard diagonal is weak", "status": "weak"},
+    {"id": "sash_asymmetry", "expected": "right-side sash tail", "observed": "right-side tail cluster is present", "status": "weak"},
+    {"id": "wide_trouser_mass", "expected": "wide lower costume mass", "observed": "lower mass and two leg contacts are present", "status": "weak"}
+  ],
+  "frame_state_checks": [
+    {"id": "single_native_cell", "expected": "one 48x64 cell", "observed": "48x64 PNG", "status": "passed", "evidence": ["pixel_compliance_report_v03.json"]},
+    {"id": "hard_edge_1px", "expected": "single dark hard-edge ink", "observed": "one visible indexed color and no interpolation", "status": "passed", "evidence": ["pixel_compliance_report_v03.json"]},
+    {"id": "visual_lineart_read", "expected": "lineart readable as TAÍNA at native scale", "observed": "technical silhouette exists but remains generic in face/guard topology", "status": "failed"}
+  ],
+  "visual_excellence_check": {
+    "lineart_cleanliness": "hard_edge_pass_visual_rework_required",
+    "visual_pass": false,
+    "measurement_note": "Inspeção em 1x/8x; não usar v01/v02/v03 rejected candidates como fonte."
+  },
+  "status": "needs_review",
+  "blockers": ["anatomy_simplified_into_block_mass", "face_or_eye_readability_lost", "generic_blocky_redraw"],
+  "decision": {
+    "technical_pass": true,
+    "visual_pass": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": ["new capable visual producer or richer native authoring representation from the approved model sheet", "do not promote basic or elite", "keep v01-v03 author stamps as evidence only"]
+  }
+}

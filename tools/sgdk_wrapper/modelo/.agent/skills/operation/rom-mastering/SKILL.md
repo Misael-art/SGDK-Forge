@@ -22,6 +22,7 @@ Esta skill fecha a camada final da ROM. Ela nao torna o jogo bom; ela prova que 
 
 - `rom_mastering_report`
 - hash SHA-256 da ROM
+- vinculo com `qa_emulator_report.json` quando houver gate BlastEm
 - tamanho e alinhamento
 - estado de checksum
 - leitura de header, region flags, SRAM range e product id
@@ -34,10 +35,11 @@ Esta skill fecha a camada final da ROM. Ela nao torna o jogo bom; ela prova que 
 - region flags nao contradizem `region_timing_contract`
 - SRAM, quando usada, tem range, magic/version/checksum e evidencia de leitura/escrita
 - o report referencia a mesma ROM que a evidencia de BlastEm
+- se `qa_emulator_report.rom_sha256` existir, ele precisa ser igual ao hash do `rom_mastering_report`
 
 ### Handoff para proxima etapa
 
-- entregar `rom_mastering_report` para `validate_resources.ps1`, `scene_closeout_gate.ps1` e memoria operacional
+- entregar `rom_mastering_report` e o hash SHA-256 para `validate_resources.ps1`, `scene_closeout_gate.ps1`, `qa_emulator_report.json` e memoria operacional
 
 ## Regras
 
@@ -46,6 +48,22 @@ Esta skill fecha a camada final da ROM. Ela nao torna o jogo bom; ela prova que 
 - Se o projeto nao usa SRAM, declarar `sram_policy=none` e provar que nao ha dependencia escondida.
 - Se a ROM for rebuildada, o mastering anterior fica stale.
 - Header/region/checksum corrigidos por ferramenta precisam gerar novo hash e nova evidencia.
+
+## Evidencia de probe SRAM por escopo
+
+Regra generalizada para interpretar probes SRAM por escopo.
+
+- `READY` em SRAM prova somente liveness/boot do runtime.
+- `SCN` em SRAM pode provar uma cena ou transicao nomeada quando cena esperada
+  e observada batem, usando o mesmo hash de ROM e captura fresca.
+- `INP` em SRAM pode provar que a ROM observou o input roteirizado; despacho de
+  input pelo host sem observacao da ROM e insuficiente.
+- Esse conjunto pode sustentar `testado_em_emulador` somente para a rota
+  declarada, por exemplo `TITLE -> OPENING_CUTSCENE`; nao prova visual,
+  budget, audio, gameplay amplo ou first playable.
+- Se `visual_vdp_dump.bin` nao foi gerado e nao existe claim visual, registrar
+  como `not_generated_runtime_seed_probe_only`; se houver claim visual, exigir
+  dump/screenshot conforme o gate normal.
 
 ## Anti-padroes
 

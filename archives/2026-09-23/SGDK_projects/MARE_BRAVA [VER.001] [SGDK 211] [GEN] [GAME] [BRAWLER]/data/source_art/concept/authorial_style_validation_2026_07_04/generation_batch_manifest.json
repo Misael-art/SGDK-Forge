@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "batch_id": "mare_brava_authorial_style_validation_2026_07_04",
+  "generated_at": "2026-07-04",
+  "generator_route": "codex_builtin_image_generation",
+  "style_contract": "doc/art/authorial_line_style_contract.json",
+  "status": "source_candidate_batch_pending_human_ratification",
+  "prohibited_claims": [
+    "sprite_final",
+    "tilemap_final",
+    "ready_for_conversion",
+    "ready_for_res_promotion",
+    "ready_for_aaa"
+  ],
+  "assets": [
+    {
+      "asset_id": "taina_identity_turnaround_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+      "sha256": "a453e4670e116460b110445cb6cf15144deac48d2c3799c8530c6fe691284ea5",
+      "status": "source_candidate",
+      "assessment": "Identidade, rosto, faixa assimetrica e bandagens legiveis; proporcao ainda deve ser comprimida em model sheet pixel de 3.5 cabecas."
+    },
+    {
+      "asset_id": "cria_estivador_silhouette_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/cria_estivador_silhouette_authorial_v01.png",
+      "sha256": "0daf5caee0340397a497d7a47df07db3bf2bd1648f91e01ba1cefe872ad8f6b8",
+      "status": "source_candidate",
+      "assessment": "CRIA le como seta nervosa e ESTIVADOR como bloco quadrado; board serve para identidade, telegraph e comparacao de silhueta."
+    },
+    {
+      "asset_id": "dock_scene_kit_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png",
+      "sha256": "afa085f6f785f6a2c28f91f17d53b6999b42fc08519ea2c35d08715910f4bfce",
+      "status": "source_candidate",
+      "assessment": "Kit modular sem rotulos: piso, borda, props, pilastras, landmarks, ecologia e pickups. Precisa ser recortado, normalizado e convertido antes da montagem."
+    },
+    {
+      "asset_id": "logo_mare_brava_authorial_studies",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/logo_mare_brava_authorial_studies_v01.png",
+      "sha256": "838f07aaa7bcb7b27726dea902b3ac69a2e6f7c9cc57c00de6452b0ae08b6982",
+      "status": "source_candidate_needs_human_review",
+      "assessment": "Texto exato e leitura forte; a onda funciona como terminal do A final, mas a integracao literal com a travessa do A requer ratificacao humana."
+    },
+    {
+      "asset_id": "hud_fx_authorial_studies",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/hud_fx_authorial_studies_v01.png",
+      "sha256": "97128bb2af88cf18c5350b0e779c6af35fb6e359592f0a10c793d0eeb87ae577",
+      "status": "source_candidate",
+      "assessment": "HUD, retrato, chip damage, digitos, impacto e agua compartilham a linguagem do cais; separar por funcao antes da traducao VDP."
+    },
+    {
+      "asset_id": "taina_action_key_poses_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_action_key_poses_authorial_v01.png",
+      "sha256": "4882e18dab44868079c3ccf6653b9334c59fa2a970bee8ac780581e7a2623296",
+      "status": "source_candidate",
+      "assessment": "Gestos e empurrao de duas maos legiveis; nao e strip de animacao e ainda exige model sheet pixel autoral."
+    }
+  ],
+  "discarded_generations": [
+    {
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/descartes/dock_scene_kit_labeled_rejected_v01.png",
+      "sha256": "cd4b3eb67a67d8623dbb9efc66feaff82f62eb2998f0164122bd5c22d4823e7f",
+      "status": "rejected_generation",
+      "reason": "Inseriu rotulos e numeracao; viola o contrato no_text para fonte modular."
+    }
+  ],
+  "contact_sheet": {
+    "path": "data/processed/contact_sheets/authorial_style_validation_contact_sheet_v01.png",
+    "sha256": "96fe6e48da1a0d66f9f5479b9d68d647d55c4ab8eda97e56c6c2aee81a29be8b",
+    "purpose": "Ratificacao humana do traco autoral em resolucao de concept; nao substitui a prova VDP 320x224."
+  },
+  "next_gate": "human_ratification_then_pixel_model_sheet_and_modular_asset_decomposition"
+}

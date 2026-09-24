@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L081",
+  "date": "2026-09-15",
+  "topic": "observable_intro_fade_preferences",
+  "source": "same_rom_title_return_capture",
+  "rom_sha256": "66a4793895151ea03ed384f20c95e0e9bee625f91af12f13afaacbcff223e3c3",
+  "problem": "OPENING/FADE existiam no runtime, mas eram inertes no menu porque só eram consultados no boot.",
+  "change": "Adicionar retorno B real de SELECT e AFTER_MATCH ao título; INTRO OFF pede TITLE direto e INTRO ON pede OPENING, enquanto FADE controla as duas transições.",
+  "result": "Rota NTSC executada no mesmo SHA: OFF produziu retorno direto e ON produziu abertura antes do título; cinco capturas não vazias.",
+  "limits": [
+    "não fecha suavidade temporal nem qualidade visual",
+    "preferências continuam apenas na sessão, sem SRAM"
+  ],
+  "artifacts": [
+    "src/select.c",
+    "src/main.c",
+    "src/title.c",
+    "tests/capture_title_return.py",
+    "tests/test_title_return_contract.py",
+    "out/emulator_evidence/title_return_20260915T095040Z/manifest.json"
+  ],
+  "status": "documented_build_runtime_route_pass_visual_review_pending"
+}

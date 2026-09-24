@@ -11,7 +11,11 @@
     "doc/14-plano-de-provas-qa.md",
     "doc/project_methodology_manifest.json",
     "doc/project_hygiene_manifest.json",
-    "doc/technique_usage_manifest.json"
+    "doc/technique_usage_manifest.json",
+    "doc/audio_architecture_card.json",
+    "doc/audio_channel_ownership_report.json",
+    "doc/dac_stream_budget_report.json",
+    "doc/z80_task_ownership_contract.json"
   ],
   "source_cases": [
     "doc/source_cases/chase_visual_benchmark/asset_promotion_report.md",
@@ -37,7 +41,7 @@
     "sdk/sgdk-2.11/inc/pal.h",
     "sdk/sgdk-2.11/inc/joy.h",
     "sdk/sgdk-2.11/inc/sound.h",
-    "sdk/sgdk-2.11/inc/xgm2.h"
+    "sdk/sgdk-2.11/inc/snd/xgm2.h"
   ],
   "constraints": [
     "preserve approved source-baked hero and pursuer sprites",

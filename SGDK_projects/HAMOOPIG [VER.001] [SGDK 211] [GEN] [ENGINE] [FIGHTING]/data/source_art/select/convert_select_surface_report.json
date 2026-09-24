@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "source": "data/source_art/select/generated_select_surface_v02.png",
+  "source_sha256": "e7d8ea0167557e7b41b2f9f03ce7c73bf6d756a37a84657e5c87a2e102e75375",
+  "output": "data/source_art/select/generated_select_surface_v03.png",
+  "output_sha256": "cd5cff211a691e51cc281519cebfc72d92358deb3b3f56dd359c409ba5164bb6",
+  "dimensions": [
+    320,
+    224
+  ],
+  "pre_tile_reduction": "2x_nearest_then_mega_drive_9bit_palette",
+  "tile_reuse_mode": "regional_material_preserving",
+  "unique_tiles_before_reuse": 607,
+  "unique_tiles_after_reuse": 204,
+  "tile_budget": 220,
+  "claim_ceiling": "translated_selection_surface_candidate",
+  "visual_review_required": true,
+  "emulator_validated": true,
+  "validation_evidence": "out/emulator_evidence/visual_ko_20260920T230426778949Z-380612/00_select.png",
+  "validation_rom_sha256": "8e7a34dc26ef317f90e5f93b1c00dac6bea25fd59eaf00d94f8e10a3616795dd"
+}

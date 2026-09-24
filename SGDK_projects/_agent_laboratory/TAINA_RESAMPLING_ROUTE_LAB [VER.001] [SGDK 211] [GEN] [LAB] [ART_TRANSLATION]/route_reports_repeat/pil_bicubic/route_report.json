@@ -1,0 +1,141 @@
+{
+  "schema_version": "mechanical_geometry_probe.v1",
+  "route_id": "pil_bicubic",
+  "tool": "Pillow",
+  "tool_version": "Pillow 12.3.0",
+  "algorithm": "BICUBIC",
+  "parameters": {
+    "resampling": "BICUBIC"
+  },
+  "source": {
+    "path": "inputs/approved_direction_56x80.png",
+    "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f"
+  },
+  "canonical_crop": {
+    "path": "inputs/canonical_crop_premultiplied.png",
+    "sha256": "7cb55548053f2c7138fb5596e67f6c6149593696a0d4c57f8f4f6bf31f8fb514",
+    "crop_xyxy_source": [
+      114,
+      28,
+      933,
+      1450
+    ]
+  },
+  "target": "56x80",
+  "colorspace": "sRGB",
+  "alpha_policy": "premultiplied_before_filter_then_rgba_probe",
+  "output": {
+    "path": "route_reports_repeat/pil_bicubic/raw_rgba_56x80.png",
+    "sha256": "483e92562c5978487d37d6a939c1cacb7a73e1d0adaf366db9427df280c88bdf"
+  },
+  "elapsed_seconds": 0.041353,
+  "status": "passed",
+  "warnings": [],
+  "metrics": {
+    "occupancy_pixels": 1798,
+    "occupancy_pct": 40.134,
+    "bbox": [
+      5,
+      0,
+      51,
+      80
+    ],
+    "row_span": 80,
+    "column_span": 46,
+    "partial_alpha_pixels": 613,
+    "silhouette_thresholds": {
+      "1": 1798,
+      "64": 1606,
+      "128": 1495,
+      "224": 1318
+    }
+  },
+  "landmarks": {
+    "hair_top_and_width": {
+      "status": "ambiguous",
+      "observed_pixels": 228,
+      "roi": [
+        0,
+        0,
+        56,
+        18
+      ]
+    },
+    "head_center": {
+      "status": "ambiguous",
+      "observed_pixels": 341,
+      "roi": [
+        12,
+        4,
+        44,
+        25
+      ]
+    },
+    "eye_line": {
+      "status": "ambiguous",
+      "observed_pixels": 248,
+      "roi": [
+        14,
+        10,
+        44,
+        25
+      ]
+    },
+    "shoulders": {
+      "status": "ambiguous",
+      "observed_pixels": 350,
+      "roi": [
+        4,
+        18,
+        52,
+        34
+      ]
+    },
+    "guard_and_wrists": {
+      "status": "ambiguous",
+      "observed_pixels": 416,
+      "roi": [
+        0,
+        14,
+        56,
+        36
+      ]
+    },
+    "waist_hip": {
+      "status": "ambiguous",
+      "observed_pixels": 454,
+      "roi": [
+        8,
+        28,
+        50,
+        50
+      ]
+    },
+    "knees": {
+      "status": "ambiguous",
+      "observed_pixels": 458,
+      "roi": [
+        4,
+        48,
+        52,
+        68
+      ]
+    },
+    "feet_ground": {
+      "status": "ambiguous",
+      "observed_pixels": 217,
+      "roi": [
+        0,
+        66,
+        56,
+        80
+      ]
+    },
+    "line_of_action": {
+      "status": "ambiguous",
+      "reason": "requires perceptual review, not inferred from filter output"
+    }
+  },
+  "command": null,
+  "claim_ceiling": "mechanical_geometry_probe"
+}

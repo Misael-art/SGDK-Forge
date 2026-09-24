@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "project": {"name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]", "project_root_policy": "all_project_material_inside_project", "lab_not_delivery": false},
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {"doc_13_spec_cenas": true, "doc_10_memory_bank": true, "doc_changelog": true, "notes": "D1 runtime probe now exists; evidence and visual approval remain pending."},
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {"scene_id":"fighting_d1_runtime","registry_id":"camera_scroll_management","human_proficiency_status":"TEORICA_PRIORITARIA","technique_tags":["CAMERA_MANAGEMENT","CAMERA_DEADZONE","FIXED_POINT_MATH","INTEGER_RENDER_SNAP"],"owner_skills":["code/camera-system-sgdk"],"evidence":{"rom_sha256":null,"blastem_evidence_paths":[],"budget_report_path":null,"validation_report_path":null,"promotion_record_path":null},"doc_refs":["doc/11-gdd.md","doc/13-spec-cenas.md","doc/10-memory-bank.md","doc/changelog/changelog.md","doc/contracts/tdd_contract.json"]},
+    {"scene_id":"fighting_d1_runtime","registry_id":"hitstop_camera_shake_feedback","human_proficiency_status":"TEORICA_PRIORITARIA","technique_tags":["HITSTOP","CAMERA_SHAKE","GAMEPLAY_FEEDBACK","CAMERA_FEEDBACK","INTEGER_RENDER_SNAP"],"owner_skills":["code/sgdk-runtime-coder"],"evidence":{"rom_sha256":null,"blastem_evidence_paths":[],"budget_report_path":null,"validation_report_path":null,"promotion_record_path":null},"doc_refs":["doc/11-gdd.md","doc/13-spec-cenas.md","doc/10-memory-bank.md","doc/changelog/changelog.md","doc/contracts/tdd_contract.json"]},
+    {"scene_id":"fighting_d1_runtime","registry_id":"tile_cache_streaming_refcount","human_proficiency_status":"TEORICA_STANDARD","technique_tags":["BOSS_SETPIECE","DMA_STREAMING","SOFTWARE_RENDERING","VRAM_TILE_INDEX_MANAGEMENT"],"owner_skills":["hardware/vram-streaming-dma-queue"],"evidence":{"rom_sha256":null,"blastem_evidence_paths":[],"budget_report_path":null,"validation_report_path":null,"promotion_record_path":null},"doc_refs":["doc/13-spec-cenas.md","doc/10-memory-bank.md","doc/changelog/changelog.md","doc/dma_queue_contract.json"]}
+  ]
+}

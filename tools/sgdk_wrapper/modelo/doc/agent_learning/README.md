@@ -15,10 +15,12 @@ Promocao canonica exige ato humano deliberado, revisao explicita e edicao contro
 Ao abrir o projeto:
 
 1. leia este `README.md`;
-2. consulte `success_patterns.md` e `failure_patterns.md`;
-3. verifique `skill_promotion_candidates.md`;
-4. respeite pendencias em `canonical_promotion_review.md`;
-5. execute `audit_project_learning.ps1 -Mode Audit` e leia primeiro o `candidate_index`.
+2. se a tarefa for a abertura / marca / branding v2, leia primeiro
+   `the_forge_opening_lessons.md` (caderno medido 2026-08-18);
+3. consulte `success_patterns.md` e `failure_patterns.md`;
+4. verifique `skill_promotion_candidates.md`;
+5. respeite pendencias em `canonical_promotion_review.md`;
+6. execute `audit_project_learning.ps1 -Mode Audit` e leia primeiro o `candidate_index`.
 
 Ao encerrar uma tarefa relevante:
 

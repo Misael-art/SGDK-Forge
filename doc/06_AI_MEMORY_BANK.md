@@ -1,14 +1,33 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-08-02
+**Última atualização:** 2026-09-23
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
-**Projeto em foco:** Shadow Dancer Hamoopig, Pequeno Príncipe, engines SGDK 211, reorganização workspace, assimilação do engine scan pass 2
+**Projeto em foco:** Barra viva da cena (oficio Rheo/Pigsy como piso, nao handle), plano para gerar pixel art nesse nivel, SGDK_GLOBAL §39
 
 > **DIRETRIZ:** Este é o bloco de memória primário para o workspace global.
 > Leia integralmente antes de decisões que afetem múltiplos projetos.
 > Atualize ao encerrar sessões relevantes.
 
 ---
+
+
+### 2026-09-23 — harmonização de SGDK_projects (arquivamento)
+
+Sete projetos parados/experimentais foram movidos com `git mv` (3423 renomeações 100% idênticas) para
+`archives/2026-09-23/SGDK_projects/`: Kirby GROK AX ALPHA, Kirby GROK BUILD, pasta Kirby CLOUDE sem `[GEN]`
+(docs divergentes da linha canônica, guardados sem fusão), BLUE_CIRCUIT, MARE_BRAVA, GOTHAM_OVERDRIVE (com
+seu gerador de assets) e `_agent_training` (este devolvido no mesmo dia a `SGDK_projects/`, local canonico do AGENTS.md). A pasta vazia com colchete não fechado foi removida. Mantidos por
+serem dependência de ferramentas: FORGE_REFERENCE (golden), SMOKE_TEST, Celestial Chase (benchmark e Revive)
+e `_agent_laboratory`. `.gitignore` versiona só `archives/2026-09-23/` e `archives/README.md`; `out/` e
+demais ignorados continuam fora do git. Exemplos de `seed_active_iteration`/`validate_active_iteration`
+apontam agora para HAMOOPIG. Verificação: conversor 36/36, contratos HAPE+audiovisual HAMOOPIG 15/15,
+host-operation-router 30/30, animação Celestial OK. Preexistentes (não causados aqui): 2 erros de coleta em
+`HAMOOPIG/tests` (hash de evidência `ken_vs_musgo_showdown_park_pal` e matriz de QA) e `test_audio_tools`
+sem o módulo `jsonschema` no host Linux.
+Curadoria de arquivos soltos da raiz (mesmo dia): evidencia do Mugenesis movida para o projeto; build/debug
+soltos e reports de agentes sem dono para `archives/2026-09-23/root_loose/` (disco); link `tmp -> /tmp`
+removido; areas de ferramentas (`out/host_tools|ci|logs|cmd_.wine`, `assets/reference`) declaradas na
+`doc/ROOT_LOOSE_FILES_POLICY.md`. Manifesto com hashes e rollback: `doc/curation/2026-09-23-root-loose-manifest.json`.
 
 ## 1. ESTADO ATUAL DO REPOSITÓRIO
 
@@ -22,7 +41,7 @@
 - **Art diagnostic output (2026-06-06):** `art_diagnostic.py` e ASCII-safe por default; `--unicode` e opcional e nenhum gate depende dele.
 - **Curadoria cena/tilemap (2026-06-06):** conversão de cenário não pode ser "aprovada" sem reports estruturais (dedup/HV flip, flags, sub-paletas) e schema válido; enforcement é closeout/delivery (warning fora do closeout).
 - **Scripts de projeto:** build.bat, clean.bat, run.bat delegam ao wrapper (2–3 níveis `..` conforme profundidade).
-- **13/13 projetos compiláveis** geram ROM com sucesso (AGENTS.md).
+- **Historico nao recertificado nesta sessao:** registro anterior de 13/13 projetos compilaveis, sem vinculo atual comum de hash/evidencia. Nao usar como baseline vigente.
 
 ### Projetos principais
 | Projeto | Tipo | Memory Bank próprio |
@@ -34,6 +53,97 @@
 ---
 
 ## 2. O QUE ACABOU DE ACONTECER (2026-04-02)
+
+### Gate canonico de animacao ligado ao artefato (2026-09-02)
+
+- `sprite-animation` deixou de aceitar metadados como prova suficiente para
+  producao nova. `animation_strip_contract` v3 vincula PNG, lineart, timing em
+  VBlank, perfil de movimento, suporte/contato e layout de metasprite.
+- Entry point novo e central:
+  `tools/sgdk_wrapper/.agent/scripts/validate_animation_strip_artifact.py`.
+  O nome unico impede que copias locais congeladas de `validate_strip.py`
+  enfraquecam silenciosamente o gate; contratos 1.x/2.x ficam apenas legados.
+- Validadores novos medem lineart 1 px, semantica temporal e agregado de claims.
+  Blockers permanentes cobrem fragmento de celula, silhueta preenchida chamada
+  de lineart, reorder/duplicacao de frames, foot slide, timing divergente,
+  reuso entre acoes, conflito de metasprite e `visual_pass` auto-declarado.
+- `motion_profile_registry.json` e generico por familia de movimento, nao por
+  personagem. Timing tem uma unica autoridade e preview deterministico consome
+  essa tabela.
+- Revisao visual cega continua indispensavel para identidade, acting e apelo;
+  automacao recusa contradicoes, mas nao transforma julgamento artistico em
+  score unico. ROM/BlastEm continuam necessarios para claim de runtime.
+- Prova da curadoria: `test_animation_validation.py` 9/9 suites, 14 blockers
+  adversariais declarados; meta-gate isolado 4/4; art pipeline 128/128;
+  forge-art 126/126. Auditor global segue BLOCKED por dividas preexistentes
+  (validator nativo sem self-check, copias antigas do simulador/runtime_probe).
+
+### Barra viva da cena — oficio Rheo/Pigsy como piso (2026-08-29)
+
+- **Correcao de baseline visual (2026-08-29):** a avaliacao de arte nunca pode ser
+  relativa ao placeholder, ao build ou a uma captura. O contrato unico e
+  `tools/sgdk_wrapper/.agent/references/production_visual_quality_contract.md`;
+  ele bloqueia promocao quando forem perdidos anatomia, materiais, marcos de
+  design, modularidade real de cenario ou funcao visual do FX. Cada projeto
+  precisa de uma prancha local com fontes rastreaveis e hash; ela e referencia
+  de oficio, nao permissao para copiar pixels. Os probes procedurais do FR2 e
+  de MARE_BRAVA sao integracao tecnica, nunca baseline de qualidade nem prova
+  de arte final. O contrato e regra global e os workflows visuais apenas o
+  consomem, para evitar criterios duplicados ou contraditorios.
+
+- Piso visual 2026 canonizado: `doc/03_art/18_live_scene_bar.md` +
+  `doc/03_art/live_scene_bar.json` + schema
+  `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json`.
+- Handles `RheoGamer` / `PigsyRetro` decodificados em axiomas (R1-R10,
+  P1-P10) e 12 checks binarios. Expansao 2026-08-29b: Pyron (Y1-Y3 palco
+  ~980 tiles), Chev (C1-C4 segundo passe / 320x224), Diggo (D1-D3 chip
+  identity), MXRetroDev carta FFMD (M1-M4 paleta de roster), Shannon 3D
+  Update 8 (S1-S5 DMA/inversao/FPS), Daniel Moura HAMOOPIG (H1-H5).
+  Citar o nome sem o oficio e `name_drop_without_craft`. Pixels/PCM dos
+  ports deles sao `clone_risk`.
+- 2026-08-29c: tetos em `live_scene_bar_parameters.json`. G1/G2, D4, Z1, S6.
+  Nao duplicar ensaio. XGM2 nao e automaticamente mais leve sob DMA alto.
+- Tese: VRAM/CRAM sao a primeira decisao de arte; sem decisao artistica
+  o hardware produz lixo; fonte de outra plataforma nao se quantiza cega.
+- Amarra: AGENTS.md, SGDK_GLOBAL §39, `00_visual_quality_bar.md`,
+  visual-excellence-standards, art-creation-sourcing (prompts de fonte,
+  nao de sprite sheet MD), art-translation-to-vdp, aaa-pipeline-guardian,
+  benchmark_usage_policy, radar, modelo `00-diretrizes-agente.md`.
+- Plano de capacidade: `doc/03_art/19_plan_pixel_art_live_scene_capability.md`.
+  `runtime_proof_status` desta barra: `PARCIAL_LAB`. F-R2 fase 1 teve ROM
+  com paletas de papel (R2) mas sprites em downscale. F-R2 fase 2
+  (2026-08-29d) redesenhou heroi/thug em lineart 1 px nativo 48x64;
+  (2026-08-29e) color blocking com rampas hue-shift; ROM
+  `f694b841…0c73f9` color blocking; (2026-08-29f) cais nativo 8x8
+  (99 tiles vs 931); (2026-08-29g) idle 4 frames + ciclo de agua,
+  ROM `e3720f32…1dca99` com GIF no BlastEm. Continua laboratorio.
+  Nao e `ready_for_aaa`. (2026-08-29h) walk 4 fases na mesma sheet;
+  ROM `8b182016…ee6033` com GIF no BlastEm. (2026-08-29i) punch 4
+  fases 8-4-10-12 na mesma sheet 192x192; ROM `a34c2d0f…cd79da`
+  com GIF no BlastEm (screenshot ainda parece walk; alcance curto).
+  Continua laboratorio. (2026-08-29j) o mesmo pipeline entrou no
+  MARE_BRAVA: CRIA idle nativo 48x64 PAL3 no CAIS_01; ROM
+  `854a18be…20de54` com TAÍNA+CRIA no BlastEm. (2026-08-29k) CRIA
+  walk 4 fases; ROM `4e9248a4…8a7847` burst prova passada.
+  (2026-08-29l) CRIA telegraph 12 vbl; ROM `ed032430…9ae36f`.
+  (2026-08-29m) CRIA haymaker nativo; ROM `c63092cf…d83de6`.
+  (2026-08-29n) CRIA recover nativo; ROM `0bde1dd0…60b9a9`.
+  (2026-08-29o) CRIA IA perseguidor; ROM `6bf9e359…968686`.
+  Continua `visual_pass=false` / `ready_for_aaa=false`. Nao declarar
+  que o Forge ja gera no piso Rheo/Pigsy.
+- Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
+  por concept high-res; fake pixel art do gerador e rejeicao, nao input
+  de quantize.
+
+### Doutrina de capacidade com prova e Ramo C de roteamento visual (2026-08-25)
+- Criada `SGDK_GLOBAL.md` §38: sonda real obrigatoria antes de prometer capacidade; vocabulario `capaz_com_prova_agora` / `capaz_apos_preparo_medido` / `nao_capaz_neste_host`; proibido claim por memoria, fama do modelo ou suposicao.
+- `image-generation-routing` agora abre com a arvore obrigatoria de 3 ramos: A (nativo com prova -> gerar), B (host preparado -> circuito local), C (nem agente nem host -> emitir `successor_asset_directive`). Bloqueio morto sem diretriz e anti-padrao.
+- Novo contrato machine-readable: `tools/sgdk_wrapper/schemas/successor_asset_directive.schema.json` + template `tools/sgdk_wrapper/.agent/references/successor_asset_directive_template.md`.
+- **Protocolo de insatisfacao mensuravel** (`successor_quality_protocol`, "prompt magico" do Ramo C): min_rounds=3, pisos numericos com ferramenta (luma>=34, paleta 9-bit, silhueta B/N, grid 8px/index 0, dithering funcional), rejeicoes automaticas, `blind_critic_floor` default **8.5/10**, julgamento final ancorado em gates imparciais — o gerador nao aceita primeira versao nem se auto-satisfaz; lacuna nao resolvida e declarada honestamente (§38), nunca piso rebaixado.
+- **Prompt modelo de direcionamento**: criado `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md` (v1.0.0) — contrato para reconciliar mega-prompts externos: 8 correcoes com gate provado, prompt magico embutido, esqueleto F0-F3 do modelo/, registro de incrementos com regras de auto-incremento; ponteiro na REFERENCIA RAPIDA do AGENTS.md.
+- Drift curado: 7 schemas citados como canonicos pela skill e inexistentes em disco foram criados em `tools/ai_imagegen/reports/schema/`; path errado no tdd-authoring corrigido; `validate_skill_framework.py` agora reprova skill que cita path ancorado (`tools/...`, `.agent/...`) inexistente (calibrado contra falso positivo conforme §37); `imagegen_tool.py self-check` novo (PASS).
+- Prova viva neste host (Linux, AMD VanGogh sem VRAM dedicada, 2.8GB RAM livres, ComfyUI/modelos ausentes): sondas reais -> `nao_capaz_neste_host`, desfecho Ramo C com artefatos schema-validos em `out/logs/generation_channel_decision.json`, `out/logs/successor_asset_directive_2026-08-25.json` (aponta para a spec real do GOTHAM_OVERDRIVE, ja com protocolo embutido) e `out/logs/tooling_capability_report.json`.
+- Detalhe completo: `doc/agent_learning/changelog_2026-08-25.md`.
 
 ### Pontes de IDE e skills canonicas (2026-06-06)
 - `.agents/skills` foi convertido de junction absoluta para symlink relativo apontando para `../tools/sgdk_wrapper/.agent/skills`.
@@ -50,6 +160,21 @@
   - Obsidian e cockpit humano opcional; `.obsidian/` nao deve ser versionado
   - politica: `doc/GRAPHIFY_OBSIDIAN_POLICY.md`
 - `.cursor`, `.serena`, `.superpowers`, `.trae`, `.agents` e `.claude` agora apontam para o mesmo preparo de ambiente e para Graphify apenas via wrapper/pwsh.
+- Camada `ai-memory` integrada de forma complementar e controlada (2026-06-23):
+  - wrapper: `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`
+  - politica: `doc/AI_MEMORY_POLICY.md`
+  - marcador raiz: `.ai-memory.toml` com `workspace = "sgdk_forge"` e `project = "workspace"`
+  - report: `out/logs/ai_memory_integration_report.json`
+  - `assert_agent_environment.ps1` agora prepara a camada junto do bootstrap comum
+  - `adopt_project_methodology.ps1` cria marcador `.ai-memory.toml` dentro do projeto quando possivel
+  - regra: ai-memory e consultivo, nao instala hooks/MCP globais automaticamente, nao roda bootstrap/auto-improve, nao substitui memory bank, learning ledger, Graphify, validators, changelog ou evidencia BlastEm
+  - auto-improvement deve permanecer pendente de revisao humana (`require_approval=true`) e scheduler deve ficar desabilitado durante piloto
+- Resiliencia de bootstrap Graphify (2026-06-23):
+  - `tools/sgdk_wrapper/graphify_forge.ps1` agora aceita `-GraphifyTimeoutSeconds`
+  - chamadas `build`, `update` e `query` executam `graphify` em processo controlado
+  - bloqueio de Windows App Control vira `graphify_start_failed` em vez de stack trace solto
+  - timeout vira `graphify_timeout` e nao deixa o agente esperando indefinidamente
+  - `prepare_agent_environment.ps1` repassa o timeout e registra `graphify.timeout_seconds` no report
 - `show_agent_menu.ps1` chama o guard de ambiente automaticamente, com opt-out explicito `SGDK_SKIP_AGENT_ENVIRONMENT_GUARD=1`.
 - A skill reaproveitavel `tiled-hybrid-parallax-curator` foi promovida para `tools/sgdk_wrapper/.agent/skills/art/` com contrato operacional e metadados OpenAI.
 - `.serena/project.yml` passou a indexar tambem Python, PowerShell, JSON e Markdown, mas ignora caches, SDK, emuladores e outputs pesados.
@@ -2052,6 +2177,939 @@ Limite factual: nenhuma ROM, asset, benchmark ou projeto foi promovido a AAA
 por esta curadoria. A mudanca fortalece o agente canonico e reduz diagnostico
 repetido, mas cada jogo ainda precisa evidencias proprias de fonte, VDP,
 BlastEm, animacao, audio, level design e aprovacao humana.
+## 47. Contrato canonico de traco autoral (2026-07-04)
+
+- Um style ID e referencias historicas nao bastam para impedir arte generica.
+- O catalogo `angular_cps2_fighter` agora carrega `authorial_line_contract` com
+  assinatura de linha, gramaticas de rosto/maos/materiais, assimetria e hooks
+  de silhueta.
+- `SGDK_GLOBAL.md`, `art-creator.md`, `art-director.md` e o quality bar vetam
+  claims AAA quando o contrato falta ou quando o resultado e competente mas
+  intercambiavel.
+- Projetos devem especializar o contrato global em um arquivo local e propagar
+  os mesmos campos aos prompts; adjetivos vagos e listas de referencias nao
+  substituem regras visuais operacionais.
+- Validacao aplicada em MARE_BRAVA com lote apenas `source_candidate`; nenhuma
+  ROM, budget VDP ou promocao para `res/` foi inferida.
+
+## 48. Diagnostico global de capacidade e backlog de correcao (2026-07-18)
+
+Status: `diagnostic_registered_no_runtime_promotion`.
+
+- diagnostico humano-operacional:
+  `doc/agent_learning/agent_capability_diagnostic_2026-07-18.md`;
+- backlog machine-readable:
+  `doc/agent_learning/agent_capability_remediation_backlog_2026-07-18.json`;
+- prompt executor persistente:
+  `doc/agent_learning/agent_remediation_execution_prompt_2026-07-18.md`;
+- classificacao atual do framework: `functional_with_human_supervision`;
+- claim ceiling global: `technical_vertical_slice_candidate`;
+- `ready_for_aaa=false`;
+- blocker dominante: o gate visual aceitou uma captura praticamente branca de
+  BLUE_CIRCUIT apesar de runtime parcial e metricas perceptuais zeradas;
+- regra nova de trabalho: corrigir primeiro a validacao semantica de evidencia
+  (`P0-001`) e depois reconciliar claims pelo menor status provado (`P0-002`);
+- o utilitario untracked `tools/image-tools/screenshot_integrity.py` detectou o
+  caso, mas continua apenas candidato a integracao ate review, testes e entrada
+  no fluxo canonico;
+- blockers adicionais: `jsonschema` ausente na sessao, 13 hashes lifecycle
+  divergentes, evidencias historicas/stale e ausencia de hardware real e
+  metricas de autonomia;
+- nenhum projeto, ROM, asset, tecnica ou claim AAA foi promovido por este
+  registro.
+
+Continuidade: agentes devem consumir o backlog JSON, selecionar um unico item
+`ready_for_assignment`, executar os acceptance checks e atualizar memoria e
+changelog sem exceder o menor gate comprovado.
+
+## 49. P0-001 — gate semantico de screenshot fechado (2026-07-18)
+
+Status: `framework_gate_validated_no_runtime_promotion`.
+
+- A captura canonica quase branca de BLUE_CIRCUIT agora falha com
+  `blank_or_low_information_capture`.
+- O report canônico registra SHA-256, dimensoes, `dominant_ratio`,
+  `edge_density`, decisao e impactos de claim.
+- Capturas escuras de Celestial Chase Revive e MUGEN permanecem validas no
+  gate de integridade; essa validade nao prova qualidade, gameplay ou
+  performance.
+- `capture_blastem_evidence.ps1`, `finalize_emulator_evidence.ps1`,
+  `scene_closeout_gate.ps1` e `validate_resources.ps1` consomem a mesma
+  decisao semantica.
+- Na validacao real de BLUE_CIRCUIT, `visual_gate_ready=false`,
+  `gameplay_rom_aprovada=false`, `blastem_gate=false`, gameplay e performance
+  ficaram `unproven`.
+- Regressao: Python 3/3, integracao PowerShell passou, closeout plan passou e
+  schemas passaram 81/81.
+- Evidencia:
+  `doc/agent_learning/p0_001_screenshot_semantic_remediation_report_2026-07-18.json`.
+- `P0-001=completed`; blocker dominante promovido para `P0-002`.
+- Nenhuma ROM, tecnica, asset, status de runtime ou claim AAA foi promovido.
+
+## 50. P0-002 — reconciliacao conservadora de claims (2026-07-18)
+
+Status: `framework_gate_validated_no_runtime_promotion`.
+
+- `reconcile_claims.py` aplica `lowest_proven_status_wins` aos reports de
+  validacao, entrega visual, admissao de runtime, metricas, emulador, gate de
+  screenshot e selagem de evidencia.
+- Gate bloqueado e claim positivo agora geram `report_status_conflict` e
+  forcam `ready_for_aaa=false`.
+- `capture_status=partial` força performance `unproven`.
+- Metricas perceptuais integralmente zeradas forcam `creative_ready=false`.
+- ROM e `evidence_session_id` ausentes ou divergentes recebem blockers
+  explicitos; reports de uma decisao positiva precisam compartilhar ambos.
+- BLUE_CIRCUIT foi reconciliado como bloqueado: `technical_ready=false`,
+  `creative_ready=false`, `ready_for_aaa=false`, performance `unproven`.
+- Regressao Python passou 4/4 e o report real passou pelo schema Draft 2020-12.
+- Evidencia:
+  `doc/agent_learning/p0_002_claim_reconciliation_report_2026-07-18.json`.
+- `P0-002=completed`; blocker dominante promovido para `P0-003`.
+- Nenhum runtime, ROM, tecnica ou claim AAA foi promovido.
+
+## 51. P0-003 — schemas reproduziveis no Linux (2026-07-18)
+
+Status: `framework_environment_validated_no_runtime_promotion`.
+
+- PowerShell 7.6.2, Temurin JRE 21.0.11+10 e dependencias Python possuem
+  provisionamento local ao workspace; os binarios externos usam SHA-256
+  fixado.
+- `jsonschema==4.25.1` e dependencias transitivas estao fixados com hashes em
+  `linux_python_requirements.lock`.
+- `ensure_linux_python_deps.sh` reconstruiu com sucesso um target limpo sem
+  instalacao global/manual.
+- `run_contract_gates_linux.sh` prepara PATH/PYTHONPATH e executa o runner
+  canonico; falha de dependencia produz blocker explicito.
+- Execucao schema: 84/84; gate art/gameplay complementar: 12/12;
+  `combined_status=passed`.
+- Evidencia:
+  `doc/agent_learning/p0_003_reproducible_schema_environment_report_2026-07-18.json`.
+- `P0-003=completed`; blocker dominante promovido para `P0-004`.
+- BlastEm ainda nao foi reexecutado nesta sessao e nenhum runtime foi
+  promovido.
+
+## 52. P0-004 — hashes lifecycle reconciliados (2026-07-19)
+
+Status: `framework_lifecycle_validated_no_runtime_promotion`.
+
+- Os 13 payloads legados foram comparados com o commit de introducao
+  `35dab34df2a8f12a577e9a30e0ab9f0092db0443` e permaneciam identicos, com
+  arvore de trabalho limpa; as divergencias foram classificadas como
+  `registry_obsolete_at_introduction`, nao como corrupcao.
+- O algoritmo canonico passou a usar caminhos relativos, ordem ordinal UTF-8,
+  normalizacao LF para texto e manifesto `path + NUL + sha256 + LF` em Python
+  e PowerShell.
+- O registry foi atualizado somente depois do report de review; o report
+  posterior classificou os 13 registros como `already_consistent`.
+- `validate_skill_framework.py` passou com 47 skills ativas e 13 legadas;
+  o auditor lifecycle passou sem erros e o teste de restauracao reversivel
+  tambem passou.
+- Evidencia:
+  `doc/agent_learning/p0_004_legacy_hash_reconciliation_report_2026-07-19.json`.
+- `P0-004=completed`; blocker dominante promovido para `P0-005`.
+- Nenhuma ROM, runtime, qualidade visual, performance ou claim AAA foi
+  promovido.
+
+## 53. P0-005 — bundle fresco da mesma sessao (2026-07-19)
+
+Status: `blastem_front_end_evidence_sealed_no_aaa_promotion`.
+
+- BlastEm Linux 0.6.2 foi provisionado pelo Flatpak oficial, fixado no commit
+  `c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221`.
+- A sessao `blastem-linux-20260720T023600Z-152199` observou o front-end de
+  Celestial Chase Revive na ROM
+  `4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e`.
+- ROM, screenshot, SRAM, dump VLAB e metricas carregam o mesmo `session_id`,
+  SHA-256 completo e timestamp; `freshness_report.status=ok`.
+- Screenshot 640x480 passou o P0-001 com `dominant_ratio=0.407383` e
+  `edge_density=0.080358`.
+- O closeout agora revalida hashes, sessao e ROM corrente; fixtures provam
+  bloqueio por stale, tamper e ROM divergente.
+- A janela mostrou 60.9 fps e o VLAB reuniu 900 amostras, mas performance
+  continua `unproven` porque esta captura isolada nao fecha uma janela
+  sustentada.
+- Mastering continua `mastering_needs_fix`: checksum/regiao/evidencia fresca
+  passam, enquanto validacao limpa e closeout do jogo nao passam.
+- Evidencia:
+  `doc/agent_learning/p0_005_fresh_same_session_evidence_report_2026-07-19.json`.
+- `P0-005=completed`; blocker dominante promovido para `P1-001`.
+- Nenhum claim de gameplay amplo, audio, performance estavel, qualidade
+  criativa ou AAA foi promovido.
+
+## 54. P1-001 — discovery de arte laboratorial aninhada (2026-07-19)
+
+Status: `framework_art_discovery_validated_no_runtime_promotion`.
+
+- `art_diagnostic.py` agora reconhece o cenario
+  `4_lab_nested_art_review` quando arte existe em `work/`, `analysis/`,
+  `evidence/`, entradas de `rascunho/` ou subprojeto SGDK aninhado.
+- O report separa `source_art`, `evidence_art`, `active_res_art`,
+  `lab_work_art`, `analysis_art` e artefatos gerados; captura de evidencia nao
+  e tratada como asset ativo.
+- O discovery fica confinado ao root, usa `followlinks=false` e ignora arquivos
+  e diretorios symlink; a regressao com alvo externo confirmou que nenhum
+  arquivo externo entrou no inventario.
+- A contagem de pixels usa `get_flattened_data` no Pillow atual e preserva
+  fallback para releases anteriores; `DeprecationWarning` promovido a erro nao
+  falhou.
+- A suite passou 46/46 checks.
+- O estudo MUGEN passou de `3_no_art`/exit 2 para
+  `4_lab_nested_art_review`/exit 0, com 90 artefatos visuais descobertos:
+  9 fontes, 3 evidencias, 5 recursos ativos e 73 imagens de trabalho; um
+  viewer SGDK aninhado com hygiene manifest foi identificado.
+- Evidencia:
+  `doc/agent_learning/p1_001_nested_lab_art_discovery_report_2026-07-19.json`.
+- `P1-001=completed`; blocker dominante promovido para `P1-002`.
+- O estudo continua `controlled_training_area`; nenhuma conversao, ROM,
+  qualidade visual, budget, runtime ou claim AAA foi promovido.
+
+## 55. P1-002 — pipeline musical XGM2 FM/PSG (2026-07-19)
+
+Status: `technical_complete_pending_external_human_audio_review`.
+
+- Celestial Chase visual benchmark substituiu o score PCM_CH1 por
+  `mus_chase_core`, XGM2 real com duas vozes YM2612 FM e pulso SN76489 PSG.
+- XGM2 passou a ser owner unico de FM/PSG; PCM_CH1 fica reservado, PCM_CH2
+  protege cues criticos e PCM_CH3 atende movimento/UI/pressao.
+- `validate_audio` passou com 1 musica, 9 SFX, zero issues e 0,96% do budget.
+- A ROM SGDK 2.11 foi buildada no container Linux recomendado pelo SGDK:
+  SHA-256 `8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450`.
+- Bundle atual `blastem-linux-20260720T032218Z-267076` passou frescor/hash;
+  AUD2 registrou 8 amostras music+SFX, 5/5 SFX aceitos e DMA wait maximo 0.
+- A captura WAV tem 24,064 s, sinal presente e nenhum clipping digital.
+- Warning conservador: 1 missed frame XGM2 em 1.363 frames; pico de carga 92.
+- Evidencia:
+  `doc/agent_learning/p1_002_xgm2_fm_psg_runtime_report_2026-07-19.json`.
+- O item nao foi marcado `completed`: a revisao auditiva humana continua
+  externa e pendente em `doc/human_audio_review_p1_002.md` do projeto.
+- O blocker dominante avanca para `P1-003`; nenhum claim AAA/release foi
+  promovido.
+
+## 56. P1-003 — performance em janela completa NTSC/PAL (2026-07-20)
+
+Status: `scene_3_performance_validated_in_blastem_windows`.
+
+- BLUE_CIRCUIT passou de 32 amostras parciais para 900 quadros NTSC ou 750
+  PAL, com flag explicita de conclusao e exportacao SRAM somente ao final.
+- A medicao de DMA ocorre depois de `SPR_update` e antes do VBlank; o VLAB foi
+  normalizado e o heartbeat pos-exportacao foi bloqueado para nao corromper a
+  serie selada.
+- ROM SGDK 2.11: SHA-256
+  `40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5`.
+- NTSC `blastem-linux-20260720T040940Z-424385`: 900/900, P95 44, max 44,
+  zero over-budget, titulo 61.0 fps.
+- PAL `blastem-linux-20260720T041233Z-435741`, forcado com `-r E`: 750/750,
+  P95 17, max 17, zero over-budget, titulo 50.3 fps.
+- Pico observado: 4 sprites ativos, 3/scanline, DMA 1 entrada/40 bytes.
+- Freshness passou em ambos os bundles; parser 10/10; screenshot e schemas
+  passaram.
+- Evidencia:
+  `doc/agent_learning/p1_003_full_window_performance_report_2026-07-20.json`.
+- `P1-003=completed`; blocker dominante promovido para `P1-004`.
+- O claim limita-se a cena 3 observada. Audio, outras cenas, hardware real,
+  FPGA, release e AAA nao foram promovidos.
+
+## 57. P1-004 — gate de hardware real ou FPGA (2026-07-20)
+
+Status: `technical_gate_complete_external_session_missing`.
+
+- Criados schema, validador e protocolo para sessao em console original ou
+  FPGA, com identidade de dispositivo/regiao/revisao, carga/firmware, ROM,
+  captura, decisoes de timing/audio e atestacao externa.
+- O validador compara a ROM corrente com o bundle BlastEm aprovado, verifica
+  hash/arquivo da captura e exige provas de boot, input, audio e gameplay.
+- Regressao passou 3/3: fixture aceita, pendente bloqueado e hash divergente
+  bloqueado.
+- O mastering da ROM `40b924f7...d21bbf5` confirmou 262144 bytes, alinhamento,
+  header JUE e checksum SGDK `sizebnd` `0x1527`.
+- A sessao real continua pendente; o agente nao preencheu dispositivo, video
+  nem atestacao humana.
+- Evidencia:
+  `doc/agent_learning/p1_004_hardware_gate_report_2026-07-20.json`.
+- `P1-004=blocked_external_hardware_evidence`; blocker executavel avanca para
+  `P1-005`.
+- Nenhum claim de hardware real, release ou AAA foi promovido.
+
+## 58. P1-005 — autonomia e intervencoes instrumentadas (2026-07-20)
+
+Status: `framework_process_metrics_validated`.
+
+- Criados schema, gravador atomico de eventos e derivador de metricas para
+  inicio, conclusao, bloqueio, retrabalho e intervencao humana.
+- Intervencoes aceitam somente categoria e reason code de allowlist; o gravador
+  nao possui campo de texto humano e fixa `sensitive_content_stored=false`.
+- A regressao passou 3 checks, incluindo rejeicao de intervencao sem categoria
+  e derivacao exata das taxas.
+- A sessao real registrou 9 eventos: 3 tarefas iniciadas, 2 concluidas, 1
+  bloqueada e 1 refeita; completion 0,6667 e first-attempt success 0,5.
+- Nao houve intervencao humana classificada na amostra real; a fixture cobre
+  `correction` sem conteudo sensivel.
+- Todo report fixa `quality_claim=unproven` e `ready_for_aaa=false`.
+- Evidencia:
+  `doc/agent_learning/p1_005_autonomy_instrumentation_report_2026-07-20.json`.
+- `P1-005=completed`; P1-006 continua bloqueado pelas dependencias externas e
+  o proximo item executavel e `P2-001`.
+
+## 59. Checkpoint de curadoria do aprendizado da remediacao (2026-07-20)
+
+Status: `captured_validated_pending_maturity`.
+
+- O responsavel humano autorizou registrar os aprendizados ja maduros e manter
+  os demais pontos em fila retomavel conforme novos insumos cumprirem seus
+  criterios de maturidade.
+- O checkpoint humano e machine-readable vive em:
+  - `doc/agent_learning/remediation_learning_curation_checkpoint_2026-07-20.md`;
+  - `doc/agent_learning/remediation_learning_curation_checkpoint_2026-07-20.json`.
+- O BLUE_CIRCUIT recebeu registros locais de falhas, sucessos, candidatos e
+  revisao de promocao em `doc/agent_learning/` do projeto; o ciclo Capture
+  consolidou 15 licoes e 10 candidatos no ledger.
+- Os cinco gaps procedurais foram deduplicados contra owners existentes; no
+  ledger final existem 6 propostas `patch_existing_owner`, todas
+  `not_applied`, e nenhuma proposta aplicada.
+- Validacao: schema passou, Audit posterior foi read-only e a regressao do
+  project learning loop passou 34/34.
+- Itens integrados e verificados: P0-001 a P0-005 e P1-001.
+- P1-003 possui prova runtime local forte, mas a generalizacao do probe exige
+  segunda cena/projeto e parametros em vez de constantes do BLUE_CIRCUIT.
+- P1-002 continua pendente de review auditivo humano; P1-004 continua pendente
+  de hardware/FPGA real; P1-005 possui instrumentacao validada com amostra
+  longitudinal ainda pequena.
+- P2-001 foi iniciado, mas nao fechado; P2-002 e P2-003 ainda nao foram
+  executados. A retomada conservadora comeca por P2-001.
+- Esta captura nao aplicou patch canonico novo, nao promoveu tecnica, ROM,
+  release ou `ready_for_aaa` e manteve
+  `canonical_promotion_performed=false`.
+
+## 60. Regra anti-falso-positivo para sprites e revalidacao (2026-07-24)
+
+Status: `framework_gate_added_projects_revalidated`.
+
+- Um strip que passa apenas dimensoes, paleta, index 0 e grid deve receber no
+  maximo `technical_pass`; isso nao autoriza `visual_pass`.
+- O novo `sprite_artifact_report.v2` e obrigatorio e mede clipping de borda,
+  ilhas soltas, anatomia, pivot, contato de pes e delta entre frames.
+- `validate_resources.ps1` rejeita report antigo, `visual_pass=false` ou
+  qualquer um dos seis controles ausente.
+- BLUE_CIRCUIT: strips antigos retraidos como
+  `technical_pass_visual_fail`; player v002 reconstruido em 24x32, 14 frames
+  sem findings, ROM `b2fbb1...e0b5` e bundle BlastEm fresco sem blockers.
+  A aprovacao e estritamente `sprite_visual_pass`, nao `ready_for_aaa`.
+- Celestial Chase Revive: Lio permanece `technical_pass_visual_fail` com 77
+  blockers. A ROM `a69050...d26` mostrou `ANIM_DAMAGE` real em rajada
+  BlastEm, mas a screenshot foi corretamente reprovada como
+  `blank_or_low_information_capture`.
+- Nunca converter compilacao, ResComp ou screenshot de boot em aprovacao de
+  anatomia/animacao. O claim deve citar o artefato exato e seu limite.
+
+## 61. Roteamento de compilacao SGDK por host e proveniencia LTO (2026-07-29)
+
+Status: `canonical_rule_implemented_and_locally_validated`.
+
+- A compilacao SGDK agora começa por
+  `tools/sgdk_wrapper/select_sgdk_build_route.py`, que registra host,
+  compilador, produtor/LTO de `libmd.a`, rota, blockers e teto de status em
+  `out/logs/sgdk_build_route_report.json`.
+- Linux usa exclusivamente
+  `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh --project-root <projeto>`:
+  staging isolado, executaveis SGDK via Wine e `libmd.a` reconstruida sem LTO
+  pelo compilador empacotado. O SDK canonico de origem nao e mutado.
+- Windows usa `tools/sgdk_wrapper/build.bat <projeto>`. Se a `libmd.a` contiver
+  LTO de major diferente do `gcc.exe`, o build fica bloqueado ate a biblioteca
+  ser restaurada ou reconstruida com o compilador empacotado. A bridge Linux
+  nao e workaround Windows.
+- Regra causal: ResComp e compilacao C aprovados seguidos de falha no link
+  mantem o diagnostico em `toolchain_wrapper`; o agente nao deve editar codigo
+  ou assets sem evidencia de erro nessas camadas.
+- A skill `sgdk-build-wrapper-operator`, seu metadata e o workflow
+  `production-diagnostic-triage` foram curados com a matriz Linux/Windows; o
+  `preflight_host.ps1` materializa e verifica automaticamente o report quando
+  recebe `ProjectRoot`.
+- Enforcement nas entradas: `build_sgdk_wine_bridge.sh` chama o seletor antes
+  do staging, e `build.bat` chama o preflight de rota antes do make. Projeto
+  com `ProjectRoot` e sem Python agora bloqueia, pois nao pode provar a rota.
+- Validacao no MARE_BRAVA: GCC 13.2.0 versus biblioteca canonica LTO 16.1.0;
+  staging GCC 13.2.0 sem LTO; ROM de 262144 bytes, SHA-256
+  `8ed8f28bde41cc4987718079f7584c6d90cbe1cad22a73f1b953857b367a434d`.
+- O resultado prova `buildado_emulator_pending`, nao
+  `testado_em_emulador`, gameplay, performance, audio, hardware ou AAA.
+
+## 62. Curadoria generica de arte, claims, bootstrap e Linux (2026-07-30)
+
+Status: `canonical_framework_rules_validated_with_synthetic_fixtures`.
+
+- O diagnostico de arte separa `source_art` de `active_res_art`. Defeitos em
+  concept, rascunho, contact sheet ou fonte nao referenciada roteiam conversao,
+  mas nao podem contaminar o veredito do grafo `.res` ativo.
+- Largura total de strip/sheet nao e tamanho de frame nem prova de metasprite.
+  O budget deve usar a celula declarada no `.res` e o report do artefato.
+- `sprite_artifact_report.v2` mantem os seis controles obrigatorios: clipping,
+  ilhas soltas, anatomia, pivot, contato de pes e delta entre frames. Passar
+  formato/paleta/grid sem passar esses controles resulta em
+  `technical_pass_visual_fail`.
+- O report tambem compara `required_actions` com os strips declarados. Toda
+  acao prometida para o slice precisa existir no `animation_state_plan`, no
+  artefato visual e no `runtime_animation_timing_map`; caso contrario, deve ser
+  implementada ou removida/reclassificada no contrato.
+- O closeout executa `audit_doc_sync.py`: ROM atual, memoria, changelog,
+  relatorios e claims devem convergir para o menor status comprovado. Historico
+  stale continua auditavel, mas nao pode agir como claim atual.
+- Projeto novo passa por `reset_new_project_state.ps1`: nenhuma ROM, hash,
+  snapshot, aprovacao ou evidencia do modelo e herdada. O nascimento declara
+  explicitamente `buildado: nao`, `testado_em_emulador: nao` e
+  `ready_for_aaa: false`.
+- No Linux, `new_project.sh` restaura o PATH nativo depois de carregar as
+  variaveis SGDK, impedindo que executaveis Wine substituam coreutils. O
+  companion de cenas e recompilado no projeto novo antes da higiene.
+- O bootstrap Python Linux fixa `jsonschema==4.25.1` e `pillow==12.3.0` com
+  hashes e confirma que ambas as distribuicoes foram carregadas do target
+  local do workspace, nao por acaso do Python global.
+- O wrapper Graphify trata `.agent` como diretorio oculto no Unix e compara
+  subpaths com o separador nativo da plataforma; workspace com espacos passou a
+  fechar `agent_environment_status=ready`.
+- Regressao canonica usa apenas fixtures sinteticas e cobre ownership de arte,
+  falso positivo visual, cobertura de acoes, screenshot semantico,
+  reconciliacao documental e roteamento de build. Projetos em amadurecimento
+  nao sao usados como fixture, baseline ou referencia ativa.
+- Limite factual: esta curadoria valida regras e infraestrutura do framework.
+  Nao valida ROM, gameplay, performance, audio, hardware real, release ou AAA
+  de qualquer jogo.
+
+## 63. Inventario transversal de capacidade grafica (2026-08-06)
+
+Status: `documentado_handoff_sem_promocao_canonica`.
+
+- A varredura recursiva de `SGDK_projects/` e `SGDK_Engines/` identificou 10
+  iniciativas graficas, 700 arquivos PNG/GIF/SVG e 166 licoes registradas;
+  `SGDK_Engines/` estava vazio.
+- O relatorio humano vive em
+  `doc/curation/GRAPHICS_CAPABILITY_REPORT_2026-08-06.md`, o inventario
+  machine-readable em
+  `doc/curation/graphics_capability_inventory_2026-08-06.json` e o painel em
+  `doc/curation/evidence/graphics_initiatives_board_2026-08-06.png`.
+- A convergencia mais forte e um pipeline de veto e refinamento: fonte forte,
+  model sheet, key poses, pixel nativo, artifact report, promocao controlada e
+  comparacao source/asset/BlastEm. Quantizacao e build continuam gates
+  tecnicos, nao aprovacao estetica.
+- MARE_BRAVA concentra a rota visual-first mais madura; BLUE_CIRCUIT consolidou
+  `technical_pass_visual_fail` e `sprite_artifact_report.v2`; Celestial Chase
+  visual benchmark consolidou compare-flat, matte gate e baseline seletiva;
+  Hibrido e MUGEN permanecem laboratorios com pendencias explicitadas.
+- As tentativas P1, P2, P3 e P4 do Kirby permanecem evidencia negativa. P4 foi
+  arquivada em
+  `data/archive/p4_2026-08-06_vector_master_anatomy_rejected/` porque limpeza
+  vetorial e conformidade flat nao compensaram anatomia/acting incorretos.
+- Este registro nao altera skills, schemas ou politica canonica e nao promove
+  projeto, asset, ferramenta, ROM, release ou status AAA.
+
+## 2026-08-17 — Diretriz de bloqueio estetico ganhou medicao
+
+Status: `documentado_bloqueio_sem_promocao`.
+
+- A proibicao de grafico procedural como personagem/inimigo/boss/cenario final ja
+  existia em `SGDK_GLOBAL.md` (8.2, 17, 22) e em cinco skills de arte, mas era
+  prosa: o unico detector estatico era `VDP_drawText >= 8 && SPR_addSprite == 0`, e
+  `audit_placeholder_quarantine.ps1` decidia por nome de arquivo e tag declarada.
+- Furo fechado: PNG desenhado por `PIL/ImageDraw` e salvo com nome limpo satisfazia
+  a letra de "consumir arquivo de imagem externo" e violava a diretriz inteira.
+- Contrato novo: `doc/asset_provenance_manifest.json` por projeto, um registro por
+  simbolo visual do `.res`, com `source_kind` e `acceptance_status`. Schema em
+  `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json`.
+- Enforcement novo: `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` casa
+  cada arquivo do `.res` com os builders que o escrevem; manifesto que declara
+  `hand_authored_pixel` para arquivo escrito por builder de primitivas e detectado
+  e bloqueado.
+- Baseline retroativa: 9 projetos auditados, 8 bloqueados, 136 simbolos visuais,
+  78 rastreados a builders de primitiva. Relatorio humano em
+  `doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md`, machine-readable em
+  `doc/curation/asset_provenance_baseline_2026-08-17.json`.
+- Nenhum projeto sustentava `ready_for_aaa=true`; nao houve selo a revogar. O efeito
+  retroativo recai nos tetos de claim (`vertical_slice` em 5, `technical_demo` em 2).
+- `[TECHDEMO]` e `[RELEASE]` entraram em `doc/PADRAO_NOMENCLATURA.md` com a regra
+  explicita de que a tag de pasta e rotulo humano: a autoridade executavel e
+  `context_type` / `delivery_claim_ceiling` / `validator_fixture` no
+  `project_context_manifest.json`.
+- Excecao nomeada: `validator_fixture: true` dispensa asset externo e em troca prende
+  `delivery_claim_ceiling` em `none`/`concept`/`lab`/`exercise`. FORGE_REFERENCE foi
+  o primeiro caso e teve o teto corrigido de `technical_demo` para `lab`.
+- Este registro nao promove projeto, asset, ROM, release ou status AAA.
+
+## 2026-08-17 (fase 2) — Diretriz estetica residente em cada projeto
+
+Status: `documentado_bloqueio_sem_promocao`.
+
+- A diretriz de bloqueio estetico agora mora dentro de cada projeto, em
+  `doc/00-diretrizes-agente.md` (autoridade #4), entre os marcadores
+  `diretriz-bloqueio-estetico v1`, com o estado medido daquele projeto e a lista
+  nominal dos simbolos escritos por builder de primitivas.
+- Injetada em 12 projetos e no template `tools/sgdk_wrapper/modelo/`, portanto
+  projeto novo nasce com a diretriz. `new_project.sh` e `new_project.bat` imprimem
+  a regra e o comando do auditor no bootstrap.
+- Ferramenta idempotente: `tools/sgdk_wrapper/apply_aesthetic_directive.py`;
+  `--check` retorna exit 1 se algum projeto estiver sem diretriz ou desatualizado.
+- Achado sistemico: `tools/image-tools/build_branding_intro_assets.py` desenha por
+  primitiva os 5 simbolos de branding e 8 projetos os consomem como finais. Todo
+  projeto que usa a intro herda 5 violacoes por default; corrigir na fonte resolve
+  os 8. Decisao de curadoria humana, nao tomada nesta sessao.
+- Achado: `SCENE_TILEMAP_CURATION_FIXTURE` nao tem
+  `doc/project_context_manifest.json`, logo nao pode declarar `validator_fixture`
+  nem teto de claim. Manifesto nao foi inventado; exige classificacao humana.
+- Este registro nao promove projeto, asset, ROM, release ou status AAA.
+
+## 2026-08-17 (fase 3) — Causa raiz do procedural e abertura v2
+
+Status: `documentado`.
+
+- Causa raiz encontrada: `doc/15-prompt-telas-assinatura.md`, o prompt mestre das
+  telas de assinatura, mandava o agente entregar fallback procedural ("voce nao pode
+  encerrar dizendo 'falta gerar assets' se ainda pode entregar a estrutura procedural
+  placeholder que compila"). Existia em 10 projetos. Os 78 simbolos procedurais
+  vieram de obediencia, nao de preguica.
+- Prompt do template reescrito como v2 com politica invertida; banner de revogacao
+  inserido nas 10 copias existentes sem alterar o corpo delas.
+- `branding_sequence_v2` autorado no template: conceito "A FORJA", tomada continua de
+  tres atos, 520 quadros NTSC, zero cortes a preto.
+- 28 tecnicas com `registry_id` conferido contra
+  `doc/05_technical/93_16bit_hardware_mastery_registry.json`; 4 rejeitadas com motivo.
+- Diagnostico medido do v1: 0 sprites de 80, 0 de 20 por scanline, PAL2/PAL3 ociosas,
+  nenhum H-Int, Shadow/Highlight nunca ligado — e ainda assim
+  `over_budget_frames: 1` e `cpu_load_max: 401`. O spike vem do upload de HScroll por
+  CPU e dos `VDP_drawImageEx` na troca de fase; o v2 nao tem troca de fase e usa DMA
+  no VBlank. Corrigir isso e o passo 1 da implementacao.
+- Fundamento no template: contrato v2, `inc/scenes/branding_v2.h`, 8 declaracoes `.res`
+  comentadas e prompt de handoff com portao humano depois do model sheet.
+- Nada foi buildado, implementado ou observado em emulador nesta fase.
+
+## 2026-08-17 (fase 4) — Direcao de arte da abertura v2 fechada
+
+Status: `documentado`.
+
+- `doc/branding_v2_art_direction.md` e `doc/art_direction_decision_record.json` no
+  template, com as 6 travas da Visual Quality Bar preenchidas antecipadamente. A
+  direcao esta fechada; o agente de arte preenche apenas campos `execution_*`.
+- Estilo primario `gothic_16bit_dark_fantasy`, secundario `vibrant_16bit_pixel` restrito
+  ao emissivo; `baroque_32bit_gothic_pixel` e `digicel_16bit_animation` rejeitados por
+  `vram_pressure_hint=high`. IDs conferidos contra `art_style_catalog.json`.
+- Decisao central: a forja ilumina de baixo. Plano superior em sombra, face inferior
+  iluminada, sombra subindo, contato com o piso como ponto mais quente. Sombra de metal
+  quente e fria, nunca cinza neutro.
+- Papel de indice de paleta e contrato, hex e seed. `PAL0[9..12]` fecha em ciclo para a
+  rotacao de CRAM; `PAL1[13..14]` fica abaixo do branco para o operador de highlight ter
+  para onde clarear.
+- Model sheet de 5 paineis em 512x384; painel E exige FX a 16x16 real.
+- PENDENCIA HUMANA: `trava_5_art_gameplay_direction_gate` com `needs_human_ruling`. Cena
+  de marca nao tem consequencia jogavel; proposta e `brand_comprehension_consequence`.
+
+## 2026-08-17 (fase 5) — trava_5 aplicada com eixo substituido
+
+Status: `documentado`.
+
+- `brand_comprehension_consequence` aprovado pela curadoria e aplicado. Escopo estrito:
+  cena de marca sem gameplay. Cena jogavel continua obrigada ao eixo canonico; a
+  substituicao nao e rota de fuga.
+- Regra falsificavel: toda tecnica carrega claim + teste negativo + strength, ou e
+  `enabling_discipline`. Tecnica sem classificacao reprova.
+- Enforcement novo: `tools/sgdk_wrapper/validate_brand_comprehension_gate.py`, com os
+  4 blockers `brand_comprehension_*`. Verificado nas duas direcoes: contrato real
+  exit 0, contrato adulterado exit 1 com os 4 codigos.
+- O gate achou problema real na primeira execucao: `xgm2_audio_architecture` sem
+  justificativa. Reclassificado como `enabling_discipline` porque o ID descreve
+  arquitetura de driver, nao afirmacao ao espectador.
+- 24 tecnicas: 15 comprehension_bearing, 9 enabling_discipline. Dois claims marcados
+  `weak` (`column_scrolling`, `expressive_text_presentation_system`) — exigem prova
+  perceptiva no runtime e nao podem ser vendidos como fortes no closeout.
+- Limite declarado: o validador prova que ninguem passou sem justificativa; nao julga se
+  o claim e verdadeiro. Isso segue humano, contra screenshot e visual_vdp_dump reais.
+
+## 2026-08-17 (fase 6) — Diretriz e gate aplicados nos projetos existentes
+
+Status: `documentado`.
+
+- Dois falsos verdes fechados ANTES de aplicar. Primeiro: o gate procurava tecnicas em
+  `acts` (v2) e os projetos usam `screens` (v1) ou um v3 divergente, entao reportaria OK
+  em 10 projetos sem julgar nada. Coleta virou varredura recursiva agnostica de formato,
+  e contrato ativo sem tecnica declarada virou blocker
+  `brand_comprehension_techniques_undeclared`.
+- Segundo: `apply_aesthetic_directive.py` descia so um nivel e deixava o viewer aninhado
+  em `_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer` sem
+  diretriz. Descoberta virou profundidade arbitraria; cobertura 12 -> 13 projetos.
+- Gate aplicado: 11 contratos, 10 bloqueados, 1 isento (BLUE_CIRCUIT declarou o contrato
+  de branding inativo porque foi substituido pela title screen propria).
+- Bloco de diretriz elevado a `diretriz-bloqueio-estetico v2` nos 13 projetos e no
+  template, substituindo o v1 sem duplicar, e agora carregando o eixo
+  `brand_comprehension_consequence` com escopo estrito.
+- A direcao criativa "A FORJA" NAO foi propagada: ficou so no template. BLUE_CIRCUIT e
+  SMOKE_TEST tem identidade de branding propria. Propagou-se a exigencia estrutural, nao
+  o conceito.
+- Higiene: `Celestial Chase Revive/doc/credits_contract.json` nao tem `contract_id`.
+
+## 2026-08-17 (fase 7) — Gate do model sheet construido antes da arte
+
+Status: `documentado`.
+
+- `tools/sgdk_wrapper/validate_model_sheet_contract.py`: 6 checks especificos do contrato
+  do model sheet v2, sem duplicar `art_diagnostic.py` nem `art_quality_gate.py`. O
+  criterio de aceitacao fica medido antes do agente de arte comecar.
+- Convencao adicionada a direcao: paleta do model sheet ordenada como PAL0=0-15,
+  PAL1=16-31, PAL2=32-47, PAL3=48-63. Fora dessa ordem o gate nao pode verificar a folga
+  de highlight nem o ciclo de brasa.
+- Erro meu exposto pela construcao: seeds `0x0630` e `0x0CDD` na direcao de arte usam
+  nibbles impares que nao existem no CRAM de 9 bits. Corrigidos para `0x0620` e `0x0CCC`.
+- Erro meu exposto pelo teste: "ciclo fechado" definido como fechamento contra o maior
+  passo interno e furado — salto interno gigante deixa qualquer fechamento passar, e o
+  fixture aberto passou. Trocado por uniformidade do anel (razao <= 3.0) com deteccao
+  separada de passo morto.
+- Verificado nas duas direcoes com fixtures sinteticas em scratchpad.
+
+## 2026-08-17 (fase 8) — Primeira entrega de arte revisada: rework
+
+Status: `documentado`.
+
+- O agente de arte entregou `model_sheet_forge_v01.png`. A rota de proveniencia
+  funcionou: `assemble_model_sheet.py` tem zero primitivas (crop/resize/paste/chroma
+  key/remap), fontes autorais em `raw/` com sha256 por painel em
+  `model_sheet_lineage.json`. Gate de contrato exit 0.
+- O agente declarou `visual_quality_bar_1994: no_not_yet` sozinho. A politica de parada
+  honesta que substituiu o mandato de fallback procedural produziu o comportamento
+  pretendido na primeira entrega.
+- Revisao `rework` em `doc/model_sheet_review_v01.md`. Blockers: wordmark do painel D
+  iluminado por cima, em paleta fria em vez da rampa de ferro de PAL1 e sem marca
+  assimetrica; martelo do painel A tambem iluminado por cima dentro do painel que existe
+  para provar a luz inferior; 4 quadros de brasa que nao formam rotacao; 4 estilhacos que
+  ja sao espelhos entre si e colapsam o flip H/V.
+- A lei da luz de baixo funciona no painel A: esse e o nucleo da direcao e ele passou.
+- Correcao minha: especificar o painel B como "preto sobre transparente" era aperto sem
+  ganho. Preto sobre branco e convencao de estudio e le igual. Direcao relaxada.
+- Registrar que folga de highlight e ciclo de brasa passam porque o gate le a tabela de
+  paleta do PNG, nao o painel C. Perder os rotulos do painel C custa revisao humana, nao
+  verificacao mecanica.
+
+## 2026-08-30 — Visual Forge: memoria canonica do diagnostico e execucao
+
+Status: `documentado`; implementacao ainda nao iniciada por este registro.
+
+- Diagnostico, inventario de ferramentas, falhas do conversor atual, arquitetura
+  de duas rotas, plano P0-P3 e matriz de testes foram persistidos em
+  `doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md`.
+- Prompt operacional completo foi persistido em
+  `doc/prompts_modelo/prompt_mestre_visual_forge_e_mare_brava_aaa.md`.
+- Decisao canonica: GUI/pointer automation nao pode ser dependencia do core.
+  A suite deve ser CLI, deterministica, retomavel, atomica, cacheada por hash e
+  incapaz de sobrescrever fonte ou promover automaticamente para `res/`.
+- Duas rotas permanecem separadas: `technical_conversion` gera conformance e
+  controle `basic`; `assisted_native_translation` produz `elite` preservando
+  identidade. `technical_pass`, `visual_pass`, `budget_pass` e `emulator_pass`
+  sao eixos independentes.
+- Biblioteca de cor unica deve separar CRAM/vdp_code, RGB de autoria
+  `{00,22,44,66,88,AA,CC,EE}` e RGB de display; RGBA4444 nao substitui paleta
+  VDP.
+- P0 bloqueia Lanczos, RGBA final, PLTE inflada, composicao sobre preto,
+  overwrite in-place e testes que aceitam esses comportamentos.
+- Primeira aplicacao e MARE_BRAVA. O projeto recebeu
+  `doc/contracts/visual_toolchain_reconciliation_v01.json` e
+  `doc/23-visual-forge-adoption-plan.md`.
+- As fontes 1086x1448 da TAÍNA sao artisticamente aprovadas como referencias,
+  nao assets runtime. Ainda nao existe lineart 48x64 aprovada.
+- Nenhum claim foi promovido por esta documentacao: ferramenta e jogo continuam
+  pendentes de implementacao, testes e evidencia.
+
+## 2026-08-30 — Curadoria CLI-first e persistencia causal
+
+Status: `implementado_e_testado_no_escopo_tecnico`; sem claim visual/AAA.
+
+- Criado `tools/sgdk_wrapper/.agent/workflows/causal-persistence-loop.md` como
+  owner transversal de blocker repetido, troca de rota e parada crítica.
+- Operação determinística por screenshot/ponteiro passou a ser
+  `interaction_channel_mismatch`; GUI automatizada não é rota de produção.
+- `forge_art.gimp_batch` implementa preflight GIMP 3 headless com processo sem
+  shell, perfil XDG isolado, timeout, schema fechado e rejeição de operação
+  arbitrária.
+- Preflight local: GIMP 3.2.4, `python-fu-eval`, sentinel observado, exit 0.
+  Existem zero operações GIMP de produção registradas; GIMP continua opcional.
+- `forge-art self-check` passou 107/107; `test_art_pipeline.py` passou 116/116;
+  auditor isolado do forge-art passou 1/1.
+- A hierarquia de ferramentas ficou: forge-art para VDP/indexação,
+  Pillow/ImageMagick para mecânica, GIMP batch para operação GIMP/GEGL curada e
+  produtor visual capaz para tradução semântica.
+- Plano compartilhado, prompt mestre, plano do MARE_BRAVA, contrato de
+  reconciliação, memory bank e changelog foram sincronizados com hashes novos.
+- TAÍNA continua sem lineart nativa aprovada; nenhum `res/`, build ou ROM foi
+  promovido por esta curadoria.
+
+## 2026-08-30 — Curadoria canônica de produção de sprites nativas
+
+Status: `implementado_e_testado_no_escopo_de_orquestracao`; sem claim visual,
+ROM ou AAA para projeto específico.
+
+- A regressão observada em MARE_BRAVA foi generalizada como falha de processo:
+  o agente confundia fonte visual forte, redução mecânica e autoria nativa,
+  otimizava conformidade antes de legibilidade e não possuía gate explícito de
+  escala/densidade.
+- Criada a skill `art/native-sprite-production` e o workflow
+  `native-sprite-production-loop.md` para qualquer projeto SGDK. Eles separam
+  `identity_source`, `visual_producer_output`, `mechanical_scale_probe`,
+  `native_author_output` e `runtime_asset`.
+- Criados schema e validador `validate_native_sprite_production.py`. O gate
+  rederiva hash, dimensões, modo, alpha, paleta e pixel contract; probes jamais
+  compram aprovação visual ou promoção.
+- A revisão nativa exige evidência do mesmo hash em 1x, nearest ampliado, fundo
+  claro e fundo escuro. O validador rederiva as três transformações e a
+  aprovação humana cita o SHA-256 exato. Contagem de cores é medida, nunca
+  estimada por olhar.
+- O loop causal ganhou `scale_density_mismatch`: escala `locked` exige nova
+  autoria no grid; escala `provisional` exige comparação medida; mudança de
+  câmera, hitbox ou workload abre gate humano somente depois do budget.
+- Geração por IA continua válida como produtora visual. RGB/high-res é
+  `visual_source`; `forge-art convert` sozinho é controle/probe. Uma saída pode
+  ser adotada como `assisted_native_translation` depois de fidelidade, leitura
+  1x, escala, budget e aprovação humana independentes; o job técnico não compra
+  essa promoção.
+- A skill foi registrada no lifecycle, no framework manifest e no pipeline AAA.
+  O claim permanece limitado ao funcionamento do processo; nenhuma sprite
+  específica foi canonizada por esta curadoria.
+- Evidência da curadoria: validador de sprite `12/12`, persistência causal
+  `10/10`, forge-art `107/107`, art pipeline `116/116`, lifecycle `passed` e
+  auditor isolado da nova ferramenta `1/1`.
+- O meta-gate global encontrou todas as 14/14 ferramentas com self-check
+  passando, mas mantém `verdict=BLOCKED` por 18 cópias preexistentes de
+  `runtime_probe` em nove projetos. MARE_BRAVA e a nova skill não são a causa;
+  esse blocker não invalida o auditor isolado nem autoriza claim global.
+
+## 2026-09-02 — Curadoria canônica dos princípios e lifecycle de animação
+
+Status: `implementado_e_testado_no_escopo_canonico`; sem alteração de projeto, `res/`, ROM ou
+claim AAA.
+
+- Os 12 princípios clássicos foram adaptados ao Mega Drive como gates
+  transversais, sem score estético automático. Staging, exaggeration, solid
+  drawing e appeal exigem revisão visual humana vinculada ao SHA.
+- Criado um lifecycle global único de 12 etapas. Os antigos 11 passes e P0-P5
+  permanecem como subpasses mapeados, eliminando três ordens concorrentes.
+- `animation_candidate_manifest` passou a declarar `quality_target` e aceitar
+  `animation_principles_report`; o agregado bloqueia cobertura incompleta,
+  método ausente, falso `not_applicable`, hash/action divergente e aprovação
+  artística apenas por automação.
+- A arquitetura distingue sheet `SPRITE` de `TILEMAP` e roteia tilemap/planos/
+  streaming apenas por gatilho real de composição ou hardware.
+- Evidencia: animation validation `10/10`, corpus adversarial `18/18`, schemas e
+  exemplo Draft-07 validos, tres skills em `quick_validate`, measurement gate
+  isolado `4/4`, art pipeline `128/128` e forge-art `126/126`.
+- Teto: curadoria do framework; não prova qualidade de uma animação específica.
+
+## 2026-09-01 — Curadoria canônica de saneamento e portfólio causal de rotas
+
+Status: `implementado_e_testado_no_escopo_de_triagem`; sem claim de arte
+nativa, `res/`, ROM ou AAA.
+
+- `native-sprite-production`, `art-translation-to-vdp`,
+  `visual-excellence-standards` e o workflow nativo passaram a compartilhar o
+  protocolo `source-route-triage-protocol.md`.
+- `forge-art source-audit` bloqueia fonte direta contaminada por checkerboard,
+  sombra de chao, floor line, poeira, fumaça, nuvem, particula, texto,
+  oclusao, pose sobreposta ou extremidade cortada. O arquivo pode sobreviver
+  como referencia segura, mas nao compra traducao de pixels escondidos.
+- `forge-art route-shootout` executa rotas aplicaveis sob o mesmo source,
+  matte, target, anchor e canvas; cada output liga hashes, backend, versao,
+  algoritmo e parametros. GIMP GUI continua proibido e rotas indisponiveis
+  ficam skips explicitos.
+- `route_prior_registry.json` separa prior preferido, challenger, experimento,
+  controle negativo e host-optional por classe de fonte. O caso full-body
+  orienta essa classe; nearest continua correto para escala inteira de pixel
+  art nativa.
+- Nenhum filtro produz sprite nativa. O handoff correto e
+  `native_reauthoring_over_<route>_guide`; spans/primitivas, recolor semantico,
+  falso lineart, near-duplicate e rotulo sem causalidade sao vetados.
+- Evidencia: `forge-art self-check` 119/119, art pipeline 128/128, tres skills
+  passaram `quick_validate`; o shootout E2E exercitou Pillow, ImageMagick e
+  OpenCV sem escrever em `res/` e sem vencedor automatico.
+
+## 2026-09-01 — Linhagem de lineart por estado na animacao
+
+Status: `implementado_e_testado_no_contrato`; sem claim de asset, ROM ou AAA.
+
+- Novas strips usam `animation_strip_contract` 2.x e vinculam acao, key poses
+  e SHA-256 da lineart nativa aprovada em `state_lineart_lineage`.
+- O shootout escolhe um guia causal antes da autoria; filtro, matte, escala ou
+  produtor nao podem variar independentemente por frame.
+- Contratos 1.x continuam aceitos como legado com aviso, evitando invalidar
+  projetos existentes; nao sao modelo para producao nova.
+- Schema, exemplo, `validate_strip.py`, `sprite-animation`,
+  `native-sprite-production` e workflow nativo foram reconciliados.
+- Evidencia: contract pack passou, validator self-check passou, as duas skills
+  passaram quick validation e lifecycle terminou com `status=ok`.
+
+## 2026-09-02 — Curadoria contra falsa animacao e gate humano prematuro
+
+Status: `implementado_e_testado_no_escopo_canonico`; nenhum projeto, `res/`,
+ROM ou asset foi promovido pela curadoria.
+
+- O forward-test de Kirby r1 revelou um falso verde reproduzivel: uma unica
+  pose foi reduzida/deslocada quatro vezes e rotulada como fases de idle, run e
+  inhale. Lineart era contorno procedural, contatos eram coordenadas declaradas
+  e o report dos 12 principios nao estava valido/vinculado.
+- `validate_motion_semantics` 1.1.0 agora reprova pose unica mascarada como
+  animacao, probe afim como movimento, lineart procedural declarada nativa e
+  contato de apoio sem medicao no artefato ou anotacao hash-bound.
+- `validate_animation_candidate` 1.2.0 revalida esses invariantes no agregado,
+  rejeita report de movimento anterior ao gate vigente e tipos de evidencia dos
+  principios fora do schema.
+- `animation_strip_contract` passou a declarar autoria/derivacao/aprovacao da
+  lineart e metodo de medicao do apoio. O corpus adversarial cresceu para 25
+  blockers.
+- Criada a politica `deferred_nonpromotional_review`: quando o usuario pede
+  forward-test continuo, o agente continua rework e prototipos reversiveis em
+  staging sem simular aprovacao humana, promover para `res/` ou elevar claim.
+- Revalidacao do pacote Kirby v03 r1 agora reprova corretamente com
+  `single_pose_affine_animation_masquerade`,
+  `native_lineart_authorship_unproven`, `native_lineart_approval_unbound` e
+  `support_contact_not_artifact_bound`; o agregado tambem invalida reports de
+  movimento antigos e blockers contratuais ainda abertos.
+- Evidencia: animation validation 10/10, fixtures 25/25, tres skills em
+  `quick_validate`, ferramentas modificadas 1/1 isoladamente, art pipeline
+  128/128 e forge-art 126/126.
+
+## 2026-09-02 — Fechamento de autoria raster e claim semântico de animação
+
+Status: `implementado_e_testado_no_escopo_canonico`; o pacote Kirby v04 foi
+somente fixture negativa e nenhum arquivo de projeto ou `res/` foi alterado.
+
+- O forward-test v04 revelou um segundo falso verde: frames descritos como
+  nativos eram matrizes ASCII 16x16 expandidas 2x, linearts vinham do contorno
+  automático da máscara e o contrato nem passava no schema canônico.
+- Contrato v3 agora exige `production_provenance`, bitmap autoral persistido e
+  record de produtor hash-bound. `procedural_primitive` e
+  `procedural_code_probe` não compram autoria nativa.
+- Os validadores passaram a aplicar o schema embutido sem dependência opcional,
+  detectar replicação inteira 2x/3x/4x, ler o status real da aprovação da
+  lineart e exigir reconhecimento visual cego antes de
+  `motion_semantic_candidate`.
+- Revalidação real do idle v04 bloqueou por
+  `animation_strip_schema_invalid`, `native_pixel_integer_scale_masquerade`,
+  `native_lineart_approval_status_invalid` e
+  `animation_production_provenance_missing`; o agregado caiu para claim `none`.
+- Evidência: três self-checks canônicos passaram, animation validation `10/10`,
+  corpus adversarial `30/30`, exemplo v3 válido, skill em `quick_validate` e
+  art pipeline `128/128`.
+## 2026-09-04 — Workset visual, congelamento e autoria procedural reclassificada
+
+Status: `testado`; nenhuma arte, `res/`, runtime ou ROM foi promovida por esta
+curadoria.
+
+- O caso Kirby Cloude v11 foi congelado como estudo positivo/negativo após a
+  produção confundir histórico alcançável, probe técnico e autoria nativa.
+- `visual_workset_manifest` passou a declarar `active_epoch`, únicas fontes
+  elegíveis, referências sem direito a pixels, raízes/roles proibidos e estado
+  `frozen_case_study`.
+- `forge-art native-edit`, por partir de canvas vazio e escrever pixels por
+  coordenadas/runs, foi corrigido para `procedural_code_probe`; nunca mais
+  sustenta `native_candidate`, `hand_authored_pixel` ou promoção.
+- `convert`, `route-shootout` e `native-edit` consultam o workset quando ele
+  existe. Projeto congelado falha fechado antes da produção.
+- O auditor de proveniência agora valida o manifesto contra o schema integral;
+  enum inventado ou campo desconhecido não concede proveniência.
+- `art_diagnostic.py` ganhou modo padrão `active_only`; archive, staging,
+  rejeitados e superseded deixam de aparecer como candidatos, e listas extensas
+  são resumidas. `--include-history` permanece disponível para forense.
+- Autoridade de qualidade, formato técnico, estrutura de movimento, semântica
+  visual e autoria continuam gates independentes.
+- Provas de fechamento: `forge-art` 136/136, pipeline de arte 133/133,
+  `native-edit` físico 11/11, self-check de proveniência aprovado, workset
+  congelado válido e cinco skills aprovadas por `quick_validate.py`. Ataques
+  reais por `native-edit`, `convert` e `route-shootout` foram recusados com
+  `visual_production_frozen`; nenhum diretório de produção foi criado.
+
+
+### Auditoria de capacidade AAA E2E — 2026-09-07
+
+- Pedido: diagnostico profundo do Forge frente a referencias Mega Drive e plano registrado; sem implementar as correcoes propostas.
+- Documento: [diagnostico e plano](diagnostics/2026_09_06_aaa_e2e/diagnostico_e_plano_aaa_e2e.md). Inventarios, hashes e logs no mesmo diretorio.
+- Resultado: capacidade AAA ponta a ponta nao demonstrada; nenhuma ROM executada ou promovida nesta auditoria.
+- Medicao: 19/19 self-checks centrais passaram; meta-gate BLOCKED por 23 copias/fontes ativas divergentes. Roteador 44/44, harness 71/71 e contratos de fixture 10/10 passaram via uv com jsonschema.
+- Registry observado: 114 entradas, nenhuma marcada blastem_proven/senior_default; isso nao apaga provas locais fora do registro.
+- Prioridades: instrumentos/evidencia e CI confiaveis; slice autoral integrado; repetibilidade e percurso completo. Corrigir chave de cache SDK e acoplamento de caminho Linux em mudancas futuras delimitadas.
+- Revisao independente incompleta: hardware interrompido pelo servico; envelopes/conselho nao integralmente validados. Apontamentos usados no diagnostico foram conferidos localmente; nao ha aprovacao independente de produto.
+- Preservadas alteracoes preexistentes. Este registro nao atualiza automaticamente o estado dos projetos nem a contagem historica 13/13.
+
+
+## Curadoria autorizada — 2026-09-07 — proficiencia e cadeia Linux
+
+Pedido humano: implementar diagnostico E2E e adaptar referencias visuais/sonoras
+a este host. Implementacao, limites e testes em
+`doc/diagnostics/2026_09_07_proficiency/implementation_report.md`.
+
+- CI de recursos exige fixture existente e falha sem alvo; runner Linux E2E
+  independente passou em FORGE_REFERENCE com build, BlastEm e FREF observados.
+- 349 amostras, zero violacoes, ROM `79020498f34d0ca4b8d2907659c82d4f605c77ecf5a8a650a09e478c1002f337`.
+- SDK fingerprint por conteudo, parametros e bridge; alias por workspace e
+  lock sem FD herdado por Wine. Cold build teve hang preservado nos logs;
+  nao declarar portabilidade total nem confiabilidade de cold start provada.
+- Nova skill megadrive-music-composition + partitura PSG -> VGM -> XGM2
+  testada NTSC/PAL. Nao implementa arranjo FM completo nem prova mix em jogo.
+- Adaptacao pixel-art usa forge-art e traducao nativa existentes. Suites de
+  arte 135/135, audio 15/15, contratos 10/10; skill passou quick_validate.
+- Meta-gate 19/19 self-checks, mas 23 divergencias ativas persistem com diffs.
+  Nenhuma .agent local foi sobrescrita; nenhuma ROM antiga foi recertificada
+  por copia de instrumento. MARE_BRAVA continua piloto recomendado, sem
+  promocao de qualidade visual/sonora ou ready_for_aaa.
+
+
+### Atualizacao vigente — 2026-09-08
+
+A execucao E2E 20260907T203646582966Z recompilou libmd e ROM na mesma
+sessao Flatpak/Wine e passou no BlastEm. FREF: frame 360, 319 amostras,
+zero violacoes e observed/required=7. O hang de cold build relatado acima
+e historico anterior a essa correcao/prova, nao blocker vigente deste recorte.
+Report detalhado e bundle em `doc/diagnostics/2026_09_07_proficiency/implementation_report.md`.
+CI ampla continua bloqueada por .agent local 2026.06.19 com architecture_drift;
+a cura de caminhos ausentes preservou todo arquivo existente.
+23 divergencias de instrumentos, integracao do piloto e qualidade de jogo
+completo continuam pendentes. Nenhuma promocao AAA.
+
+
+### Curadoria incremental HAMOOPIG — 2026-09-18
+
+Pedido humano explicito autorizou assimilacao instrucional durante projeto incompleto. Referencia canonica: `tools/sgdk_wrapper/.agent/references/hamoopig_engine_learning_2026_09_18.md`. Oito principios: identidade de evento, alcance apos pushbox, adiamento de upload, owners/aliases, transicao transacional, unidades de probe, cobertura observada e streaming comprovado. Quatro skills existentes receberam roteamento; sem skill duplicada, alteracao de runtime ou promocao MESTRE/AAA. Fonte e trilha: `SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/curation/2026_09_18/`. 33 testes host, self-check HPRB, 84 schemas e quatro validacoes individuais passaram. Framework geral tem falhas preexistentes; comparar baseline/pos-curadoria. Higiene do projeto permanece bloqueada. Nao transportar limites 100/588/864 nem tratar 36 probes como 36 partidas aprovadas.
+
+
+### Unificacao de historicos e higienizacao do workspace — 2026-09-23
+
+PR #6 (merge `c058fe59`) uniu com `--allow-unrelated-histories` a linhagem
+`codex/taiketsu-ultra-rebirth-aaa` (160 commits, raiz `923f9a4a`, workspace
+completo) e a main publicada (16 commits, raiz `20467ff4`, wrapper standalone +
+`tools/mugen2sgdk_forge` + `Mugenesis_Demo` do PR #5). Politica: lado codex
+venceu os 177 conflitos add/add (tools/sgdk_wrapper, tools/image-tools, doc/,
+FORGE_REFERENCE, AGENTS.md/CLAUDE.md/README.md/.agents); .gitignore em uniao
+(nenhuma regra exclusiva da main); exclusivos da main preservados sem toque
+(tools/mugen2sgdk_forge, Mugenesis_Demo, scripts/, sgdk_templates/,
+sdk/README.md). O README publico da v0.1.0 foi substituido pelo do workspace;
+recuperavel em `77f7413f`.
+
+Higienizacao da mesma sessao: strays da raiz removidos (`src/` orfao de jun,
+extracao `[ENGINE]/` com o rar alocado em `SGDK_projects/BLAZE_ENGINE.../rascunho/entrada_bruta/`);
+`.gitignore` passou a cobrir `**/rascunho/entrada_bruta/`,
+`**/rascunho/upstream_reference/` e `.zcode/`; inventarios
+`imported_assets_sha256.json` commitados (HAMOOPIG 23 archives + 251 arquivos
+upstream, BLAZE 1 rar, HERO manifestado). Massa externa bruta (189M MUGEN,
+16M snapshot HAMOOPIG) permanece apenas em disco, fora do git, protegida por
+inventario. Trabalho pendente da sessao anterior foi commitado antes do merge:
+gate audiovisual P0 (audiovisual_review 2.6.0, schemas 2.3.0, skills) e sonda
+HAPE no SRAM do HAMOOPIG (`5d4ba8a1`, `c4e41e83`).
+
+Worktrees `.wt-main-pr` e `.wt-mugen2sgdk` removidas apos resgate, para o
+projeto Mugenesis_Demo local, de `res/mugen/ken` (fonte unica do material do
+Ken), 3 conjuntos de ROM buildadas (out, out_prof, out_test) e gerados do
+conversor (mgres_ken, mg_gen). Branches `feat/mugen2sgdk-forge{,-main}`
+deletadas apos verificacao de conteudo identico ao merged. Backup
+pre-operatorio completo em `Sgdk Forge.backup-unificacao-20260923/`
+(bundle todas as refs 1,6G + tar da arvore nao commitada 212M/687 arquivos +
+copia integral do Mugenesis_Demo da worktree 54M).
+
+Pos-unificacao: pasta local em `main`, 14767 arquivos trackados, 36/36 testes
+do conversor mugen2sgdk_forge e 15/15 contratos HAMOOPIG (HAPE +
+audiovisual review) passando na arvore unificada. Nenhuma ROM foi
+recertificada e nenhum claim visual/sonoro novo decorre desta
+reorganizacao; o roadmap de performance do Ken (quadros acima do tempo de
+CPU) segue pendente conforme PR #5.
+
 
 ## 47. Recuperacao da remediacao de conformance (2026-08-02)
 

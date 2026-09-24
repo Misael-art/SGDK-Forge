@@ -1,0 +1,25 @@
+{
+  "lesson_id": "L105",
+  "date": "2026-09-16",
+  "topic": "hud_identity_and_round_stars",
+  "source": "reference_fighting_hud_review_and_runtime_budget",
+  "rom_sha256": "70bd7e57a667e4cedc1c2a56db92f5959b2b43fdfa75a02e436162167d5e9b35",
+  "problem": "O HUD mostrava vida/especial/hits, mas não identificava claramente os lutadores nem expunha vitórias de round; adicionar sprites dedicados aumentaria pressão de SAT e VRAM.",
+  "change": "Nomes RYO/KEN/MUSGO e duas estrelas por jogador foram desenhados nas margens livres do BG_A com a fonte 8x8 existente. A atualização é dirigida por mudança de id/wins, não por polling que reescreva o mapa a cada frame.",
+  "result": "Build `hud_identity_build.log` passou; o novo ROM foi recapturado na matriz P10 (36/36 probes, 35 diretos e um retry), título, KO, transição, áudio e 100 resets. O HPRB manteve 8.024 B DMA, 41 sprites ativos, 60 sprites VDP e 17 sprites/scanline.",
+  "limits": [
+    "a fonte padrão 8x8 é uma solução de baixo custo, ainda requer revisão visual independente de contraste e posicionamento",
+    "não foram criados retratos dedicados nesta etapa; a seleção continua usando previews de metasprites",
+    "Ken permanece no roster, mas sua sequência de golpes/animações continua congelada para a próxima revisão"
+  ],
+  "artifacts": [
+    "src/hud.c",
+    "tests/test_hud_identity_contract.py",
+    "out/logs/hud_identity_build.log",
+    "out/logs/p10_matrix_after_70bd.log",
+    "out/logs/p10_matrix_retry_70bd.log",
+    "out/emulator_evidence/title_return_20260916T031109Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T033649Z/manifest.json"
+  ],
+  "status": "implemented_build_and_probe_revalidated_visual_review_pending"
+}

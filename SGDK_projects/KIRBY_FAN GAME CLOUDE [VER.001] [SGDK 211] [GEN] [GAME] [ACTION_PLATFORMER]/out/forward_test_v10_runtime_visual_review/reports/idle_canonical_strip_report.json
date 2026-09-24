@@ -1,0 +1,62 @@
+{
+  "blockers": [
+    "animation_strip_schema_invalid",
+    "state_lineart_role_invalid",
+    "state_lineart_not_approved_for_strip",
+    "lineart_stroke_over_1px",
+    "native_lineart_approval_status_invalid"
+  ],
+  "metrics": {
+    "frame_boundary_policy": "coordinate_scoped",
+    "frame_count": 2,
+    "frame_mask_sha256": [
+      "b5bb2742963ef35f9f7c9ee05cd2d06fc530317a06ae4883e40b82f15106df06",
+      "9b842d0e68d816def8183cfadb80a36bfb7b8f43b7db4940832ef3ca32058e44"
+    ],
+    "frame_pixel_sha256": [
+      "c11a00a81d891c66c51bd1be452118641f8480a78edfbf8dd7118d9ebcae4ca8",
+      "734ad585ea7b6d56782a87c026f75c08af288a520ca8e3b2ca9cb3ffae56521d"
+    ],
+    "horizontal_order": "ok",
+    "integer_replication_factor_by_frame": [
+      1,
+      1
+    ],
+    "lineart_topology": {
+      "connected_components": 38,
+      "enclosed_negative_space_components": 25,
+      "first_erosion_interior_pixels": 945,
+      "interior_ratio": 0.79746835,
+      "largest_component_pixels": 582,
+      "max_erosion_depth": 11,
+      "mode": "P",
+      "size": [
+        64,
+        32
+      ],
+      "visible_pixels": 1185
+    },
+    "max_bbox_drift_px": 0,
+    "max_pivot_drift_px": 0,
+    "preview_frame_holds_vblank": [
+      30,
+      30
+    ],
+    "production_provenance": {
+      "authored_source_sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+      "producer_kind": "assisted_native_translation",
+      "source_kind": "procedural_composed_from_authored"
+    },
+    "schema_errors": [
+      "$.state_lineart_lineage.lineart_role:const",
+      "$.state_lineart_lineage.approval_status:const"
+    ],
+    "strip_path": "out/forward_test_v10_runtime_visual_review/strips/kirby_idle.png",
+    "strip_sha256": "fa9c2d913fe6b9be41bd98a764a7159289eecb92379c25b82efc1df60007687c"
+  },
+  "status": "error",
+  "tool_name": "validate_strip",
+  "tool_version": "2.1.0",
+  "warnings": [],
+  "strip_sha256": "fa9c2d913fe6b9be41bd98a764a7159289eecb92379c25b82efc1df60007687c"
+}

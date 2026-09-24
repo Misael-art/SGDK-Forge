@@ -35,10 +35,6 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-# Executor real do host; nunca "powershell" literal (ausente no Linux).
-. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
-$script:HostPwsh = Get-PowerShellExecutable
-
 # ---------------------------------------------------------------------------
 # Bootstrap
 # ---------------------------------------------------------------------------
@@ -59,6 +55,7 @@ if ([string]::IsNullOrWhiteSpace($RegressionPath)) {
 $ContractPath = Join-Path $ProjectRoot 'doc\scene-contracts.json'
 $LogDir = Join-Path $ProjectRoot 'out\logs'
 $ReportPath = Join-Path $LogDir 'scene_contract_compile_report.json'
+$SpecRelativePath = [System.IO.Path]::GetRelativePath($ProjectRoot, $SpecPath) -replace '\\', '/'
 
 # ---------------------------------------------------------------------------
 # Artifact envelope
@@ -122,6 +119,39 @@ if (Test-Path -LiteralPath $RegressionPath -PathType Leaf) {
     }
 } else {
     Add-Finding -Code 'CC012' -Message "Regression manifest not found, skipping merge"
+}
+
+# ---------------------------------------------------------------------------
+# Load optional cutscene contracts from doc/contracts
+# ---------------------------------------------------------------------------
+$cutsceneContracts = @{}
+$contractsDir = Join-Path $ProjectRoot 'doc\contracts'
+if (Test-Path -LiteralPath $contractsDir -PathType Container) {
+    foreach ($contractFile in Get-ChildItem -LiteralPath $contractsDir -Filter '*_contract.json' -File -ErrorAction SilentlyContinue) {
+        try {
+            $candidate = Get-Content -LiteralPath $contractFile.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
+        } catch {
+            Add-Finding -Code 'CC071' -Severity 'warn' -Message "Failed to parse cutscene contract candidate $($contractFile.FullName): $($_.Exception.Message)"
+            continue
+        }
+
+        $hasSceneId = $candidate.PSObject.Properties['scene_id'] -and -not [string]::IsNullOrWhiteSpace([string]$candidate.scene_id)
+        $hasCutsceneShape = $candidate.PSObject.Properties['cutscene_mode'] -and
+            $candidate.PSObject.Properties['fsm_script'] -and
+            $candidate.PSObject.Properties['resource_plan']
+
+        if (-not $hasSceneId -or -not $hasCutsceneShape) {
+            continue
+        }
+
+        $cutsceneSceneId = [string]$candidate.scene_id
+        if (-not $cutsceneContracts.ContainsKey($cutsceneSceneId)) {
+            $cutsceneContracts[$cutsceneSceneId] = $candidate
+            Add-Finding -SceneId $cutsceneSceneId -Code 'CC070' -Message "Loaded cutscene contract from doc/contracts/$($contractFile.Name)"
+        } else {
+            Add-Finding -SceneId $cutsceneSceneId -Code 'CC072' -Severity 'warn' -Message "Duplicate cutscene contract ignored: doc/contracts/$($contractFile.Name)"
+        }
+    }
 }
 
 # ---------------------------------------------------------------------------
@@ -364,6 +394,12 @@ foreach ($scene in $sceneMap.Values) {
         $entry['cleanup_required'] = $true
     }
 
+    # Merge optional scene-local cutscene contract.
+    if ($role -eq 'cutscene' -and $cutsceneContracts.ContainsKey($sid)) {
+        $entry['cutscene_contract'] = $cutsceneContracts[$sid]
+        Add-Finding -SceneId $sid -Code 'CC073' -Message "Merged cutscene_contract into compiled scene contract"
+    }
+
     # Merge with regression manifest
     if ($regressionScenes.ContainsKey($sid)) {
         $rs = $regressionScenes[$sid]
@@ -422,7 +458,7 @@ $contract = [ordered]@{
     schema_version  = '1.0.0'
     project_profile = $Mode
     compiled_at     = (Get-Date).ToUniversalTime().ToString('o')
-    compiled_from   = $SpecPath
+    compiled_from   = $SpecRelativePath
     scenes          = @($contractScenes.ToArray())
 }
 
@@ -485,7 +521,14 @@ if (Test-Path -LiteralPath $lintScript -PathType Leaf) {
             '-WarnOnly'
         )
         $lintArgumentList = @('-NoProfile', '-ExecutionPolicy', 'Bypass') + $lintArgs
-        $lintOutput = & $script:HostPwsh @lintArgumentList 2>&1
+        $lintExecutable = Get-Command powershell.exe -ErrorAction SilentlyContinue
+        if ($null -eq $lintExecutable) {
+            $lintExecutable = Get-Command pwsh -ErrorAction SilentlyContinue
+        }
+        if ($null -eq $lintExecutable) {
+            throw 'No PowerShell executable found for scene contract lint.'
+        }
+        $lintOutput = & $lintExecutable.Source @lintArgumentList 2>&1
         foreach ($line in @($lintOutput)) {
             if (-not [string]::IsNullOrWhiteSpace([string]$line)) {
                 Write-Host $line

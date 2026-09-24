@@ -1,0 +1,35 @@
+ {
+   "schema_version": "1.0.0",
+   "scene_id": "combat_cinder_circuit",
+   "status": "technical_candidate",
+   "b_track": "cinder_circuit_arena_psg_candidate_v01",
+   "critical_events": [
+     {
+       "event": "hit_connect",
+       "priority": 12,
+       "owner": "PSG_CH1_or_PCM",
+       "mask_bgm": "duck_lead_6_frames"
+     },
+     {
+       "event": "guard_confirm",
+       "priority": 10,
+       "owner": "PSG_CH2",
+       "mask_bgm": "short_noise_accent"
+     },
+     {
+       "event": "special_connect",
+       "priority": 15,
+       "owner": "PCM_or_PSG_NOISE",
+       "mask_bgm": "duck_all_noncritical_12_frames"
+     },
+     {
+       "event": "round_result",
+       "priority": 13,
+       "owner": "stinger_owner",
+       "mask_bgm": "transition_after_round_freeze"
+     }
+   ],
+   "fallback_plan": "if channels are exhausted, preserve hit/special feedback, drop counter voice, then reduce ambience; never mask a critical cue with BGM.",
+   "runtime_status": "not_observed"
+ }
+ 

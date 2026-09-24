@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "quality_review_plan",
+  "tool": {
+    "name": "quality_review_router",
+    "version": "1.0.0"
+  },
+  "generated_at": "2026-09-06T23:53:47.794248Z",
+  "review_id": "forge_aaa_e2e_20260906",
+  "request_digest": "8d5c36a2cf6d609ebaa29684652655a793bed51b925690010cc3f44c0c4c29e4",
+  "plan_digest": "0ec280c9ac73090eeb73076027d654b7db6b1e302f95bddd2a8f07af0b3fa89e",
+  "review_stage": "pre_growth",
+  "selected_reviews": [
+    {
+      "domain": "code",
+      "owner_skill": "code/sgdk-code-reviewer",
+      "score": 230,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "risk:runtime_risk"
+      ],
+      "model_tier": "balanced",
+      "evidence_requirements": [
+        "code_diff",
+        "build_or_validation_report"
+      ]
+    },
+    {
+      "domain": "hardware",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "score": 300,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "risk:runtime_risk",
+        "risk:hardware_pressure"
+      ],
+      "model_tier": "balanced",
+      "evidence_requirements": [
+        "hardware_report",
+        "rom_when_runtime_claimed"
+      ]
+    },
+    {
+      "domain": "governance",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "score": 230,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "risk:claim_risk"
+      ],
+      "model_tier": "balanced",
+      "evidence_requirements": [
+        "claim_matrix",
+        "fresh_hash_bound_evidence"
+      ]
+    }
+  ],
+  "deferred_domains": [
+    {
+      "domain": "mechanics",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "level_design",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "gameplay",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "audio",
+      "reason": "capacity_limit_review_next_delta"
+    }
+  ],
+  "required_harness_skills": [
+    "code/sgdk-code-reviewer",
+    "governance/aaa-pipeline-guardian",
+    "governance/independent-quality-review",
+    "hardware/megadrive-vdp-budget-analyst",
+    "operation/harness-orchestration"
+  ],
+  "status": "ready",
+  "blockers": [],
+  "claim_ceiling": "quality_review_plan_only"
+}

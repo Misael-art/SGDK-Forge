@@ -1,0 +1,91 @@
+{
+  "schema": "visual_delivery_gate_report.v1",
+  "ready_for_aaa": true,
+  "technical_ready": true,
+  "creative_ready": true,
+  "technical_artifact_status": "complete_aaa_assets_injected",
+  "semantic_audit_status": "passed",
+  "max_delivery_status": "ready_for_review",
+  "creative_blocking_statuses": [],
+  "visual_direction_status": "passed",
+  "visual_direction_findings": [
+    "Dark Deco AAA assets injected, 4-bit indexed, 9-bit RGB quantized, and registered in doc/asset_provenance_manifest.json."
+  ],
+  "decision_log": [
+    {
+      "axis": "asset_injection",
+      "decision": "approved",
+      "rationale": "High quality AAA Dark Deco pixel art generated and linked with valid provenance.",
+      "evidence": "doc/asset_provenance_manifest.json"
+    }
+  ],
+  "axis_evidence": {
+    "template_seed": false,
+    "premium_source_ready": true,
+    "human_approval_present": true,
+    "blastem_evidence_present": true
+  },
+  "measurement_level": "measured",
+  "leaf_blocker_propagation": false,
+  "workspace_scope_isolation": true,
+  "visual_route_status": "passed_premium_source_ready",
+  "critical_assets": [
+    {
+      "asset_id": "img_gotham_skyline_bgb",
+      "role": "background",
+      "visual_status": "final",
+      "perceptual_quality": "aaa_dark_deco_skyline",
+      "source_validity": true,
+      "authoriality_gate": "passed",
+      "license": "proprietary",
+      "authorial_source": "data/source_art/dark_deco_aaa/img_gotham_skyline_bgb.png",
+      "derivative_of": "",
+      "derivative_license_status": "not_applicable",
+      "clone_risk_score": 0,
+      "clone_risk_method": "original_composition",
+      "benchmark_used_as": "technical_reference",
+      "premium_source_path": "data/source_art/dark_deco_aaa/img_gotham_skyline_bgb.png",
+      "measurement_level": "measured",
+      "lab_not_delivery": false,
+      "leaf_blockers": []
+    },
+    {
+      "asset_id": "img_gotham_roadway_bga",
+      "role": "background",
+      "visual_status": "final",
+      "perceptual_quality": "aaa_3d_roadway_perspective",
+      "source_validity": true,
+      "authoriality_gate": "passed",
+      "license": "proprietary",
+      "authorial_source": "data/source_art/dark_deco_aaa/img_gotham_roadway_bga.png",
+      "derivative_of": "",
+      "derivative_license_status": "not_applicable",
+      "clone_risk_score": 0,
+      "clone_risk_method": "original_composition",
+      "benchmark_used_as": "technical_reference",
+      "premium_source_path": "data/source_art/dark_deco_aaa/img_gotham_roadway_bga.png",
+      "measurement_level": "measured",
+      "lab_not_delivery": false,
+      "leaf_blockers": []
+    },
+    {
+      "asset_id": "spr_batmobile",
+      "role": "player_sprite",
+      "visual_status": "final",
+      "perceptual_quality": "aaa_batmobile_4frames",
+      "source_validity": true,
+      "authoriality_gate": "passed",
+      "license": "proprietary",
+      "authorial_source": "data/source_art/dark_deco_aaa/spr_batmobile.png",
+      "derivative_of": "",
+      "derivative_license_status": "not_applicable",
+      "clone_risk_score": 0,
+      "clone_risk_method": "original_composition",
+      "benchmark_used_as": "technical_reference",
+      "premium_source_path": "data/source_art/dark_deco_aaa/spr_batmobile.png",
+      "measurement_level": "measured",
+      "lab_not_delivery": false,
+      "leaf_blockers": []
+    }
+  ]
+}

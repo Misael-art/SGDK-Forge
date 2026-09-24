@@ -30,6 +30,7 @@ Esta skill existe para impedir que fase vire apenas "tilemap + spawn points". To
 5. `enemy_roster.json` da cena ou fase quando existir
 6. `doc/13-spec-cenas.md`
 7. `tools/sgdk_wrapper/.agent/references/head_metric_reference.json` para escala de inimigos
+8. `camera_behavior_contract.json` quando camera ou scroll ja estiverem planejados
 
 ## Entrada minima
 
@@ -37,6 +38,7 @@ Esta skill existe para impedir que fase vire apenas "tilemap + spawn points". To
 - `mechanic_validation_report.json` (para `mechanic_reuse_map`)
 - `level_blueprint.json` da cena alvo
 - GDD/spec
+- `camera_visibility_plan` ou `camera_behavior_seed` quando a fase depender de scroll, plataforma, chase, boss room, queda ou ameaca fora da tela
 - opcional: `enemy_roster.json` da cena
 - opcional: `moodboard_manifest.json`
 
@@ -46,6 +48,7 @@ Esta skill existe para impedir que fase vire apenas "tilemap + spawn points". To
 - `golden_path_review` (waypoint count, landmarks, risk_markers telegraphed)
 - `phase_rhythm_review` (calm/pressure/payoff presente, boss phase, breathing zones)
 - `mechanic_reuse_review` (core mechanics covered, missing core mechanic ids)
+- `camera_readability_review` quando a fase usar camera jogavel
 - opcional: `pattern_break_audit` (vs cena anterior)
 
 ## Golden Path
@@ -75,6 +78,15 @@ O mapa deve escancarar a existencia do perigo e para onde ir, mas nunca a soluca
 - `gates` com `telegraph` declarado
 - `optional_routes` sinalizados por recompensa, nao por arrow
 - o jogador falha por decisao, nao por falta de informacao
+
+## Camera e Legibilidade
+
+Camera e parte do level design, nao apenas runtime. Quando houver scroll jogavel:
+
+- `camera_visibility_plan` declara visao a frente, politica vertical, blind jumps e trigger zones
+- plataformas, quedas, inimigos e hazards precisam entrar no campo visivel antes do ponto de decisao
+- boss room, auto-scroll e room lock exigem trigger claro e saida/reset planejado
+- deadzone e look-ahead devem servir a leitura do desafio, nao apenas suavizar movimento
 
 ## Quebra de Padrao
 
@@ -112,6 +124,8 @@ Toda mecanica core deve ser reutilizada na fase:
 - `level_mechanic_reuse_missing` (criativo)
 - `level_goal_path_unclear` (criativo)
 - `level_risk_untelegraphed` (criativo)
+- `camera_visibility_missing` (criativo)
+- `blind_jump_untelegraphed` (criativo)
 
 ## Passa quando
 
@@ -119,12 +133,14 @@ Toda mecanica core deve ser reutilizada na fase:
 - `phase_rhythm_map` contem `calm` E `pressure` (ou justifica `not_applicable`)
 - `mechanic_reuse_map` cobre todas as core mechanics declaradas no contract
 - `risk_markers` tem `telegraph` declarado
+- camera jogavel possui `camera_visibility_plan` ou contrato equivalente antes do runtime
 - `pattern_break_audit` mostra diferenciacao vs cena anterior (quando aplicavel)
 
 ## Handoff
 
 - para `enemy-design-canonical`: entregar `level_blueprint.json` para que inimigos sejam posicionados
 - para `multi-plane-composition`: entregar `golden_path` + `narrative_environmental_map` para composicao visual
+- para `scene-state-architect`: entregar `camera_visibility_plan` quando houver camera owner/triggers
 - para `xgm2-audio-director`: entregar `phase_rhythm_map` com `audio_state` por phase
 - para `sgdk-runtime-coder`: entregar `level_design_report.json` + `waypoints` + `gates` para implementacao
 
@@ -135,6 +151,8 @@ Toda mecanica core deve ser reutilizada na fase:
 - mecanica core declarada mas nunca usada na fase
 - mesma paleta e mesmo ritmo da fase anterior
 - golden path sem landmarks visuais (jogador perdido sem texto)
+- blind jump, inimigo ou hazard que so aparece depois do compromisso de movimento
+- boss room ou auto-scroll sem camera trigger e plano de reset
 - narrativa ambiental que exige texto explicativo
 
 ## Senior Competencies
@@ -144,3 +162,4 @@ Toda mecanica core deve ser reutilizada na fase:
 - `narrative_through_environment` - historia contada por cenario, luz, destruicao
 - `mechanic_density` - core mechanics aparecem com frequencia suficiente para serem dominadas
 - `pattern_break_audit` - cada cena introduz variacao detectavel
+- `camera_readability` - camera mostra decisao antes do risco e nao transforma desafio em surpresa injusta

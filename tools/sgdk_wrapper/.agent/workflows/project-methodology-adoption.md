@@ -78,9 +78,8 @@ runtime metrics nao criam claims automaticamente.
 
 ## Passo 3a. Fechamento pre-runtime para `aaa_game`
 
-Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`. Use como gate
-proporcional para jogos AAA/vertical slice; nao aplique como burocracia em
+Regra generalizada de fechamento pre-runtime. Use como gate proporcional para
+jogos AAA/vertical slice; nao aplique como burocracia em
 `exercise`, `technical_demo` pequeno, `consulting` ou `game_review`.
 
 Antes de abrir runtime jogavel, o agente deve verificar se o pacote de specs

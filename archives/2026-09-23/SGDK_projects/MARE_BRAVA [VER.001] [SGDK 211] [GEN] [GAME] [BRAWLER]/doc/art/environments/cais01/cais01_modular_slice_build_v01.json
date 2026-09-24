@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "cais01_modular_slice_build_v01",
+  "generated_at": "2026-07-29",
+  "status": "buildado_runtime_observed_partial_closeout_blocked",
+  "scene_id": "cais_01",
+  "route": "level_art_modular_assembly",
+  "forbidden_shortcuts_used": [],
+  "source_direction": "data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png",
+  "shared_canvas": {
+    "width": 320,
+    "height": 224
+  },
+  "layers": {
+    "bg_b": {
+      "role": "dusk_sky_distant_industry_and_four_sea_bands",
+      "path": "rascunho/cais01_modular_slice_v01/cais01_bg_b_mar_ceu_320x224_v01.png",
+      "palette_domain": "PAL0",
+      "tiles_total": 1120,
+      "tiles_unique_exact": 95
+    },
+    "bg_a": {
+      "role": "pier_edge_walkable_deck_and_modular_props",
+      "path": "rascunho/cais01_modular_slice_v01/cais01_bg_a_pier_modular_320x224_v01.png",
+      "palette_domain": "PAL2",
+      "tiles_total": 1120,
+      "tiles_unique_exact": 120,
+      "ring_out_signal": "dark_water_plus_pale_foam_at_right_edge"
+    }
+  },
+  "resident_estimate": {
+    "unique_tiles_exact_total_before_rescomp": 215,
+    "bytes": 6880,
+    "measurement_level": "offline_exact_tile_hash_no_flip_dedup"
+  },
+  "review": "doc/art/environments/cais01/review/cais01_modular_slice_virtual_proof_v01.png",
+  "promoted_paths": [
+    "res/backgrounds/cais01/cais01_bg_b_mar_ceu_320x224_v01.png",
+    "res/backgrounds/cais01/cais01_bg_a_pier_modular_320x224_v01.png"
+  ],
+  "delivery_findings": [
+    "locked-room first slice only; BG_A streaming world not yet built",
+    "foreground occlusion and foam animation remain future modules",
+    "runtime and ResComp measurements required before any final status"
+  ]
+}

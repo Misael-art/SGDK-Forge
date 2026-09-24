@@ -1,0 +1,167 @@
+[
+  {
+    "test": "tests/test_clock_transparency.py",
+    "exit_code": 0,
+    "output": "PASS: clock background masked to PAL1 index 0 with shared HUD palette\n"
+  },
+  {
+    "test": "tests/test_combat_event_contract.py",
+    "exit_code": 0,
+    "output": "PASS: bounded combat event ledger records source instances and resets per tick\n"
+  },
+  {
+    "test": "tests/test_combat_semantics_route_contract.py",
+    "exit_code": 0,
+    "output": "PASS: rota sem\u00e2ntica P04 preserva dire\u00e7\u00e3o, bot\u00f5es e escopo de telemetria\n"
+  },
+  {
+    "test": "tests/test_combo_contract.py",
+    "exit_code": 0,
+    "output": "PASS: combo events are counted once, expire after 60 ticks, and stay per-player\n"
+  },
+  {
+    "test": "tests/test_dma_backpressure_contract.py",
+    "exit_code": 0,
+    "output": "PASS: fighter DMA back-pressure and transient HUD CPU writes\n"
+  },
+  {
+    "test": "tests/test_health_contract.py",
+    "exit_code": 0,
+    "output": "PASS: both players, 192 lethal transitions, no repeated launch, healing clamp, all HUD health values\n"
+  },
+  {
+    "test": "tests/test_health_event_contract.py",
+    "exit_code": 0,
+    "output": "PASS: health damage is queued once per event, consumed for HIT/GUARD, and keeps the legacy fallback\n"
+  },
+  {
+    "test": "tests/test_hprb_event_probe_contract.py",
+    "exit_code": 0,
+    "output": "PASS: round-trip, schema legado, truncamento, schema/size cruzado, assinatura, samples zero/saturado, picos de frames distintos, scanline saturada\nPASS: HPRB schema 6 exports combat event telemetry without breaking legacy schemas\n"
+  },
+  {
+    "test": "tests/test_hprb_screen_height_contract.py",
+    "exit_code": 0,
+    "output": "PASS: HPRB schema 7 exports screen height and preserves schema 6\n"
+  },
+  {
+    "test": "tests/test_hsem_probe_contract.py",
+    "exit_code": 0,
+    "output": "PASS: HSEM decoder self-check\nPASS: HSEM decoder contrato e fixtures v\u00e1lidos\n"
+  },
+  {
+    "test": "tests/test_hud_identity_contract.py",
+    "exit_code": 0,
+    "output": "PASS: nomes e estrelas usam margens do HUD sem sprites adicionais\n"
+  },
+  {
+    "test": "tests/test_hud_message_transparency.py",
+    "exit_code": 0,
+    "output": "PASS: ROUND/FIGHT/KO leave the stage visible; result prompt keeps a bounded panel\n"
+  },
+  {
+    "test": "tests/test_hud_segment_contract.py",
+    "exit_code": 0,
+    "output": "PASS: HUD segment uses SGDK index-0 transparency and shared PAL1 yellow index 2\n"
+  },
+  {
+    "test": "tests/test_ko_defeat_contract.py",
+    "exit_code": 0,
+    "output": "PASS: KO congela deslocamento no settle, limita posi\u00e7\u00e3o e mant\u00e9m pose terminal do Musgo\n"
+  },
+  {
+    "test": "tests/test_p10_evidence_integrity.py",
+    "exit_code": 0,
+    "output": "PASS: 36 P10 cases have current-ROM manifest evidence\n"
+  },
+  {
+    "test": "tests/test_p10_runner_contract.py",
+    "exit_code": 0,
+    "output": "PASS: P10 runner binds each case to fresh ROM/manifest evidence\n"
+  },
+  {
+    "test": "tests/test_p11_isolated_reproduction_contract.py",
+    "exit_code": 0,
+    "output": "PASS: manuais P11 e reprodu\u00e7\u00e3o isolada possuem contrato m\u00ednimo\n"
+  },
+  {
+    "test": "tests/test_qa_matrix_contract.py",
+    "exit_code": 0,
+    "output": "PASS: P10 enumerates 36 ordered matchup cases without false completion\n"
+  },
+  {
+    "test": "tests/test_scene_contract.py",
+    "exit_code": 0,
+    "output": "PASS: commit unico por tick, primeiro pedido vence, gFrames zerado pelo gerenciador, nenhum produtor escreve gRoom nem gFrames a mao, abertura consome a borda do skip, duracoes em ticks logicos\n"
+  },
+  {
+    "test": "tests/test_scene_reset_cycles_contract.py",
+    "exit_code": 0,
+    "output": "PASS: 100-cycle scene reset stress route keeps round-reset claim bounded\n"
+  },
+  {
+    "test": "tests/test_special_bar_contract.py",
+    "exit_code": 0,
+    "output": "PASS: especial clamp 0..32, oito c\u00e9lulas BG_A, sem sprites extras\n"
+  },
+  {
+    "test": "tests/test_special_event_contract.py",
+    "exit_code": 0,
+    "output": "PASS: special meter delta is queued on HIT, consumed once, clamped, and disabled by rules\n"
+  },
+  {
+    "test": "tests/test_stage2_palette.py",
+    "exit_code": 0,
+    "output": "PASS: Stage 2 512x256, opaque 9-bit palette and 864-tile ceiling\n"
+  },
+  {
+    "test": "tests/test_stage_definition_contract.py",
+    "exit_code": 0,
+    "output": "PASS: StageDefinition centraliza dimensoes, limites, recurso e nome dos dois palcos\n"
+  },
+  {
+    "test": "tests/test_stage_palette.py",
+    "exit_code": 0,
+    "output": "PASS: opaque indices 1..14, 9-bit palette, source/output binding, 864-tile report\n"
+  },
+  {
+    "test": "tests/test_stage_selection_contract.py",
+    "exit_code": 0,
+    "output": "PASS: stage2 selecion\u00e1vel por P1, ramo gfx_showdown/gfx_bgb2 e toggle\n"
+  },
+  {
+    "test": "tests/test_stage_streaming_contract.py",
+    "exit_code": 0,
+    "output": "PASS: camera windows measure 864 global tiles and a bounded 588-tile preload peak\n"
+  },
+  {
+    "test": "tests/test_stage_vram_budget.py",
+    "exit_code": 0,
+    "output": "PASS: safe Showdown tile ceiling remains guarded; 864-tile candidate fits measured runtime envelope\n"
+  },
+  {
+    "test": "tests/test_throw_window_contract.py",
+    "exit_code": 0,
+    "output": "PASS: throw uses the 0..100 close-range window before normal Y attack\n"
+  },
+  {
+    "test": "tests/test_timeover_contract.py",
+    "exit_code": 0,
+    "output": "PASS: 9216 health pairs; draw awards no point; correct winner; no repeated award; nonzero clock ignored\n"
+  },
+  {
+    "test": "tests/test_timing_contract.py",
+    "exit_code": 0,
+    "output": "PASS: NTSC 1/frame, PAL 1,1,1,1,2, 600 ticks em 10 s nas duas regioes, sem deriva em 5 min, teto por frame respeitado\n"
+  },
+  {
+    "test": "tests/test_title_menu_contract.py",
+    "exit_code": 0,
+    "output": "PASS: itens do menu, ciclo de vida, entrega via gerenciador, sem auto-advance, fases de carga/fade/ativo, abertura separada e PAL1 no fade\n"
+  },
+  {
+    "test": "tests/test_title_return_contract.py",
+    "exit_code": 0,
+    "output": "PASS: INTRO/FADE possuem toggles, retorno real e evid\u00eancia de emulador\n"
+  }
+]

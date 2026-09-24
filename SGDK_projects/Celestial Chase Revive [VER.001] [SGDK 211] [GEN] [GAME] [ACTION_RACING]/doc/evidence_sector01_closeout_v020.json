@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-19",
+  "status": "sealed",
+  "rom": {
+    "path": "out/rom.bin",
+    "sha256": "4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e",
+    "size_bytes": 131072
+  },
+  "routes": {
+    "title_opening": {
+      "manifest": "out/evidence/blastem/scenes/title_opening/scene_manifest.json",
+      "title": "out/evidence/blastem/scenes/title_opening/title.png",
+      "opening": "out/evidence/blastem/scenes/title_opening/opening.png",
+      "scene_id": 2,
+      "observed_input": "0x0080"
+    },
+    "success": {
+      "manifest": "out/evidence/blastem/routes/success/route_manifest.json",
+      "screenshots": [
+        "out/evidence/blastem/routes/success/race_start.png",
+        "out/evidence/blastem/routes/success/jump_active.png",
+        "out/evidence/blastem/routes/success/race_mid.png",
+        "out/evidence/blastem/routes/success/pulse_active.png",
+        "out/evidence/blastem/routes/success/beacon_approach.png",
+        "out/evidence/blastem/routes/success/result_complete.png",
+        "out/evidence/blastem/routes/success/title_return.png"
+      ],
+      "sram": "out/evidence/blastem/routes/success/save.sram",
+      "vdp_dump": "out/evidence/blastem/routes/success/visual_vdp_dump.bin",
+      "sector_cleared": true,
+      "current_scene_id": 1,
+      "observed_input": "0x00D3"
+    },
+    "failure": {
+      "manifest": "out/evidence/blastem/routes/failure/route_manifest.json",
+      "result": "out/evidence/blastem/routes/failure/result_failed.png",
+      "sram": "out/evidence/blastem/routes/failure/save.sram",
+      "vdp_dump": "out/evidence/blastem/routes/failure/visual_vdp_dump.bin",
+      "sector_cleared": false,
+      "current_scene_id": 4
+    }
+  },
+  "identity": {
+    "all_route_rom_hashes_match": true,
+    "evidence_closeout_report": "out/logs/evidence_closeout_report.json",
+    "seal_status": "sealed"
+  }
+}

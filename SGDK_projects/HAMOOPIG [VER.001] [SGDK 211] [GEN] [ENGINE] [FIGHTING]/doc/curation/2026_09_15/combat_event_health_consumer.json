@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "combat_event_health_consumer_20260915",
+  "title": "Vida deve ser resolvida uma vez pelo evento, depois da FSM",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "health_delta_applied_inside_collision_path_with_duplicate_observation_risk",
+  "observation": "Aplicar vida imediatamente em cada chamada legada deixa dano e feedback sujeitos a reavaliação da mesma colisão. O clamp e o estado de KO também ficavam espalhados entre produtores.",
+  "resolution_or_preventive_heuristic": "CombatEvent carrega healthDelta/healthAttached. A primeira atualização de vida após HIT ou GUARD é anexada e o consumidor central aplica clamp, energia visual e transição 550 uma vez; sem evento, o fallback direto permanece para cura/reset legados.",
+  "evidence": {
+    "source": ["inc/combat_event.h", "src/combat_event.c", "src/player.c"],
+    "test": ["tests/test_health_event_contract.py", "tests/test_health_contract.py", "tests/test_combat_event_contract.py"],
+    "build_log": "out/logs/continuation_p04_event_result_reset_build.log",
+    "rom_sha256": "e4a85eed0a4c297e13607e76da314ac62b8823e731c26c5b2530599112070e87",
+    "suite": "14/14_passed"
+  },
+  "status": "implemented_p04_partial",
+  "limitations": [
+    "Resolução de vencedor/empate e reset de round ainda não são consumidores do ledger.",
+    "A sequência real de colisões ainda não foi instrumentada no BlastEm.",
+    "A revisão visual do cenário e o budget de runtime continuam pendentes."
+  ]
+}

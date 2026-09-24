@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_combo_hit_1_jab_production_contract_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "asset_kind": "animation_strip",
+  "state_belongs_to_character_fantasy": true,
+  "status": "strip_promoted_res_buildado_runtime_observed_partial",
+  "source_of_truth": {
+    "visual_source_contract": "doc/contracts/visual_source_of_truth_taina_v01.json",
+    "visual_dna": "doc/art/characters/taina/visual_dna_manifest.json",
+    "approved_idle_master": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+    "directional_active_study": "rascunho/taina_light_jab_cross_v01/taina_light_jab_active_directional_study_v01.png",
+    "directional_review": "doc/art/characters/taina/animation/taina_light_jab_active_directional_review_v01.json"
+  },
+  "action_identity": {
+    "legacy_planning_group": "light_jab_cross",
+    "runtime_action": "combo_hit_1_jab",
+    "combo_next_action": "combo_hit_2_cross",
+    "gameplay_role": "fast close-range opener with two-frame hitstop on confirm",
+    "character_fantasy": "muay_thai_guard_drives_a_short_direct_jab_without_abandoning_defense"
+  },
+  "frame_envelope": {
+    "cell_width_px": 64,
+    "cell_height_px": 64,
+    "cell_width_tiles": 8,
+    "cell_height_tiles": 8,
+    "pivot_x_px": 24,
+    "pivot_y_px": 60,
+    "ground_y_px": 60,
+    "locked_visible_height_px": 59,
+    "reason_for_64px_width": "Preserve body scale and lead-fist extension without clipping or shrinking the approved character."
+  },
+  "pose_roster": [
+    {
+      "frame": 0,
+      "phase": "anticipation",
+      "hold_vblanks": 3,
+      "pose": "lead shoulder loads slightly back; chin tucked; both guards high; feet fixed"
+    },
+    {
+      "frame": 1,
+      "phase": "launch",
+      "hold_vblanks": 2,
+      "pose": "lead elbow clears torso; shoulder starts rotation; rear hand protects jaw"
+    },
+    {
+      "frame": 2,
+      "phase": "active_contact",
+      "hold_vblanks": 2,
+      "pose": "lead fist reaches horizontal endpoint; shoulder guards chin; eyes and jaw show effort"
+    },
+    {
+      "frame": 3,
+      "phase": "follow_through_recoil",
+      "hold_vblanks": 3,
+      "pose": "fist retracts; hair and sash complete one delayed beat; base stays grounded"
+    },
+    {
+      "frame": 4,
+      "phase": "recovery_bridge",
+      "hold_vblanks": 4,
+      "pose": "guard reconnects to idle without snapping; torso and secondary motion settle"
+    }
+  ],
+  "motion_physics_contract": {
+    "center_of_mass": "maximum one-pixel forward translation at native scale; no root-foot slide",
+    "lead_arm_arc": "direct shoulder-to-target line; elbow never disconnects or crosses behind torso",
+    "rear_guard": "stays between jaw and opponent for every frame",
+    "foot_contact": "both feet remain on ground_y=60; minimal rear-heel lift may be internal cluster change only",
+    "mass_conservation": "head, torso, hips and leg volumes may rotate but cannot change scale",
+    "secondary_order": ["lead_shoulder_and_torso", "hair", "waist_sash"]
+  },
+  "impact_frame_contract": {
+    "impact_frame": 2,
+    "runtime_hitstop_frames_on_confirm": 2,
+    "hitbox_seed": {
+      "width_px": 24,
+      "height_px": 16,
+      "anchor": "lead_fist_endpoint"
+    },
+    "baked_fx_allowed": false,
+    "smear_frame_used": false,
+    "palette_flash": "none_in_body_strip"
+  },
+  "must_preserve": [
+    "59px visible scale",
+    "pivot (24,60)",
+    "angular face and target-facing eyes",
+    "dominant curly hair silhouette",
+    "orange top",
+    "indigo trousers",
+    "teal wraps and asymmetric sash",
+    "rear fist guarding jaw",
+    "two connected arms and two grounded legs"
+  ],
+  "forbidden": [
+    "independent generation of five frames",
+    "direct high-resolution downscale as final art",
+    "horizontal compression of the whole body to retain a 48px cell",
+    "runtime scaling",
+    "baked hit spark or water FX",
+    "v05-v07, v01 idle or proxy v02 as generation source",
+    "direct promotion to data/processed or res before native key-pose approval"
+  ],
+  "promotion_gates": [
+    "human approval of the directional active pose: passed 2026-07-29",
+    "native 1px active key pose in 64x64",
+    "topology and model-sheet fidelity pass",
+    "all five frames derived from shared topology",
+    "validate_strip passed",
+    "frame delta, pivot, foot contact and recovery reports",
+    "pixel strict and palette checks",
+    "tile and active-window budget",
+    "ResComp build",
+    "BlastEm animated capture"
+  ]
+}

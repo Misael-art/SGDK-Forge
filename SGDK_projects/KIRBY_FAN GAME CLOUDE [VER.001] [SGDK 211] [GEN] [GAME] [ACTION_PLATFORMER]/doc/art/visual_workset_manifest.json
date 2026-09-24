@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "kirby_fan_game_cloude",
+  "active_epoch": "visual_freeze_2026_09_04",
+  "state": "frozen_case_study",
+  "production_sources": [],
+  "reference_only_sources": [
+    {
+      "asset_id": "r1_identity_reference",
+      "path": "data/source_art/r1/r1-01/concept.png",
+      "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+      "role": "quality_reference_only",
+      "status": "reference_only"
+    }
+  ],
+  "forbidden_source_roots": [
+    "out",
+    "res",
+    "data/staging",
+    "data/archive",
+    "data/source_art/archive",
+    "rascunho/archive"
+  ],
+  "forbidden_source_roles": [
+    "negative_evidence",
+    "comparison_only",
+    "visual_lab_control",
+    "technical_temporal_probe",
+    "procedural_code_probe",
+    "historical_superseded",
+    "runtime_evidence_only"
+  ],
+  "allowed_operations": [
+    "read_only_audit",
+    "pixel_validate",
+    "route_verify",
+    "case_study_review"
+  ],
+  "freeze_record": {
+    "decision": "freeze_visual_production_as_case_study",
+    "frozen_at": "2026-09-04T13:00:00-03:00",
+    "reason": "A producao iterou validadores e probes procedurais sem ganho artistico consistente; o caso foi encerrado para preservar as licoes e impedir reciclagem de arte historica.",
+    "case_study_path": "doc/art/case_studies/kirby_visual_production_v11.md",
+    "reactivation_requires": [
+      "decisao humana explicita para descongelar",
+      "novo active_epoch e novo visual_workset_manifest",
+      "produtor visual capaz de autoria independente",
+      "proibicao de reutilizar v04-v11 como fonte de pixels"
+    ]
+  }
+}

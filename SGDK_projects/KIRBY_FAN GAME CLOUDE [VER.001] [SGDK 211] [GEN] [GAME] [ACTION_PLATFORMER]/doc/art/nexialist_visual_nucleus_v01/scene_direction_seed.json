@@ -1,0 +1,39 @@
+{
+  "schema_version": "scene_direction_seed.v1",
+  "seed_id": "vegetable_valley_golden_scene_v01",
+  "status": "locked_direction_reference_seed",
+  "human_gate": "pending",
+  "canvas": {
+    "logical_resolution": "320x224",
+    "aspect": "4:3",
+    "safe_hud_band": {"y0": 0, "y1": 24},
+    "collision_floor_top": 170,
+    "shared_grid": "8x8"
+  },
+  "dramatic_read": {
+    "one_sentence": "A small round hero inhales a seed-creature across a cultivated valley gap while layered hills and sparse leaves establish depth without stealing the action read.",
+    "primary_read_order": ["hero silhouette", "wind/suction direction", "enemy silhouette", "collision edge", "distant cultivation rhythm"],
+    "gameplay_link": "The cyan suction ribbon is the visual confirmation of the existing inhale interaction; the gap and raised ledge preserve current platforming readability."
+  },
+  "coordinate_anchors": {
+    "hero_pivot": {"x": 96, "y": 170},
+    "enemy_pivot": {"x": 228, "y": 170},
+    "ability_axis": {"x0": 112, "x1": 212, "y": 150},
+    "foreground_occlusion_band": {"y0": 190, "y1": 224},
+    "terrain_collision_edge": {"y": 170}
+  },
+  "scene_beats": [
+    {"beat": "settle", "frames": "0-18", "visual_change": "hero idle and leaf motion only", "gameplay_effect": "no gameplay change"},
+    {"beat": "inhale_start", "frames": "19-34", "visual_change": "wind ribbon appears in two clusters", "gameplay_effect": "existing inhale state begins"},
+    {"beat": "pull", "frames": "35-58", "visual_change": "ribbon compresses toward hero; enemy shifts one integer step", "gameplay_effect": "existing target pull direction"},
+    {"beat": "release", "frames": "59-78", "visual_change": "FX dissipates, enemy returns to its authored lane", "gameplay_effect": "existing release/consume branch"}
+  ],
+  "route_binding": {
+    "recommended_route": "A_sunlit_cultivation",
+    "route_exploration_asset": "rascunho/nexialist_visual_nucleus_v01/route_exploration_panel_v01.png",
+    "golden_scene_asset": "rascunho/nexialist_visual_nucleus_v01/vegetable_valley_golden_scene_concept_v01.png",
+    "model_sheet_asset": "rascunho/nexialist_visual_nucleus_v01/revised_character_model_sheet_v01.png",
+    "source_policy": "All three are concept controls only; native SGDK art requires manual authored translation after human approval."
+  },
+  "fallback": "compare_flat: BG_B atmosphere + BG_A terrain + sprite actors, retaining the same anchors and palette roles."
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_runtime_unique_build_v02",
+  "generated_at": "2026-07-29",
+  "status": "built",
+  "source": "rascunho/taina_combo_hit_1_jab_v01/taina_combo_hit_1_jab_native_64x64_v01.png",
+  "source_sha256": "169f66374bb0d4b0916826c77fc3e0f00e3183d43f526a40db443f2b5a4ca876",
+  "output": "res/sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png",
+  "output_sha256": "3032acffd192412005fd61ef30e95f8307a7806a4ed30ca253f67efca1aca783",
+  "geometry_px": [
+    192,
+    64
+  ],
+  "cell_px": [
+    64,
+    64
+  ],
+  "physical_frame_count": 3,
+  "physical_frames": [
+    "launch",
+    "active_contact",
+    "follow_through_recoil"
+  ],
+  "logical_phase_count": 5,
+  "idle_reuse": {
+    "anticipation": "spr_taina_idle_guard frame 0",
+    "recovery_bridge": "spr_taina_idle_guard frame 0"
+  },
+  "removed_duplicate_cells": [
+    "old jab frame 0 duplicated idle_guard frame 0",
+    "old jab frame 4 duplicated old jab frame 0"
+  ]
+}

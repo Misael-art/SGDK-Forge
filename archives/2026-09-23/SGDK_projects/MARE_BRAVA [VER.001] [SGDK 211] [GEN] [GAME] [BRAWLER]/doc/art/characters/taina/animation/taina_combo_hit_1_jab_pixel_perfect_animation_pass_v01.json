@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_pixel_perfect_pass_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "status": "passed_offline_and_observed_in_blastem_partial_evidence",
+  "sheet": "res/sprites/characters/taina/taina_combo_hit_1_jab_64x64_v01.png",
+  "sheet_sha256": "169f66374bb0d4b0916826c77fc3e0f00e3183d43f526a40db443f2b5a4ca876",
+  "technical_checks": {
+    "indexed_png": true,
+    "bit_depth": 4,
+    "frame_cell_px": [64, 64],
+    "frame_count": 5,
+    "transparent_index": 0,
+    "visible_colors": 10,
+    "all_visible_colors_on_megadrive_9bit_grid": true,
+    "antialiasing": false,
+    "partial_alpha": false,
+    "baked_fx": false,
+    "connected_components_per_frame": [1, 1, 1, 1, 1],
+    "independent_frame_generation": false
+  },
+  "motion_checks": {
+    "pivot": [24, 60],
+    "visible_height_px_per_frame": [59, 59, 59, 59, 59],
+    "primary_ground_y_per_frame": [60, 60, 60, 60, 60],
+    "active_frame": 2,
+    "recovery_reconnects_to_idle": true
+  },
+  "evidence": [
+    "doc/art/characters/taina/review/taina_combo_hit_1_jab_contact_sheet_6x_v01.png",
+    "doc/art/characters/taina/review/taina_combo_hit_1_jab_pivot_overlay_4x_v01.png",
+    "doc/art/characters/taina/review/taina_combo_hit_1_jab_onion_skin_f01_f02_f03_6x_v01.png",
+    "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/runtime_animation.gif",
+    "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/runtime_attack_contact_sheet.png"
+  ],
+  "remaining_blockers": [
+    "vlab_block_missing",
+    "visual_vdp_dump_missing",
+    "runtime_metrics_missing",
+    "combined_gameplay_scene_budget_pending"
+  ]
+}

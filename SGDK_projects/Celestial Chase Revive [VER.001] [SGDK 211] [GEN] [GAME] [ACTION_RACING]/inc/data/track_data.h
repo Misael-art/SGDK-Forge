@@ -1,0 +1,156 @@
+#ifndef TRACK_DATA_H
+#define TRACK_DATA_H
+
+#include <genesis.h>
+
+typedef struct {
+    u16 start_step;
+    u16 duration_steps;
+    u16 speed_q8_8;
+    u16 pressure_rate_q8_8_per_sec;
+    s8  road_curve;
+    u8  visual_state;
+    u8  spawn_profile;
+    u8  flags;
+} TrackSegment;
+
+typedef struct {
+    u16 start_step;
+    u8  lane_mask;
+    u8  event_kind;
+    u8  variant;
+    u8  telegraph_steps;
+    u8  active_steps;
+    s16 value;
+    u8  flags;
+} TrackEvent;
+
+#define TRACK_LANES 3
+#define TRACK_STEP_FRAMES_NTSC 16
+#define TRACK_PLAYER_Y_PX 168
+#define TRACK_LANE_X_PX_0 112
+#define TRACK_LANE_X_PX_1 160
+#define TRACK_LANE_X_PX_2 208
+#define TRACK_LANE_WIDTH_PX 40
+#define TRACK_PLAYFIELD_TOP 24
+#define TRACK_PLAYFIELD_BOTTOM 216
+#define TRACK_MAX_EVENTS 96
+#define TRACK_MAX_ACTIVE 10
+#define TRACK_TELEGRAPH_Y 80
+
+#define EV_NONE 0
+#define EV_LUMEN_ORB 1
+#define EV_LOW_STONE 2
+#define EV_ASTRAL_MARK 3
+#define EV_PRESSURE_GATE 4
+#define EV_PULSE_TUTORIAL 5
+#define EV_BEACON_KEY 6
+#define EV_TIME_SPARK 7
+#define EV_METEOR_DIAGONAL 8
+#define EV_BOSS_WAVE 9
+#define EV_BOSS_WEAKPOINT 10
+#define EV_PURSUER_SHADOW 11
+#define EV_METEOR_WARNING 12
+#define EV_METEOR_IMPACT 13
+#define EV_GLASS_LANE_WARNING 14
+#define EV_GLASS_LANE_MISSING 15
+#define EV_SHADOW_HAZARD 16
+#define EV_AUDIO_WARNING 17
+#define EV_SHATTERED_LANE 18
+#define EV_DEBRIS_FALL 19
+#define EV_SAFE_LANE 20
+
+#define LANE_LEFT   (1<<0)
+#define LANE_CENTER (1<<1)
+#define LANE_RIGHT  (1<<2)
+#define LANE_ALL    (LANE_LEFT|LANE_CENTER|LANE_RIGHT)
+
+#define SEG_FLAG_TUTORIAL_SAFE     (1<<0)
+#define SEG_FLAG_FIRST_COMBINATION (1<<1)
+#define SEG_FLAG_PULSE_TEACH       (1<<2)
+#define SEG_FLAG_BEACON_REWARD     (1<<3)
+
+#define EV_FLAG_FIRST_PICKUP       (1<<0)
+#define EV_FLAG_FIRST_PURSUER      (1<<1)
+#define EV_FLAG_NON_DAMAGING       (1<<2)
+#define EV_FLAG_ENCOURAGE_LEFT     (1<<3)
+#define EV_FLAG_ENCOURAGE_RIGHT    (1<<4)
+#define EV_FLAG_CHOICE_REWARD      (1<<5)
+#define EV_FLAG_CLEARABLE_BY_PULSE (1<<6)
+#define EV_FLAG_SECTOR_GOAL        (1<<7)
+
+#define COLLISION_LAYER_PLAYER_HURT   1
+#define COLLISION_LAYER_PLAYER_PICKUP 2
+#define COLLISION_LAYER_PLAYER_PULSE  3
+#define COLLISION_LAYER_SOLID_HAZARD  4
+#define COLLISION_LAYER_LOW_HAZARD    5
+#define COLLISION_LAYER_AERIAL_HAZARD 6
+#define COLLISION_LAYER_PICKUP        7
+#define COLLISION_LAYER_BOSS_WEAKPOINT 8
+#define COLLISION_LAYER_TRIGGER       9
+
+#define ENTITY_POOL_HAZARDS 6
+#define ENTITY_POOL_PICKUPS 4
+#define ENTITY_POOL_FX      12
+
+#define PLAYER_LANE_CHANGE_FRAMES 8
+#define PLAYER_JUMP_DURATION_FRAMES 36
+#define PLAYER_DAMAGE_INVULN_FRAMES 60
+#define PLAYER_PULSE_STARTUP 4
+#define PLAYER_PULSE_ACTIVE 10
+#define PLAYER_PULSE_TOTAL 14
+#define PLAYER_PULSE_COST_LUMEN 20
+#define PLAYER_PULSE_PRESSURE_REDUCTION 18
+#define PLAYER_PULSE_COOLDOWN_FRAMES 60
+#define PLAYER_MAX_INTEGRITY 3
+#define PLAYER_MAX_LUMEN 99
+#define PLAYER_HURTBOX_X 5
+#define PLAYER_HURTBOX_Y 8
+#define PLAYER_HURTBOX_W 14
+#define PLAYER_HURTBOX_H 22
+#define PLAYER_PICKUPBOX_X 2
+#define PLAYER_PICKUPBOX_Y 4
+#define PLAYER_PICKUPBOX_W 20
+#define PLAYER_PICKUPBOX_H 28
+#define PLAYER_SPRITE_W 24
+#define PLAYER_SPRITE_H 32
+
+#define ENTITY_LUMEN_ORB_W 16
+#define ENTITY_LUMEN_ORB_H 16
+#define ENTITY_LUMEN_COLLECT_X 2
+#define ENTITY_LUMEN_COLLECT_Y 2
+#define ENTITY_LUMEN_COLLECT_W 12
+#define ENTITY_LUMEN_COLLECT_H 12
+
+#define ENTITY_LOW_STONE_W 32
+#define ENTITY_LOW_STONE_H 16
+#define ENTITY_LOW_STONE_HIT_X 2
+#define ENTITY_LOW_STONE_HIT_Y 4
+#define ENTITY_LOW_STONE_HIT_W 28
+#define ENTITY_LOW_STONE_HIT_H 10
+
+#define ENTITY_ASTRAL_MARK_W 40
+#define ENTITY_ASTRAL_MARK_H 16
+#define ENTITY_ASTRAL_MARK_HIT_X 0
+#define ENTITY_ASTRAL_MARK_HIT_Y 4
+#define ENTITY_ASTRAL_MARK_HIT_W 40
+#define ENTITY_ASTRAL_MARK_HIT_H 10
+
+#define ENTITY_BEACON_KEY_W 16
+#define ENTITY_BEACON_KEY_H 16
+#define ENTITY_BEACON_COLLECT_X 2
+#define ENTITY_BEACON_COLLECT_Y 2
+#define ENTITY_BEACON_COLLECT_W 12
+#define ENTITY_BEACON_COLLECT_H 12
+
+#define ENTITY_PULSE_TUTORIAL_TARGET_W 40
+#define ENTITY_PULSE_TUTORIAL_TARGET_H 16
+
+#define PROJECT_RACE_SRAM_OFFSET 0x120u
+
+extern const TrackSegment sector_01_segments[4];
+extern const TrackEvent sector_01_events[18];
+extern const u16 sector_01_segment_count;
+extern const u16 sector_01_event_count;
+
+#endif

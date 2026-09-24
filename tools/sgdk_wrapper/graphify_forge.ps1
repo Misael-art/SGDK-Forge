@@ -11,7 +11,10 @@ param(
 
     [switch]$Force,
 
-    [switch]$AllowStale
+    [switch]$AllowStale,
+
+    [ValidateRange(1, 3600)]
+    [int]$GraphifyTimeoutSeconds = 120
 )
 
 Set-StrictMode -Version Latest
@@ -34,7 +37,8 @@ function Get-ForgeTrackedRoots {
         (Join-Path $Root 'tools\sgdk_wrapper\.agent'),
         (Join-Path $Root 'doc\05_technical'),
         (Join-Path $Root 'doc\07_game_design'),
-        (Join-Path $Root 'doc\06_AI_MEMORY_BANK.md')
+        (Join-Path $Root 'doc\06_AI_MEMORY_BANK.md'),
+        (Join-Path $Root 'doc\AI_MEMORY_POLICY.md')
     )
 }
 
@@ -44,22 +48,16 @@ function Get-ForgeTrackedFiles {
     $roots = Get-ForgeTrackedRoots -Root $Root
     $files = New-Object System.Collections.Generic.List[System.IO.FileInfo]
 
-    # -Force em todo acesso: a raiz rastreada principal e `.agent`, e no Linux
-    # todo caminho com ponto inicial e oculto. Sem -Force, `Get-Item` lancava
-    # "Could not find item" para um diretorio que Test-Path acabara de aprovar,
-    # e o snapshot de freshness nunca podia ser gerado -- o grafo ficava
-    # permanentemente `freshness_missing`.
-    #
-    # Os filtros de exclusao tambem precisam casar '/' e '\': ancorados apenas em
-    # '\' eles nunca excluiriam __pycache__ no Linux, e cada .pyc reciclado
-    # marcaria o grafo como sujo sem que nada canonico tivesse mudado.
-    $excluded = '[\\/](__pycache__|\.pytest_cache|\.serena|\.superpowers)[\\/]'
-
     foreach ($p in $roots) {
         if (-not (Test-Path -LiteralPath $p)) { continue }
+        # Dot-directories such as .agent are hidden on Unix; Get-Item needs
+        # -Force even when Test-Path already returned true.
         if ((Get-Item -LiteralPath $p -Force) -is [System.IO.DirectoryInfo]) {
-            Get-ChildItem -LiteralPath $p -Recurse -File -Force | Where-Object {
-                $_.FullName -notmatch $excluded -and
+            Get-ChildItem -LiteralPath $p -Recurse -File | Where-Object {
+                $_.FullName -notmatch '\\__pycache__\\' -and
+                $_.FullName -notmatch '\\\.pytest_cache\\' -and
+                $_.FullName -notmatch '\\\.serena\\' -and
+                $_.FullName -notmatch '\\\.superpowers\\' -and
                 $_.Extension -ne '.pyc'
             } | ForEach-Object { $files.Add($_) }
         } else {
@@ -93,7 +91,8 @@ function New-ForgeFreshnessSnapshot {
             'tools/sgdk_wrapper/.agent/**',
             'doc/05_technical/**',
             'doc/07_game_design/**',
-            'doc/06_AI_MEMORY_BANK.md'
+            'doc/06_AI_MEMORY_BANK.md',
+            'doc/AI_MEMORY_POLICY.md'
         )
         files = $entriesSorted
         forced_stale = $false
@@ -124,14 +123,11 @@ function Test-PathUnderRoot {
 
     if ($p -ieq $r) { return $true }
 
-    # O separador precisa ser o do host. Com '\' fixo, no Linux o teste
-    # comparava '/repo/graphify-out' com o prefixo '/repo\' e NUNCA casava:
-    # todo caminho legitimo era classificado como fora do workspace e o
-    # `build` abortava com exit 6. Era uma guarda correta falhando ao
-    # contrario -- bloqueava o caso valido em vez do caso perigoso.
-    $separator = [System.IO.Path]::DirectorySeparatorChar
     $rWithSep = $r
-    if (-not $rWithSep.EndsWith($separator)) { $rWithSep += $separator }
+    $separator = [System.IO.Path]::DirectorySeparatorChar
+    if (-not $rWithSep.EndsWith([string]$separator)) {
+        $rWithSep += [string]$separator
+    }
     return $p.StartsWith($rWithSep, [System.StringComparison]::OrdinalIgnoreCase)
 }
 
@@ -179,6 +175,7 @@ function Get-ForgeScopeViolationsFromStrings {
             if ($pn -match '(^|/)\.graphifyignore$') { continue }
             if ($pn -match '(^|/)\.gitignore$') { continue }
             if ($pn -match '(^|/)doc/06_ai_memory_bank\.md') { continue }
+            if ($pn -match '(^|/)doc/ai_memory_policy\.md') { continue }
             if ($pn -match '(^|/)doc/05_technical(/|$)') { continue }
             if ($pn -match '(^|/)doc/07_game_design(/|$)') { continue }
             if ($pn -match '(^|/)tools/sgdk_wrapper/\.agent(/|$)') { continue }
@@ -332,6 +329,79 @@ function Require-GraphifyInstalled {
     }
 }
 
+function Invoke-GraphifyCommand {
+    param(
+        [Parameter(Mandatory = $true)][string[]]$Arguments,
+        [Parameter(Mandatory = $true)][int]$TimeoutSeconds
+    )
+
+    $cmd = Get-Command graphify -ErrorAction Stop
+    $source = [string]$cmd.Source
+    $psi = [System.Diagnostics.ProcessStartInfo]::new()
+    $ext = [System.IO.Path]::GetExtension($source).ToLowerInvariant()
+
+    if ($ext -in @('.cmd', '.bat')) {
+        $psi.FileName = $env:ComSpec
+        $cmdArgs = New-Object System.Collections.Generic.List[string]
+        $cmdArgs.Add('"' + ($source.Replace('"', '""')) + '"')
+        foreach ($arg in $Arguments) {
+            $cmdArgs.Add('"' + (([string]$arg).Replace('"', '""')) + '"')
+        }
+        $psi.Arguments = '/d /s /c "' + ($cmdArgs -join ' ') + '"'
+    } else {
+        $psi.FileName = $source
+        foreach ($arg in $Arguments) {
+            [void]$psi.ArgumentList.Add([string]$arg)
+        }
+    }
+    $psi.UseShellExecute = $false
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+    $psi.CreateNoWindow = $true
+
+    try {
+        $proc = [System.Diagnostics.Process]::Start($psi)
+    } catch {
+        return [pscustomobject]@{
+            exit_code = 125
+            timed_out = $false
+            start_failed = $true
+            output = $_.Exception.Message
+        }
+    }
+    $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
+    $stderrTask = $proc.StandardError.ReadToEndAsync()
+    $completed = $proc.WaitForExit($TimeoutSeconds * 1000)
+
+    if (-not $completed) {
+        try {
+            $proc.Kill($true)
+        } catch {
+            try { $proc.Kill() } catch {}
+        }
+        return [pscustomobject]@{
+            exit_code = 124
+            timed_out = $true
+            start_failed = $false
+            output = ''
+        }
+    }
+
+    $stdout = $stdoutTask.GetAwaiter().GetResult()
+    $stderr = $stderrTask.GetAwaiter().GetResult()
+    $combined = (($stdout, $stderr) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }) -join [Environment]::NewLine
+    if (-not [string]::IsNullOrWhiteSpace($combined)) {
+        Write-Host $combined.TrimEnd()
+    }
+
+    return [pscustomobject]@{
+        exit_code = [int]$proc.ExitCode
+        timed_out = $false
+        start_failed = $false
+        output = $combined
+    }
+}
+
 $resolvedRepoRoot = Resolve-RepoRoot -Provided $RepoRoot
 $graphifyOutDir = Join-Path $resolvedRepoRoot 'graphify-out'
 $graphJsonPath = Join-Path $graphifyOutDir 'graph.json'
@@ -356,10 +426,19 @@ if ($Action -eq 'build') {
     }
 
     $args = @('update', $resolvedRepoRoot, '--force')
-    $captured = @()
-    & graphify @args 2>&1 | Tee-Object -Variable captured | Out-Host
-    $graphifyExitCode = $LASTEXITCODE
-    $updateOut = ($captured | Out-String)
+    $graphifyResult = Invoke-GraphifyCommand -Arguments $args -TimeoutSeconds $GraphifyTimeoutSeconds
+    $graphifyExitCode = [int]$graphifyResult.exit_code
+    $updateOut = [string]$graphifyResult.output
+    if ([bool]$graphifyResult.start_failed) {
+        Write-Host 'graph_status=stale reason=graphify_start_failed'
+        Write-Host "graphify_error=$updateOut"
+        exit 9
+    }
+    if ([bool]$graphifyResult.timed_out) {
+        Write-Host 'graph_status=stale reason=graphify_timeout'
+        Write-Host "graphify_timeout_seconds=$GraphifyTimeoutSeconds"
+        exit 8
+    }
     if ($graphifyExitCode -ne 0) {
         Write-Host 'graph_status=stale reason=graphify_update_failed'
         Write-Host "graphify_exit_code=$graphifyExitCode"
@@ -383,10 +462,19 @@ if ($Action -eq 'build') {
 if ($Action -eq 'update') {
     $args = @('update', $resolvedRepoRoot)
     if ($Force) { $args += '--force' }
-    $captured = @()
-    & graphify @args 2>&1 | Tee-Object -Variable captured | Out-Host
-    $graphifyExitCode = $LASTEXITCODE
-    $updateOut = ($captured | Out-String)
+    $graphifyResult = Invoke-GraphifyCommand -Arguments $args -TimeoutSeconds $GraphifyTimeoutSeconds
+    $graphifyExitCode = [int]$graphifyResult.exit_code
+    $updateOut = [string]$graphifyResult.output
+    if ([bool]$graphifyResult.start_failed) {
+        Write-Host 'graph_status=stale reason=graphify_start_failed'
+        Write-Host "graphify_error=$updateOut"
+        exit 9
+    }
+    if ([bool]$graphifyResult.timed_out) {
+        Write-Host 'graph_status=stale reason=graphify_timeout'
+        Write-Host "graphify_timeout_seconds=$GraphifyTimeoutSeconds"
+        exit 8
+    }
     if ($graphifyExitCode -ne 0) {
         Write-Host 'graph_status=stale reason=graphify_update_failed'
         Write-Host "graphify_exit_code=$graphifyExitCode"
@@ -459,7 +547,21 @@ if ($Action -eq 'query') {
         exit 2
     }
 
-    $queryOut = (& graphify query $Question --budget $Budget --graph $graphJsonPath 2>&1 | Out-String)
+    $queryResult = Invoke-GraphifyCommand -Arguments @('query', $Question, '--budget', [string]$Budget, '--graph', $graphJsonPath) -TimeoutSeconds $GraphifyTimeoutSeconds
+    if ([bool]$queryResult.start_failed) {
+        Write-Host 'graph_status=stale reason=graphify_start_failed'
+        Write-Host "graphify_error=$([string]$queryResult.output)"
+        exit 9
+    }
+    if ([bool]$queryResult.timed_out) {
+        Write-Host 'graph_status=stale reason=graphify_timeout'
+        Write-Host "graphify_timeout_seconds=$GraphifyTimeoutSeconds"
+        exit 8
+    }
+    if ([int]$queryResult.exit_code -ne 0) {
+        exit 7
+    }
+    $queryOut = [string]$queryResult.output
     $qViol = Get-ForgeScopeViolationsFromStrings -Strings @($queryOut)
     if ($qViol.Count -gt 0) {
         $sample = ($qViol | Select-Object -First 1)
@@ -489,6 +591,7 @@ if ($Action -eq 'report') {
     $lines.Add('- doc/05_technical/')
     $lines.Add('- doc/07_game_design/')
     $lines.Add('- doc/06_AI_MEMORY_BANK.md')
+    $lines.Add('- doc/AI_MEMORY_POLICY.md')
     $lines.Add('')
     $lines.Add('Artefatos gerados (nao canonicos):')
     $lines.Add('- graphify-out/graph.json')

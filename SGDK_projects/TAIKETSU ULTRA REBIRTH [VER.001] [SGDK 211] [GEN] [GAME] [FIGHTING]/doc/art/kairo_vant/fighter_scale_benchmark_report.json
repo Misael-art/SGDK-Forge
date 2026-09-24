@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "fighter_scale_benchmark",
+  "status": "measured_scale_reset",
+  "generated_at": "2026-09-05T17:25:00-03:00",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "reference_engine_root": "SGDK_Engines/TaiketsuUltraHeroGenesis",
+  "sprite_resource_file": {
+    "path": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite.res",
+    "sha256": "d5bf8825f3246ef5d65184f08cf115ace6ba2cabc15783e3f47b01c7d0467304"
+  },
+  "measurement": {
+    "foreground_rule": "palette index 0 is transparent; bbox is recomputed per frame from non-zero indices",
+    "canvas_rule": "sheet canvas is distinct from one animation-cell canvas",
+    "ground_rule": "ground line is the last visible row of each frame; all measured reference frames touch the cell bottom",
+    "old_invalid_measurement": {
+      "jack_000_visible_height_px": 19,
+      "ryo_000_visible_height_px": 24,
+      "reason": "000 files are icons/portraits, not idle full-body frames",
+      "status": "rejected_as_scale_ruler"
+    }
+  },
+  "references": [
+    {
+      "id": "jack_100",
+      "original_path": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite/jack/100.png",
+      "staging_path": "rascunho/scale_correction_20260905/reference_profiles/jack_100.png",
+      "sha256": "e5ae31a0e5601533f7f6cc0d59e3c2ea1dd6136d4df54d810adc265677ae9529",
+      "resource_symbol": "spr_jack_100",
+      "resource_declaration": "SPRITE spr_jack_100 \"sprite/jack/100.png\" 7 10 FAST 0",
+      "sheet_canvas_px": [224, 80],
+      "cell_canvas_px": [56, 80],
+      "frame_count": 4,
+      "frames": [
+        {"frame":0,"bbox_px":[0,6,56,80],"visible_width_px":56,"visible_height_px":74,"ground_line_px":79,"filled_pixels":1449,"max_pixels_per_scanline":46,"unique_nonempty_tiles":41,"vdp_cells_32x32":[2,3]},
+        {"frame":1,"bbox_px":[0,5,55,80],"visible_width_px":55,"visible_height_px":75,"ground_line_px":79,"filled_pixels":1448,"max_pixels_per_scanline":46,"unique_nonempty_tiles":38,"vdp_cells_32x32":[2,3]},
+        {"frame":2,"bbox_px":[0,4,54,80],"visible_width_px":54,"visible_height_px":76,"ground_line_px":79,"filled_pixels":1446,"max_pixels_per_scanline":46,"unique_nonempty_tiles":40,"vdp_cells_32x32":[2,3]},
+        {"frame":3,"bbox_px":[0,5,55,80],"visible_width_px":55,"visible_height_px":75,"ground_line_px":79,"filled_pixels":1448,"max_pixels_per_scanline":46,"unique_nonempty_tiles":38,"vdp_cells_32x32":[2,3]}
+      ],
+      "height_range_px":[74,76]
+    },
+    {
+      "id": "jack_410",
+      "original_path": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite/jack/410.png",
+      "staging_path": "rascunho/scale_correction_20260905/reference_profiles/jack_410.png",
+      "sha256": "ded2897fd231c5b1d7f0797a2ccff4371b66dbb6dfc47f88a564df07d4aa3594",
+      "resource_symbol": "spr_jack_410",
+      "resource_declaration": "SPRITE spr_jack_410 \"sprite/jack/410.png\" 6 10 FAST 0",
+      "sheet_canvas_px": [240, 80],
+      "cell_canvas_px": [48, 80],
+      "frame_count": 5,
+      "frames": [
+        {"frame":0,"bbox_px":[0,7,44,80],"visible_width_px":44,"visible_height_px":73,"ground_line_px":79,"filled_pixels":1329,"max_pixels_per_scanline":35,"unique_nonempty_tiles":37,"vdp_cells_32x32":[2,3]},
+        {"frame":1,"bbox_px":[1,6,41,80],"visible_width_px":40,"visible_height_px":74,"ground_line_px":79,"filled_pixels":1328,"max_pixels_per_scanline":35,"unique_nonempty_tiles":39,"vdp_cells_32x32":[2,3]},
+        {"frame":2,"bbox_px":[0,5,37,80],"visible_width_px":37,"visible_height_px":75,"ground_line_px":79,"filled_pixels":1303,"max_pixels_per_scanline":35,"unique_nonempty_tiles":35,"vdp_cells_32x32":[2,3]},
+        {"frame":3,"bbox_px":[3,6,39,80],"visible_width_px":36,"visible_height_px":74,"ground_line_px":79,"filled_pixels":1183,"max_pixels_per_scanline":35,"unique_nonempty_tiles":31,"vdp_cells_32x32":[2,3]},
+        {"frame":4,"bbox_px":[4,7,40,80],"visible_width_px":36,"visible_height_px":73,"ground_line_px":79,"filled_pixels":1047,"max_pixels_per_scanline":35,"unique_nonempty_tiles":30,"vdp_cells_32x32":[2,3]}
+      ],
+      "height_range_px":[73,75]
+    },
+    {
+      "id": "ryo_100",
+      "original_path": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite/ryo/100.png",
+      "staging_path": "rascunho/scale_correction_20260905/reference_profiles/ryo_100.png",
+      "sha256": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b",
+      "resource_symbol": null,
+      "resource_declaration": null,
+      "declaration_status": "not_declared_in_sprite.res; inferred cell is documented, not an integration contract",
+      "inferred_cell_basis": "320px sheet width / 5 repeated full-body poses = 64px cell; 104px sheet height",
+      "sheet_canvas_px": [320, 104],
+      "cell_canvas_px": [64, 104],
+      "frame_count": 5,
+      "frames": [
+        {"frame":0,"bbox_px":[0,6,55,104],"visible_width_px":55,"visible_height_px":98,"ground_line_px":103,"filled_pixels":2790,"max_pixels_per_scanline":45,"unique_nonempty_tiles":69,"vdp_cells_32x32":[2,4]},
+        {"frame":1,"bbox_px":[0,4,55,104],"visible_width_px":55,"visible_height_px":100,"ground_line_px":103,"filled_pixels":2818,"max_pixels_per_scanline":45,"unique_nonempty_tiles":69,"vdp_cells_32x32":[2,4]},
+        {"frame":2,"bbox_px":[0,3,57,104],"visible_width_px":57,"visible_height_px":101,"ground_line_px":103,"filled_pixels":2859,"max_pixels_per_scanline":47,"unique_nonempty_tiles":71,"vdp_cells_32x32":[2,4]},
+        {"frame":3,"bbox_px":[0,2,60,104],"visible_width_px":60,"visible_height_px":102,"ground_line_px":103,"filled_pixels":2876,"max_pixels_per_scanline":48,"unique_nonempty_tiles":70,"vdp_cells_32x32":[2,4]},
+        {"frame":4,"bbox_px":[0,3,57,104],"visible_width_px":57,"visible_height_px":101,"ground_line_px":103,"filled_pixels":2859,"max_pixels_per_scanline":47,"unique_nonempty_tiles":71,"vdp_cells_32x32":[2,4]}
+      ],
+      "height_range_px":[98,102]
+    }
+  ],
+  "roster_height_basis": {
+    "jack_max_height_px": 76,
+    "ryo_max_height_px": 102,
+    "max_reference_height_px": 102,
+    "gdd_rule": "height_kairo_px >= ceil(1.25 * max(height_jack_px, height_ryo_px))",
+    "required_minimum_kairo_bbox_height_px": 128,
+    "contradiction_status": "none; the current GDD rule requires a materially larger Kairo than the rejected 32x40 route"
+  },
+  "scale_hypotheses": [
+    {"id":"A","label":"parity_with_largest_reference","bbox_height_px":102,"formula":"max(jack_max, ryo_max)","canvas_px":[72,112],"bbox_width_px":69,"vdp_cells_32x32":[3,4],"raw_tiles_upper_bound":126,"status":"comparison_only"},
+    {"id":"B","label":"112_5_percent_of_largest_reference","bbox_height_px":115,"formula":"ceil(1.125 * 102)","canvas_px":[80,120],"bbox_width_px":77,"vdp_cells_32x32":[3,4],"raw_tiles_upper_bound":150,"status":"comparison_only"},
+    {"id":"C","label":"gdd_minimum","bbox_height_px":128,"formula":"ceil(1.25 * 102)","canvas_px":[88,136],"bbox_width_px":86,"vdp_cells_32x32":[3,5],"raw_tiles_upper_bound":187,"status":"required_candidate_scale"}
+  ],
+  "comparison_order": ["scale_and_presence","silhouette_and_pose","identity","face_and_gaze","hands_feet_contact","costume_materials","budget"],
+  "decision": "Do not create another 32x40 iteration. Generate and judge A/B/C in the same 320x224 combat composition; C is the only scale eligible under the current GDD rule, but native pose quality and hardware budget remain open."
+}

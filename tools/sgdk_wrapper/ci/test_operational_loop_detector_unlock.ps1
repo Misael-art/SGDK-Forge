@@ -1,4 +1,4 @@
-<# 
+<#
 .SYNOPSIS
     Regression test for detect_operational_loop.ps1 + operational_loop_decision.json unlock.
 #>
@@ -69,10 +69,34 @@ $decision = @{
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -OutputPath $outPath | Out-Null
 Assert-True ($LASTEXITCODE -eq 0) "Expected loop detector to pass with valid operational_loop_decision.json"
 
+$SingleReportProjectRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("SGDK_LOOP_SINGLE_[{0}]" -f ([guid]::NewGuid().ToString("N")))
+$SingleDocDir = Join-Path $SingleReportProjectRoot "doc"
+$SingleLogDir = Join-Path $SingleReportProjectRoot "out\logs"
+foreach ($p in @($SingleDocDir, $SingleLogDir)) { [System.IO.Directory]::CreateDirectory($p) | Out-Null }
+
+$singleReport = @{
+    schema_version = "1.0.0"
+    generated_at = "2026-06-06T12:00:00Z"
+    project_root = $SingleReportProjectRoot
+    blocking_statuses = @("visual_gate_blocked")
+    summary = @{ errors = 1 }
+    errors = @(@{ code = "visual_gate_blocked" })
+}
+($singleReport | ConvertTo-Json -Depth 10) | Set-Content -LiteralPath (Join-Path $SingleLogDir "validation_report.json") -Encoding UTF8
+
+$singleOutPath = Join-Path $SingleLogDir "operational_loop_report.json"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $SingleReportProjectRoot -OutputPath $singleOutPath | Out-Null
+Assert-True ($LASTEXITCODE -eq 0) "Expected loop detector to pass and not crash with a single validation report"
+Assert-True (Test-Path -LiteralPath $singleOutPath -PathType Leaf) "Expected single-report operational_loop_report.json to be written"
+
 Write-Host "[PASS] operational loop detector blocks without decision and unlocks with decision"
 
 $TempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath()).TrimEnd('\', '/')
 $ResolvedFixture = [System.IO.Path]::GetFullPath($ProjectRoot)
 if ($ResolvedFixture.StartsWith($TempRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
     Remove-Item -LiteralPath $ResolvedFixture -Recurse -Force
+}
+$ResolvedSingleFixture = [System.IO.Path]::GetFullPath($SingleReportProjectRoot)
+if ($ResolvedSingleFixture.StartsWith($TempRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+    Remove-Item -LiteralPath $ResolvedSingleFixture -Recurse -Force
 }

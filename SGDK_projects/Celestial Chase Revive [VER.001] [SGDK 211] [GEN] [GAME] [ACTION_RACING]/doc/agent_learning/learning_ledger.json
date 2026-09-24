@@ -1,0 +1,1040 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-06-27T22:31:32Z",
+  "source_digest": "f4f797fe1cc19da1320e130282533e0f7fd77481ce0085c2dbc45cda7cd32c7d",
+  "lessons": [
+    {
+      "lesson_id": "lesson_0b779500da2154c8",
+      "title": "90 frames (1.5s) de Branding e insuficiente para o jogador processar a tela",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-16",
+      "problem_signature": "90_frames_1_5s_de_branding_e_insuficiente_para_o_jogador_processar_a_tela",
+      "context": "branding_timing",
+      "observation": "90 frames (1.5s) de Branding e insuficiente para o jogador processar a tela",
+      "diagnosis": "Otimizacao prematura de fluxo sem considerar tempo de percepcao humana",
+      "resolution_or_preventive_heuristic": "150-180 frames (2.5-3s) com skip por START; nunca abaixo de 120 frames",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_da4d8b2ad9fccfc4",
+      "title": "Assets procedurais Pillow foram relatados como camada visual integrada de alto padrao",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-18",
+      "problem_signature": "assets_procedurais_pillow_foram_relatados_como_camada_visual_integrada_de_alto_padrao",
+      "context": "placeholder_promotion",
+      "observation": "Assets procedurais Pillow foram relatados como camada visual integrada de alto padrao",
+      "diagnosis": "Validade tecnica e score automatico confundidos com qualidade artistica",
+      "resolution_or_preventive_heuristic": "Marcar geracao geometrica como placeholder e exigir gate artistico humano antes de promocao",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/art_diagnostic_current.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_4364ebeeb2184515",
+      "title": "Branding scene planejada como `VDP_drawText` \u2014 mesma abordagem do boot screen, sem identidade visual",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "branding_scene_planejada_como_vdp_drawtext_mesma_abordagem_do_boot_screen_sem_identidade_visual",
+      "context": "branding_scene",
+      "observation": "Branding scene planejada como `VDP_drawText` \u2014 mesma abordagem do boot screen, sem identidade visual",
+      "diagnosis": "Subestimativa do impacto da primeira impressao: 4 telas de texto consecutivas parecem terminal",
+      "resolution_or_preventive_heuristic": "Branding precisa de ao menos 1 tile de identidade visual (BMP 320x224 16c via rescomp); nunca texto puro",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/asset_production_spec.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "front_end_identity_not_text_only"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: Branding scene planejada como `VDP_drawText` \u2014 mesma abordagem do boot screen, sem identidade visual",
+        "required_tests": [
+          "text-only front-end rejection fixture",
+          "320x224 identity review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_8bf9ce0ef8180756",
+      "title": "Captura minima marcou gameplay funcional, performance estavel e audio ok apenas pela presenca de screenshot/SRAM",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-18",
+      "problem_signature": "captura_minima_marcou_gameplay_funcional_performance_estavel_e_audio_ok_apenas_pela_presenca_de_screenshot_sram",
+      "context": "evidence_tool_claim_scope",
+      "observation": "Captura minima marcou gameplay funcional, performance estavel e audio ok apenas pela presenca de screenshot/SRAM",
+      "diagnosis": "Defaults do relatorio extrapolam o escopo observado",
+      "resolution_or_preventive_heuristic": "Normalizar claims por escopo: boot/title nao prova gameplay, 60 fps ou audio",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/code_review_report.json",
+          "out/logs/emulator_session.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_75c5bfae5560935e",
+      "title": "Cutscene com 7 estados (OP00-OP06) + typewriter + skip + timer em unico arquivo .c \u2014 update() monol\u00edtica",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "cutscene_com_7_estados_op00_op06_typewriter_skip_timer_em_unico_arquivo_c_update_monol_tica",
+      "context": "cutscene_fsm",
+      "observation": "Cutscene com 7 estados (OP00-OP06) + typewriter + skip + timer em unico arquivo .c \u2014 update() monol\u00edtica",
+      "diagnosis": "Ausencia de pattern de dados tabelados em PROGMEM; tendencia a codificar estado como if-else linear",
+      "resolution_or_preventive_heuristic": "Usar array de structs `{frame_start, frame_end, text, on_enter, on_exit}` em PROGMEM; update() vira consulta de tabela",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/12-roteiro.md",
+          "doc/13-spec-cenas.md",
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+        "owner_skill": "art/cutscene-cinematic-direction",
+        "match_rule_id": "table_driven_cutscene_fsm"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+        "summary": "Review existing owner against project lesson: Cutscene com 7 estados (OP00-OP06) + typewriter + skip + timer em unico arquivo .c \u2014 update() monol\u00edtica",
+        "required_tests": [
+          "table-driven cutscene fixture",
+          "cutscene teardown review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_92de8fab343b6ee9",
+      "title": "doc/contracts/*cutscene*` passou a conter os contratos de abertura e handoff, mas `scene_contract_compiler.ps1` continuou emitindo `SC100` porque nao projeta `cutscene_contract` para `doc/scene-contracts.json",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-27",
+      "problem_signature": "doc_contracts_cutscene_passou_a_conter_os_contratos_de_abertura_e_handoff_mas_scene_contract_compiler_ps1_continuou_emitindo_sc100_porque_nao_projeta_cutscene_contract_para_doc_scene_contracts_json",
+      "context": "scene_contract_compiler_cutscene_projection",
+      "observation": "doc/contracts/*cutscene*` passou a conter os contratos de abertura e handoff, mas `scene_contract_compiler.ps1` continuou emitindo `SC100` porque nao projeta `cutscene_contract` para `doc/scene-contracts.json",
+      "diagnosis": "O compilador infere papel/boot/regressao, mas nao possui fonte estruturada para campos de cutscene; o agente poderia acreditar que \"documentado\" fechou o gate compilado",
+      "resolution_or_preventive_heuristic": "Nao declarar gate de cena fechado enquanto `doc/scene-contracts.json` nao carregar `cutscene_contract`; propor melhoria can\u00f4nica separada no wrapper, com teste de preservacao/compilacao",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/contracts/opening_cinematic_storyboard_contract.json",
+          "doc/contracts/race_start_handoff_cinematic_storyboard_contract.json",
+          "doc/scene-contracts.json",
+          "out/logs/scene_contract_overlay_probe.json",
+          "out/logs/scene_contract_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_df5bcd133201f62a",
+      "title": "Duas imagens e a estrada foram carregadas em tile index zero; o tilemap assumiu base 32",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-18",
+      "problem_signature": "duas_imagens_e_a_estrada_foram_carregadas_em_tile_index_zero_o_tilemap_assumiu_base_32",
+      "context": "vram_image_loading",
+      "observation": "Duas imagens e a estrada foram carregadas em tile index zero; o tilemap assumiu base 32",
+      "diagnosis": "Uso de TILE_ATTR sem indice de VRAM explicito em VDP_drawImageEx",
+      "resolution_or_preventive_heuristic": "Declarar mapa de VRAM por cena, usar TILE_ATTR_FULL com base nao sobreposta e validar screenshot antes de integrar gameplay",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c28ea7c2385315d9",
+      "title": "Modulos e assets foram declarados como first playable sem evidencia da ROM atual; a ROM v014 mostrou corrupcao visual e ADDRESS ERROR",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-18",
+      "problem_signature": "modulos_e_assets_foram_declarados_como_first_playable_sem_evidencia_da_rom_atual_a_rom_v014_mostrou_corrupcao_visual_e_address_error",
+      "context": "parallel_runtime_visual_integration",
+      "observation": "Modulos e assets foram declarados como first playable sem evidencia da ROM atual; a ROM v014 mostrou corrupcao visual e ADDRESS ERROR",
+      "diagnosis": "Ausencia de owner de integracao e promocao por inventario de arquivos",
+      "resolution_or_preventive_heuristic": "Exigir review formal, hash congelado, captura fresca e rota completa sem crash antes de promover first playable",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/code_review_report.json",
+          "out/evidence/blastem_audit_v014_route2/result_current.png"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1778e24bd1a658f5",
+      "title": "PAL_fadeOutAll`/`PAL_fadeInAll` chamados genericamente pelo Scene Manager sem verificar se a cena atual tem paleta carregada",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "pal_fadeoutall_pal_fadeinall_chamados_genericamente_pelo_scene_manager_sem_verificar_se_a_cena_atual_tem_paleta_carregada",
+      "context": "scene_manager_fade",
+      "observation": "PAL_fadeOutAll`/`PAL_fadeInAll` chamados genericamente pelo Scene Manager sem verificar se a cena atual tem paleta carregada",
+      "diagnosis": "Assuncao de que toda cena usa paleta propria; cena de boot nao seta paleta",
+      "resolution_or_preventive_heuristic": "Adicionar flag `enterFade`/`exitFade` por cena no struct Scene; fade e responsabilidade da cena, nao do SM generico",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/scene_manager_contract.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+        "owner_skill": "architecture/game-state-transition-architect",
+        "match_rule_id": "scene_palette_fade_ownership"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+        "summary": "Review existing owner against project lesson: PAL_fadeOutAll`/`PAL_fadeInAll` chamados genericamente pelo Scene Manager sem verificar se a cena atual tem paleta carregada",
+        "required_tests": [
+          "scene without palette fade rejection fixture",
+          "credits to title palette restore regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ea7548dbf764c007",
+      "title": "Plano de cenas assumia `JOY_getJoypad` direto nas cenas, pulando input_abstraction_contract.json",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "plano_de_cenas_assumia_joy_getjoypad_direto_nas_cenas_pulando_input_abstraction_contract_json",
+      "context": "scene_manager_plan",
+      "observation": "Plano de cenas assumia `JOY_getJoypad` direto nas cenas, pulando input_abstraction_contract.json",
+      "diagnosis": "Dependencia nao mapeada no plano: cenas interativas precisam de input antes de existir",
+      "resolution_or_preventive_heuristic": "Input Abstraction deve ser implementada antes de qualquer cena com interacao",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/input_abstraction_contract.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+        "owner_skill": "code/input-system-sgdk",
+        "match_rule_id": "interactive_scenes_require_input_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+        "summary": "Review existing owner against project lesson: Plano de cenas assumia `JOY_getJoypad` direto nas cenas, pulando input_abstraction_contract.json",
+        "required_tests": [
+          "scene raw-input rejection fixture",
+          "input owner integration review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_23fd650447f3a9b0",
+      "title": "Plano omisso sobre restauracao de paletas ao retornar de CREDITS para TITLE",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "plano_omisso_sobre_restauracao_de_paletas_ao_retornar_de_credits_para_title",
+      "context": "palette_transition",
+      "observation": "Plano omisso sobre restauracao de paletas ao retornar de CREDITS para TITLE",
+      "diagnosis": "Assuncao de que fade-in reaplica paleta correta automaticamente",
+      "resolution_or_preventive_heuristic": "Cada cena deve carregar sua paleta explicitamente no enter(), antes do fade-in",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+        "owner_skill": "architecture/game-state-transition-architect",
+        "match_rule_id": "scene_palette_fade_ownership"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+        "summary": "Review existing owner against project lesson: Plano omisso sobre restauracao de paletas ao retornar de CREDITS para TITLE",
+        "required_tests": [
+          "scene without palette fade rejection fixture",
+          "credits to title palette restore regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_be34c321053932da",
+      "title": "Race placeholder usava START para retornar ao Title \u2014 conflito com doc/game_flow_contract.json (START = PAUSE)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "race_placeholder_usava_start_para_retornar_ao_title_conflito_com_doc_game_flow_contract_json_start_pause",
+      "context": "race_placeholder_input",
+      "observation": "Race placeholder usava START para retornar ao Title \u2014 conflito com doc/game_flow_contract.json (START = PAUSE)",
+      "diagnosis": "Bind provisorio sem consultar contrato de game flow futuro",
+      "resolution_or_preventive_heuristic": "Race placeholder deve usar B para sair, ou timeout de 300 frames com auto-retorno; START fica reservado para PAUSE",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/game_flow_contract.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+        "owner_skill": "code/input-system-sgdk",
+        "match_rule_id": "placeholder_input_respects_game_flow"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+        "summary": "Review existing owner against project lesson: Race placeholder usava START para retornar ao Title \u2014 conflito com doc/game_flow_contract.json (START = PAUSE)",
+        "required_tests": [
+          "reserved START binding fixture",
+          "scene-transition input reset regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_240e7aec8583f614",
+      "title": "central_build_contract_before_runtime_seed",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "central_build_contract_before_runtime_seed",
+      "context": "",
+      "observation": "Pedido de Makefile local conflita com wrapper canonico",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Humano decidir se vira contrato obrigatorio para projetos SGDK"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/build_system_contract.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+        "owner_skill": "operation/sgdk-build-wrapper-operator",
+        "match_rule_id": "central_build_contract_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+        "summary": "Review existing owner against project lesson: central_build_contract_before_runtime_seed",
+        "required_tests": [
+          "thin local wrapper fixture",
+          "external GDK rejection fixture"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_597af21c77304700",
+      "title": "creative_cohesion_pass_before_runtime_seed",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "creative_cohesion_pass_before_runtime_seed",
+      "context": "",
+      "observation": "Specs tecnicamente corretas podem gerar um jogo generico se nao houver perseguicao visivel, risco significativo, identidade por setor, momento assinatura, audio reativo e replay hooks antes do first playable",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Humano avaliar como gate proporcional para `aaa_game` antes de runtime seed"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/creative_cohesion_audit.json",
+          "doc/creative_cohesion_pass.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/workflows/production-loop.md",
+        "owner_skill": "planning/game-design-planning",
+        "match_rule_id": "creative_cohesion_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/workflows/production-loop.md",
+        "summary": "Review existing owner against project lesson: creative_cohesion_pass_before_runtime_seed",
+        "required_tests": [
+          "aaa_game creative cohesion fixture",
+          "runtime evidence remains required regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_aaa94fe242f27c6a",
+      "title": "front_end_identity_minimum_contract",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "front_end_identity_minimum_contract",
+      "context": "",
+      "observation": "Fonte, logo, menu e creditos podem ficar subespecificados",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Humano decidir se entra no checklist visual/front-end"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/front_end_element_audit.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "front_end_identity_not_text_only"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: front_end_identity_minimum_contract",
+        "required_tests": [
+          "text-only front-end rejection fixture",
+          "320x224 identity review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_8b15aff91ed1fcae",
+      "title": "local_mockup_manifest_for_planning_art",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "local_mockup_manifest_for_planning_art",
+      "context": "",
+      "observation": "Texto puro nao guia pixel art; mockup sem hash pode virar evidencia falsa",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Humano avaliar politica de mockups locais em `data/source_art"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/concept_art_pack_manifest.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "owner_skill": "art/art-translation-to-vdp",
+        "match_rule_id": "local_mockup_manifest_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "summary": "Review existing owner against project lesson: local_mockup_manifest_for_planning_art",
+        "required_tests": [
+          "hashed mockup reference fixture",
+          "mockup cannot satisfy visual delivery regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_9ed63090da698b31",
+      "title": "planning_mode_pre_runtime_spec_closure_checklist",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-16",
+      "problem_signature": "planning_mode_pre_runtime_spec_closure_checklist",
+      "context": "",
+      "observation": "Planejamento AAA parecia completo sem contratos executaveis para runtime",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Humano avaliar como gate proporcional para `aaa_game"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/canonical_planning_curation_handoff.json",
+          "doc/critical_gap_audit.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.md",
+        "owner_skill": "planning/game-design-planning",
+        "match_rule_id": "pre_runtime_spec_closure_existing_owner"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.md",
+        "summary": "Review existing owner against project lesson: planning_mode_pre_runtime_spec_closure_checklist",
+        "required_tests": [
+          "aaa_game pre-runtime closure fixture",
+          "technical_demo proportionality fixture"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_db970b5adbc7cf42",
+      "title": "scene_contract_compiler_cutscene_contract_projection",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-27",
+      "problem_signature": "scene_contract_compiler_cutscene_contract_projection",
+      "context": "",
+      "observation": "Contratos de cutscene podem existir em `doc/contracts/` e ainda assim o gate compilado continuar `SC100`, porque o compilador nao injeta `cutscene_contract` em `doc/scene-contracts.json",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Humano autorizar mudanca em `tools/sgdk_wrapper/scene_contract_compiler.ps1` com teste CI para abertura/handoff"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/contracts/opening_cinematic_storyboard_contract.json",
+          "doc/contracts/race_start_handoff_cinematic_storyboard_contract.json",
+          "doc/scene-contracts.json",
+          "out/logs/scene_contract_overlay_probe.json",
+          "out/logs/scene_contract_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "create_skill",
+        "target_path": null,
+        "summary": "Evaluate whether a new skill is justified: scene_contract_compiler_cutscene_contract_projection",
+        "required_tests": [
+          "cross-project reproduction",
+          "skill framework validation",
+          "human approval"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_0b779500da2154c8",
+      "title": "90 frames (1.5s) de Branding e insuficiente para o jogador processar a tela",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_da4d8b2ad9fccfc4",
+      "title": "Assets procedurais Pillow foram relatados como camada visual integrada de alto padrao",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_4364ebeeb2184515",
+      "title": "Branding scene planejada como `VDP_drawText` \u2014 mesma abordagem do boot screen, sem identidade visual",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_8bf9ce0ef8180756",
+      "title": "Captura minima marcou gameplay funcional, performance estavel e audio ok apenas pela presenca de screenshot/SRAM",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E3_blastem",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_75c5bfae5560935e",
+      "title": "Cutscene com 7 estados (OP00-OP06) + typewriter + skip + timer em unico arquivo .c \u2014 update() monol\u00edtica",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_92de8fab343b6ee9",
+      "title": "doc/contracts/*cutscene*` passou a conter os contratos de abertura e handoff, mas `scene_contract_compiler.ps1` continuou emitindo `SC100` porque nao projeta `cutscene_contract` para `doc/scene-contracts.json",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_df5bcd133201f62a",
+      "title": "Duas imagens e a estrada foram carregadas em tile index zero; o tilemap assumiu base 32",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c28ea7c2385315d9",
+      "title": "Modulos e assets foram declarados como first playable sem evidencia da ROM atual; a ROM v014 mostrou corrupcao visual e ADDRESS ERROR",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E3_blastem",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_1778e24bd1a658f5",
+      "title": "PAL_fadeOutAll`/`PAL_fadeInAll` chamados genericamente pelo Scene Manager sem verificar se a cena atual tem paleta carregada",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_ea7548dbf764c007",
+      "title": "Plano de cenas assumia `JOY_getJoypad` direto nas cenas, pulando input_abstraction_contract.json",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_23fd650447f3a9b0",
+      "title": "Plano omisso sobre restauracao de paletas ao retornar de CREDITS para TITLE",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_be34c321053932da",
+      "title": "Race placeholder usava START para retornar ao Title \u2014 conflito com doc/game_flow_contract.json (START = PAUSE)",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_240e7aec8583f614",
+      "title": "central_build_contract_before_runtime_seed",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_597af21c77304700",
+      "title": "creative_cohesion_pass_before_runtime_seed",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/workflows/production-loop.md"
+    },
+    {
+      "lesson_id": "lesson_aaa94fe242f27c6a",
+      "title": "front_end_identity_minimum_contract",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_8b15aff91ed1fcae",
+      "title": "local_mockup_manifest_for_planning_art",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_9ed63090da698b31",
+      "title": "planning_mode_pre_runtime_spec_closure_checklist",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.md"
+    },
+    {
+      "lesson_id": "lesson_db970b5adbc7cf42",
+      "title": "scene_contract_compiler_cutscene_contract_projection",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    }
+  ],
+  "canonical_promotion_performed": false
+}

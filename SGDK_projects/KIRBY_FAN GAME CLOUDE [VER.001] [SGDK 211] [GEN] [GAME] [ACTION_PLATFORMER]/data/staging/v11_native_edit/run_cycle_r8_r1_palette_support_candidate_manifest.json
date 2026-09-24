@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.1.0",
+  "candidate_id": "kirby_run_cycle_v11_r8_support_probe",
+  "quality_target": "premium",
+  "requested_claim": "technical_candidate",
+  "human_gate_open": false,
+  "validator_fixture": false,
+  "delivery_claim_ceiling": "lab",
+  "strips": [
+    {
+      "contract": {"path": "data/staging/v11_native_edit/run_cycle_r8_r1_palette_support_contract_v3.json", "sha256": "8d3460e805c7c6aad2181396f13a6306058e5b8df3be5b7c0326fe2d445a5299", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"},
+      "artifact_report": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/run_strip_contract_v3.json", "sha256": "56331b908b61ce6b9d98e57f92d780baf23cbc4e7fa641e554179496b668c8a4", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"},
+      "motion_report": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/run_motion_semantics_v3.json", "sha256": "2212731a305fa3ed062c198c3457cdfcf149fc8861fc216f2cd6d29bfe5324a3", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"}
+    }
+  ],
+  "reports": {
+    "sprite_artifact": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/sprite_artifact_report.json", "sha256": "c1d0876e6264f6c6b82fc7cda73201642e1405d4c6134005ca395b066616a7ba", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"},
+    "fidelity": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/fidelity_report.json", "sha256": "6689ee42f61f19f8a84d4a08faa2f736febd581232fa689001f68ac2361b6ee1", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"},
+    "art_direction": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/art_direction_report.json", "sha256": "a80fea911f3ddf3f5692e0824a2cc5732a9d80e1c1cb39c7c1cc5502a8831967", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"},
+    "blind_visual_review": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/blind_visual_review_report.json", "sha256": "a89c31ce3bc91b14c0c5605ea60e598190323123d1b79341d1fc1b4a29fef61e", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"},
+    "animation_principles": {"path": "out/v11_visual_production/run_cycle_r8_r1_palette_support/reports/animation_principles_report.json", "sha256": "c7185c73f96c52472939edb8d22b71f840464d760901ce4369495920000ad829", "subject_sha256": "f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4"}
+  }
+}

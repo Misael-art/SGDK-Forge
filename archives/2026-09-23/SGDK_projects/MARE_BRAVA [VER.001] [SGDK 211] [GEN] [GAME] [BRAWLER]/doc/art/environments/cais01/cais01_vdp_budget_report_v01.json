@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "cais01_vdp_budget_v01",
+  "generated_at": "2026-07-29",
+  "status": "buildado_runtime_observed_partial",
+  "measurement_level": "rescomp_measured_without_vdp_dump",
+  "scene_id": "cais_01_locked_room_slice",
+  "canvas_px": [320, 224],
+  "layers": [
+    {
+      "resource": "img_cais01_bg_b_mar_ceu",
+      "plane": "BG_B",
+      "palette": "PAL0",
+      "rescomp_unique_tiles": 95,
+      "tile_bytes": 3040,
+      "tilemap_bytes": 2240
+    },
+    {
+      "resource": "img_cais01_bg_a_pier_modular",
+      "plane": "BG_A",
+      "palette": "PAL2",
+      "rescomp_unique_tiles": 109,
+      "tile_bytes": 3488,
+      "tilemap_bytes": 2240
+    }
+  ],
+  "combined": {
+    "rescomp_unique_tiles": 204,
+    "tile_bytes": 6528,
+    "tilemap_bytes": 4480
+  },
+  "composition_contract": {
+    "player_palette": "PAL1",
+    "text_palette": "PAL3",
+    "camera": "locked_first_room",
+    "streaming": "not_implemented",
+    "ring_out_signal": "foam_and_dark_water_on_right_edge",
+    "source_route": "native_modular_assembly_not_panorama_downscale"
+  },
+  "evidence": {
+    "offline_proof": "doc/art/environments/cais01/review/cais01_modular_slice_virtual_proof_v01.png",
+    "runtime_screenshot": "out/blastem_env_cais01_slice_v01/blastem-linux-20260729T162222Z-466584/screenshot.png",
+    "runtime_motion_contact_sheet": "out/evidence/taina_cais01_runtime_v01/taina_cais01_runtime_contact_sheet_v01.png",
+    "rom_sha256": "e1fc0dd5180ffb09f74087248f1d4d363ace93b5c1a74f0e307c1b8f3e05c1c6"
+  },
+  "blockers": [
+    "visual_vdp_dump_missing",
+    "runtime_metrics_missing_for_current_rom",
+    "parallax_not_implemented",
+    "streamed_world_not_implemented",
+    "foreground_occlusion_not_implemented",
+    "foam_animation_not_implemented"
+  ],
+  "claim_limit": "Primeiro recorte modular buildado e observado; nao e o cenario final nem closeout de cena."
+}

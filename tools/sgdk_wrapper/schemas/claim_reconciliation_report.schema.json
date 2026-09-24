@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/claim_reconciliation_report.schema.json",
+  "title": "Claim Reconciliation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "status",
+    "policy",
+    "include_validation_report",
+    "blocking_statuses",
+    "conflict_reasons",
+    "resolved_claims",
+    "observations",
+    "identity_reconciliation",
+    "reports"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "const": "reconcile_claims" },
+    "tool_version": { "type": "string", "minLength": 1 },
+    "project_root": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["passed", "blocked"] },
+    "policy": { "const": "lowest_proven_status_wins" },
+    "include_validation_report": { "type": "boolean" },
+    "blocking_statuses": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "conflict_reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "resolved_claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready_for_aaa", "technical_ready", "creative_ready", "performance"],
+      "properties": {
+        "ready_for_aaa": { "type": "boolean" },
+        "technical_ready": { "type": "boolean" },
+        "creative_ready": { "type": "boolean" },
+        "performance": { "enum": ["stable", "unproven"] }
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["partial_capture", "perceptual_metrics_zero", "blocked_report_present", "strong_claim_present"],
+      "properties": {
+        "partial_capture": { "type": "boolean" },
+        "perceptual_metrics_zero": { "type": "boolean" },
+        "blocked_report_present": { "type": "boolean" },
+        "strong_claim_present": { "type": "boolean" }
+      }
+    },
+    "identity_reconciliation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rom_sha256_values",
+        "session_id_values",
+        "missing_rom_identity_reports",
+        "missing_session_id_reports",
+        "same_rom",
+        "same_evidence_session"
+      ],
+      "properties": {
+        "rom_sha256_values": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        },
+        "session_id_values": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "missing_rom_identity_reports": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "missing_session_id_reports": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "same_rom": { "type": "boolean" },
+        "same_evidence_session": { "type": "boolean" }
+      }
+    },
+    "reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "sha256", "readable", "read_error"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "readable": { "type": "boolean" },
+          "read_error": { "type": ["string", "null"] },
+          "ready_for_aaa": { "type": ["boolean", "null"] },
+          "technical_ready": { "type": ["boolean", "null"] },
+          "creative_ready": { "type": ["boolean", "null"] },
+          "performance": {},
+          "capture_status": {},
+          "perceptual_metrics_zero": { "type": "boolean" },
+          "blocked": { "type": "boolean" },
+          "blocking_statuses": { "type": "array", "items": { "type": "string" } },
+          "rom_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+          "session_id": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "blocked" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "blocking_statuses": { "minItems": 1 },
+          "resolved_claims": { "properties": { "ready_for_aaa": { "const": false } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
+      "then": { "properties": { "blocking_statuses": { "maxItems": 0 } } }
+    }
+  ]
+}

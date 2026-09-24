@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "r2_surgical_source_correction_manifest",
+  "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "round": "r2",
+  "delivered_at": "2026-07-29",
+  "producer_signature": "Codex",
+  "policy": {
+    "no_new_composition": true,
+    "r1_preserved": true,
+    "status": "source_candidate_pending_human_judgment",
+    "res_promotion_allowed": false,
+    "reason": "R2 corrects concept sources only; native-grid redraw, semantic decomposition, resource policy, budget review and BlastEm evidence remain required."
+  },
+  "measurement_contract": {
+    "rgb333_project_grid": [0, 36, 73, 109, 146, 182, 219, 255],
+    "luminance_formula": "(0.2126*R + 0.7152*G + 0.0722*B) / 255",
+    "full_machine_report": "r2_mechanical_validation.json",
+    "reproducible_builder": "../../../rascunho/temporario/r2_mechanical_corrections.py"
+  },
+  "deliveries": [
+    {
+      "id": "r2-03",
+      "priority": 1,
+      "parent": "r1-03/concept.png",
+      "file": "r2-03/concept.png",
+      "sha256": "be41bc6f577ccc4de0c8d01f53d6b6ddccf5afb2ab7ff259fab3c5db8ab26f3e",
+      "acceptance": {"palette_colors": 13, "ff00db_pixels": 0, "db00db_pixels": 0, "key_rgb": [255, 0, 255]}
+    },
+    {
+      "id": "r2-02",
+      "priority": 2,
+      "parent": "r1-02/layers.png",
+      "file": "r2-02/layers.png",
+      "sha256": "93710b6d70231a2e6235c041987b3d09c4742ebf681423c1da20174206c91c85",
+      "acceptance": {"layer_5_y": [730, 895], "luminance": 0.269899, "target_range": [0.24, 0.27], "layers_1_to_4_pixel_diff": 0}
+    },
+    {
+      "id": "r2-01",
+      "priority": 3,
+      "parent": "r1-01/concept.png",
+      "file": "r2-01/concept.png",
+      "sha256": "d61017c6d9d75765900ba15623e4d741405e8e78f14a407cf8ff0a64ec4fd5a2",
+      "localized_edit_source": {"path": "r2-01/floating_pose_generated.png", "sha256": "98c9c52558aed51ce89b4d86a59592f54d338d40122d8985e8b950a2b8ccc06b", "prompt": "r2-01/prompt_used.txt"},
+      "acceptance": {"sheet_palette_colors": 12, "midtone_rgb": [255, 146, 182], "midtone_percent_of_character": 10.00195, "target_range_percent": [8, 12]}
+    },
+    {
+      "id": "r2-04",
+      "priority": 4,
+      "parent": "r1-04/concept.png",
+      "file": "r2-04/concept.png",
+      "sha256": "7f4cf36c7509c5bfbe1913ee4001c3e2ff828b68673a3d9e3bcf3ee2690c689d",
+      "acceptance": {"db00db_pixels": 0, "db24b6_pixels": 0, "palette_colors": 13}
+    }
+  ],
+  "handoff": {
+    "read_first": ["r2_delivery_manifest.json", "r2_mechanical_validation.json", "each r2-*/notes.md", "doc/art/R1_VERDICT_AND_R2_PACK.md"],
+    "do_not": ["do not overwrite R1", "do not promote to res/", "do not claim runtime or emulator validation"],
+    "next_gate": "human art judgment followed by native 8x8 translation and normal SGDK/BlastEm gates"
+  }
+}

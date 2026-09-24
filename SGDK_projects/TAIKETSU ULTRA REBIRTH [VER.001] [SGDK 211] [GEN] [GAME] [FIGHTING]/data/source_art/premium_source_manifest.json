@@ -1,0 +1,131 @@
+{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "template_seed": false,
+  "template_prevalidated": false,
+  "production_source_ready": true,
+  "assets": [
+    {
+      "asset_id": "kairo_vant_identity",
+      "asset_role": "character",
+      "criticality": "critical",
+      "authoring_method": "imagegen_authorial_concept_then_native_grid_reauthoring",
+      "source_origin": "OpenAI ImageGen visual source generated for this project",
+      "source_classification": "generated_bitmap",
+      "tool": {
+        "name": "OpenAI ImageGen",
+        "version": "2026-09-05",
+        "model": null
+      },
+      "source_files": [
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+          "sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+          "role": "identity_authority"
+        },
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+          "sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+          "role": "model_sheet_translation_source"
+        },
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_front_pose_source_v01.png",
+          "sha256": "8254a3bc86968efa849d573d77e6dc8323ec0cf79670cd567a601e7f8ff66b4f",
+          "role": "single_pose_translation_source"
+        },
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v01.png",
+          "sha256": "e13baa298f62acaeaf3136555d91485e00f7f6eaedf065587e7d257b44a44145",
+          "role": "visual_producer_output"
+        },
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v03.png",
+          "sha256": "6f4df462f025488f102453ad1c8abf572951c86fb4f825c5e4fcf3c0b8eba8d5",
+          "role": "visual_producer_output_compact_alpha_clean"
+        },
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v04.png",
+          "sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+          "role": "visual_producer_output_logical_pixel_guide"
+        },
+        {
+          "path": "data/source_art/kairo_vant/kairo_vant_native_grid_authoring_v01.xpm",
+          "sha256": "656c05864efd40cb4d4733c2bf3b6cbefc747817aa1343a2084e577971b7c22f",
+          "role": "procedural_code_probe",
+          "classification": "negative_evidence",
+          "acceptance_status": "reference_only"
+        }
+      ],
+      "transformations": [
+        {
+          "step": "model_sheet_source_v01",
+          "tool": "OpenAI ImageGen",
+          "input_sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+          "output_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+          "notes": "Four-view identity model sheet; visual source only."
+        },
+        {
+          "step": "front_pose_crop_v01",
+          "tool": "ImageMagick crop with no interpolation",
+          "input_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+          "output_sha256": "8254a3bc86968efa849d573d77e6dc8323ec0cf79670cd567a601e7f8ff66b4f",
+          "notes": "Single front-neutral pose source; no pixels redrawn."
+        },
+        {
+          "step": "technical_candidate_32x40",
+          "tool": "tools/sgdk_wrapper/forge_art convert",
+          "input_sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+          "output_sha256": "03df27ae2f800158880f3314e9db092ada3b7a4880e806dead19f626b43e337e",
+          "notes": "Technical conversion only; native reauthoring and human approval remain required."
+        },
+        {
+          "step": "native_authoring_source_v01",
+          "tool": "OpenAI ImageGen",
+          "input_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+          "output_sha256": "e13baa298f62acaeaf3136555d91485e00f7f6eaedf065587e7d257b44a44145",
+          "notes": "Single front-neutral visual producer output used only as a guide for native grid reauthoring; not a runtime asset."
+        },
+        {
+          "step": "native_authoring_source_v03",
+          "tool": "OpenAI ImageGen edit",
+          "input_sha256": "7ce4f46f57248070792c77c402a2afc7cc0d2b21fb06dceb83b7254f045cf399",
+          "output_sha256": "6f4df462f025488f102453ad1c8abf572951c86fb4f825c5e4fcf3c0b8eba8d5",
+          "notes": "Compact front-neutral visual producer output with checkerboard removed and genuine alpha verified; used only as a guide for native grid reauthoring; not a runtime asset."
+        },
+        {
+          "step": "native_authoring_source_v04",
+          "tool": "OpenAI ImageGen",
+          "input_sha256": "6f4df462f025488f102453ad1c8abf572951c86fb4f825c5e4fcf3c0b8eba8d5",
+          "output_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+          "notes": "Logical-pixel-directed compact visual producer output with genuine alpha verified; used only as a guide for native grid reauthoring; not a runtime asset."
+        },
+        {
+          "step": "native_grid_authoring_v01_negative_case",
+          "tool": "procedural_code_probe",
+          "input_sha256": "656c05864efd40cb4d4733c2bf3b6cbefc747817aa1343a2084e577971b7c22f",
+          "output_sha256": "2def2157cf78f3610d2dadde614dad500ee154ffee8215fc15e3977998af7fc6",
+          "notes": "Explicit 32x40 XPM matrix retained only as negative evidence; classified as procedural_code_probe and forbidden as a production source."
+        }
+      ],
+      "variants": {
+        "basic": {
+          "path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+          "sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+          "role": "identity_source"
+        },
+        "elite": {
+          "path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+          "sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+          "role": "identity_source_pending_approved_native_variant"
+        }
+      },
+      "license": {
+        "name": "project_generated_internal",
+        "author": "project authoring session",
+        "usage": "internal project source; not a final sprite until human approval"
+      },
+      "notes": "Kairo source is eligible for native translation. Jack remains a separately governed HAMOOPIG reference and is not claimed as a premium authorial source here."
+    }
+  ],
+  "notes": "Production source is available for Kairo translation only. Human asset approval, native visual review and final Jack source authority remain open."
+}

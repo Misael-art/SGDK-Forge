@@ -1,4 +1,24 @@
-﻿# Prompt Mestre - Telas de Assinatura do Template
+<!-- REVOGACAO: mandato de fallback procedural -->
+> **ATENCAO — INSTRUCAO REVOGADA EM 2026-08-17.**
+>
+> Este documento contem, no corpo do prompt, a instrucao *"voce nao pode encerrar dizendo
+> 'falta gerar assets' se ainda pode entregar a estrutura procedural placeholder que
+> compila"* e variantes que mandam manter fallback procedural. **Essa instrucao esta
+> revogada.** Ela produziu 78 simbolos visuais desenhados por `PIL/ImageDraw` em 9 projetos
+> e contradiz a diretriz de bloqueio estetico agora vigente.
+>
+> O que vale hoje:
+> - arte desenhada por codigo (primitiva, poligono, preenchimento solido, `ImageDraw`) nao
+>   pode representar personagem, inimigo, boss, cenario ou marca na compilacao final;
+> - encerrar com o blocker de arte nomeado e entrega honesta, nao falha;
+> - todo simbolo visual do `.res` exige registro em `doc/asset_provenance_manifest.json`.
+>
+> Autoridade: `AGENTS.md` secao "Diretriz de bloqueio estetico", `SGDK_GLOBAL.md` 8.2 e 17,
+> e o bloco `diretriz-bloqueio-estetico v1` em `doc/00-diretrizes-agente.md` deste projeto.
+> Prompt canonico atualizado: `tools/sgdk_wrapper/modelo/doc/15-prompt-telas-assinatura.md`.
+<!-- FIM REVOGACAO -->
+
+# Prompt Mestre - Telas de Assinatura do Template
 
 Use este prompt para direcionar um agente de IA a construir as telas obrigatorias de assinatura de qualquer novo projeto MegaDrive_DEV.
 

@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-17T08:35:01Z",
+  "directive": "aesthetic_blocking_directive_v1",
+  "scope": "SGDK_projects/*",
+  "enforcement": "tools/sgdk_wrapper/audit_procedural_asset_provenance.py",
+  "retroactive_policy": "retroactive_with_audit",
+  "fixture_policy": "named_exception_via_project_context_manifest.validator_fixture",
+  "projects": [
+    {
+      "project": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "context_type": "aaa_game",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 9,
+      "symbols_traced_to_primitive_builders": 0,
+      "primitive_builders_in_scope": 21,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared"
+      ],
+      "report_path": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+      "context_type": "aaa_game",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 11,
+      "symbols_traced_to_primitive_builders": 0,
+      "primitive_builders_in_scope": 21,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared"
+      ],
+      "report_path": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "context_type": "technical_demo",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 21,
+      "symbols_traced_to_primitive_builders": 20,
+      "primitive_builders_in_scope": 21,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared",
+        "procedural_asset_promoted_to_res"
+      ],
+      "report_path": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "context_type": "technical_demo",
+      "validator_fixture": true,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 0,
+      "symbols_traced_to_primitive_builders": 0,
+      "primitive_builders_in_scope": 20,
+      "blocking": false,
+      "blocking_statuses": [],
+      "report_path": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "context_type": "technical_demo",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 16,
+      "symbols_traced_to_primitive_builders": 5,
+      "primitive_builders_in_scope": 20,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared",
+        "procedural_asset_promoted_to_res"
+      ],
+      "report_path": "SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "context_type": "aaa_game",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 22,
+      "symbols_traced_to_primitive_builders": 21,
+      "primitive_builders_in_scope": 22,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared",
+        "procedural_asset_promoted_to_res"
+      ],
+      "report_path": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "context_type": "aaa_game",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 26,
+      "symbols_traced_to_primitive_builders": 5,
+      "primitive_builders_in_scope": 20,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared",
+        "procedural_asset_promoted_to_res"
+      ],
+      "report_path": "SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "context_type": "aaa_game",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 15,
+      "symbols_traced_to_primitive_builders": 11,
+      "primitive_builders_in_scope": 27,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "asset_provenance_undeclared",
+        "procedural_asset_promoted_to_res"
+      ],
+      "report_path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/out/logs/asset_provenance_audit_report.json"
+    },
+    {
+      "project": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+      "context_type": "unknown",
+      "validator_fixture": false,
+      "manifest_status": "absent",
+      "pixel_bearing_symbols": 16,
+      "symbols_traced_to_primitive_builders": 16,
+      "primitive_builders_in_scope": 20,
+      "blocking": true,
+      "blocking_statuses": [
+        "asset_provenance_manifest_absent",
+        "procedural_asset_promoted_to_res"
+      ],
+      "report_path": "SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]/out/logs/asset_provenance_audit_report.json"
+    }
+  ],
+  "totals": {
+    "projects_audited": 9,
+    "projects_blocked": 8,
+    "pixel_bearing_symbols": 136,
+    "symbols_traced_to_primitive_builders": 78
+  },
+  "promotion_note": "Este baseline nao promove nenhum projeto, asset, ROM ou status AAA. Ele registra bloqueio."
+}

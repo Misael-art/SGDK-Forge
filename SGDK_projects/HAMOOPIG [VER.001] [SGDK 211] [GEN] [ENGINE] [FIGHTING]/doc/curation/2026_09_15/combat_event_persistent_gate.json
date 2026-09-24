@@ -1,0 +1,27 @@
+{
+  "lesson_id": "L103",
+  "date": "2026-09-15",
+  "topic": "combat_event_persistent_gate",
+  "rom_sha256": "6c6da7e38dc8d382ec329a604457b1053be4eae2dba00bb327a73230871e3005",
+  "source": "runtime_collision_path_and_host_cross_tick_regression",
+  "problem": "A deduplicação anterior comparava apenas eventos do tick atual; um overlap persistente podia emitir dano/medidor novamente em cada tick.",
+  "change": "Cada lutador recebe `attackInstance` ao iniciar um novo ciclo de ataque. O ledger mantém gates por atacante, defensor e fonte através dos ticks (independentes do resultado HIT/GUARD); nova instância é a fronteira explícita para multihit. O reset de round limpa os gates.",
+  "result": "O contrato host prova bloqueio entre ticks para a mesma identidade e aceitação após nova instância; a ROM 6c6d foi recompilada e os 36 casos P10 foram recapturados sem falha após repetir três probes transitórios.",
+  "limits": [
+    "as capturas P10 são probes curtos e não cobrem toda a semântica de multihit, guarda, throw ou simultaneidade",
+    "não há promoção visual/auditiva nem aprovação de gameplay completo",
+    "a identidade é u8 e depende de ciclos de ataque bem delimitados pela FSM"
+  ],
+  "artifacts": [
+    "inc/game_types.h",
+    "src/player.c",
+    "src/combat_event.c",
+    "src/fsm.c",
+    "tests/test_combat_event_contract.py",
+    "out/logs/combat_event_persistent_gate_v2_build.log",
+    "out/logs/p10_matrix_after_6c6d.log",
+    "out/logs/p10_matrix_retry_6c6d.log",
+    "out/logs/p10_matrix_hprb_summary.json"
+  ],
+  "status": "host_and_runtime_probe_revalidated_full_gameplay_pending"
+}

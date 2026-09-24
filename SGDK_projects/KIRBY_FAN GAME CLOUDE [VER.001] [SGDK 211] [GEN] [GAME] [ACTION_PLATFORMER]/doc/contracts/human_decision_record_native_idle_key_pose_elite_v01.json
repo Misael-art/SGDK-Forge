@@ -1,0 +1,28 @@
+{
+  "schema_version": "human_decision_record.v1",
+  "decision": "approved_for_native_idle_key_pose_and_runtime_visual_proof",
+  "asset_id": "native_idle_key_pose_elite_v01",
+  "sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29",
+  "content_sha256": "ce677449e1ce5c0722add0fd587bdba93d5b278667cf7cdf0a51329195ad93bc",
+  "native_bbox": "32x32",
+  "pivot": [16, 31],
+  "baseline_y": 30,
+  "visible_colors": 12,
+  "scale_lock_status": "locked",
+  "authorized_scope": {
+    "model_sheet_source": "model_sheet_challenger_v03_a_cluster_strict",
+    "runtime_review": "dedicated_isolated_idle_scene_only",
+    "future_pose_package": "up_to_three_key_poses_pending_separate_human_gate"
+  },
+  "forbidden_scope": [
+    "complete_sprite_sheet",
+    "final_animation",
+    "first_playable_hero_replacement",
+    "res_promotion_as_final",
+    "aaa_claim",
+    "ready_for_aaa"
+  ],
+  "basic_status": "comparison_control_superseded_by_visual_choice_not_artistic_rejection",
+  "v03_b_status": "comparison_only",
+  "provenance_boundary": "Fan game derivado da identidade de Kirby/Nintendo/HAL, com execução gráfica original, sem reutilização ou extração de pixels dos jogos de referência."
+}

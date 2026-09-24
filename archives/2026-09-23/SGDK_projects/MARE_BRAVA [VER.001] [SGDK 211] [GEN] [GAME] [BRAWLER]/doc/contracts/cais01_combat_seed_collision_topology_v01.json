@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais01_combat_seed_collision_topology_v01",
+  "status": "implemented_pending_emulator_evidence",
+  "owner": "SCENE_demo + entities/CRIA",
+  "scope": "single_player_vs_single_cria_technical_combat_seed",
+  "coordinate_space": {
+    "x": "world-space fix16 converted to whole pixels only at sprite placement",
+    "ground_y_px": 192,
+    "combat_lane_tolerance_px": 12,
+    "camera": "presentation-only; no collision coordinate is screen-relative"
+  },
+  "collision_domains": {
+    "taina_body_hurt": {
+      "owner": "SCENE_demo",
+      "shape": "implicit grounded body proxy around player pivot",
+      "seed_geometry_px": {"width": 16, "height": 40},
+      "geometry_status": "design_seed_not_gameplay_confirmed",
+      "current_effect": "CRIA active frame applies 5 damage, 24 invulnerability frames and 8 px knockback"
+    },
+    "taina_jab_hit": {
+      "owner": "SCENE_demo",
+      "shape": "directional 56 px range from player x at jab active phase 2",
+      "seed_geometry_px": {"width": 24, "height": 16},
+      "geometry_status": "design_seed_not_gameplay_confirmed",
+      "active_once": true,
+      "current_effect": "15 damage and 8 px directional recoil on CRIA"
+    },
+    "cria_hurt": {
+      "owner": "entities/CRIA",
+      "shape": "directional 56 px range check with 8 invulnerability frames",
+      "current_effect": "40 HP; hurt/recoil state or deactivation at zero HP"
+    },
+    "cria_hit": {
+      "owner": "entities/CRIA",
+      "shape": "40 px forward strike range, same-lane and grounded target checks",
+      "current_effect": "reports knockback intent to the scene; scene owns player HP and invulnerability"
+    },
+    "solid_and_push": {
+      "status": "not_implemented",
+      "constraint": "solid terrain, body push, hit, hurt and future grabs remain separate domains; no attack range may be reused as a solid collision test"
+    }
+  },
+  "update_order": [
+    "centralized input snapshot",
+    "TAINA movement and jump integration",
+    "TAINA jab active-frame hit test",
+    "CRIA AI, hit and hurt resolution",
+    "camera and presentation placement"
+  ],
+  "not_in_scope": [
+    "combo buffering and cancels",
+    "ESTIVADOR or multi-enemy ownership",
+    "terrain solids, one-way platforms and lanes beyond the current single ground lane",
+    "final hitbox visualization, final HUD, final combat art or AAA claim"
+  ],
+  "verification_required": [
+    "confirm 16x40 body seed and 24x16 jab seed against actual gameplay collision and hurtbox behavior",
+    "clean SGDK build",
+    "BlastEm input proof that jab damages CRIA once per active phase",
+    "BlastEm input proof that CRIA hit respects player invulnerability",
+    "measured multi-enemy scanline and frame budget before roster expansion"
+  ]
+}

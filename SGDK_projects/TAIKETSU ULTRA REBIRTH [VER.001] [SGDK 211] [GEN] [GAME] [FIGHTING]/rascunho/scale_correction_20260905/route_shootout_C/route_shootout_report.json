@@ -1,0 +1,1157 @@
+{
+  "schema_version": "route_shootout_report.v1",
+  "tool": "forge_art.source_route_triage",
+  "tool_version": "1.0.0",
+  "source": {
+    "path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v04.png",
+    "sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f"
+  },
+  "source_triage_report": {
+    "path": "rascunho/scale_correction_20260905/source_v04_triage_report.json",
+    "sha256": "0d550b27b81aaf275c0547b5c01b7bcad7d152fbeb1b5bb774bc7497610f0ba4"
+  },
+  "canonical_source": {
+    "path": "rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+    "sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1"
+  },
+  "source_class": "high_res_full_body_character",
+  "target": {
+    "size": [
+      88,
+      136
+    ],
+    "anchor": "bottom_center"
+  },
+  "scale_contract": {
+    "path": "rascunho/scale_correction_20260905/scale_shootout_contract.json",
+    "sha256": "b57e97c583ab032966275252d3876caf4a3596fdd70e210138bd8f6cb76074fe",
+    "authorized_targets": [
+      [
+        72,
+        112
+      ],
+      [
+        80,
+        120
+      ],
+      [
+        88,
+        136
+      ]
+    ]
+  },
+  "route_policy": "all_applicable",
+  "registry": {
+    "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/forge_art/route_prior_registry.json",
+    "sha256": "f4a9ee8708c0b1d786ae18736a254a22ba87b36e4b6125b4f2723b33467a1bb1"
+  },
+  "matte_report": null,
+  "routes": [
+    {
+      "route_id": "im_nearest",
+      "backend": "ImageMagick",
+      "algorithm": "Point",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Point",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/raw_rgba.png",
+        "sha256": "ff7b2f8f9377f9ea1e8db6820a14fbb3860cd92db41f6fe82c7be147d038b182"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_nearest/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4867,
+        "partial_alpha_pixels": 4853,
+        "bbox": [
+          0,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4653
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_box_area",
+      "backend": "ImageMagick",
+      "algorithm": "Box",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Box",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/raw_rgba.png",
+        "sha256": "092e31a68ea9f962fa135cf459aeaf7c3b7a9a17f1cde2c099d0d841d2efd96b"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_box_area/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5122,
+        "partial_alpha_pixels": 5122,
+        "bbox": [
+          11,
+          5,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4662
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_bilinear_triangle",
+      "backend": "ImageMagick",
+      "algorithm": "Triangle",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Triangle",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/raw_rgba.png",
+        "sha256": "1629984afba144e87f7b2e574be1be6b1a135543f1faf0def755c91e6ffee649"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bilinear_triangle/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5338,
+        "partial_alpha_pixels": 5338,
+        "bbox": [
+          11,
+          5,
+          84,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4668
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_bicubic",
+      "backend": "ImageMagick",
+      "algorithm": "Cubic",
+      "curatorial_prior": "experimental",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Cubic",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/raw_rgba.png",
+        "sha256": "5d044bd132225e040d4ebee8426f26362cc9805580d97b7466f4c3a8d23557d4"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_bicubic/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5633,
+        "partial_alpha_pixels": 5633,
+        "bbox": [
+          10,
+          5,
+          84,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4670
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_lanczos2",
+      "backend": "ImageMagick",
+      "algorithm": "Lanczos2",
+      "curatorial_prior": "experimental",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Lanczos2",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/raw_rgba.png",
+        "sha256": "68fac06d329822f1a873c5aa94b8dff2858bcb78d2dae11a2beac52c4e9119e9"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos2/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5125,
+        "partial_alpha_pixels": 4720,
+        "bbox": [
+          11,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4666
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_lanczos3",
+      "backend": "ImageMagick",
+      "algorithm": "Lanczos",
+      "curatorial_prior": "preferred_prior",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Lanczos",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/raw_rgba.png",
+        "sha256": "556a0da5e9f9c6505e28fecfda4f1b16874b0f54b86ffd6f6beae5540effa6a6"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5522,
+        "partial_alpha_pixels": 5103,
+        "bbox": [
+          0,
+          5,
+          85,
+          133
+        ],
+        "alpha_threshold_128_pixels": 4663
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_mitchell_netravali",
+      "backend": "ImageMagick",
+      "algorithm": "Mitchell",
+      "curatorial_prior": "preferred_prior",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Mitchell",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/raw_rgba.png",
+        "sha256": "84217854ed0e6adcd461494c34e5ecb27afbb4a5a3eda2c8180b5e13a6fc5e60"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_mitchell_netravali/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5287,
+        "partial_alpha_pixels": 5041,
+        "bbox": [
+          11,
+          5,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4665
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_catmull_rom",
+      "backend": "ImageMagick",
+      "algorithm": "Catrom",
+      "curatorial_prior": "viable_challenger",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Catrom",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/raw_rgba.png",
+        "sha256": "0414ceae8b7f6a9f916fe200b14be4043481edff17620eb09cb7791a89bc50c1"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_catmull_rom/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5130,
+        "partial_alpha_pixels": 4713,
+        "bbox": [
+          11,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4666
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "im_b_spline",
+      "backend": "ImageMagick",
+      "algorithm": "Spline",
+      "curatorial_prior": "viable_challenger",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Spline",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/raw_rgba.png",
+        "sha256": "5d044bd132225e040d4ebee8426f26362cc9805580d97b7466f4c3a8d23557d4"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_b_spline/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5633,
+        "partial_alpha_pixels": 5633,
+        "bbox": [
+          10,
+          5,
+          84,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4670
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "pil_nearest",
+      "backend": "Pillow",
+      "algorithm": "NEAREST",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Pillow 12.3.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "Pillow",
+        "pil_nearest"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/raw_rgba.png",
+        "sha256": "254d53e8776e05bf8cf556b827a1300e0e0aba1ec1f718ba785be055c248f720"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_nearest/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4867,
+        "partial_alpha_pixels": 4853,
+        "bbox": [
+          0,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4653
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "pil_box",
+      "backend": "Pillow",
+      "algorithm": "BOX",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Pillow 12.3.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "Pillow",
+        "pil_box"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/raw_rgba.png",
+        "sha256": "d8f0ba3bce6778bc0897b3be5b32c8afb53ac2b1d8ddd128f243a686083f1598"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_box/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5119,
+        "partial_alpha_pixels": 5119,
+        "bbox": [
+          0,
+          5,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4662
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "pil_bilinear",
+      "backend": "Pillow",
+      "algorithm": "BILINEAR",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Pillow 12.3.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "Pillow",
+        "pil_bilinear"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/raw_rgba.png",
+        "sha256": "f7ef1410a63638bdaa40426e25df5d77dae4d72bc75ce48789e88cf3b7bf909c"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bilinear/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5339,
+        "partial_alpha_pixels": 5339,
+        "bbox": [
+          11,
+          5,
+          84,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4668
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "pil_hamming",
+      "backend": "Pillow",
+      "algorithm": "HAMMING",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Pillow 12.3.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "Pillow",
+        "pil_hamming"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/raw_rgba.png",
+        "sha256": "502a07d3ac3a37ff9a2f6f9ca54d6a747f6826e6140977d583ee3c3a82c4dc39"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_hamming/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5282,
+        "partial_alpha_pixels": 5282,
+        "bbox": [
+          11,
+          5,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4666
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "pil_bicubic",
+      "backend": "Pillow",
+      "algorithm": "BICUBIC",
+      "curatorial_prior": "experimental",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Pillow 12.3.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "Pillow",
+        "pil_bicubic"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/raw_rgba.png",
+        "sha256": "3ac167d682b1c93c57ca13e4d9955b39fe28a9e6e628ae8d284f2f64e1e3af77"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_bicubic/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5139,
+        "partial_alpha_pixels": 4771,
+        "bbox": [
+          11,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4663
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "pil_lanczos",
+      "backend": "Pillow",
+      "algorithm": "LANCZOS",
+      "curatorial_prior": "viable_challenger",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Pillow 12.3.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "Pillow",
+        "pil_lanczos"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/raw_rgba.png",
+        "sha256": "c73e0b9fdb2c8f72d2c8597515eb8fea14d519a750dc27ed26cafe82affdaddc"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/pil_lanczos/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5559,
+        "partial_alpha_pixels": 5237,
+        "bbox": [
+          9,
+          5,
+          85,
+          133
+        ],
+        "alpha_threshold_128_pixels": 4661
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "cv_nearest",
+      "backend": "OpenCV",
+      "algorithm": "INTER_NEAREST",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "OpenCV 5.0.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "OpenCV",
+        "INTER_NEAREST"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/raw_rgba.png",
+        "sha256": "2b839158c6593f405ba41ed0466903f07be5dfc3aa42c66cbe1917ded4480030"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_nearest/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4906,
+        "partial_alpha_pixels": 4853,
+        "bbox": [
+          1,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4679
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "cv_area",
+      "backend": "OpenCV",
+      "algorithm": "INTER_AREA",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "OpenCV 5.0.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "OpenCV",
+        "INTER_AREA"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/raw_rgba.png",
+        "sha256": "c42cd8c95457e6cded43f041d481c1483ec7789915144ac5f09db0f4b78b86de"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_area/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 5126,
+        "partial_alpha_pixels": 5126,
+        "bbox": [
+          11,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4666
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "cv_linear",
+      "backend": "OpenCV",
+      "algorithm": "INTER_LINEAR",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "OpenCV 5.0.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "OpenCV",
+        "INTER_LINEAR"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/raw_rgba.png",
+        "sha256": "3878dcd8aa55a511d7049c3cc1fe4c9abfc616e4fb5f36312780ae4940246b79"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_linear/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4910,
+        "partial_alpha_pixels": 4909,
+        "bbox": [
+          0,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4655
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "cv_cubic",
+      "backend": "OpenCV",
+      "algorithm": "INTER_CUBIC",
+      "curatorial_prior": "experimental",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "OpenCV 5.0.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "OpenCV",
+        "INTER_CUBIC"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/raw_rgba.png",
+        "sha256": "641f34f0fe8b87cdff404122b2a8441c6ab7f223179cdd7d25ec298a8868d754"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_cubic/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4868,
+        "partial_alpha_pixels": 4849,
+        "bbox": [
+          0,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4655
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "cv_lanczos4",
+      "backend": "OpenCV",
+      "algorithm": "INTER_LANCZOS4",
+      "curatorial_prior": "viable_challenger",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "OpenCV 5.0.0",
+      "command": [
+        "forge_art.source_route_triage",
+        "OpenCV",
+        "INTER_LANCZOS4"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/raw_rgba.png",
+        "sha256": "e3f1a8eff3a50fb5521f3b6712a0d16c9836e3ec52a09af78ddff724ade2aea1"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260905/route_shootout_C/routes/cv_lanczos4/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4857,
+        "partial_alpha_pixels": 4839,
+        "bbox": [
+          0,
+          6,
+          83,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4655
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+        "canonical_source_sha256": "7eb8d3b85a9015eb980d225932b25e62716603bac4f1e9658e60747e897828f1",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.0.0"
+      }
+    },
+    {
+      "route_id": "gimp_none",
+      "backend": "GIMP Console",
+      "algorithm": "none",
+      "curatorial_prior": "host_optional_unavailable",
+      "status": "skipped",
+      "reason": "gimp_batch_route_requires_separate_curated_operation; GUI is forbidden",
+      "tool_version": null,
+      "command": null,
+      "output": null,
+      "evidence": null,
+      "metrics": null,
+      "claim_ceiling": "mechanical_geometry_probe"
+    },
+    {
+      "route_id": "gimp_linear",
+      "backend": "GIMP Console",
+      "algorithm": "linear",
+      "curatorial_prior": "host_optional_unavailable",
+      "status": "skipped",
+      "reason": "gimp_batch_route_requires_separate_curated_operation; GUI is forbidden",
+      "tool_version": null,
+      "command": null,
+      "output": null,
+      "evidence": null,
+      "metrics": null,
+      "claim_ceiling": "mechanical_geometry_probe"
+    },
+    {
+      "route_id": "gimp_cubic",
+      "backend": "GIMP Console",
+      "algorithm": "cubic",
+      "curatorial_prior": "host_optional_unavailable",
+      "status": "skipped",
+      "reason": "gimp_batch_route_requires_separate_curated_operation; GUI is forbidden",
+      "tool_version": null,
+      "command": null,
+      "output": null,
+      "evidence": null,
+      "metrics": null,
+      "claim_ceiling": "mechanical_geometry_probe"
+    },
+    {
+      "route_id": "gimp_nohalo",
+      "backend": "GIMP Console",
+      "algorithm": "nohalo",
+      "curatorial_prior": "host_optional_unavailable",
+      "status": "skipped",
+      "reason": "gimp_batch_route_requires_separate_curated_operation; GUI is forbidden",
+      "tool_version": null,
+      "command": null,
+      "output": null,
+      "evidence": null,
+      "metrics": null,
+      "claim_ceiling": "mechanical_geometry_probe"
+    },
+    {
+      "route_id": "gimp_lohalo",
+      "backend": "GIMP Console",
+      "algorithm": "lohalo",
+      "curatorial_prior": "host_optional_unavailable",
+      "status": "skipped",
+      "reason": "gimp_batch_route_requires_separate_curated_operation; GUI is forbidden",
+      "tool_version": null,
+      "command": null,
+      "output": null,
+      "evidence": null,
+      "metrics": null,
+      "claim_ceiling": "mechanical_geometry_probe"
+    }
+  ],
+  "executed": 20,
+  "skipped": 5,
+  "near_duplicate_warnings": [
+    {
+      "left": "im_bicubic",
+      "right": "im_b_spline",
+      "changed_pixels": 0,
+      "canvas_ratio": 0.0,
+      "status": "near_duplicate_warning"
+    }
+  ],
+  "board": {
+    "path": "rascunho/scale_correction_20260905/route_shootout_C/route_exploration_board.png",
+    "sha256": "0613603fbbd78b05d45c15414c921b0b10e1c20ca00f39699530167ad066c3c6"
+  },
+  "automatic_winner": null,
+  "winner_policy": "visual_and_identity_review_required_before_native_reauthoring",
+  "native_candidate": false,
+  "promotable": false,
+  "res_promotion": false,
+  "claim_ceiling": "mechanical_geometry_probe",
+  "native_representation": null,
+  "verification": {
+    "status": "passed",
+    "blocking": false,
+    "blockers": [],
+    "claim_ceiling": "route_manifest_integrity_only"
+  }
+}

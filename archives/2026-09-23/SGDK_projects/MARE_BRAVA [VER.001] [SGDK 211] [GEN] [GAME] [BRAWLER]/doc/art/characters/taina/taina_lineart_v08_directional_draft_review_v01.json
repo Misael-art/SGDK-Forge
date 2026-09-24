@@ -1,0 +1,38 @@
+{
+  "report_id": "taina_lineart_v08_directional_draft_review_v01",
+  "asset_id": "taina",
+  "evaluated_at": "2026-07-28",
+  "asset": {
+    "path": "rascunho/taina_lineart_v08/taina_lineart_v08_directional_draft_v01.png",
+    "sha256": "a6ad48b7cd242674115227c25f83c7dae48e9265c3f4f9b3f8dd552d083c75e9",
+    "dimensions_px": { "w": 2172, "h": 724 },
+    "kind": "imagegen_directional_lineart_draft"
+  },
+  "source_of_truth": {
+    "timeline_image": "04",
+    "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png"
+  },
+  "prompt_log": "doc/art/generated_prompts/taina_lineart_v08/taina_lineart_v08_directional_draft_v01.md",
+  "art_director_review": {
+    "status": "directional_review_only",
+    "identity_observations": [
+      "Preserva as quatro vistas, a massa cacheada, o rosto firme, a guarda alta, a faixa lateral, as bandagens e a calca larga.",
+      "Mantem o gesto de lutadora e a assimetria melhor do que os probes v05-v07."
+    ],
+    "technical_blockers": [
+      "Nao e canvas nativo 192x64 nem quatro celulas 48x64.",
+      "A linha e ilustrativa/ampliada, nao lineart 1px auditada em grid VDP.",
+      "Nao possui index 0, paleta de producao, pivots ou evidencia de leitura em 320x224."
+    ],
+    "decision": "Arquivar como rascunho de direcao e comparacao humana; nao usar como fonte de geracao, sprite, baseline, recurso SGDK ou asset de runtime."
+  },
+  "next_required_route": [
+    "Desenhar a lineart v08 em quatro celulas 48x64 a partir da imagem 04 e do visual source of truth.",
+    "Emitir comparacao lado a lado e model_sheet_to_sprite_fidelity_report_v08 antes de color blocking."
+  ],
+  "promotion": {
+    "ready_for_color_blocking": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false
+  }
+}

@@ -452,7 +452,7 @@ Se o laudo disser `nao cabe`, ele deve dizer qual das opcoes falhou: resident se
   - `SAT reuse`
   - quirks e exploits de sprite
 
-## Curadoria 2026-06-03 - Celestial Chase: resposta tecnica vs resposta perceptiva
+## Curadoria - resposta tecnica vs resposta perceptiva
 
 Licao: o budget classico do VDP (`scanline pressure`, `tile budget`, `palette budget`, `DMA budget`) responde a pergunta "cabe?". Mas o sistema antigo nao separava isso da pergunta "perceptivel?". Resultado: budget aprovado por todos os numeros, mas o jogador nao ve o efeito por causa de FX competindo, sprites muito pequenos, ou paleta colapsando sob Highlight.
 
@@ -601,3 +601,12 @@ antes de responder `cabe`:
 Sem esses contratos, o parecer maximo e `needs_review` ou `nao cabe`
 metodologico para o claim correspondente. Build verde ou resumo de video nao
 substitui budget, owner, fallback e evidencia runtime.
+
+## Limite dos probes audiovisuais
+
+HCAD/HAPE/HPRB medem apenas os campos declarados no seu schema e janela
+observada. Recalcular invariantes, validar regiao, tipos, overflow e identidade;
+nao confiar em `cadence_invariant` declarado. Contador de presentation nao prova
+upload efetivo, deadline de VBlank, sprites por scanline ou perceptibilidade. O
+budget continua exigindo pior quadro combinado e evidencia BlastEm/VDP quando
+aplicavel.

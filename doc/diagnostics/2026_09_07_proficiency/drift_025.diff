@@ -1,0 +1,26 @@
+--- SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/system/runtime_probe.h
++++ tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h
+@@ -23,11 +23,10 @@
+  *   `MDRuntimeProbe_tick()` once per main-loop iteration.
+  */
+ 
+-#define MD_RUNTIME_PROBE_WORD_COUNT 932
+-#define MD_RUNTIME_PROBE_MAX_SAMPLES 900
++#define MD_RUNTIME_PROBE_WORD_COUNT 64
++#define MD_RUNTIME_PROBE_MAX_SAMPLES 32
+ #define MD_RUNTIME_PROBE_SRAM_OFFSET 0
+ #define MD_RUNTIME_PROBE_HEARTBEAT_OFFSET 0x100
+-#define MD_RUNTIME_PROBE_VISUAL_OFFSET 0x1000
+ #define MD_RUNTIME_PROBE_HEARTBEAT_PERIOD 30
+ 
+ extern volatile u16 g_mdRuntimeProbe[MD_RUNTIME_PROBE_WORD_COUNT];
+@@ -35,7 +34,8 @@
+ void MDRuntimeProbe_init(void);
+ void MDRuntimeProbe_tick(void);
+ void MDRuntimeProbe_exportToSRAM(void);
+-void MDRuntimeProbe_exportVisualToSRAM(void);
+ void MDRuntimeProbe_writeHeartbeat(void);
++/* brandEnsureShard falha em silencio; a cena reporta spawned/failed aqui. */
++void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed);
+ 
+ #endif

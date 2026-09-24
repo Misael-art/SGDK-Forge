@@ -1,0 +1,43 @@
+{
+  "scope": "asset_conversion",
+  "source": "data/source_art/sf_hud/sf_hud_sheet.png",
+  "source_sha256": "1d2c8381841b38dcb2b14319abc73a5febbbd759283076f513bcfda721eb9f9b",
+  "glyph_order": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  "outputs": {
+    "ts_hud_p1_bar": {
+      "path": "res/sprite/hud/energy_yellow_p1_window.png",
+      "sha256": "bb64d055d5c79371b0feab50ddd8396e4aa3c7d8d20d0c538978a9f615ba3a66",
+      "crop": [
+        16,
+        18,
+        144,
+        29
+      ]
+    },
+    "ts_hud_p2_bar": {
+      "path": "res/sprite/hud/energy_yellow_p2_window.png",
+      "sha256": "70e60902d76eabe833472460be7cdccf54764179c61bc0053243d5be2a617685",
+      "crop": [
+        16,
+        18,
+        144,
+        29
+      ]
+    },
+    "spr_hud_ko": {
+      "path": "res/sprite/hud/ko.png",
+      "sha256": "24151fd2b0686ab7d170fc4da2dc0b68678bd87b80a101f9cdb2f3cf3050f5bd",
+      "crop": [
+        162,
+        1,
+        192,
+        15
+      ]
+    },
+    "ts_hud_message_font": {
+      "path": "res/sprite/hud/message_font.png",
+      "sha256": "9e1f53fe982869eb1796203c3589c9798638098dad2d6f96ff8b1b5653d5fab5",
+      "crop": "12x12 uppercase + digits; 16x16 padded cells, ROW order"
+    }
+  }
+}

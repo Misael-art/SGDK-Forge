@@ -8,6 +8,11 @@ Use este fluxo sempre que um agente receber um pedido de iniciar trabalho em um 
 
 Nenhum agente deve abrir arte, runtime, assets ou claims de estrutura antes de classificar corretamente uma dessas 3 situacoes.
 
+Se o contexto for `aaa_game` (ou vertical slice / luta / brawler / cena
+assinatura), os tetos de concepcao sao
+`doc/03_art/live_scene_bar_parameters.json`. Nao abrir arte antes de
+declarar teto de tiles, paletas, sprites/linha e fps no GDD/spec.
+
 Depois disso, classifique tambem o contexto de trabalho com `workflows/project-context-classification.md`:
 
 - `aaa_game`

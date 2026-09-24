@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forge-art contextual route prior registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "purpose", "evidence_policy", "routes", "source_classes"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "purpose": {"type": "string"},
+    "evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_evidence_scope", "generalization_limit", "winner_policy", "claim_ceiling"],
+      "properties": {
+        "current_evidence_scope": {"type": "string"},
+        "generalization_limit": {"type": "string"},
+        "winner_policy": {"const": "no_automatic_winner"},
+        "claim_ceiling": {"const": "mechanical_geometry_probe"}
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["route_id", "backend", "algorithm"],
+        "properties": {
+          "route_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "backend": {"enum": ["ImageMagick", "Pillow", "OpenCV", "GIMP Console"]},
+          "algorithm": {"type": "string"}
+        }
+      }
+    },
+    "source_classes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["high_res_full_body_character", "native_pixel_art_integer_scale", "unclassified_raster"],
+      "properties": {
+        "high_res_full_body_character": {"$ref": "#/$defs/profile"},
+        "native_pixel_art_integer_scale": {"$ref": "#/$defs/profile"},
+        "unclassified_raster": {"$ref": "#/$defs/profile"}
+      }
+    }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_confidence", "preferred_prior", "viable_challenger", "experimental", "negative_control", "host_optional_unavailable", "notes"],
+      "properties": {
+        "evidence_confidence": {"type": "string"},
+        "preferred_prior": {"type": "array", "items": {"type": "string"}},
+        "viable_challenger": {"type": "array", "items": {"type": "string"}},
+        "experimental": {"type": "array", "items": {"type": "string"}},
+        "negative_control": {"type": "array", "items": {"type": "string"}},
+        "host_optional_unavailable": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

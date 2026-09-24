@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_light_jab_active_directional_review_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "asset_kind": "key_pose_directional_study",
+  "status": "directional_study_pass_native_key_pose_pending",
+  "ready_for_aaa": false,
+  "source_lineage": {
+    "authoritative_character_source": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "approved_idle_master": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+    "generated_study": "rascunho/taina_light_jab_cross_v01/taina_light_jab_active_directional_study_v01.png",
+    "generated_study_sha256": "8b3c1a73623c7e279141c67fbe410ac6296d3b8b97ca53b7d08f9d8d626cac48",
+    "comparison_board": "doc/art/characters/taina/review/taina_idle_v02_jab_active_direction_compare_v01.png",
+    "comparison_board_sha256": "59d40d7f607d8a78603bce4a8dc8c2dc83856ba10aaf427d399ec9e78cab8ecb"
+  },
+  "gameplay_context": {
+    "combo_position": 1,
+    "gdd_sequence": "jab -> cross -> low_kick",
+    "role": "fast close-range opener",
+    "hitstop_frames_on_confirm": 2,
+    "attack_hitbox_seed": "24x16 at the lead-fist endpoint",
+    "camera": "three_quarter_side_brawler_320x224"
+  },
+  "topology_check": {
+    "head_count": 1,
+    "torso_count": 1,
+    "arm_count": 2,
+    "leg_count": 2,
+    "feet_complete": true,
+    "lead_fist_connected_to_shoulder": true,
+    "rear_guard_connected_to_shoulder": true,
+    "ambiguous_extra_limb": false,
+    "status": "passed_directional"
+  },
+  "identity_check": {
+    "tall_athletic_body": true,
+    "angular_face": true,
+    "dominant_curly_hair_mass": true,
+    "orange_top": true,
+    "indigo_trousers": true,
+    "teal_wraps": true,
+    "teal_asymmetric_sash": true,
+    "rear_guard_at_jaw": true,
+    "eyes_track_target": true,
+    "status": "passed_directional"
+  },
+  "motion_read": {
+    "phase": "active_contact",
+    "lead_arm_line": "clear_horizontal_extension",
+    "center_of_mass": "small_forward_shift_over_grounded_base",
+    "rear_guard": "preserved",
+    "foot_contact": "both_feet_visible_and_grounded",
+    "impact_silhouette": "readable",
+    "status": "passed_directional"
+  },
+  "native_translation_risks": [
+    "The extended fist cannot fit the approved 48px-wide idle cell without horizontal compression or clipping.",
+    "The 1024x1536 RGB study has antialiasing and many colors; it is not pixel art or a conversion source for direct downscale.",
+    "The gray background contains tonal variation and is not a clean chroma-key or transparent matte.",
+    "The face, fist endpoint and rear guard must be redrawn as 1px clusters at native resolution.",
+    "A wider action envelope increases tiles and must be measured independently from idle_guard."
+  ],
+  "decision": "Keep as directional_review_only. Author the active jab as a fresh native 1px key pose using a 64x64 action cell, pivot (24,60), locked 59px visible height and the approved PAL1 role map. Do not generate the remaining frames independently.",
+  "human_approval_required_for_native_key_pose": true
+}

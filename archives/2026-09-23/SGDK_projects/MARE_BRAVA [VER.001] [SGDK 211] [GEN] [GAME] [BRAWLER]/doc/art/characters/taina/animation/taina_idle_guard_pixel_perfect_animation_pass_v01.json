@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v01",
+  "status": "technical_runtime_pass_visual_fail",
+  "checks": {
+    "one_action_strip": true,
+    "six_cells_48x64": true,
+    "grid_8x8_aligned": true,
+    "indexed_palette": true,
+    "index_0_reserved_for_background": true,
+    "md_9bit_palette_steps": true,
+    "bbox_height_px": 48,
+    "top_y_px": 11,
+    "foot_y_px": 58,
+    "bbox_width_variation_px": 1,
+    "edge_clipping": false,
+    "residual_matte": false,
+    "baked_fx": false
+  },
+  "evidence": [
+    "doc/art/characters/taina/animation/taina_idle_guard_strip_integrity_v01.json",
+    "doc/art/characters/taina/animation/taina_idle_guard_strip_validate_report_v01.json",
+    "doc/art/characters/taina/review/taina_idle_guard_native_preview_v01.gif",
+    "doc/art/characters/taina/review/taina_idle_guard_pivot_overlay_4x_v01.png",
+    "doc/art/characters/taina/animation/taina_idle_guard_foot_contact_report_v01.json",
+    "doc/art/characters/taina/animation/taina_idle_guard_frame_delta_report_v01.json",
+    "doc/art/characters/taina/animation/taina_idle_guard_runtime_visual_review_v01.json"
+  ],
+  "remaining_gate": "Redesenho pixel nativo v02 a partir da imagem 04 e da fonte autoral aprovada; a v01 não pode alimentar nova geração."
+}

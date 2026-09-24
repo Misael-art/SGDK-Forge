@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-19T11:24:58.4801404-03:00",
+  "status": "partial_capture_blocked",
+  "rom": {
+    "path": "out/rom.bin",
+    "sha256": "1ddb1a3155dd288e78dcf814776435512abf0ceb0ebd8e1a13d161597b8b2729",
+    "size_bytes": 131072
+  },
+  "captured": [
+    {
+      "stage": "title",
+      "path": "out/evidence/input_probe_v016/title_probe.png",
+      "sha256": "396c114fe4755da1027d258519f1bf4526ec32e42b128552a99bb086763e33eb",
+      "status": "observed_in_blastem"
+    },
+    {
+      "stage": "sram_after_title_probe",
+      "path": "out/evidence/input_probe_v016/sandbox_20260619_111858_ce1e824a/saves/rom/save.sram",
+      "sha256": "9edd9dcf65dafad72b8cff6a49469db92177dbdd008176ce8b0339f4c0ccab92",
+      "size_bytes": 32768,
+      "decoded_probe": {
+        "ready_magic": "READY",
+        "scene_magic": "SCN",
+        "scene_id": 1,
+        "input_magic": "INP",
+        "observed_input": "0x0000"
+      }
+    }
+  ],
+  "not_captured": [
+    "opening",
+    "race_start",
+    "race_mid",
+    "beacon",
+    "result",
+    "title_return"
+  ],
+  "capture_blocker": {
+    "canonical_module": "tools/sgdk_wrapper/lib/blastem_automation.psm1",
+    "error": "BlastEm nao pode receber input: foreground indisponivel apos 6 tentativas",
+    "session_diagnosis": {
+      "executor_user": "WIN_DECK11/misae",
+      "executor_session": 1,
+      "foreground_process": "Codex",
+      "foreground_session": 1,
+      "environment_user_interactive": true
+    },
+    "computer_control_bridge_error": "Package subpath computer_use_client_base.js is not defined by @oai/sky exports",
+    "interpretation": "process creation is operational; navigated BlastEm capture is blocked by Windows foreground/control bridge, not by ROM launch"
+  },
+  "claim_ceiling": {
+    "build": "buildado",
+    "title": "testado_em_emulador",
+    "route": "nao_testado",
+    "performance_60fps": "nao_medido",
+    "validado_budget": false,
+    "ready_for_aaa": false
+  }
+}

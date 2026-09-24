@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "owner": "src/system/input.c",
+  "player": "P1",
+  "mapping": {
+    "left_right": "walk_and_face",
+    "down": "crouch_guard",
+    "A": "light_attack",
+    "B": "heavy_attack",
+    "C": "special",
+    "X": "medium_attack",
+    "Y": "dash",
+    "Z": "guard",
+    "START": "pause_or_advance_cinematic",
+    "MODE": "return_to_menu"
+  },
+  "semantics": ["held", "pressed", "released"],
+  "six_button_note": "The D1 probe remains playable on 3BTN; X/Y/Z are optional six-button actions.",
+  "debounce": "centralized in INPUT_update; no scene reads JOY directly"
+}

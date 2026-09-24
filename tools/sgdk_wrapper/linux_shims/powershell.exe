@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+wrapper_root="$(cd "$script_dir/.." && pwd)"
+repo_root="$(cd "$wrapper_root/../.." && pwd)"
+pwsh_version="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["powershell"]["version"])' "$wrapper_root/linux_host_dependencies.json")"
+pwsh_path="$repo_root/out/host_tools/powershell/$pwsh_version/pwsh"
+
+if [[ ! -x "$pwsh_path" ]]; then
+    "$wrapper_root/ensure_linux_pwsh.sh" >/dev/null
+fi
+if [[ ! -x "$pwsh_path" ]]; then
+    echo "powershell_shim_status=blocked blocker=powershell_dependency_bootstrap_failed" >&2
+    exit 2
+fi
+
+exec "$pwsh_path" "$@"

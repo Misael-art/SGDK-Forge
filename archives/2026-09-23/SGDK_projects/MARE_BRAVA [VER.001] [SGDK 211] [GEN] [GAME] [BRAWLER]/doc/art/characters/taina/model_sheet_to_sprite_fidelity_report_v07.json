@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_model_sheet_to_lineart_fidelity_v07",
+  "generated_at": "2026-07-08T21:18:32-03:00",
+  "asset_id": "taina",
+  "candidate": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+    "sha256": "b8342103628317977961f3e9ae764cd4c43b04280c66594ac601906faed2c6d1",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v07.png",
+    "review_8x_sha256": "dced76ca7c32fd2b65d89eba4608d45f4fcb1cba350af006828dc489e14dfc57",
+    "comparison_board_6x": "doc/art/characters/taina/review/taina_lineart_v05_v06_v07_compare_6x_v01.png",
+    "comparison_board_6x_sha256": "f78ecea13949f97f15db30a0328396e346987963388842bb8bcb2fb6d81ff53d",
+    "asset_kind": "lineart_blocking_1px_scale_probe_candidate"
+  },
+  "intermediate_probe": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+    "sha256": "b1d58f956edda4a93634507b6728003b672dc6adb7ae805280a4f98eb13c1ec2",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v06.png",
+    "review_8x_sha256": "71ff232299b5db6e63dcb1285d119671cbd42ab9a81a2fa21788a331a0930c53",
+    "decision": "superseded_by_v07_scale_probe_not_promoted"
+  },
+  "contracts_used": {
+    "animation_planning_gate_report": "doc/art/characters/taina/animation/animation_planning_gate_report_v01.json",
+    "animation_direction_contract": "doc/art/characters/taina/animation/animation_direction_contract_v01.json",
+    "pivot_and_scale_contract": "doc/art/characters/taina/animation/pivot_and_scale_contract_v01.json",
+    "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+    "design_inheritance": "doc/art/characters/taina/design_inheritance.json"
+  },
+  "technical_check": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_px": { "w": 192, "h": 64 },
+    "dimensions_multiple_of_8": true,
+    "cell_px": { "w": 48, "h": 64 },
+    "view_count": 4,
+    "used_indices": [0, 1],
+    "index0_is_pipeline_magenta": true,
+    "visible_colors_on_9bit_grid_excluding_index0": true,
+    "visible_colors_max_15": true,
+    "has_alpha_channel": false,
+    "cell_metrics": [
+      {
+        "cell": 0,
+        "bbox_xyxy": [10, 9, 41, 61],
+        "visible_pixels": 398,
+        "visible_height_px": 52,
+        "foot_y_px": 60
+      },
+      {
+        "cell": 1,
+        "bbox_xyxy": [11, 9, 43, 61],
+        "visible_pixels": 396,
+        "visible_height_px": 52,
+        "foot_y_px": 60
+      },
+      {
+        "cell": 2,
+        "bbox_xyxy": [13, 9, 46, 61],
+        "visible_pixels": 342,
+        "visible_height_px": 52,
+        "foot_y_px": 60
+      },
+      {
+        "cell": 3,
+        "bbox_xyxy": [10, 9, 44, 61],
+        "visible_pixels": 380,
+        "visible_height_px": 52,
+        "foot_y_px": 60
+      }
+    ],
+    "relative_scale_delta": {
+      "v05_visible_height_px": [62, 61, 61, 62],
+      "v06_visible_height_px": [55, 55, 55, 55],
+      "v07_visible_height_px": [52, 52, 52, 52],
+      "contract_target_px": 48,
+      "status": "improved_but_still_above_target"
+    }
+  },
+  "visual_fidelity_assessment": {
+    "visual_pass": false,
+    "relative_to_v05": "scale_improved_identity_regressed",
+    "summary": "v07 corrects part of the v05/v06 scale drift and restores foot ground contact near the declared pivot, but it regresses the approved model-sheet identity: hair reads closer to a helmet, face/eye grammar is flatter, and the torso/guard still feels symbolic rather than native 16-bit character drafting. It is useful as a scale probe, not as the next source for color blocking or strips.",
+    "must_preserve_results": [
+      {
+        "trait": "curly_hair_mass",
+        "status": "failed",
+        "evidence": "overall hair mass is compact but curl irregularity is too simplified, reading as helmet-like at 1x"
+      },
+      {
+        "trait": "wedge_face_and_eye_attitude",
+        "status": "failed",
+        "evidence": "face wedge exists but expression loses the strong brow/jaw attitude of the model sheet"
+      },
+      {
+        "trait": "muay_thai_guard",
+        "status": "partial",
+        "evidence": "high guard and gloves are present, but forearms are still symbolic and lack shoulder mechanics"
+      },
+      {
+        "trait": "orange_top_dark_trousers_read",
+        "status": "partial",
+        "evidence": "top/pants separation is present as lineart regions, but material identity remains unproven without a stronger shape pass"
+      },
+      {
+        "trait": "teal_wraps_and_sash_asymmetry",
+        "status": "partial",
+        "evidence": "sash hook exists in front/side/back, but side consistency and motion logic still require key-pose testing"
+      },
+      {
+        "trait": "scale_contract",
+        "status": "partial",
+        "evidence": "visible height improved from 61-62px in v05 to 52px in v07, still above the 48px target and still not visually approved"
+      },
+      {
+        "trait": "animation_gate",
+        "status": "blocked",
+        "evidence": "animation_direction_contract now exists, but no key poses, contact sheet, pivot overlay, foot contact report, frame delta report or BlastEm animation evidence exist"
+      }
+    ],
+    "visual_blockers": [
+      "scale_above_target_px",
+      "helmet_hair_drift",
+      "face_or_eye_readability_lost",
+      "generic_symbolic_torso_and_guard",
+      "animation_evidence_missing",
+      "not_ready_for_res_promotion"
+    ]
+  },
+  "decision": {
+    "status": "scale_probe_not_promoted",
+    "accepted_use": "negative_and_iterative_scale_reference_only",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "do not use v06 or v07 as generation source for final art",
+      "use the v01 animation and scale contracts to draw a fresh v08 from the approved model sheet, not from v05/v06/v07",
+      "preserve v05 identity gains while enforcing v07 scale lesson: top_y around 10-12, foot_y around 58-60, visible height near 48-50",
+      "prove new side-by-side fidelity panel before color blocking or key poses"
+    ]
+  }
+}

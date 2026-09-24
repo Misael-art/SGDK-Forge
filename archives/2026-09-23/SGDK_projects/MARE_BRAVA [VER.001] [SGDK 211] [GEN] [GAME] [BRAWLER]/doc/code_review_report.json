@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "code_review_report",
+  "generated_at": "2026-08-30T18:20:00Z",
+  "scope": "camera_runtime_and_branding_audio_v01",
+  "review_decision": "review_passed_with_risk",
+  "files_reviewed": [
+    "src/system/camera.c",
+    "inc/system/camera.h",
+    "src/scenes/scene_demo.c",
+    "src/scenes/scene_branding.c",
+    "src/system/audio.c",
+    "inc/system/audio.h",
+    "src/core/app.c"
+  ],
+  "checks": {
+    "sgdk_211_api_verified": true,
+    "float_or_double": false,
+    "heap_in_loop": false,
+    "dma_queue_for_scene_updates": true,
+    "direct_psg_outside_audio_owner": false,
+    "duplicate_camera_owner": false,
+    "build_clean": true,
+    "rom_generated": true
+  },
+  "findings": [
+    {"severity": "high", "code": "performance_over_budget_frames", "file": "out/blastem_evidence/blastem-linux-20260830T180348Z-3682089/runtime_metrics.json", "detail": "max_cpu_load=172 and over_budget_frames=61 in a 32-sample snapshot; sustained performance is unproven."},
+    {"severity": "high", "code": "tile_residency_over_ceiling", "file": "out/logs/tile_residency_audit_report.json", "detail": "2117 unique resident tiles against utility ceiling 1740; tilemap streaming or residency split is required."},
+    {"severity": "medium", "code": "camera_input_regression_pending", "file": "doc/camera_runtime_report.json", "detail": "Camera module is built and booted in CAIS_01, but no input-driven boundary/lookahead regression is sealed."},
+    {"severity": "medium", "code": "gameplay_audio_source_missing", "file": "doc/audio_architecture_card.json", "detail": "Only branding samples were validated; CAIS_01 BGM/SFX assets are absent."}
+  ],
+  "rom_sha256": "144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4",
+  "claim_limit": "Review covers static/runtime integration scope only; it does not promote visual AAA, gameplay completeness, sustained performance, audio acceptance or ready_for_aaa."
+}

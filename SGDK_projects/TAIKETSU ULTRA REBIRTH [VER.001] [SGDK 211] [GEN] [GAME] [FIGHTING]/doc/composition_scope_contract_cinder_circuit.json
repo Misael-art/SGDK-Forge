@@ -1,0 +1,43 @@
+ {
+   "schema_version": "1.0.0",
+   "contract_id": "cinder_circuit_arena_theme_scope_v01",
+   "scene_id": "combat_cinder_circuit",
+   "track_id": "cinder_circuit_arena_psg_candidate_v01",
+   "scope": "core_loop_10m",
+   "intended_use": "stage_bgm",
+   "status_ceiling": "vertical_slice_candidate",
+   "identity_note": "Pressão industrial em Ré menor: baixo descendente, resposta ascendente e espaço deliberado para confirmação, defesa e hitstop.",
+   "loop_plan": {
+     "bar_count": 8,
+     "duration_seconds": 16,
+     "seamless_loop_report_path": "doc/audio/seamless_loop_report_cinder_circuit_v01.json",
+     "click_free_strategy": "retorno no frame 0 com reset determinístico de PSG e transiente sem nota atravessando o loop",
+     "pause_resume_behavior": "pausar o driver e retomar sem reiniciar a frase",
+     "fatigue_risk_notes": "contraste de registro entre motivo A e resposta B; não preencher continuamente a faixa de impacto"
+   },
+   "sfx_protection": {
+     "frequency_masking_plan_path": "doc/audio/frequency_masking_plan_cinder_circuit_v01.json",
+     "critical_sfx": [
+       "hit_connect",
+       "guard_confirm",
+       "special_connect",
+       "round_result"
+     ],
+     "masking_strategy": "reservar transientes de PSG/PCM por prioridade; BGM candidate usa três tons e não reivindica mix FM final"
+   },
+   "promotion_criteria": [
+     "partitura autoral persistida",
+     "psg_score self-check e compilação determinística",
+     "seamless_loop_report sem clique",
+     "frequency_masking_plan revisado com eventos de luta",
+     "integração XGM2 na ROM",
+     "escuta contextual em BlastEm com ROM hash vigente"
+   ],
+   "blockers": [
+     "no_fm_arrangement",
+     "no_runtime_audio_capture",
+     "no_human_listen_approval",
+     "no_fighting_scene_audio_baseline"
+   ]
+ }
+ 

@@ -32,7 +32,8 @@ Estado canonico de referencia para o workspace ativo `F:\Projects\Sgdk Forge`.
 | `doc/05_technical/93_16bit_hardware_mastery_registry.json` | Registry machine-readable das tecnicas, tags humanas, status publico e evidencia de promocao. |
 | `tools/sgdk_wrapper/schemas/technique_usage_manifest.schema.json` | Contrato do manifesto por projeto em `doc/technique_usage_manifest.json`. |
 | `doc/07_game_design/genre_specialization_registry.json` | Registro machine-readable de especializacoes de genero. v2 = 38 subgeneros em 8 familias: 20 active, 8 future_knowledge, 10 future_architetural. Sem `MESTRE_*` (no auto-promotion). |
-| `doc/07_game_design/genre_specialization_matrix.md` | Painel humano das fases de promocao, eixos congelados, blockers phase-aware e legendas de viabilidade MD. v2 = 8 familias. |
+| `doc/07_game_design/genre_specialization_matrix.md` | Painel humano das fases de promocao, eixos congelados, blockers phase-aware e legendas de viabilidade MD. v2 = 8 familias. **STALE**: declara 20 active; o registry v3 e o CI declaram 6. |
+| `doc/07_game_design/genre_coverage_state.json` | Estado REAL de cobertura de genero por projeto (nivel de evidencia A/B/C, sha256 de ROM, validator status, divergencias abertas). Arquivo de consulta unico para diagnosticos: atualizar, nao duplicar. Consultivo — nao promove status. |
 | `doc/07_game_design/curation_sources/SOURCES_INDEX.md` | Indice canonico de fontes secundarias usadas pelas especializacoes. Cada fonte = SHA-256 + `verification_status` + `promotion_allowed`. v2 = 2 fighting + 7 placeholders para Wave 1+. |
 | `tools/sgdk_wrapper/schemas/genre_specialization_registry.schema.json` | Contrato do registro de especializacoes. v2 = multi-familia + `families` + `mega_drive_feasibility_legend` + `owner_skill` livre. |
 | `tools/sgdk_wrapper/schemas/genre_specialization_manifest.schema.json` | Contrato do opt-in por projeto em `doc/genre_specialization_manifest.json`. |

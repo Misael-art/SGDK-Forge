@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "celestial_chase_revive_ver_001_sgdk_211_gen_game_action_racing",
+  "manifest_id": "brand_identity_manifest_v001",
+  "brand_role": "project_identity",
+  "source_authority": {
+    "gdd_ref": "doc/11-gdd.md",
+    "ui_decision_card_ref": "doc/ui_decision_card.json",
+    "master_style_manifest_ref": "doc/master_style_manifest.json",
+    "reference_policy": "technical_inspiration_only"
+  },
+  "logo_system": {
+    "primary_title_text": "CELESTIAL CHASE REVIVE",
+    "subtitle_text": null,
+    "main_title_weight_percent": 88,
+    "genre_tone_alignment": "fast astral action racing with a mythic pursuer presence",
+    "source_vector_master_path": null,
+    "gameplay_metaphor": {
+      "metaphor": "the letter flow bends like a luminous road chased by a dark crown",
+      "target_letter_or_shape": "CHASE baseline and REVIVE terminal stroke",
+      "readability_priority": true
+    },
+    "silhouette_test": {
+      "method": "1-bit logo mask at 320x224 and at 96px thumbnail",
+      "pass_condition": "CELESTIAL CHASE remains readable and REVIVE does not collapse into decoration",
+      "evidence_ref": null
+    },
+    "monochrome_test": {
+      "method": "single palette value reduction against title background",
+      "pass_condition": "word shape and road/crown metaphor survive without color dependence",
+      "evidence_ref": null
+    },
+    "thumbnail_test": {
+      "method": "downsample capture to small preview without interpolation approval",
+      "pass_condition": "primary title can be identified before reading menu options",
+      "evidence_ref": null
+    },
+    "dynamic_background_test": {
+      "method": "title logo over animated/palette-shifted sky frame",
+      "pass_condition": "background motion never competes with title strokes or menu cursor",
+      "evidence_ref": null
+    }
+  },
+  "typography_system": {
+    "font_roles": [
+      {
+        "role": "logo_display",
+        "render_mode": "bitmap_tileset",
+        "charset_profile": "ascii_core",
+        "asset_ref": null,
+        "usage": "title logo and branding sigil",
+        "fallback": "static block logo using custom 8x8 tile letters"
+      },
+      {
+        "role": "front_end_body",
+        "render_mode": "bitmap_tileset",
+        "charset_profile": "ascii_core",
+        "asset_ref": "doc/glyph_manifest.json",
+        "usage": "menu, records, credits and short prompts",
+        "fallback": "reduced uppercase custom font"
+      },
+      {
+        "role": "hud_critical",
+        "render_mode": "bitmap_tileset",
+        "charset_profile": "ascii_core",
+        "asset_ref": "doc/glyph_manifest.json",
+        "usage": "Lumen, pressure, integrity and Pulse labels",
+        "fallback": "icon-first HUD with minimal text"
+      },
+      {
+        "role": "narrative_text",
+        "render_mode": "bitmap_tileset",
+        "charset_profile": "ascii_core",
+        "asset_ref": "doc/glyph_manifest.json",
+        "usage": "cutscene typewriter and ending cards",
+        "fallback": "shorter all-caps lines"
+      }
+    ],
+    "generic_font_policy": {
+      "sgdk_default_font_use": "debug_only",
+      "final_identity_requires_custom_font": true
+    },
+    "glyph_manifest_ref": "doc/glyph_manifest.json"
+  },
+  "title_screen_export_plan": {
+    "runtime_layers": [
+      {
+        "layer_id": "title_sky",
+        "role": "shadow",
+        "vdp_surface": "BG_B",
+        "palette_domain": "title_sky_pal",
+        "animation_role": "palette_cycle"
+      },
+      {
+        "layer_id": "title_logo",
+        "role": "main_text",
+        "vdp_surface": "BG_A",
+        "palette_domain": "title_logo_pal",
+        "animation_role": "static"
+      },
+      {
+        "layer_id": "title_road_crown",
+        "role": "metaphor",
+        "vdp_surface": "BG_A",
+        "palette_domain": "title_logo_pal",
+        "animation_role": "pulse"
+      },
+      {
+        "layer_id": "menu_cursor",
+        "role": "cursor_feedback",
+        "vdp_surface": "SPRITES",
+        "palette_domain": "ui_cursor_pal",
+        "animation_role": "beat_sync"
+      }
+    ],
+    "vdp_budget_ref": "doc/13-spec-cenas.md",
+    "fallback_static_plan": "freeze logo and cursor pulse before reducing title readability"
+  },
+  "validation_plan": {
+    "native_320x224_status": "planned",
+    "silhouette_status": "planned",
+    "monochrome_status": "planned",
+    "thumbnail_status": "planned",
+    "dynamic_background_status": "planned",
+    "blastem_evidence_required": true,
+    "blastem_evidence_ref": null
+  },
+  "fallback_policy": {
+    "budget_fallback": "remove logo glow and background palette motion before changing typography",
+    "font_fallback": "custom uppercase body font remains mandatory; SGDK default is debug only",
+    "logo_animation_fallback": "static title logo with one-frame cursor pulse"
+  },
+  "approval_status": "planned",
+  "blockers": [
+    "source_logo_asset_missing",
+    "native_logo_readability_unmeasured",
+    "blastem_title_capture_missing"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "blockers": [],
+  "display_mode": "h40",
+  "hardware_sprite_count": 27,
+  "headroom": {
+    "binding_limit": "sprite_pixels",
+    "justification": "Offline envelope only: one 88x136 Kairo C-scale candidate, one 64x104 Ryo reference body and four 32x32 FX slots. This measures the next hardware step; it is not runtime residency, gameplay or final-art approval.",
+    "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos.",
+    "peak_utilization": 0.875,
+    "pixel_utilization": 0.875,
+    "sprite_utilization": 0.45,
+    "unexploited_threshold": 0.6
+  },
+  "limits": {
+    "pixels_per_scanline": 320,
+    "sprites_per_scanline": 20
+  },
+  "max_sprite_pixels_per_scanline": 280,
+  "max_sprites_per_scanline": 9,
+  "over_limit_lines": [],
+  "over_pixel_limit_lines": [],
+  "sprite_count": 6,
+  "status": "ok",
+  "tool_name": "vdp_scanline_simulator",
+  "tool_version": "1.2.0",
+  "total_sprite_links": 27,
+  "warnings": []
+}

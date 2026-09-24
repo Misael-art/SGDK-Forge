@@ -115,6 +115,84 @@ function Resolve-ProjectRelativePath {
     return (Join-Path $ProjectRoot $PathValue)
 }
 
+function Test-CinematicStoryboardContractShape {
+    param(
+        [Parameter(Mandatory)][string]$SceneId,
+        [Parameter(Mandatory)][string]$ResolvedPath
+    )
+
+    try {
+        $storyboard = Get-Content -LiteralPath $ResolvedPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    } catch {
+        Add-Finding $SceneId 'error' 'SC108' "Cinematic storyboard contract is not valid JSON: $($_.Exception.Message)" $ResolvedPath
+        return
+    }
+
+    $requiredTopFields = @(
+        'schema_version',
+        'contract_id',
+        'scene_id',
+        'scene_role',
+        'status_ceiling',
+        'ready_for_aaa',
+        'source_authority',
+        'cinematic_direction',
+        'state_machine',
+        'cutscene_resource_plan',
+        'hardware_ownership',
+        'text_timing_map',
+        'visual_source_gate',
+        'evidence_plan',
+        'approval'
+    )
+
+    foreach ($field in $requiredTopFields) {
+        if (-not (Test-JsonProperty -Object $storyboard -Name $field)) {
+            Add-Finding $SceneId 'error' 'SC108' "Cinematic storyboard contract missing required field: $field" $ResolvedPath
+        }
+    }
+
+    if ((Test-JsonProperty -Object $storyboard -Name 'scene_role') -and $storyboard.scene_role -ne 'cutscene') {
+        Add-Finding $SceneId 'error' 'SC108' "Cinematic storyboard scene_role must be cutscene, got: $($storyboard.scene_role)" $ResolvedPath
+    }
+
+    if ((Test-JsonProperty -Object $storyboard -Name 'state_machine') -and
+        (Test-JsonProperty -Object $storyboard.state_machine -Name 'states') -and
+        @($storyboard.state_machine.states).Count -eq 0) {
+        Add-Finding $SceneId 'error' 'SC108' 'Cinematic storyboard contract has no FSM states' $ResolvedPath
+    }
+
+    if ((Test-JsonProperty -Object $storyboard -Name 'cutscene_resource_plan') -and
+        (Test-JsonProperty -Object $storyboard.cutscene_resource_plan -Name 'states') -and
+        @($storyboard.cutscene_resource_plan.states).Count -eq 0) {
+        Add-Finding $SceneId 'error' 'SC108' 'Cinematic storyboard contract has no per-state resource budget' $ResolvedPath
+    }
+
+    if ((Test-JsonProperty -Object $storyboard -Name 'hardware_ownership') -and
+        (Test-JsonProperty -Object $storyboard.hardware_ownership -Name 'h_int') -and
+        (Test-JsonProperty -Object $storyboard.hardware_ownership.h_int -Name 'in_use') -and
+        $storyboard.hardware_ownership.h_int.in_use -eq $true) {
+        $hInt = $storyboard.hardware_ownership.h_int
+        foreach ($field in @('owner', 'teardown_reset_plan', 'fallback_plan')) {
+            if (-not (Test-JsonProperty -Object $hInt -Name $field) -or [string]::IsNullOrWhiteSpace([string]$hInt.$field)) {
+                Add-Finding $SceneId 'error' 'SC109' "Cinematic storyboard uses H-Int but h_int.$field is missing" $ResolvedPath
+            }
+        }
+    }
+
+    if ((Test-JsonProperty -Object $storyboard -Name 'ready_for_aaa') -and $storyboard.ready_for_aaa -eq $true) {
+        $sourceReady = (Test-JsonProperty -Object $storyboard -Name 'visual_source_gate') -and
+            (Test-JsonProperty -Object $storyboard.visual_source_gate -Name 'production_source_ready') -and
+            $storyboard.visual_source_gate.production_source_ready -eq $true
+        $approvalReady = (Test-JsonProperty -Object $storyboard -Name 'approval') -and
+            (Test-JsonProperty -Object $storyboard.approval -Name 'approval_status') -and
+            $storyboard.approval.approval_status -eq 'approved'
+        if (-not $sourceReady -or -not $approvalReady) {
+            Add-Finding $SceneId 'error' 'SC110' 'Cinematic storyboard cannot claim ready_for_aaa without production source and human approval' $ResolvedPath
+        }
+    }
+}
+
 # ---------------------------------------------------------------------------
 # Load and parse contract
 # ---------------------------------------------------------------------------
@@ -334,6 +412,11 @@ foreach ($scene in $contract.scenes) {
             }
 
             if ($Mode -eq 'aaa_gate') {
+                if (-not (Test-JsonProperty -Object $cc -Name 'cinematic_storyboard_contract') -or [string]::IsNullOrWhiteSpace([string]$cc.cinematic_storyboard_contract)) {
+                    Add-Finding $sid 'error' 'SC107' 'AAA cutscene requires cinematic_storyboard_contract before runtime delivery'
+                    $sceneSeverity = 'error'
+                }
+
                 $artifactFields = @(
                     'fsm_script',
                     'resource_plan',
@@ -342,11 +425,16 @@ foreach ($scene in $contract.scenes) {
                     'teardown_plan',
                     'evidence_plan'
                 )
+                $storyboardResolved = $null
                 if ((Test-JsonProperty -Object $cc -Name 'palette_script') -and -not [string]::IsNullOrWhiteSpace([string]$cc.palette_script)) {
                     $artifactFields += 'palette_script'
                 }
                 if ((Test-JsonProperty -Object $cc -Name 'glyph_manifest') -and -not [string]::IsNullOrWhiteSpace([string]$cc.glyph_manifest)) {
                     $artifactFields += 'glyph_manifest'
+                }
+                if ((Test-JsonProperty -Object $cc -Name 'cinematic_storyboard_contract') -and -not [string]::IsNullOrWhiteSpace([string]$cc.cinematic_storyboard_contract)) {
+                    $artifactFields += 'cinematic_storyboard_contract'
+                    $storyboardResolved = Resolve-ProjectRelativePath -PathValue ([string]$cc.cinematic_storyboard_contract)
                 }
 
                 foreach ($field in $artifactFields) {
@@ -356,6 +444,14 @@ foreach ($scene in $contract.scenes) {
                             Add-Finding $sid 'error' 'SC106' "Cutscene artifact path not found for ${field}: $($cc.$field)" $resolved
                             $sceneSeverity = 'error'
                         }
+                    }
+                }
+
+                if ($null -ne $storyboardResolved -and (Test-Path -LiteralPath $storyboardResolved)) {
+                    Test-CinematicStoryboardContractShape -SceneId $sid -ResolvedPath $storyboardResolved
+                    $storyboardFindings = @($findings | Where-Object { $_.scene_id -eq $sid -and $_.code -in @('SC108', 'SC109', 'SC110') -and $_.severity -eq 'error' })
+                    if ($storyboardFindings.Count -gt 0) {
+                        $sceneSeverity = 'error'
                     }
                 }
             }

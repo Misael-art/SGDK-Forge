@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "techniques": [
+    {
+      "id": "pseudo3d_road_stack",
+      "function": "lane depth and speed",
+      "owner": "race_road",
+      "fallback": "flat perspective road",
+      "evidence_required": ["scene_budget_report", "runtime_metrics", "BlastEm screenshot"]
+    },
+    {
+      "id": "line_scrolling",
+      "function": "road motion and pressure",
+      "owner": "race_road",
+      "fallback": "plane scroll",
+      "evidence_required": ["dma_queue_contract", "runtime_metrics"]
+    },
+    {
+      "id": "palette_state_transitions",
+      "function": "phase and Pulse state",
+      "owner": "scene_owner",
+      "fallback": "static palette per phase",
+      "evidence_required": ["palette_slot_audit", "BlastEm screenshot"]
+    }
+  ]
+}

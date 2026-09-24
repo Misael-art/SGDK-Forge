@@ -1,0 +1,137 @@
+{
+  "build_version": "build_v004",
+  "rom_sha256": "27deb2e6ed47948c1eb55b1e093a0d26b72bdd2257dc6cd0b03f0e89a2cc79cc",
+  "size_bytes": 262144,
+  "timestamp": "2026-09-08T14:52:31.3596498-03:00",
+  "source_commit_when_available": "e224af091804cf684b8065dee148312d481b5da5",
+  "validation_summary": {
+    "errors": 1,
+    "warnings": 17,
+    "blocking_statuses": [
+      "gdd_substantial_insufficient",
+      "visual_gate_blocked",
+      "visual_direction_failed",
+      "animation_gate_failed",
+      "changelog_missing",
+      "scene_regression_incomplete",
+      "code_loaded_tiles_unmeasured",
+      "scene_tilemap_conversion_report_missing",
+      "per_tile_palette_conflict_report_missing"
+    ]
+  },
+  "emulator_evidence_status": "ok",
+  "status_panel_snapshot": {
+    "visual_lab_aprovado": false,
+    "gameplay_rom_aprovada": false,
+    "ready_for_aaa": false
+  },
+  "qa_axes_snapshot": {
+    "gameplay_basico": "nao_testado",
+    "performance": "unproven",
+    "audio": "nao_testado",
+    "hardware_real": "nao_testado"
+  },
+  "linked_asset_versions": [
+    {
+      "asset_id": "img_brand_fx_tiles",
+      "version": "v001",
+      "source_path": "/res/branding/brand_fx_tiles.png"
+    },
+    {
+      "asset_id": "img_brand_engine_logo",
+      "version": "v001",
+      "source_path": "/res/branding/brand_engine_logo.png"
+    },
+    {
+      "asset_id": "img_brand_author_logo",
+      "version": "v001",
+      "source_path": "/res/branding/brand_author_logo.png"
+    },
+    {
+      "asset_id": "img_brand_project_logo",
+      "version": "v001",
+      "source_path": "/res/branding/brand_project_logo.png"
+    },
+    {
+      "asset_id": "img_brand_presents_text",
+      "version": "v001",
+      "source_path": "/res/branding/brand_presents_text.png"
+    },
+    {
+      "asset_id": "img_fighting_room_0_bgb",
+      "version": "v001",
+      "source_path": "/res/fighting/stage/room_0_bgb.png"
+    },
+    {
+      "asset_id": "img_fighting_room_0_bga",
+      "version": "v001",
+      "source_path": "/res/fighting/stage/room_0_bga.png"
+    },
+    {
+      "asset_id": "spr_kairo_vant_probe",
+      "version": "v001",
+      "source_path": "/res/fighting/fighters/kairo_vant_probe.png"
+    },
+    {
+      "asset_id": "spr_c1_probe",
+      "version": "v001",
+      "source_path": "/res/fighting/fighters/c1_probe.png"
+    },
+    {
+      "asset_id": "img_starfield_v2",
+      "version": "v001",
+      "source_path": "/res/branding/starfield_320x224.png"
+    },
+    {
+      "asset_id": "img_forge_bg_b",
+      "version": "v001",
+      "source_path": "/res/branding/forge_bg_b_320x224.png"
+    },
+    {
+      "asset_id": "img_forge_bg_a_props",
+      "version": "v001",
+      "source_path": "/res/branding/forge_bg_a_props_320x224.png"
+    },
+    {
+      "asset_id": "spr_forge_ember",
+      "version": "v001",
+      "source_path": "/res/branding/spr_forge_ember_16x16_strip.png"
+    },
+    {
+      "asset_id": "spr_forge_shard",
+      "version": "v001",
+      "source_path": "/res/branding/spr_forge_shard_16x16_strip.png"
+    },
+    {
+      "asset_id": "spr_forge_hammer",
+      "version": "v001",
+      "source_path": "/res/branding/spr_forge_hammer_48x48_strip.png"
+    },
+    {
+      "asset_id": "img_logo_engine_v2",
+      "version": "v001",
+      "source_path": "/res/branding/logo_engine_224x64.png"
+    },
+    {
+      "asset_id": "img_logo_author_v2",
+      "version": "v001",
+      "source_path": "/res/branding/logo_author_192x32.png"
+    },
+    {
+      "asset_id": "img_logo_project_v2",
+      "version": "v001",
+      "source_path": "/res/branding/logo_project_224x48.png"
+    },
+    {
+      "asset_id": "img_presents_text_v2",
+      "version": "v001",
+      "source_path": "/res/branding/presents_text_96x16.png"
+    },
+    {
+      "asset_id": "img_presents_bar_v2",
+      "version": "v001",
+      "source_path": "/res/branding/presents_bar_8x8.png"
+    }
+  ],
+  "notes": "Host route mismatch resolved; Linux BlastEm evidence sealed for scene 3; ROM hash preserved; ready_for_aaa remains false."
+}

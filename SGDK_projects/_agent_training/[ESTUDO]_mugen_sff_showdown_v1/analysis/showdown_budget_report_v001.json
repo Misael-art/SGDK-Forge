@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-15T03:14:00.028830+00:00",
+  "status": "documented_not_validated_budget",
+  "route_status": "route_a_multi_plane",
+  "closeout_recommendation": "route_a_runtime_reworked_emulator_seen_budget_dump_pending",
+  "tiles": {
+    "raw_tiles": 46080,
+    "unique_tiles": 2870,
+    "global_tile_id_limit_ok": true,
+    "lossy_tile_merges": 0
+  },
+  "vram": {
+    "tile_user_index": 16,
+    "streaming_cache_capacity_tiles": 1190,
+    "estimated_streaming_cache_vram_bytes": 38080,
+    "max_window_unique_tiles": 1174,
+    "max_window_unique_tiles_without_bg_b_cull": 1630,
+    "max_bg_b_culled_cells": 753,
+    "tile_data_vram_end_exclusive": 38592,
+    "first_tilemap_vram": 49152,
+    "palette_bytes": 128
+  },
+  "streaming": {
+    "strategy": "route_a_multi_plane_streaming_context_palette_v2",
+    "plane_count": 2,
+    "plane_order": [
+      "BG_B",
+      "BG_A"
+    ],
+    "window_tiles_w": 41,
+    "window_tiles_h": 29,
+    "window_bytes_per_update": 4756,
+    "max_window_unique_tiles": 1174,
+    "transfer_mode": "CPU tile data in small contiguous batches plus CPU tilemap upload on tile-window changes; not proven tear-free",
+    "line_scroll_dma_per_frame_bytes": 896,
+    "line_scroll_status": "BG_A and BG_B HSCROLL_LINE with 224 line offsets each",
+    "bg_b_occlusion_culling": {
+      "enabled": true,
+      "rule": "when the BG_A screen cell references a fully opaque tile, the BG_B cell streams the all-zero tile instead of its far-plane source tile"
+    }
+  },
+  "evidence": {
+    "rom_sha256": "7e4f6a2e2149ff19b9788ffd3034adb556d595e1163b6af8c575ff09533ece2a",
+    "screenshot_present": true,
+    "sram_present": true,
+    "vdp_dump_present": false,
+    "readiness_ok": true,
+    "ready_probe_source": "post_close_sram_heartbeat",
+    "vdp_contract_audit": "analysis/showdown_vdp_contract_audit_v001.json",
+    "vdp_contract_audit_status": "pass"
+  },
+  "blockers": [
+    "no visual_vdp_dump.bin in current evidence",
+    "no measured 60fps/frame-time telemetry attached to this attempt",
+    "water H-scroll is implemented only as partial line-scroll repair, not full MUGEN layer reconstruction"
+  ]
+}

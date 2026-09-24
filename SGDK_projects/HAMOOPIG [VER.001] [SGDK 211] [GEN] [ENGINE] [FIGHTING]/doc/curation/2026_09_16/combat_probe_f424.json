@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L112",
+  "date": "2026-09-16",
+  "topic": "combat_probe_current_rom",
+  "source": "P04_P10_runtime_review",
+  "rom_sha256": "f4248208cec58ee0fec57b89f46f535e2c21026b9a34685449ce3204be1cab86",
+  "problem": "A matriz P10 valida entrada, orçamento e schema, mas a rota curta padrão não necessariamente encosta os lutadores e não deve ser tratada como prova de dano.",
+  "change": "Foi executada uma rota curta explícita de combate por teclado real (P1: Right+Q três vezes; P2: J+X duas vezes), sem injeção de estado.",
+  "result": "HPRB schema 7 registrou um evento HIT, 7008 B de DMA, 41 sprites ativos, 60 links VDP e 17 sprites por linha; HSEM confirmou os estados de ataque nos dois jogadores.",
+  "limits": [
+    "um HIT não prova combo, KO, multihit, projétil ou balanceamento",
+    "revisão visual, audição crítica, pior-frame e hardware continuam pendentes"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260916T063328Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T063328Z/userdata/blastem/rom/save.sram",
+    "out/logs/probe_combat_f424_capture.log",
+    "out/logs/probe_combat_f424_hsem.json",
+    "out/logs/probe_combat_f424_hprb.json"
+  ],
+  "status": "runtime_hit_event_observed_same_rom"
+}

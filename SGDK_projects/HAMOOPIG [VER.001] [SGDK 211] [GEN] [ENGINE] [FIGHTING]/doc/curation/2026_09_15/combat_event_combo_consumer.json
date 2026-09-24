@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "combat_event_combo_consumer_20260915",
+  "title": "A colisão produz; um consumidor aplica o combo uma vez",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "hit_counter_updated_inside_collision_and_event_ledger",
+  "observation": "Manter o incremento do combo dentro de FUNCAO_REGISTER_HIT enquanto o ledger também registra o acerto cria duas fontes de verdade e impede que eventos sejam consumidos para efeitos adicionais sem duplicação.",
+  "resolution_or_preventive_heuristic": "FUNCAO_REGISTER_HIT() somente emite CombatEvent. Após a FSM, FUNCAO_CONSUME_COMBAT_EVENTS() reivindica o tick uma vez e atualiza hitCounter/hitComboTimer em ordem de emissão.",
+  "evidence": {
+    "source": ["src/player.c", "src/main.c", "src/combat_event.c", "inc/combat_event.h"],
+    "test": ["tests/test_combo_contract.py", "tests/test_combat_event_contract.py"],
+    "build_log": "out/logs/continuation_p04_combo_consumer_build.log",
+    "rom_sha256": "5cef44779afe5356243d3ddcd486d40fd404b0461eca6dbcf4dfe257831d1de6",
+    "suite": "13/13_passed"
+  },
+  "status": "implemented_combo_and_guard_classification_p04_partial",
+  "limitations": [
+    "Dano/vida e ganho do atacante ainda são aplicados pelos caminhos legados da FSM; o delta do defensor já passa pelo consumidor.",
+    "Deduplicação por instância de golpe e consumo central de guard/chip/throw ainda faltam.",
+    "Não há prova de gameplay no emulador com eventos instrumentados nesta etapa."
+  ]
+}

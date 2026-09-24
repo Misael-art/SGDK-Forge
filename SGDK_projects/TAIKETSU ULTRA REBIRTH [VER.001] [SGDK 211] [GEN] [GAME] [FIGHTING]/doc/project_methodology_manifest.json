@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+    "lifecycle": "new",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "governance/truth-hierarchy-guard",
+    "governance/doc-sync-audit",
+    "operation/sgdk-build-wrapper-operator",
+    "planning/game-design-planning",
+    "planning/fighting-game-design",
+    "planning/tdd-authoring"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene",
+    "project_context"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "not_applicable",
+      "rationale": "D0 e documental e nao promove movimento final; antes de D1 este claim sera reclassificado como required com asset, motion evidence e aprovacao humana."
+    },
+    "road_physics": {
+      "applicability": "not_applicable",
+      "rationale": "Fighting 2D de arena nao declara estrada, chase, lane model ou fisica pseudo-3D."
+    },
+    "modular_boss": {
+      "applicability": "not_applicable",
+      "rationale": "Vanta Zero e chefe de fighting com archetype unico; nao ha partes articuladas nem forward kinematics no contrato."
+    }
+  }
+}

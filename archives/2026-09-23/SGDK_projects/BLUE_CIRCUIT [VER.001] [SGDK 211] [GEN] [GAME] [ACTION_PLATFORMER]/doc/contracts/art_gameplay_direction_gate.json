@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "blue_circuit_direction_gate_v001",
+  "project_id": "blue_circuit",
+  "asset_id": "stage_01_blue_circuit",
+  "asset_kind": "background_plate",
+  "evaluated_at": "2026-06-27",
+  "measurement_level": "source_candidate_review",
+  "art_director_review": {
+    "status": "awaiting_human_validation",
+    "reviewer": "visual-excellence-standards",
+    "art_direction_decision_record": "doc/contracts/vibe_playable_route_report.json",
+    "findings": [
+      "Game direction is documented and three visual review candidates now exist under data/source_art/.",
+      "The candidates are not approved production sources until the human storyboard, model sheet and spritesheet gates pass.",
+      "Benchmarks may guide rhythm and readability only; they cannot define silhouette, palette, layout, music or identity."
+    ]
+  },
+  "game_design_context": {
+    "status": "passed",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "gameplay_role": "Side-view action platformer stage with run, jump, shoot, one common enemy and one simple mini-boss.",
+    "camera_perspective": "side_view_platform",
+    "interaction_context": [
+      "Player reads platforms and sentry shots before committing to jump or fire.",
+      "Mini-boss uses telegraphed attacks and a clear vulnerability window."
+    ]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      {
+        "id": "blue_circuit_palette_axis",
+        "kind": "palette",
+        "expected": "Blue/cyan energy with amber danger and magenta/lime accents, avoiding one-note blue-only composition.",
+        "status": "locked"
+      },
+      {
+        "id": "industrial_circuit_language",
+        "kind": "background_landmark",
+        "expected": "Circuit-board industrial station, not character/IP-derived robot lab imagery.",
+        "status": "locked"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "awaiting_human_spritesheet_validation",
+    "secondary_motion": [
+      "small recoil on shot",
+      "clear landing compression if approved in animation pass"
+    ],
+    "expression_requirements": [
+      "player silhouette must read without copying protected armor, helmet or arm-cannon shapes"
+    ],
+    "state_fantasy_checks": [
+      "run feels like urgent repair work, not military march",
+      "shot feels like maintenance pulse, not weapon clone"
+    ]
+  },
+  "background_scene_context": {
+    "depth_role_map": "BG_B supports energy depth; BG_A owns solids and readable foreground.",
+    "layer_plan": "scene_local_preload until art and budget prove otherwise.",
+    "sprite_readability_policy": "Actors must separate from cyan background through value, outline and amber/magenta accents.",
+    "interactive_elements": [
+      "solid platforms",
+      "line_sentry lanes",
+      "hazard pulses",
+      "breaker_core arena"
+    ]
+  },
+  "decision": {
+    "production_allowed": false,
+    "ready_for_generation": false,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "human_storyboard_approval",
+      "human_model_sheet_approval",
+      "human_spritesheet_approval",
+      "art_translation_to_vdp",
+      "visual_delivery_gate_report",
+      "blastem_runtime_evidence"
+    ]
+  },
+  "blockers": [
+    "awaiting_human_storyboard_validation",
+    "awaiting_human_model_sheet_validation",
+    "awaiting_human_spritesheet_validation"
+  ]
+}

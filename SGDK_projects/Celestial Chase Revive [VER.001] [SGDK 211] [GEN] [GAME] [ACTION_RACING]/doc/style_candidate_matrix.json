@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "candidates": [
+    {
+      "style_id": "analog_cel_anime_90s",
+      "score": 0.82,
+      "strengths": ["cutscene expressiveness", "Mega Drive-adapted panels", "strong faces"],
+      "risks": ["fullscreen bitmap pressure", "generic anime face"]
+    },
+    {
+      "style_id": "vibrant_16bit_pixel",
+      "score": 0.78,
+      "strengths": ["gameplay readability", "saturated lanes", "low ambiguity"],
+      "risks": ["too close to mascot platformer if shapes become generic"]
+    },
+    {
+      "style_id": "high_budget_digital_anime",
+      "score": 0.56,
+      "strengths": ["impact frames", "boss energy"],
+      "risks": ["glow/noise impossible to preserve honestly on VDP"]
+    }
+  ],
+  "decision": "analog_cel_anime_90s for cutscene and vibrant_16bit_pixel discipline for gameplay sprites/backgrounds"
+}

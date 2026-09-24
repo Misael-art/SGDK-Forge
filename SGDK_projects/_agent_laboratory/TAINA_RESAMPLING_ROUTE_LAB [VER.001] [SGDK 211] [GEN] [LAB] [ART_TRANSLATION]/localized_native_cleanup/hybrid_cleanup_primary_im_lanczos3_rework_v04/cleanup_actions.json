@@ -1,0 +1,349 @@
+{
+  "schema_version": "localized_artistic_cleanup_action_log.v4",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v04",
+  "parent_asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v03",
+  "parent_sha256": "99160ec422010d2ac68fbb4b10cc03db72012316508882e1b9b8cf336ec51a33",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "independent_candidate_pending_human_review",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "patches": [
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 15,
+      "y": 3,
+      "before": 4,
+      "after": 0,
+      "reason": "carve_curl_notch_1"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 16,
+      "y": 8,
+      "before": 2,
+      "after": 0,
+      "reason": "carve_curl_notch_2"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 16,
+      "y": 14,
+      "before": 3,
+      "after": 0,
+      "reason": "carve_curl_notch_3"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 18,
+      "y": 4,
+      "before": 1,
+      "after": 4,
+      "reason": "curl_group_1_outer_highlight"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 19,
+      "y": 5,
+      "before": 2,
+      "after": 4,
+      "reason": "curl_group_1_outer_highlight"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 17,
+      "y": 7,
+      "before": 2,
+      "after": 4,
+      "reason": "curl_group_2_outer_highlight"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 18,
+      "y": 8,
+      "before": 1,
+      "after": 4,
+      "reason": "curl_group_2_outer_highlight"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 19,
+      "y": 10,
+      "before": 1,
+      "after": 4,
+      "reason": "curl_group_3_outer_highlight"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 20,
+      "y": 10,
+      "before": 1,
+      "after": 3,
+      "reason": "curl_group_3_base"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 21,
+      "y": 13,
+      "before": 3,
+      "after": 4,
+      "reason": "curl_group_4_inner_highlight"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass remains solid; curl groups do not break the silhouette at 1x",
+      "x": 22,
+      "y": 13,
+      "before": 0,
+      "after": 3,
+      "reason": "curl_group_4_inner_base"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 28,
+      "y": 10,
+      "before": 10,
+      "after": 1,
+      "reason": "brow_anchor"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 29,
+      "y": 10,
+      "before": 10,
+      "after": 1,
+      "reason": "brow_bridge"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 30,
+      "y": 11,
+      "before": 10,
+      "after": 1,
+      "reason": "eye_outer"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 29,
+      "y": 12,
+      "before": 5,
+      "after": 1,
+      "reason": "eye_inner"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 30,
+      "y": 12,
+      "before": 1,
+      "after": 5,
+      "reason": "eye_skin_boundary"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 32,
+      "y": 13,
+      "before": 2,
+      "after": 1,
+      "reason": "jaw_side"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 32,
+      "y": 14,
+      "before": 3,
+      "after": 1,
+      "reason": "jaw_side"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state eye, gaze, nose plane and jaw clearly at 1x",
+      "x": 30,
+      "y": 14,
+      "before": 10,
+      "after": 6,
+      "reason": "cheek_base"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 22,
+      "y": 22,
+      "before": 11,
+      "after": 12,
+      "reason": "left_wrap_base"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 24,
+      "y": 23,
+      "before": 11,
+      "after": 1,
+      "reason": "left_forearm_boundary"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 36,
+      "y": 22,
+      "before": 4,
+      "after": 1,
+      "reason": "right_wrap_boundary"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 37,
+      "y": 22,
+      "before": 6,
+      "after": 12,
+      "reason": "right_wrap_base"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 38,
+      "y": 22,
+      "before": 1,
+      "after": 12,
+      "reason": "right_wrap_base"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 39,
+      "y": 22,
+      "before": 11,
+      "after": 12,
+      "reason": "right_wrap_base"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 36,
+      "y": 23,
+      "before": 11,
+      "after": 1,
+      "reason": "right_wrap_boundary"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 37,
+      "y": 23,
+      "before": 2,
+      "after": 12,
+      "reason": "right_wrap_base"
+    },
+    {
+      "region": "guard",
+      "symptom": "fist, wrap and forearm boundaries remain partially fused",
+      "x": 40,
+      "y": 23,
+      "before": 0,
+      "after": 1,
+      "reason": "right_forearm_boundary"
+    },
+    {
+      "region": "abdomen",
+      "symptom": "skin highlights are fragmented into point noise",
+      "x": 26,
+      "y": 30,
+      "before": 7,
+      "after": 6,
+      "reason": "join_skin_base_plane"
+    },
+    {
+      "region": "abdomen",
+      "symptom": "skin highlights are fragmented into point noise",
+      "x": 29,
+      "y": 33,
+      "before": 10,
+      "after": 6,
+      "reason": "join_skin_base_plane"
+    },
+    {
+      "region": "sash",
+      "symptom": "knot and falling tail lack a strong readable continuous shape",
+      "x": 37,
+      "y": 41,
+      "before": 11,
+      "after": 13,
+      "reason": "tail_highlight"
+    },
+    {
+      "region": "sash",
+      "symptom": "knot and falling tail lack a strong readable continuous shape",
+      "x": 38,
+      "y": 42,
+      "before": 12,
+      "after": 13,
+      "reason": "tail_highlight"
+    },
+    {
+      "region": "sash",
+      "symptom": "knot and falling tail lack a strong readable continuous shape",
+      "x": 37,
+      "y": 43,
+      "before": 12,
+      "after": 13,
+      "reason": "tail_highlight"
+    },
+    {
+      "region": "trousers",
+      "symptom": "indigo shadow clusters fragment the leg volumes",
+      "x": 23,
+      "y": 43,
+      "before": 15,
+      "after": 14,
+      "reason": "left_inner_knee_shadow"
+    },
+    {
+      "region": "trousers",
+      "symptom": "indigo shadow clusters fragment the leg volumes",
+      "x": 26,
+      "y": 43,
+      "before": 15,
+      "after": 14,
+      "reason": "left_inner_knee_shadow"
+    },
+    {
+      "region": "trousers",
+      "symptom": "indigo shadow clusters fragment the leg volumes",
+      "x": 31,
+      "y": 43,
+      "before": 15,
+      "after": 14,
+      "reason": "right_inner_knee_shadow"
+    }
+  ],
+  "patch_count": 36,
+  "null_patches_count": 0,
+  "regions": [
+    "abdomen",
+    "face_eye",
+    "guard",
+    "hair",
+    "sash",
+    "trousers"
+  ],
+  "global_palette_remap": false,
+  "source_regeneration": false,
+  "resize_or_filter": false
+}

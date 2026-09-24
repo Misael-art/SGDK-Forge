@@ -20,6 +20,9 @@ Antes de qualquer runtime de entrega:
 - emitir ou atualizar `route_decision_record` com modo `visual_first` quando a
   entrega depender de arte, front-end, personagem, cena assinatura, cutscene,
   HUD heroico ou identidade de marca.
+- ler `tools/sgdk_wrapper/.agent/references/production_visual_quality_contract.md`; para qualquer arte de
+  producao, exigir uma `quality_reference_board` local e aprovada para os papeis
+  que serao promovidos.
 
 Passa quando:
 
@@ -28,6 +31,8 @@ Passa quando:
   evidencia e bloqueios declarados;
 - nenhum benchmark, mockup, PNG procedural ou tela textual esta sendo tratado
   como fonte final.
+- a referencia de qualidade foi definida sem virar fonte para copia, e nenhum
+  asset recebe avaliacao positiva apenas por ser melhor que um placeholder.
 
 ## 2. Analisar
 
@@ -43,11 +48,10 @@ Classifique o estado real antes de propor trabalho:
 
 Regra:
 
-- `BLUE_CIRCUIT` e o padrao positivo de rota visual-first: direcao, fonte e
-  bloqueio de runtime antes do build final.
-- `Celestial Chase Revive` e o alerta: runtime tecnico com placeholder pode ser
-  valioso, mas nao deve continuar consumindo ciclos se o blocker dominante e
-  `visual_gate_blocked`.
+- O padrao positivo de rota visual-first exige direcao, fonte e bloqueio de
+  runtime antes do build final.
+- Runtime tecnico com placeholder pode ser valioso como smoke, mas nao deve
+  continuar consumindo ciclos se o blocker dominante e `visual_gate_blocked`.
 
 ## 3. Amadurecer
 

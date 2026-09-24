@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina",
+  "asset_role": "hero_character",
+  "authorial_source": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+  "license": "gerada_no_canal_codex_para_o_projeto_e_ratificada_como_direcao_pelo_owner",
+  "benchmark_used_as": "technical_quality_bar",
+  "style_pillars": [
+    "silhueta compacta de muay thai com guarda alta diagonal",
+    "contorno expressivo marinho ou roxo sem preto uniforme",
+    "faixa lateral, bandagens e cabelo cacheado como hooks autorais",
+    "clusters angulares de tres tons por material"
+  ],
+  "palette_intent": {
+    "max_palettes": 1,
+    "reserved_slots": [
+      {
+        "palette": 1,
+        "slot": 0,
+        "purpose": "transparencia"
+      },
+      {
+        "palette": 1,
+        "slot": 1,
+        "purpose": "contorno_e_sombra_mais_escura"
+      },
+      {
+        "palette": 1,
+        "slot": 15,
+        "purpose": "highlight_controlado_sem_funcao_estrutural_critica"
+      }
+    ],
+    "material_ramps": [
+      {
+        "material": "pele",
+        "slots": [2, 3, 4],
+        "contrast_goal": "rosto, maos e pes legiveis em 48px"
+      },
+      {
+        "material": "top_laranja",
+        "slots": [5, 6, 7],
+        "contrast_goal": "pico cromatico da heroina"
+      },
+      {
+        "material": "bandagens_e_faixa_verde",
+        "slots": [8, 9, 10],
+        "contrast_goal": "separar punhos, canelas e assimetria lateral"
+      },
+      {
+        "material": "calca_roxo_escuro",
+        "slots": [11, 12, 13],
+        "contrast_goal": "massa inferior ampla sem engolir a silhueta"
+      },
+      {
+        "material": "olhos_e_highlights",
+        "slots": [14, 15],
+        "contrast_goal": "acentos pequenos sem criar ruido"
+      }
+    ]
+  },
+  "shape_language": [
+    "aproximadamente 3.5 cabecas de altura visivel",
+    "cabeca, punhos e pes ampliados para leitura nativa",
+    "ombros e quadril formam diagonais de guarda e ataque",
+    "faixa cria cauda grafica assimetrica do lado direito da personagem"
+  ],
+  "material_rules": [
+    "pele usa sombra fria e highlight quente",
+    "top gasto usa cortes triangulares e nao textura miuda",
+    "calca larga usa dobras grandes em cunha",
+    "bandagens formam blocos claros legiveis sem linhas finas repetidas"
+  ],
+  "scale_contract": {
+    "native_resolution": "320x224",
+    "nominal_bbox_px": {
+      "w": 48,
+      "h": 64
+    },
+    "pivot_policy": "bottom_center em pixel inteiro; pose-mestre v02 aprovada com 59px visiveis dentro da celula 48x64 e ground_y=60",
+    "scale_class": "medium_48_64",
+    "scale_lock_status": "locked",
+    "gameplay_scale_fit": {
+      "camera_fov_role": "close_combat_precision",
+      "hitbox_alignment_role": "limb_precise",
+      "animation_workload_policy": "standard_16bit_pipeline",
+      "integer_pixel_motion_policy": "fixed_point_logic_integer_render"
+    },
+    "scale_change_policy": "requires_reseed_before_art"
+  },
+  "forbidden_drift": [
+    "anatomy",
+    "pivot",
+    "scale",
+    "outfit",
+    "face",
+    "palette",
+    "bounding_box",
+    "material",
+    "style"
+  ],
+  "approval_status": "human_approved_key_pose_v02_scale_locked",
+  "blockers": [
+    "gameplay_hitbox_fit_for_59px_visible_height_pending",
+    "blastem_vdp_dump_pending",
+    "combat_state_visual_continuity_pending"
+  ]
+}

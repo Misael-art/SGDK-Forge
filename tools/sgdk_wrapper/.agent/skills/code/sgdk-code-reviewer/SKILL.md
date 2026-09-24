@@ -49,3 +49,11 @@ Esta skill cria o gate de revisão formal que faltava entre "compila" e "pode se
 - revisar so o arquivo que quebrou o build
 - ignorar `resources.res`, builders e evidencia
 - aceitar "funciona no meu emulador" sem hash e scene id
+
+## Auditoria dos validadores audiovisuais
+
+Para `audiovisual_review.py`, revisar casos positivos e negativos de janela vazia,
+contagens contraditorias, tipos booleanos, regiao/overflow, SHA stale, PTS com
+buraco, audio desalinhado e review ausente. O validador deve recomputar HCAD e
+manter `event_observed`, `visual_legibility` e `visual_quality` distintos;
+metadata ou observacao nao pode liberar qualidade.

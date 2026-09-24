@@ -1,8 +1,8 @@
 interface:
   display_name: "Cutscene Cinematic Direction"
-  short_description: "Direcao de cutscenes anime 90s para SGDK"
+  short_description: "Cutscenes SGDK com FSM e beats visuais"
   brand_color: "#263E8F"
-  default_prompt: "Use $cutscene-cinematic-direction para transformar abertura, cutscene, cena de contexto ou final em FSM, paineis, texto temporizado, paletas, budget por estado, teardown e evidencia em BlastEm."
+  default_prompt: "Use $cutscene-cinematic-direction para transformar abertura, cutscene, cena de contexto ou final em FSM, paineis, texto temporizado, cutscene_motion_beat_map, paletas, budget por estado, teardown e evidencia em BlastEm."
 
 policy:
   allow_implicit_invocation: true

@@ -1,0 +1,27 @@
+{
+  "lesson_id": "L099",
+  "date": "2026-09-15",
+  "topic": "musgo_ko_grounded_pose",
+  "source": "directed_blastem_ko_capture",
+  "rom_sha256": "eeb50ff819ba5e3027dd3a23067f2329038039027ef4b1a7a1add97cddf9f750",
+  "problem": "Musgo podia permanecer suspenso ou desaparecer durante o KO: o settle 551 ainda deslocava X, a pausa de slow-motion suprimia ticks de queda e a troca de metasprite KO podia deixar VRAM stale.",
+  "change": "551 deixa de aplicar knock-back horizontal; a posição é limitada ao palco ao pousar; estados 550/551/570 recriam o handle do Musgo; a física não é throttled enquanto o derrotado ainda está em 550/551; 570 usa o segundo frame comprovado de fall_v1 como pose terminal.",
+  "result": "Build SGDK/Wine passou. A captura dirigida mostra o Musgo deitado no piso dentro da arena em zero_1_settle/zero_1_result, com 60 fps relatados pelo BlastEm.",
+  "limits": [
+    "revisão visual independente ainda é obrigatória",
+    "defeat_v1 permanece quarentenado até resolver sua rota de pixels/paleta",
+    "P10, relatórios de áudio e demais evidências anteriores ao SHA eeb5 estão stale e devem ser recapturados antes de promoção"
+  ],
+  "artifacts": [
+    "src/physics.c",
+    "src/main.c",
+    "src/player_musgo.c",
+    "inc/player_musgo_table.h",
+    "tests/test_ko_defeat_contract.py",
+    "out/logs/ko_grounded_fall_frame_build.log",
+    "out/emulator_evidence/visual_ko_20260915T182445Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T182445Z/zero_1_settle.png",
+    "out/emulator_evidence/visual_ko_20260915T182445Z/zero_1_result.png"
+  ],
+  "status": "implemented_built_and_directed_capture_passed_visual_review_pending"
+}

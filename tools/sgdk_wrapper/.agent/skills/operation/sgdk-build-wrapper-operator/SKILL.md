@@ -19,6 +19,40 @@ Use esta skill ao tocar qualquer arquivo em `tools/sgdk_wrapper/` ou ao diagnost
 - fechamento de cena deve preferir `scene_closeout_gate.ps1` para evitar sequencias manuais incompletas
 - `ci_gate_report` ou `local_ci_gate_report` e parte do fechamento AAA/stable/release; ausencia de GitHub Actions nao bloqueia prototipo, mas bloqueia declarar pipeline AAA-grade sem substituto local
 - `prd_readiness_report` e o preflight de autonomia: ele diz se o agente tem autoridade documentada antes de produzir arte/runtime
+- a rota de build e escolhida pelo host e pela proveniencia LTO, nunca pelo nome
+  do projeto nem por tentativa e erro no link
+
+## Roteamento obrigatorio por host
+
+Antes do primeiro build da sessao, execute:
+
+```text
+python tools/sgdk_wrapper/select_sgdk_build_route.py \
+  --repo-root <workspace> \
+  --project-root <projeto> \
+  --output <projeto>/out/logs/sgdk_build_route_report.json
+```
+
+O report e a autoridade para escolher a rota:
+
+| Host | Rota canonica | Regra |
+|---|---|---|
+| Linux | `build_sgdk_wine_bridge.sh --project-root <projeto>` | usa staging isolado do SDK, wrappers Wine e `libmd.a` reconstruida sem LTO; nunca altera a biblioteca canonica de origem |
+| Windows | `build.bat <projeto>` | usa o wrapper batch e o SDK canonico; bloqueia antes do build se `gcc.exe` e `libmd.a` LTO tiverem majors diferentes |
+
+Regras de ferro:
+
+- se o seletor retornar `blocked`, nao editar C, `.res` ou assets para
+  "consertar" toolchain;
+- no Linux, nao chamar o `.bat` do projeto, nao usar PowerShell sob Wine e nao
+  linkar diretamente a `libmd.a` canonica quando
+  `direct_link_compatible=false`;
+- no Windows, nao usar a bridge Linux como atalho: restaurar ou reconstruir a
+  `libmd.a` com o mesmo compilador empacotado no SDK;
+- ResComp e compilacao C aprovados seguidos de falha no link classificam o
+  incidente como `toolchain_wrapper` ate prova contraria;
+- sucesso do build limita o status a `buildado_emulator_pending`; somente
+  evidencia nova da ROM no BlastEm permite `testado_em_emulador`.
 
 ## Jornada AAA cena (ordem obrigatoria)
 
@@ -54,11 +88,17 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - o projeto nao esta em contexto degradado silencioso
 - a ROM, o changelog e a memoria operacional apontam para o mesmo estado
 - para AAA/stable/release, preflight, testes CI locais/host, validator, mastering e code review foram registrados; se GitHub Actions/pre-commit/make paralelo/debug symbols nao existirem, status de pipeline fica `pipeline_gate_partial`
-- a automacao BlastEm usa exclusivamente `tools/sgdk_wrapper/lib/blastem_automation.psm1`
+- no Windows, a automacao BlastEm usa
+  `tools/sgdk_wrapper/lib/blastem_automation.psm1`; no Linux, usa
+  `capture_blastem_evidence_linux.sh` + `seal_fresh_evidence_bundle.py`
 - logs do emulador ficam em JSONL sob `out/logs/*_blastem.log`
 - artefatos de SRAM/screenshot ficam confinados a `out/blastem_env_*`
 - no Windows, o sandbox BlastEm precisa espelhar `Home/AppData/Local` e o `blastem.cfg` efetivo deve nascer nesse ramo
 - `qa_emulator_report.rom_sha256` aponta para a ROM testada e fica stale se houver rebuild posterior
+- antes de capturar, `select_blastem_capture_route.py` precisa registrar
+  `out/logs/blastem_capture_route_report.json`; Linux seleciona somente
+  `capture_blastem_evidence_linux.sh`, Windows seleciona somente
+  `run_runtime_capture.ps1`
 - scripts de entrada BlastEm usam `press_until_ready` quando o heartbeat `READY` existir
 
 ### Handoff para proxima etapa
@@ -69,6 +109,8 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 ## Checklist
 
 - executar `tools/sgdk_wrapper/preflight_host.ps1` antes do primeiro build da sessao
+- executar `tools/sgdk_wrapper/select_sgdk_build_route.py` e obedecer
+  `selected_route`, `blockers` e `source_library.direct_link_compatible`
 - executar `tools/sgdk_wrapper/check_prd_readiness.ps1` apos bootstrap/reseed de escopo; para AAA/stable/release, blocker nesse report impede fechar entrega
 - quando o objetivo for AAA/stable/release, gerar `local_ci_gate_report` conforme `tools/sgdk_wrapper/schemas/local_ci_gate_report.schema.json`, com preflight, testes `ci/*.ps1` relevantes, validadores, code review e mastering; nao tratar build manual como CI
 - confirmar `MD_ROOT`, `GDK` e `SGDK_EMULATOR_PATH`
@@ -85,6 +127,9 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - apos qualquer nova ROM, regressao, captura ou baseline, rodar `freshness_audit.ps1` e corrigir drift antes de promover status
 - ao encerrar uma cena, rodar `scene_closeout_gate.ps1`; se usar fluxo manual, registrar a justificativa no `runtime_decision_log`
 - quando usar BlastEm, preferir `press_until_ready:*` apoiado em heartbeat `READY` em SRAM `0x100` com rolling write pos-warmup (ROM-side) + FileSystemWatcher fast-path (wrapper-side)
+- nunca interpretar `System.Windows.Forms` ausente no Linux como dependencia do
+  BlastEm: isso prova `host_executor_route_mismatch`; confirme `DISPLAY` para a
+  ponte XWayland e volte ao seletor, sem instalar WinForms/Mono/Xvfb por tentativa
 - `press_until_ready` aceita knobs canonicas: `timeout_ms`, `interval_ms`, `hold`, `max_presses`, `flush_every` (forca ciclo ESC pause/resume para flushar SRAM), `rotate_key` (tentativa extra com tecla alternativa em timeout)
 - quando o input for persistido, usar `tools/sgdk_wrapper/schemas/blastem_input_script.schema.json` e exemplo `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/blastem_input_script.example.json`
 - `save_path` e `screenshot_path` do BlastEm devem ser reescritos dentro do bloco `ui {}`; no topo do cfg a opcao pode ser ignorada
@@ -96,8 +141,7 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 
 ## Reconciliacao de status apos build
 
-Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`.
+Regra generalizada de reconciliacao entre ROM, relatorios e documentacao ativa.
 
 Depois de uma ROM, captura ou refresh de validacao, o agente deve comparar, no
 mesmo escopo:
@@ -123,8 +167,7 @@ atualizacao status-only e freshness audit; nao criar build snapshot artificial.
 
 ## Gate de progresso antes de novo build
 
-Licao operacional extraida de `Celestial Chase Revive [VER.001] [SGDK 211]
-[GEN] [GAME] [ACTION_RACING]`, sustentada pelo historico canonico de
+Regra operacional sustentada pelo historico canonico de
 `doc/changelog/roms/build_v*/build_meta.json`.
 
 - O detector de loop deve preferir `build_meta.json` ao arquivo mutavel
@@ -163,8 +206,7 @@ $env:SGDK_CHANGE_SUMMARY = "Produzir a fixture visual real do primeiro setor."
 
 ## Evidencia de input no BlastEm por observacao da ROM
 
-Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_RACING]`, evidencia `E2_project_runtime_probe`.
+Regra generalizada de evidencia de input observada pela ROM.
 
 - Input enviado pelo host nao e evidencia por si so.
 - Para navegacao roteirizada, exigir confirmacao ROM-side quando disponivel:
@@ -172,9 +214,8 @@ Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
   `scene_id`.
 - Se `SendInput` reporta envio mas `observed_input` permanece `0`, nao contar a
   navegacao como sucesso.
-- `wm_key_message_to_sdl_window` foi observado no Celestial Chase como input
-  lido pela ROM naquela sessao/host; nao promover isso a transporte universal
-  ate o wrapper ter suporte canonico e teste proprio.
+- `wm_key_message_to_sdl_window` e transporte experimental; nao promover a
+  transporte universal ate o wrapper ter suporte canonico e teste proprio.
 - Relatorios de navegacao devem registrar `input_transport`, `observed_input`,
   `raw_input`, cena esperada, cena observada e hash da ROM.
 - Preferir scripts JSON e `press_until_ready`, mas qualquer transporte de input
@@ -218,3 +259,23 @@ projeto.
   performance sem `claim_scope` correspondente
 - tratar MTR de estatistica de corrida como MDRT de desempenho
 - aceitar closeout manual sem `scene_closeout_gate_report.json` executado
+- ignorar `sgdk_build_route_report.json`, misturar rota Linux/Windows ou
+  classificar mismatch LTO de link como defeito do codigo do jogo
+- chamar `run_runtime_capture.ps1` no Linux ou
+  `capture_blastem_evidence_linux.sh` no Windows
+
+
+## Regressao reproduzivel da cadeia Linux
+
+`python3 tools/sgdk_wrapper/ci/run_reference_e2e.py` executa a fixture
+FORGE_REFERENCE existente, preflight, build e contratos FREF observados no
+BlastEm. O report `out/logs/reference_e2e_report.json` declara somente
+`technical_fixture_contracts`; nao prova qualidade de jogo, audio ou FPS
+sustentado. Alvo ausente falha fechado. `run_golden_validate.ps1` continua
+sendo validacao de recursos e nunca substitui essa execucao.
+
+O bridge identifica todos os arquivos do SDK e seus parametros de biblioteca
+em `sdk_content_identity.json`, mantem staging por workspace e serializa builds.
+Feche o descritor do lock nos processos Flatpak: servicos Wine sobreviventes
+nao podem herdar o lock. Mudanca de SDK/bridge invalida biblioteca e staging;
+nenhuma ROM historica e recertificada por essa invalidacao.

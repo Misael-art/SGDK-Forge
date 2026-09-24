@@ -1,0 +1,299 @@
+{
+  "contract_id": "branding_sequence_v1",
+  "status": "buildado_blastem_observed_closeout_blocked",
+  "applies_to": "tools/sgdk_wrapper/modelo",
+  "scene_id": "APP_SCENE_BRANDING",
+  "expected_app_scene_id": 0,
+  "purpose": "tela padrao de assinatura para todo projeto nascido do modelo canonico",
+  "runtime_model": {
+    "scene_module": "src/scenes/scene_branding.c",
+    "enter_update_exit": true,
+    "resource_loading_model": "scene_local_preload",
+    "skip_policy": "START ou A chama APP_changeScene(APP_SCENE_BOOT) em qualquer frame",
+    "runtime_probe": "MDRuntimeProbe_init em APP_boot e MDRuntimeProbe_tick uma vez por frame no loop principal"
+  },
+  "screens": [
+    {
+      "slot": 1,
+      "role": "engine",
+      "label": "MEGA FORGE ENGINE",
+      "duration_frames_ntsc": 150,
+      "timeline": [
+        "F0 enter/reset, BG_B brand_fx_tiles, BG_A brand_engine_logo",
+        "F0-42 logo sobe por VScroll ate repouso",
+        "F0-150 BG_B contramovimento por scroll de plano",
+        "F0/F18/F46 cues PSG com bell_forge XGM2 no impacto inicial",
+        "F0-150 shimmer em PAL1[14] a cada 8 frames"
+      ],
+      "vdp_owner": {
+        "BG_A": "img_brand_engine_logo",
+        "BG_B": "img_brand_fx_tiles",
+        "sprites": "nenhum neste baseline",
+        "PAL0": "fx tiles",
+        "PAL1": "logo engine",
+        "PAL2": "reservado",
+        "PAL3": "reservado/debug"
+      },
+      "palette_script": "BRAND_ENGINE_SHIMMER em PAL1[14]",
+      "audio_cues": [
+        "AUDIO_CUE_BRAND_ENGINE_HIT -> brand_bell_forge WAV XGM2 13300 em SOUND_PCM_CH2",
+        "PSG ch0/ch1 reforco tonal curto; sem uso de PSG noise como canal tonal"
+      ]
+    },
+    {
+      "slot": 2,
+      "role": "author",
+      "label": "MISAEL OLIVEIRA",
+      "duration_frames_ntsc": 165,
+      "timeline": [
+        "F0 enter/reset, BG_B brand_fx_tiles, BG_A brand_author_logo",
+        "F0-165 BG_B scroll leve no sentido oposto ao slot engine",
+        "F42-126 cursor textual temporario com click XGM2 a cada 6 frames",
+        "F110 bell_terminal XGM2",
+        "F0-165 scan em PAL1[6] a cada 4 frames"
+      ],
+      "vdp_owner": {
+        "BG_A": "img_brand_author_logo e cursor temporario",
+        "BG_B": "img_brand_fx_tiles",
+        "sprites": "nenhum neste baseline",
+        "PAL0": "fx tiles",
+        "PAL1": "logo author",
+        "PAL2": "reservado",
+        "PAL3": "reservado/debug"
+      },
+      "palette_script": "BRAND_AUTHOR_SCAN em PAL1[6]",
+      "audio_cues": [
+        "AUDIO_CUE_BRAND_AUTHOR_CLICK -> brand_typewriter_click WAV XGM2 6650 em SOUND_PCM_CH3 halfRate=true",
+        "AUDIO_CUE_BRAND_AUTHOR_BELL -> brand_bell_terminal WAV XGM2 13300 em SOUND_PCM_CH2"
+      ]
+    },
+    {
+      "slot": 3,
+      "role": "project",
+      "label": "MEGA MASTER GAMES",
+      "duration_frames_ntsc": 205,
+      "timeline": [
+        "F0 enter/reset, BG_B brand_fx_tiles, BG_A brand_project_logo + brand_presents_text",
+        "F0-36 HSCROLL_LINE em BG_A com amplitude 2",
+        "F0 stamp_whoosh XGM2",
+        "F28 reverb_tail XGM2 + PSG ch2 chime",
+        "F0-48 flash em PAL1[10..11], depois shimmer lento em PAL1[9]"
+      ],
+      "vdp_owner": {
+        "BG_A": "img_brand_project_logo e img_brand_presents_text",
+        "BG_B": "img_brand_fx_tiles",
+        "sprites": "nenhum neste baseline",
+        "PAL0": "fx tiles",
+        "PAL1": "logo project e presents",
+        "PAL2": "reservado",
+        "PAL3": "reservado/debug"
+      },
+      "palette_script": "BRAND_PROJECT_FLASH em PAL1[9..11]",
+      "audio_cues": [
+        "AUDIO_CUE_BRAND_PROJECT_WHOOSH -> brand_stamp_whoosh WAV XGM2 13300 em SOUND_PCM_CH2",
+        "AUDIO_CUE_BRAND_PROJECT_TAIL -> brand_reverb_tail WAV XGM2 13300 em SOUND_PCM_CH3"
+      ]
+    }
+  ],
+  "resource_plan_by_slot": {
+    "shared": {
+      "images": [
+        "res/branding/brand_fx_tiles.png"
+      ],
+      "audio": [],
+      "resident_model": "shared scene-local preload"
+    },
+    "engine": {
+      "images": [
+        "res/branding/brand_engine_logo.png"
+      ],
+      "audio": [
+        "res/audio/branding/bell_forge.wav"
+      ]
+    },
+    "author": {
+      "images": [
+        "res/branding/brand_author_logo.png"
+      ],
+      "audio": [
+        "res/audio/branding/typewriter_click.wav",
+        "res/audio/branding/bell_terminal.wav"
+      ]
+    },
+    "project": {
+      "images": [
+        "res/branding/brand_project_logo.png",
+        "res/branding/brand_presents_text.png"
+      ],
+      "audio": [
+        "res/audio/branding/stamp_whoosh.wav",
+        "res/audio/branding/reverb_tail.wav"
+      ]
+    }
+  },
+  "budget_summary": {
+    "budget_decision": "cabe com recuo",
+    "recuo": "baseline usa IMAGE + palette/scroll e nenhum sprite runtime; monograma 3D/sprites complexos ficam fora ate novo res_graph e scanline report",
+    "current_res_graph": "out/logs/res_graph_report.json",
+    "current_vram_unique_tiles_estimate": 347,
+    "sprite_reserve_tiles": 420,
+    "vram_overlap_count": 0,
+    "per_frame_dma_policy": "sem DMA por frame; HScroll line table usa CPU apenas em F0-F36 do slot project e limpeza unica no primeiro frame estatico",
+    "scanline_sprite_pressure": "0 sprites neste baseline"
+  },
+  "audio_architecture_card": {
+    "schema_version": "1.0.0",
+    "scene_id": "branding_sequence",
+    "audio_role": "cutscene",
+    "xgm2_mode": "standard_with_pcm",
+    "sample_format_audit": "WAV resources declared as XGM2 13300 or 6650; no raw 11k PCM path",
+    "channel_ownership_map": {
+      "FM_CH1": {
+        "owner": "unused",
+        "stealable": true
+      },
+      "FM_CH2": {
+        "owner": "unused",
+        "stealable": true
+      },
+      "FM_CH3": {
+        "owner": "unused",
+        "stealable": true
+      },
+      "FM_CH4": {
+        "owner": "unused",
+        "stealable": true
+      },
+      "FM_CH5": {
+        "owner": "unused",
+        "stealable": true
+      },
+      "FM_CH6_DAC": {
+        "owner": "XGM2 PCM SFX",
+        "stealable": false
+      },
+      "PSG_CH1": {
+        "owner": "branding tonal accents",
+        "stealable": true
+      },
+      "PSG_CH2": {
+        "owner": "branding tonal accents",
+        "stealable": true
+      },
+      "PSG_CH3": {
+        "owner": "branding chime",
+        "stealable": true
+      },
+      "PSG_NOISE": {
+        "owner": "unused in branding baseline",
+        "stealable": true
+      }
+    },
+    "sfx_priority_table": [
+      {
+        "event": "engine_hit",
+        "priority": 12,
+        "channel": "SOUND_PCM_CH2",
+        "steals_lower_priority": true
+      },
+      {
+        "event": "author_click",
+        "priority": 4,
+        "channel": "SOUND_PCM_CH3",
+        "steals_lower_priority": true
+      },
+      {
+        "event": "author_bell",
+        "priority": 10,
+        "channel": "SOUND_PCM_CH2",
+        "steals_lower_priority": true
+      },
+      {
+        "event": "project_whoosh",
+        "priority": 11,
+        "channel": "SOUND_PCM_CH2",
+        "steals_lower_priority": true
+      },
+      {
+        "event": "project_tail",
+        "priority": 8,
+        "channel": "SOUND_PCM_CH3",
+        "steals_lower_priority": true
+      }
+    ],
+    "dac_budget": {
+      "dac_used": true,
+      "sample_rate_hz": 13300,
+      "max_concurrent_pcm": 2,
+      "clipping_policy": "synthetic samples normalized below full scale; validate_audio must pass"
+    },
+    "fallback_plan": "Se XGM2 falhar, manter PSG tonal curto e registrar audio=placeholder.",
+    "approval_status": "approved_for_runtime"
+  },
+  "teardown_reset_plan": [
+    "AUDIO_stopAll()",
+    "SPR_reset()",
+    "SPR_update()",
+    "VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE)",
+    "VDP_setHorizontalScroll(BG_A, 0)",
+    "VDP_setHorizontalScroll(BG_B, 0)",
+    "VDP_setVerticalScroll(BG_A, 0)",
+    "VDP_setVerticalScroll(BG_B, 0)",
+    "PAL_setPalette(PAL0..PAL3, palette_black, CPU) on screen reset"
+  ],
+  "promotion_rules": [
+    "baseline brand_* PNGs sao assets reais e nao devem ser apagados por suposicao",
+    "arte final precisa de lineage, conversao, validacao de paleta e budget",
+    "nao promover PNG bruto de IA direto para res/",
+    "nao declarar pronto sem BlastEm",
+    "ready_for_aaa do projeto permanece bloqueado enquanto GDD/template generico nao for preenchido"
+  ],
+  "evidence_plan": {
+    "build": "out/rom.bin existe e SHA256 registrado",
+    "res_graph": "out/logs/res_graph_report.json status ok",
+    "audio_validation": "out/logs/audio_validation_report.json pass=true depois dos WAV XGM2",
+    "runtime_capture": "run_runtime_capture.ps1 -ProjectDir tools/sgdk_wrapper/modelo -TargetScene 0 -Emulator blastem",
+    "required_runtime_scene_id": 0,
+    "blastem": [
+      "screenshot dedicada da janela",
+      "save.sram com MDRT e heartbeat READY",
+      "runtime_metrics.json com scene_id=0",
+      "visual_vdp_dump.bin quando disponivel ou visual_delivery_gate_report marcando missing/blocked"
+    ],
+    "freshness": "out/logs/freshness_audit_report.json sem drift bloqueante para artefatos capturados",
+    "closeout": "out/logs/scene_closeout_gate_report.json"
+  },
+  "runtime_capture_current": {
+    "rom_sha256": null,
+    "blastem_status": "not_run",
+    "target_scene": null,
+    "runtime_scene_id": null,
+    "capture_status": "not_captured",
+    "frames_seen": 0,
+    "samples_recorded": 0,
+    "over_budget_frames": 0,
+    "cpu_load_max": 0,
+    "frame_cpu_ratio_p95": 0,
+    "sprite_engine_peak": 0,
+    "max_scanline_sprites": 0,
+    "screenshot_path": null,
+    "sram_path": null,
+    "runtime_metrics_path": null,
+    "visual_vdp_dump_path": null,
+    "visual_vdp_dump_status": "not_captured",
+    "performance_gate": "not_measured"
+  },
+  "verification_current": {
+    "direct_sgdk_make": "not_run",
+    "wrapper_build": "not_built",
+    "res_graph": "not_run",
+    "validate_audio": "not_run",
+    "blastem": "not_run",
+    "freshness": "not_run",
+    "scene_closeout_gate": "not_run",
+    "known_blockers": [
+      "project_not_built",
+      "emulator_evidence_missing"
+    ]
+  }
+}

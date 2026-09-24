@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "backlog_item": "P1-002",
+  "generated_at": "2026-07-20T03:23:00Z",
+  "status": "technical_complete_pending_external_human_audio_review",
+  "project": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "rom": {
+    "path": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/rom.bin",
+    "sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+    "build_environment": "registry.gitlab.com/doragasu/docker-sgdk:v2.11"
+  },
+  "implementation": {
+    "music_asset": "res/audio/chase/chase_core_fm_psg.vgm",
+    "music_asset_sha256": "2349f781f0ca06c705f6940398d7b180b8edadeaf5588561355cd2ff1afbd6d4",
+    "rescomp_resource": "mus_chase_core",
+    "music_channels": ["YM2612_FM_CH1", "YM2612_FM_CH2", "SN76489_PSG_CH1"],
+    "pcm_ownership": {"PCM_CH1": "reserved", "PCM_CH2": "critical", "PCM_CH3": "optional_ui"},
+    "direct_psg_calls_remaining": 0
+  },
+  "validation": {
+    "audio_validator": {"passed": true, "declarations": 10, "music_assets": 1, "samples": 9, "issues": 0, "rom_audio_percent": 0.96},
+    "generator_tests": "2/2 passed",
+    "probe_tests": "4/4 passed",
+    "rescomp_xgm2_size_bytes": 768
+  },
+  "runtime": {
+    "session_id": "blastem-linux-20260720T032218Z-267076",
+    "window_title": "BlastEm 59.x fps title telemetry",
+    "samples_recorded": 270,
+    "driver_frames": 1363,
+    "max_xgm2_cpu_load": 92,
+    "max_xgm2_dma_wait": 0,
+    "missed_frames": 1,
+    "simultaneous_music_sfx_samples": 8,
+    "sfx_requests": 5,
+    "sfx_accepted": 5,
+    "audio_duration_seconds": 24.064,
+    "audio_peak_dbfs": -16.457347453696176,
+    "audio_rms_dbfs": -34.28273630565177,
+    "digital_clipping": false
+  },
+  "evidence": [
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/doc/audio_architecture_card.json",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/logs/audio_validation_report.json",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/remediation/P1-002/docker_sgdk_v2_11_build.log",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/evidence_manifest.json",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/xgm2_audio_probe.json",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio.wav",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio_capture_analysis.json",
+    "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/doc/human_audio_review_p1_002.md"
+  ],
+  "acceptance": {
+    "xgm2_fm_psg_declared": "passed",
+    "music_and_sfx_simultaneous": "passed",
+    "pcm_priority_and_budget": "passed",
+    "blastem_capture": "passed",
+    "human_audio_review": "pending_external_human_action"
+  },
+  "blockers": ["human_audio_review_pending"],
+  "warnings": ["one_xgm2_missed_frame_observed"],
+  "claim_limit": "P1-002 cannot be completed until a human records the auditory decision"
+}

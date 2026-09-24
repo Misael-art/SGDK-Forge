@@ -1,0 +1,341 @@
+{
+  "case_id": "taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906",
+  "source_image": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/cinder_circuit_visual_source_v01.png",
+  "source_size": {
+    "width": 1672,
+    "height": 941,
+    "mode": "RGB"
+  },
+  "scene_truth_kind": "authorial_visual_source_candidate",
+  "layout_complexity": "single_frame_multiplane_candidate",
+  "source_inventory": {
+    "source_kind": "ai_generated",
+    "source_role": "visual_source",
+    "acceptance_status": "visual_lab_control",
+    "dimensions": "1672x941_rgb",
+    "editorial_noise_present": false,
+    "text_or_branding_present": false,
+    "characters_present": false,
+    "source_notes": "Original Cinder Circuit industrial volcanic arena concept generated for this project. It is direction material, not native pixel art and not a final SGDK resource."
+  },
+  "drop_policy": {
+    "drop_editorial_regions": true,
+    "drop_text_and_logos": true,
+    "drop_characters_from_stage": true,
+    "drop_high_frequency_microdetail_when_native_reauthoring": true,
+    "notes": [
+      "Preserve the central molten reactor, circular arena, side machinery, distant skyline and foreground safety rail as semantic anchors.",
+      "Do not preserve every small pipe, ember or micro-highlight as an independent tile."
+    ]
+  },
+  "composition_schema": {
+    "shared_canvas": {
+      "source_extent": [
+        1672,
+        941
+      ],
+      "target_extent": [
+        320,
+        224
+      ],
+      "visible_window": [
+        0,
+        0,
+        320,
+        224
+      ],
+      "spatial_lock": "central_reactor_and_arena_centered"
+    },
+    "roles": [
+      {
+        "region_id": "cinder_bg_b_atmosphere",
+        "composition_role": "bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "cinder_bg_a_reactor_architecture",
+        "composition_role": "bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "cinder_ground_arena",
+        "composition_role": "bg_a",
+        "order": 2
+      },
+      {
+        "region_id": "cinder_foreground_safety_rail",
+        "composition_role": "foreground_layer",
+        "order": 3
+      }
+    ],
+    "composition_order": [
+      "bg_b",
+      "bg_a",
+      "foreground_layer",
+      "fighters",
+      "hud_window"
+    ],
+    "fallback": "compare_flat_single_plane_candidate_only_if_two_plane_budget_fails",
+    "third_plane_policy": "no_third_plane; foreground is priority/compositional fallback"
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "single_frame",
+    "semantic_regions": [
+      {
+        "id": "cinder_bg_b_atmosphere",
+        "classification": "scene_plane_bg_b",
+        "bbox": [
+          210,
+          40,
+          1460,
+          500
+        ],
+        "action": "keep",
+        "composition_role": "bg_b",
+        "notes": "Distant red volcanic atmosphere, skyline, towers and low-contrast industrial silhouettes.",
+        "composition_order": 0
+      },
+      {
+        "id": "cinder_bg_a_reactor_architecture",
+        "classification": "scene_plane_bg_a",
+        "bbox": [
+          0,
+          80,
+          1672,
+          650
+        ],
+        "action": "keep",
+        "composition_role": "bg_a",
+        "notes": "Side machinery, overhead gantries, central reactor and structural catwalks.",
+        "composition_order": 1
+      },
+      {
+        "id": "cinder_ground_arena",
+        "classification": "scene_plane_ground",
+        "bbox": [
+          0,
+          470,
+          1672,
+          850
+        ],
+        "action": "keep",
+        "composition_role": "bg_a",
+        "notes": "Circular fighting platform and floor plates; must remain the neutral read anchor.",
+        "composition_order": 2
+      },
+      {
+        "id": "cinder_foreground_safety_rail",
+        "classification": "scene_plane_foreground_composition",
+        "bbox": [
+          0,
+          590,
+          1672,
+          941
+        ],
+        "action": "keep",
+        "composition_role": "foreground_layer",
+        "notes": "Near rail, furnace housings and occlusion masses; preserve only where it frames the fight without covering feet.",
+        "composition_order": 3
+      }
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": [],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "scene_role": "combat_stage_and_stage_intro",
+      "camera_window": "320x224_4_3",
+      "gameplay_lane": [
+        0,
+        132,
+        320,
+        210
+      ],
+      "horizon_band": [
+        0,
+        64,
+        320,
+        132
+      ],
+      "central_focal_landmark": "molten_reactor_column",
+      "must_preserve": [
+        "central_reactor_column",
+        "circular_arena_ring",
+        "side_tower_symmetry",
+        "warm_lava_cool_steel_contrast",
+        "safe_clear_fighter_lane"
+      ]
+    },
+    "notes_on_why": [
+      "The source is a clean single scene rather than an editorial board, so semantic parsing is spatial and role-based.",
+      "BG_B must be reduced in contrast and detail; BG_A carries the central reactor and arena structure.",
+      "Foreground is a compositional occlusion layer, not an actor sprite and not a third VDP plane."
+    ]
+  },
+  "structural_contract": {
+    "source_layout_type": "single_frame",
+    "shared_canvas": {
+      "source_extent": [
+        1672,
+        941
+      ],
+      "target_extent": [
+        320,
+        224
+      ],
+      "visible_window": [
+        0,
+        0,
+        320,
+        224
+      ],
+      "spatial_lock": "central_reactor_and_arena_centered"
+    },
+    "keep_regions": [
+      {
+        "id": "cinder_bg_b_atmosphere",
+        "classification": "scene_plane_bg_b",
+        "composition_role": "bg_b",
+        "usage_kind": "scene_or_asset_region",
+        "export_name": null,
+        "normalization": [],
+        "cleanup_rules": [],
+        "tiling_goal": null,
+        "pivot_policy": null,
+        "frame_extraction_excludes": [],
+        "notes": "Distant red volcanic atmosphere, skyline, towers and low-contrast industrial silhouettes."
+      },
+      {
+        "id": "cinder_bg_a_reactor_architecture",
+        "classification": "scene_plane_bg_a",
+        "composition_role": "bg_a",
+        "usage_kind": "scene_or_asset_region",
+        "export_name": null,
+        "normalization": [],
+        "cleanup_rules": [],
+        "tiling_goal": null,
+        "pivot_policy": null,
+        "frame_extraction_excludes": [],
+        "notes": "Side machinery, overhead gantries, central reactor and structural catwalks."
+      },
+      {
+        "id": "cinder_ground_arena",
+        "classification": "scene_plane_ground",
+        "composition_role": "bg_a",
+        "usage_kind": "scene_or_asset_region",
+        "export_name": null,
+        "normalization": [],
+        "cleanup_rules": [],
+        "tiling_goal": null,
+        "pivot_policy": null,
+        "frame_extraction_excludes": [],
+        "notes": "Circular fighting platform and floor plates; must remain the neutral read anchor."
+      },
+      {
+        "id": "cinder_foreground_safety_rail",
+        "classification": "scene_plane_foreground_composition",
+        "composition_role": "foreground_layer",
+        "usage_kind": "scene_or_asset_region",
+        "export_name": null,
+        "normalization": [],
+        "cleanup_rules": [],
+        "tiling_goal": null,
+        "pivot_policy": null,
+        "frame_extraction_excludes": [],
+        "notes": "Near rail, furnace housings and occlusion masses; preserve only where it frames the fight without covering feet."
+      }
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": [],
+    "animation_ranges": []
+  },
+  "training_labels": {},
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "keep_region_count": 4,
+    "auxiliary_region_count": 0,
+    "drop_region_count": 0
+  },
+  "outputs": {
+    "semantic_parse_report": "/mnt/sdcard/Projects/Sgdk Forge/assets/reference/translation_curation/composição_de_cenas/reports/taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906/semantic_parse_report.json",
+    "human_semantic_panel": "/mnt/sdcard/Projects/Sgdk Forge/assets/reference/translation_curation/composição_de_cenas/reports/taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906/human_semantic_panel.png",
+    "inferred_composition_panel": "/mnt/sdcard/Projects/Sgdk Forge/assets/reference/translation_curation/composição_de_cenas/reports/taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906/inferred_composition_panel.png",
+    "drop_regions_panel": "/mnt/sdcard/Projects/Sgdk Forge/assets/reference/translation_curation/composição_de_cenas/reports/taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906/drop_regions_panel.png",
+    "animation_ranges_panel": null,
+    "recomposed_scene": null
+  },
+  "audit": {
+    "layout_match": true,
+    "truth_region_count": 4,
+    "matched_region_count": 4,
+    "missing_region_count": 0,
+    "extra_region_count": 0,
+    "average_iou": 1.0,
+    "classification_accuracy": 1.0,
+    "composition_accuracy": 0.0,
+    "engine_affordance_accuracy": 1.0,
+    "matched_regions": [
+      {
+        "truth_region": "cinder_bg_b_atmosphere",
+        "predicted_region": "pred_bg_b_atmosphere",
+        "iou": 1.0,
+        "classification_match": true,
+        "composition_match": true,
+        "engine_affordance_match": true,
+        "confidence_bbox": 0.91,
+        "confidence_classification": 0.91,
+        "confidence_composition": 0.88,
+        "confidence_engine_affordance": 0.94
+      },
+      {
+        "truth_region": "cinder_bg_a_reactor_architecture",
+        "predicted_region": "pred_bg_a_reactor_architecture",
+        "iou": 1.0,
+        "classification_match": true,
+        "composition_match": true,
+        "engine_affordance_match": true,
+        "confidence_bbox": 0.9,
+        "confidence_classification": 0.92,
+        "confidence_composition": 0.89,
+        "confidence_engine_affordance": 0.94
+      },
+      {
+        "truth_region": "cinder_ground_arena",
+        "predicted_region": "pred_ground_arena",
+        "iou": 1.0,
+        "classification_match": true,
+        "composition_match": true,
+        "engine_affordance_match": true,
+        "confidence_bbox": 0.89,
+        "confidence_classification": 0.88,
+        "confidence_composition": 0.85,
+        "confidence_engine_affordance": 0.94
+      },
+      {
+        "truth_region": "cinder_foreground_safety_rail",
+        "predicted_region": "pred_foreground_safety_rail",
+        "iou": 1.0,
+        "classification_match": true,
+        "composition_match": true,
+        "engine_affordance_match": true,
+        "confidence_bbox": 0.87,
+        "confidence_classification": 0.9,
+        "confidence_composition": 0.86,
+        "confidence_engine_affordance": 0.94
+      }
+    ],
+    "missing_regions": [],
+    "extra_regions": [],
+    "export_mode": null,
+    "review_required": null,
+    "conflict_count": 0,
+    "blocking_conflict_count": 0,
+    "blocked_reasons": [],
+    "recomposition_visual_score": null,
+    "visual_failures": [],
+    "recomposition_pass": null,
+    "delivery_findings": [],
+    "delivery_finding_count": 0,
+    "ok": true
+  }
+}

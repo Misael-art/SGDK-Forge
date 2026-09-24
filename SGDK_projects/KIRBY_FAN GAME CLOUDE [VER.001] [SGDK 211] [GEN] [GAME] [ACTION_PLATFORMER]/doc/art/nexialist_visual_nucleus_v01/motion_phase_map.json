@@ -1,0 +1,12 @@
+{
+  "schema_version": "motion_phase_map.v1",
+  "package_id": "native_motion_key_pose_package_v01",
+  "proof_kind": "reversible_motion_proof_not_final_animation",
+  "sequence": [
+    {"frame":"native_idle_key_pose_elite_v01","phase":"settle","duration_frames":8},
+    {"frame":"native_pose_locomotion_contact_v01","phase":"contact","duration_frames":5},
+    {"frame":"native_pose_locomotion_passing_v01","phase":"passing","duration_frames":5},
+    {"frame":"native_pose_airborne_v01","phase":"rise_fall","duration_frames":6}
+  ],
+  "not_claimed": ["complete_run_cycle","final_jump_cycle","final_animation_timing","gameplay_replacement"]
+}

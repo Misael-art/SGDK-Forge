@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]"
+  },
+  "policy": {
+    "all_project_assets_inside_project": true,
+    "source_inputs_copied_to_rascunho": true,
+    "placeholder_never_promotes_to_aaa": true,
+    "visual_art_requires_artistic_gate": true
+  },
+  "assets": [
+    {
+      "asset_id": "upstream_sprite_set_ryo_sparks",
+      "role": "engine_sprites",
+      "source_path": "rascunho/upstream_reference/res.zip",
+      "runtime_path": "res/sprite/",
+      "owner": "upstream GameDevBoss (Daniel Moura) via humbertodias",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["hand_authored_pixel", "upstream_import"],
+      "evidence": ["rascunho/upstream_reference/imported_assets_sha256.json"]
+    },
+    {
+      "asset_id": "upstream_bg_set_bgb1_bgb2_rooms",
+      "role": "engine_backgrounds",
+      "source_path": "rascunho/upstream_reference/res.zip",
+      "runtime_path": "res/gfx/",
+      "owner": "upstream GameDevBoss (Daniel Moura) via humbertodias",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["hand_authored_pixel", "upstream_import"],
+      "evidence": ["rascunho/upstream_reference/imported_assets_sha256.json"]
+    },
+    {
+      "asset_id": "snd_hamoopi_gpl_pcm_xgm",
+      "role": "engine_sfx",
+      "source_path": "rascunho/upstream_reference/hamoopi_gpl/sounds/",
+      "runtime_path": "res/snd/",
+      "owner": "HAMOOPI GPL v2 (Daniel Moura) convertido na porta 2026-09-11",
+      "status": "imported",
+      "promotion_allowed": false,
+      "technique_tags": ["xgm_pcm", "upstream_import"],
+      "evidence": ["res/sound.res", "rascunho/upstream_reference/hamoopi_complement_convert_report.json"]
+    },
+    {
+      "asset_id": "hud_clock_digits_n0_n9",
+      "role": "engine_hud",
+      "source_path": "rascunho/upstream_reference/hamoopi_gpl/system/spr_num_0.pcx",
+      "runtime_path": "res/sprite/hud/",
+      "owner": "HAMOOPI GPL v2 (Daniel Moura) convertido na porta 2026-09-11",
+      "status": "imported",
+      "promotion_allowed": false,
+      "technique_tags": ["hand_authored_pixel", "upstream_import"],
+      "evidence": ["res/sprite.res", "rascunho/upstream_reference/hamoopi_complement_convert_report.json"]
+    },
+    {
+      "asset_id": "spr_sombra_ground_blob",
+      "role": "engine_shadow",
+      "source_path": "res/sprite/ryo/100.png",
+      "runtime_path": "res/sprite/hud/sombra.png",
+      "owner": "porta SGDK 2.11 (2026-09-11), composto do sprite ryo upstream",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["procedural_composed_from_authored"],
+      "evidence": ["res/sprite.res", "rascunho/upstream_reference/hamoopi_complement_convert_report.json"]
+    },
+    {
+      "asset_id": "title_backdrop_v01",
+      "role": "title_screen_backdrop",
+      "source_path": "data/source_art/title/title_backdrop_generated_v01.png",
+      "runtime_path": "res/gfx/title_backdrop.png",
+      "owner": "projeto HAMOOPIG, candidato gerado com imagegen e quantizado deterministicamente",
+      "status": "candidate",
+      "promotion_allowed": false,
+      "technique_tags": ["imagegen_source", "mega_drive_9bit", "tile_reuse"],
+      "evidence": ["data/source_art/title/title_assets_report.json", "res/gfx.res"]
+    },
+    {
+      "asset_id": "title_logo_overlay_v01",
+      "role": "title_logo_transparent_overlay",
+      "source_path": "res/gfx/room_0_bgb.png",
+      "runtime_path": "res/gfx/title_logo_overlay.png",
+      "owner": "GameDevBoss/Daniel Moura artwork, transparent overlay derived by project tooling",
+      "status": "candidate",
+      "promotion_allowed": false,
+      "technique_tags": ["border_flood_transparency", "upstream_import"],
+      "evidence": ["data/source_art/title/title_assets_report.json", "res/gfx.res"]
+    },
+    {
+      "asset_id": "title_scene_v01",
+      "role": "title_screen_composite",
+      "source_path": "data/source_art/title/title_backdrop_generated_v01.png + res/gfx/room_0_bgb.png",
+      "runtime_path": "res/gfx/title_scene.png",
+      "owner": "projeto HAMOOPIG, composição determinística de fundo e logo existente",
+      "status": "candidate",
+      "promotion_allowed": false,
+      "technique_tags": ["indexed_composite", "mega_drive_9bit", "tile_reuse"],
+      "evidence": ["data/source_art/title/title_assets_report.json", "res/gfx.res"]
+    }
+  ]
+}

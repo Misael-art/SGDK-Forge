@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+  "candidate_sha256": "e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30",
+  "visual_reference_only": {
+    "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+    "role": "ai_generated_high_res_visual_source_for_native_authoring_only"
+  },
+  "source_of_truth": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "role": "approved_authorial_model_sheet; exclusive source of pixel decisions"
+  },
+  "material_control": {
+    "path": "rascunho/taina_native_material_clean_rework_v01/taina_48x64_native_a1_material_clean_v01.png",
+    "sha256": "54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567",
+    "role": "material_topology_control_only"
+  },
+  "evidence": {
+    "native_1x": "rascunho/taina_native_g2_volume_identity_v01/evidence/native_1x.png",
+    "nearest_8x": "rascunho/taina_native_g2_volume_identity_v01/evidence/nearest_8x.png",
+    "light_background": "rascunho/taina_native_g2_volume_identity_v01/evidence/light_background.png",
+    "dark_background": "rascunho/taina_native_g2_volume_identity_v01/evidence/dark_background.png",
+    "chroma_background": "rascunho/taina_native_g2_volume_identity_v01/evidence/chroma_background.png",
+    "camera_320x224": "rascunho/taina_native_g2_volume_identity_v01/evidence/camera_320x224.png",
+    "crops": "rascunho/taina_native_g2_volume_identity_v01/evidence/crops"
+  },
+  "shape_block": {
+    "silhouette_mask": "silhouette_mask.png",
+    "semantic_region_map": "semantic_region_map.png",
+    "lineart_blocking_1px": "lineart_blocking_1px.png",
+    "material_region_map": "material_region_map.png",
+    "material_boundary_overlay": "material_boundary_overlay.png",
+    "palette_role_map": "palette_role_map.json"
+  },
+  "comparison_panel": "rascunho/taina_native_g2_volume_identity_v01/g2_volume_identity_comparison_panel_v01.png",
+  "method": "procedural_raster_visual_lab_control; diagnostic maps are agent_curated_diagnostic_annotation and internal consistency evidence only",
+  "human_review": {
+    "decision": "rejected_for_final_native_pose",
+    "reason": "source_detail_lost_generic_blocky_redraw_identity_hooks_lost",
+    "scale_gate_reopened_by_human_review": true,
+    "res_promotion": false,
+    "animation_authorization": false
+  }
+}

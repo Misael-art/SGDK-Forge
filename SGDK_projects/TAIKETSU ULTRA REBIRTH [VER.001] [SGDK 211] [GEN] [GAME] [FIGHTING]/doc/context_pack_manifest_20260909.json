@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-09T18:00:00Z",
+  "purpose": "runtime_vdp_residency_probe",
+  "project_root_policy": "all_project_material_inside_project",
+  "sources": [
+    "doc/15-tdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/contracts/tdd_contract.json",
+    "doc/dma_queue_contract.json",
+    "doc/project_context_manifest.json",
+    "doc/project_methodology_manifest.json",
+    "doc/project_hygiene_manifest.json",
+    "doc/technique_usage_manifest.json",
+    "doc/runtime_decision_log_20260909.md",
+    "doc/api_reality_check_20260909.md",
+    "src/scenes/scene_demo.c",
+    "src/system/runtime_probe.c",
+    "inc/system/runtime_probe.h"
+  ],
+  "selected_technique": "tile_cache_streaming_refcount",
+  "active_scene": "fighting_d1_runtime",
+  "measurement_scope": "requested_image_and_allocated_sprite_tile_ranges",
+  "claim_ceiling": "offline_runtime_residency_diagnostic"
+}

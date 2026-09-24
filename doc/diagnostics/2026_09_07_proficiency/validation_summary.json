@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "status": "partial",
+  "ready_for_aaa": false,
+  "rom_sha256": "79020498f34d0ca4b8d2907659c82d4f605c77ecf5a8a650a09e478c1002f337",
+  "e2e_scope": "technical_fixture_contracts",
+  "qa_axes": {
+    "build": "passed_including_library_rebuild_same_flatpak_session",
+    "validation_report": "blocked_local_agent_bootstrap_drift",
+    "boot_emulador": "passed_blastem",
+    "gameplay_basico": "passed_fref_observed_contracts_only",
+    "performance": "not_certified",
+    "audio": "not_certified_in_rom; psg_vgm_xgm2_conversion_tested_ntsc_pal",
+    "memoria": "updated"
+  },
+  "tests_observed": {
+    "sdk_identity": {
+      "passed": 2,
+      "total": 2
+    },
+    "psg_score": {
+      "passed": 2,
+      "total": 2
+    },
+    "canonical_fixture": {
+      "passed": 10,
+      "total": 10
+    },
+    "audio_tools": {
+      "passed": 15,
+      "total": 15
+    },
+    "art_pipeline": {
+      "passed": 135,
+      "total": 135
+    },
+    "measurement_self_checks": {
+      "passed": 19,
+      "total": 19,
+      "global_gate": "blocked_14_active_divergences"
+    }
+  },
+  "unresolved": [
+    "14_active_instrument_divergences",
+    "local_agent_bootstrap_drift",
+    "pilot_visual_audio_gameplay_performance_quality_not_closed",
+    "repeatability_and_full_game_not_demonstrated"
+  ],
+  "evidence_manifest": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/blastem_env_e2e_20260909T140954873448Z/blastem-linux-20260909T141046Z-2069272/evidence_manifest.json",
+  "cold_build_observed": true,
+  "fref_samples": 319,
+  "fref_frame": 360,
+  "cross_host_portability": "not_tested"
+}

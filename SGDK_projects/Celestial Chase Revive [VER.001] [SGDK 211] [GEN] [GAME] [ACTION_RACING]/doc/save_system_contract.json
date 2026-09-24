@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "sram_policy": "required_after_upgrade_slice",
+  "magic": "CCRV",
+  "version": 1,
+  "slots": 1,
+  "fields": ["best_score", "best_time", "upgrade_flags", "sector_flags", "sector_star_flags", "lore_shard_flags", "concept_unlock_flags", "checksum"],
+  "replayability_contract": "doc/replayability_score_contract.json",
+  "checksum": "u16 additive or stronger before implementation",
+  "invalid_save_behavior": "initialize defaults and preserve gameplay access",
+  "evidence_required": ["save.sram", "runtime_metrics_save_fields", "freshness_audit"]
+}

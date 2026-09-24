@@ -27,6 +27,11 @@
       "type": "boolean",
       "description": "Creative readiness signal after semantic, visual, gameplay, animation, GDD, decision-log, and axis-evidence gates."
     },
+    "live_scene_bar_status": {
+      "type": "string",
+      "enum": ["passed", "needs_review", "failed", "missing", "not_applicable"],
+      "description": "Status of out/logs/live_scene_bar_report.json. ready_for_aaa requires passed on aaa_game slices."
+    },
     "technical_artifact_status": {
       "type": "string",
       "description": "Canonical replacement for aggregate_status. Describes build/runtime artifact maturity, not AAA delivery."

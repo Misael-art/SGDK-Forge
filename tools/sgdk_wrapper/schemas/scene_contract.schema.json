@@ -16,14 +16,102 @@
     },
     "project_profile": {
       "type": "string",
-      "enum": ["lab", "production", "aaa_gate"],
+      "enum": [
+        "lab",
+        "production",
+        "aaa_gate"
+      ],
       "description": "Rigor level. lab=relaxed, production=standard, aaa_gate=strict"
     },
     "scenes": {
       "type": "array",
       "minItems": 0,
       "items": {
-        "$ref": "#/definitions/scene_entry"
+        "$ref": "#/definitions/scene_entry",
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "worst_frame_sprite_layout": {
+            "type": "object",
+            "description": "Layout de sprites do PIOR quadro da cena, no formato consumido por tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py. Sem este campo, `scanline_sprite_pressure` fica sendo prosa e nenhum claim de densidade e sustentavel: o simulador nao tem o que medir. Opcional por compatibilidade com contratos existentes, obrigatorio para claim de budget de sprites.",
+            "additionalProperties": true,
+            "required": [
+              "frame",
+              "sprites"
+            ],
+            "properties": {
+              "frame": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "identificador do pior quadro, por numero NTSC ou rotulo de beat"
+              },
+              "how_determined": {
+                "type": "string",
+                "description": "como o pior quadro foi encontrado: varredura da coreografia, captura de runtime, auditoria manual"
+              },
+              "display_mode": {
+                "enum": [
+                  "h40",
+                  "h32"
+                ],
+                "default": "h40",
+                "description": "h40 = 20 sprites e 320 px por linha; h32 = 16 e 256. O VDP impoe os DOIS ao mesmo tempo."
+              },
+              "headroom_justification": {
+                "type": "string",
+                "description": "Por que a cena usa menos que o teto. Direcao de arte, level design e premissas vencem a densidade, mas por declaracao e nunca por omissao. Preencher limpa o aviso `unexploited_headroom` da doutrina de audacia (SGDK_GLOBAL secao 30)."
+              },
+              "sprites": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h"
+                  ],
+                  "additionalProperties": true,
+                  "properties": {
+                    "x": {
+                      "type": "integer"
+                    },
+                    "y": {
+                      "type": "integer"
+                    },
+                    "w": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "h": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "sprite_links": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "sprites de hardware consumidos; omitido, e estimado por celulas de 32x32"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "scanline_sprite_pressure": {
+            "type": [
+              "string",
+              "integer",
+              "null"
+            ],
+            "description": "Pressao de sprites por scanline. Valor em prosa e declaracao, nao medicao. Para virar medicao, preencha worst_frame_sprite_layout e rode o simulador."
+          }
+        }
       }
     }
   },
@@ -46,17 +134,35 @@
         },
         "scene_role": {
           "type": "string",
-          "enum": ["menu", "title", "gameplay", "boss", "cutscene", "lab", "debug", "benchmark"],
+          "enum": [
+            "menu",
+            "title",
+            "gameplay",
+            "boss",
+            "cutscene",
+            "lab",
+            "debug",
+            "benchmark"
+          ],
           "description": "Functional role of the scene"
         },
         "boot_mode": {
           "type": "string",
-          "enum": ["debug_menu", "sram_bootstrap", "runtime_flag", "direct_boot", "unsupported"],
+          "enum": [
+            "debug_menu",
+            "sram_bootstrap",
+            "runtime_flag",
+            "direct_boot",
+            "unsupported"
+          ],
           "description": "How this scene can be deterministically reached"
         },
         "capture_kind": {
           "type": "string",
-          "enum": ["screenshot", "evidence_bundle"],
+          "enum": [
+            "screenshot",
+            "evidence_bundle"
+          ],
           "description": "Evidence mode expected for this scene."
         },
         "capture_frame": {
@@ -71,12 +177,19 @@
         },
         "required_assets": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Relative paths to assets this scene depends on"
         },
         "visual_priority": {
           "type": "string",
-          "enum": ["critical", "high", "normal", "low"],
+          "enum": [
+            "critical",
+            "high",
+            "normal",
+            "low"
+          ],
           "description": "Visual fidelity priority for this scene"
         },
         "palette_policy": {
@@ -89,7 +202,9 @@
         },
         "effects_active": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "List of active FX (e.g. 'raster_scroll', 'palette_fade', 'sprite_scaling')"
         },
         "cleanup_required": {
@@ -100,7 +215,11 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["screenshot", "sram", "vdp_dump"]
+            "enum": [
+              "screenshot",
+              "sram",
+              "vdp_dump"
+            ]
           },
           "description": "Artifacts that must be present in the capture bundle."
         },
@@ -108,7 +227,11 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["screenshot", "sram", "vdp_dump"]
+            "enum": [
+              "screenshot",
+              "sram",
+              "vdp_dump"
+            ]
           },
           "description": "Artifacts that participate in baseline diff. Defaults to screenshot-only when omitted."
         },
@@ -138,28 +261,71 @@
       "properties": {
         "cutscene_mode": {
           "type": "string",
-          "enum": ["panel_sequence", "portrait_dialog", "pan_hold", "object_insert", "full_screen_justified", "mixed"]
+          "enum": [
+            "panel_sequence",
+            "portrait_dialog",
+            "pan_hold",
+            "object_insert",
+            "full_screen_justified",
+            "mixed"
+          ]
         },
-        "fsm_script": { "type": "string" },
-        "resource_plan": { "type": "string" },
-        "panel_layout": { "type": "string" },
-        "palette_script": { "type": "string" },
-        "text_timing_map": { "type": "string" },
-        "audio_cue_map": { "type": "string" },
-        "glyph_manifest": { "type": "string" },
+        "fsm_script": {
+          "type": "string"
+        },
+        "resource_plan": {
+          "type": "string"
+        },
+        "panel_layout": {
+          "type": "string"
+        },
+        "palette_script": {
+          "type": "string"
+        },
+        "text_timing_map": {
+          "type": "string"
+        },
+        "audio_cue_map": {
+          "type": "string"
+        },
+        "glyph_manifest": {
+          "type": "string"
+        },
         "advance_model": {
           "type": "string",
-          "enum": ["WAIT_INPUT", "WAIT_FRAMES", "TEXT_DONE", "AUDIO_CUE_DONE", "MIXED"]
+          "enum": [
+            "WAIT_INPUT",
+            "WAIT_FRAMES",
+            "TEXT_DONE",
+            "AUDIO_CUE_DONE",
+            "MIXED"
+          ]
         },
-        "teardown_plan": { "type": "string" },
-        "evidence_plan": { "type": "string" },
-        "uses_fullscreen_bitmap": { "type": "boolean" },
-        "fullscreen_bitmap_justification": { "type": "string" },
+        "teardown_plan": {
+          "type": "string"
+        },
+        "evidence_plan": {
+          "type": "string"
+        },
+        "uses_fullscreen_bitmap": {
+          "type": "boolean"
+        },
+        "fullscreen_bitmap_justification": {
+          "type": "string"
+        },
         "dynamic_fx": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "h_int_owner": { "type": "string" }
+        "h_int_owner": {
+          "type": "string"
+        },
+        "cinematic_storyboard_contract": {
+          "type": "string",
+          "description": "Project-relative path to cinematic_storyboard_contract.schema.json artifact. Required by lint_scene_contract.ps1 in aaa_gate mode for scene_role=cutscene."
+        }
       },
       "additionalProperties": true
     }

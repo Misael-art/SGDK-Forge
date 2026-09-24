@@ -30,15 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
-    "blastem_status": "testado_em_blastem_minimal",
-    "screenshot": "evidence/blastem_showdown_screenshot.png",
-    "save_sram": "evidence/blastem_showdown_save.sram",
-    "session_manifest": "evidence/blastem_session_manifest.json",
-    "visual_check": "evidence/blastem_screenshot_visual_check.json",
-    "visual_vdp_dump": null,
+    "rom_sha256": "753aa038663894d437a8c28b530924c94abea3c53ad05ed619ae7fe6894d1591",
+    "blastem_status": "testado_em_blastem_sealed_bundle",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6l_soak/blastem-linux-20260830T181807Z-3724586/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6l_soak/blastem-linux-20260830T181807Z-3724586/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6l_soak/blastem-linux-20260830T181807Z-3724586/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6l_soak/blastem-linux-20260830T181807Z-3724586/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6l_soak/blastem-linux-20260830T181807Z-3724586/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
-    "frame_animation_enabled": false
+    "frame_animation_enabled": false,
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6l_soak/blastem-linux-20260830T181807Z-3724586/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -55,8 +56,10 @@
     "estimated_streaming_cache_vram_bytes": 36832,
     "full_resident_preliminary": false,
     "validado_budget": false,
-    "palette_status": "pass_with_degradation",
-    "nearest_color_remaps": 187569
+    "palette_status": "optimized_lloyd_v002",
+    "nearest_color_remaps": 205283,
+    "nearest_color_remaps_baseline_manual": 235880,
+    "palette_improvement_ratio": 0.1297
   },
   "reconstruction_gate": {
     "visual_integrity_status": "pass",
@@ -96,10 +99,196 @@
     "Wrapper rebuild path was attempted but degraded/timed out in consultive validation; direct SGDK 2.11 debug make was used for final lab evidence.",
     "Showdown is visible in BlastEm without catastrophic magenta matte.",
     "The stage is preserved as a 768x480 world with camera, not resized to 320x224.",
-    "Banded palette approximation still causes visible color degradation and needs curation.",
     "Runtime uses code-loaded/streamed tiles; VDP budget remains estimated until dump or telemetry exists.",
     "Frame animation is disabled because full-window frame reloads caused tile tearing during capture.",
     "visual_vdp_dump.bin absent.",
-    "ready_for_aaa remains false."
-  ]
+    "ready_for_aaa remains false.",
+    "Paleta otimizada v002 reduz remaps oficiais de 235880 para 205283 (-13%); bandas BG_A forcam pid por posicao e ainda limitam ganho adicional.",
+    "Screenshots de hosts/emuladores diferentes nao sao comparaveis por contagem de cores (shader interpola); A/B valido exige mesmo emulador e mesma ROM base."
+  ],
+  "palette_optimization_v002": {
+    "tool": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/tools/palette/optimize_showdown_palettes.py",
+    "palettes_json": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/optimized_palettes_v002.json",
+    "method": "lloyd_tile_aware_kmeans_md9bit_index0_backdrop",
+    "official_remaps_manual": 235880,
+    "official_remaps_optimized": 205283,
+    "ab_same_emulator": {
+      "manual_bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_manual_ab/blastem-linux-20260826T084700Z-1245941",
+      "optimized_bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803",
+      "pixels_changed_ratio": 0.4285,
+      "cram_slots_changed": 14,
+      "cram_slot_mean_delta": 1.6
+    },
+    "exporter_flag": "SHOWDOWN_PALETTES_JSON"
+  },
+  "code_loaded_tiles_measured_v002": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_v002.json",
+    "reader_tool": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/tools/diagnostics/read_tile_stream_stats.py",
+    "tiles_requested_total": 1157,
+    "tiles_dma_total": 1157,
+    "upload_calls": 73,
+    "max_resident_single_pass": 1157,
+    "cache_capacity": 1190,
+    "margin_tiles": 33,
+    "margin_ratio": 0.0277,
+    "overflow_events": 0,
+    "dma_bytes_total": 37024,
+    "honest_note": "Margem real (33) menor que a estimativa estatica anterior (64); P3 de varredura de cantos e obrigatorio antes de qualquer expansao."
+  },
+  "vram_margin_sweep_p3": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p3_sweep.json",
+    "stops": {
+      "center": 818,
+      "nw": 657,
+      "ne": 689,
+      "sw": 1094,
+      "se": 1105
+    },
+    "capacity": 1190,
+    "worst_static_stop": "se (1105, margem 85 = 7,14%)",
+    "all_within_capacity": true,
+    "overflow_events": 0,
+    "dynamic_pass_peak": 1157,
+    "honest_verdict": "CORRIGIDO pelo soak 420s (\u2026132347Z\u2026): apos a varredura de entrada a demo NAO re-streama (contadores identicos ao capture curto). Nao ha passe dinamico hoje; '1157' era o passe de restauracao para a posicao padrao (224,256). Margem estavel de 33 (2,77%) na visao default; risco so ativa com P6 (animacoes SFF trocam tiles por frame).",
+    "next_steps_pointer": "doc/plano_continuidade_showdown.md",
+    "soak_420s": {
+      "bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p3b_soak/blastem-linux-20260826T132347Z-2118854",
+      "counters_vs_short_capture": "identicos",
+      "conclusion": "zero re-stream em idle"
+    }
+  },
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6m \u00fanico pending)",
+  "palette_optimization_p4_escape": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
+    "method": "escape 1.45x nas bandas BG_A + re-otimiza\u00e7\u00e3o Lloyd",
+    "manual_remaps_new_logic": 184078,
+    "optimized_remaps": 175699,
+    "improvement_vs_manual_new_logic": 0.0455,
+    "improvement_vs_original_manual_old_logic": 0.2551,
+    "unique_tiles": 2878,
+    "cache_capacity": 1190
+  },
+  "vram_margin_sweep_p4": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
+    "bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975",
+    "stops": {
+      "center": {
+        "peak_resident": 814,
+        "tiles_requested": 814,
+        "recorded": true
+      },
+      "nw": {
+        "peak_resident": 653,
+        "tiles_requested": 653,
+        "recorded": true
+      },
+      "ne": {
+        "peak_resident": 693,
+        "tiles_requested": 693,
+        "recorded": true
+      },
+      "sw": {
+        "peak_resident": 1090,
+        "tiles_requested": 1090,
+        "recorded": true
+      },
+      "se": {
+        "peak_resident": 1106,
+        "tiles_requested": 1106,
+        "recorded": true
+      }
+    },
+    "worst_static": "se (1106, margem 84 = 7.06%)",
+    "dynamic_peak": 1152,
+    "margin_tiles": 38,
+    "all_within_capacity": true,
+    "honest_verdict": "Escape BG_A mant\u00e9m margem VRAM (38 vs 33) e melhora fidelidade. P4 medido com sucesso; pr\u00f3ximo \u00e9 P5/P6."
+  },
+  "performance_p5": {
+    "status": "MEASURED",
+    "bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p5_soak/blastem-linux-20260829T155104Z-2141375",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p5_performance_report.json",
+    "soak_seconds": 120,
+    "vlab_over_budget": 0,
+    "mdrt_p50": 82,
+    "mdrt_p95": 88,
+    "mdrt_p99": 88,
+    "verdict": "proven_for_sample_window (32 samples, 0 over_budget, max_cpu 88% < 100)"
+  },
+  "animation_p6": {
+    "status": "COMPLETED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6_animation_streaming_report.json",
+    "verdict": "RESOLVIDO em P6l: band-scan da faixa animada zera over_budget (0) com animacao ligada; cache PASS (0 overflow, max_res 1152/1190)",
+    "retained_improvements": [
+      "incremental delta",
+      "eviction por epoca",
+      "throttle 90f",
+      "dirty-region",
+      "gate sNeeded",
+      "band-scan P6l"
+    ]
+  },
+  "animation_p6b": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6b_incremental_report.json",
+    "verdict": "REPROVADO sem eviction (121 overflows cap1190, 7 com cap1400); incremental reduz DMA mas acumula uni\u00e3o"
+  },
+  "animation_p6c": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6c_capacity_test.json",
+    "verdict": "REPROVADO cap1480 ainda 7 overflows/15 over_budget; requer eviction"
+  },
+  "animation_p6d": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6d_eviction_report.json",
+    "verdict": "cache overflow PASS (0) mas over_budget 15/32 ainda FAIL; pr\u00f3ximo P6e throttle/split"
+  },
+  "animation_p6e": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6e_throttle_report.json",
+    "verdict": "throttle 90f halved over_budget 15\u21927 (-53%) mas ainda 7/32 >0; pr\u00f3ximo P6f split DMA"
+  },
+  "animation_p6f": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6f_split_report.json",
+    "verdict": "split 16/frame piora over_budget 7->11; pr\u00f3ximo otimizar custo CPU por tile"
+  },
+  "animation_p6g": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6g_sweep_spread_report.json",
+    "verdict": "sweep espalhado over_budget 7->8 (piora), pr\u00f3ximo otimizar custo por tile"
+  },
+  "animation_p6h": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6h_precompute_report.json",
+    "verdict": "precompute NEUTRO (8/32 over_budget); custo dominante = re-upload full-window; anim AAA exige dirty-region (P6i)"
+  },
+  "cache_overview": {
+    "gate": "PASS",
+    "overflow": "0",
+    "eviction": "funciona",
+    "max_res": "1190/1190"
+  },
+  "animation_p6i": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6i_dirty_region_report.json",
+    "verdict": "dirty-region max_cpu 250->243 mas over_budget 8 (frame-swap difuso); anim AAA aguarda P6j isolar pico por-frame"
+  },
+  "streaming_subsystem": {
+    "cache_gate": "PASS",
+    "overflow": "0",
+    "eviction": "ok",
+    "max_resident": "1190/1190"
+  },
+  "instrumentation_p6j": {
+    "status": "DONE",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6j_peak_frame_report.json",
+    "metric_words": "24->32 (peak-frame words 26..31)",
+    "peak_cpu_frame": 97,
+    "verdict": "pico no ENTER (sweep+stream), nao no tick animacao; causa dos 7-8 over_budget identificada"
+  }
 }

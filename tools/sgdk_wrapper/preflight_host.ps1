@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Verifica pre-requisitos do host Windows antes de build SGDK (Java, make, GDK, ferramentas opcionais).
+  Verifica pre-requisitos do host e seleciona a rota segura de build SGDK.
 
 .DESCRIPTION
   Exit codes:
@@ -8,7 +8,8 @@
     1 - Falha obrigatoria (GDK/make/java ou MD_ROOT invalido).
     2 - Apenas avisos fortes (ex.: Python/Magick ausentes para validador estetico).
 
-  Alinhado a env.bat (RESOLVE_GDK) e validate_resources.ps1 (Python/Magick nao-WindowsApps).
+  Alinhado a env.bat (RESOLVE_GDK), ao seletor de rota Linux/Windows e a
+  validate_resources.ps1 (Python/Magick nao-WindowsApps).
 
 .PARAMETER RepoRoot
   Raiz do monorepo MegaDrive_DEV. Por omissao: avo de tools/sgdk_wrapper (este script).
@@ -55,7 +56,9 @@ function Resolve-GdkPath {
     $candidates = @($localGdk)
     if ($env:GDK -and (Test-Path -LiteralPath $env:GDK)) { $candidates += $env:GDK }
     if ($env:GDK_WIN -and (Test-Path -LiteralPath $env:GDK_WIN)) { $candidates += $env:GDK_WIN }
-    $candidates += (Join-Path $env:USERPROFILE "sgdk\sgdk-2.11")
+    if (-not [string]::IsNullOrWhiteSpace([string]$env:USERPROFILE)) {
+        $candidates += (Join-Path $env:USERPROFILE "sgdk\sgdk-2.11")
+    }
     $candidates += "C:\SGDK\sgdk-2.11"
     $candidates += "C:\sgdk\sgdk-2.11"
     foreach ($c in $candidates) {
@@ -365,10 +368,48 @@ try {
 
     $py = Get-UsablePythonPath
     if (-not $py) {
-        Write-PreflightLog "WARN" "Python utilizavel nao encontrado (stub WindowsApps ignorado). validate_resources / analyze_aesthetic podem falhar."
-        $script:softWarnings++
+        if (-not [string]::IsNullOrWhiteSpace($ProjectRoot)) {
+            Write-PreflightLog "ERROR" "Python utilizavel nao encontrado; o gate obrigatorio de rota SGDK nao pode ser executado."
+            $script:blockingFailures++
+        } else {
+            Write-PreflightLog "WARN" "Python utilizavel nao encontrado (stub WindowsApps ignorado). validate_resources / analyze_aesthetic podem falhar."
+            $script:softWarnings++
+        }
     } else {
         Write-PreflightLog "OK" "Python=$py"
+    }
+
+    if ((-not [string]::IsNullOrWhiteSpace($ProjectRoot)) -and $py) {
+        $routeSelector = Join-Path $PSScriptRoot "select_sgdk_build_route.py"
+        $routeReportPath = Join-Path $ProjectRoot "out\logs\sgdk_build_route_report.json"
+        if (-not (Test-Path -LiteralPath $routeSelector -PathType Leaf)) {
+            Write-PreflightLog "ERROR" "Seletor canonico de rota SGDK ausente: $routeSelector"
+            $script:blockingFailures++
+        } else {
+            & $py $routeSelector `
+                --repo-root $mdRoot `
+                --project-root $ProjectRoot `
+                --platform auto `
+                --output $routeReportPath | Out-Null
+            $routeExitCode = $LASTEXITCODE
+            if ((Test-Path -LiteralPath $routeReportPath -PathType Leaf)) {
+                $routeReport = Get-Content -LiteralPath $routeReportPath -Raw | ConvertFrom-Json
+                if ($routeReport.status -eq "ready" -and $routeExitCode -eq 0) {
+                    Write-PreflightLog "OK" ("Rota SGDK={0}; host={1}; report={2}" -f $routeReport.selected_route, $routeReport.host_platform, $routeReportPath)
+                    foreach ($warning in @($routeReport.warnings)) {
+                        Write-PreflightLog "INFO" ("Nota da rota SGDK: {0}" -f $warning)
+                    }
+                } else {
+                    foreach ($blocker in @($routeReport.blockers)) {
+                        Write-PreflightLog "ERROR" ("Rota SGDK bloqueada [{0}]: {1}" -f $blocker.code, $blocker.message)
+                    }
+                    $script:blockingFailures++
+                }
+            } else {
+                Write-PreflightLog "ERROR" "Seletor de rota SGDK nao produziu report: $routeReportPath"
+                $script:blockingFailures++
+            }
+        }
     }
 
     $magick = Get-MagickPathResolved

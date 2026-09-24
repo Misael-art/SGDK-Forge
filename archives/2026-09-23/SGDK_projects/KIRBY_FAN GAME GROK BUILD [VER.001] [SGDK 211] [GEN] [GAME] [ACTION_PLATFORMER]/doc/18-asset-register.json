@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]"
+  },
+  "policy": {
+    "all_project_assets_inside_project": true,
+    "source_inputs_copied_to_rascunho": true,
+    "placeholder_never_promotes_to_aaa": true,
+    "visual_art_requires_artistic_gate": true
+  },
+  "assets": [
+    {
+      "asset_id": "vibe_playable_template_seed",
+      "role": "template_seed",
+      "source_path": null,
+      "runtime_path": null,
+      "owner": "unassigned",
+      "status": "blocked_no_premium_source",
+      "promotion_allowed": false,
+      "technique_tags": [],
+      "evidence": []
+    },
+    {
+      "asset_id": "r1-01-hero-model-sheet",
+      "role": "concept_art",
+      "source_path": "data/source_art/r1/r1-01/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["hero_silhouette", "native_grid_redraw_required"],
+      "evidence": ["data/source_art/r1/r1-01/notes.md"]
+    },
+    {
+      "asset_id": "r1-02-phase1-layer-study",
+      "role": "layer_study",
+      "source_path": "data/source_art/r1/r1-02/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["five_layer_parallax", "raster_band_plan", "semantic_decomposition_required"],
+      "evidence": ["data/source_art/r1/r1-02/layers.png", "data/source_art/r1/r1-02/notes.md"]
+    },
+    {
+      "asset_id": "r1-03-whispy-modular-study",
+      "role": "concept_art",
+      "source_path": "data/source_art/r1/r1-03/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["modular_boss", "seven_segment_branch", "pivots_required"],
+      "evidence": ["data/source_art/r1/r1-03/notes.md"]
+    },
+    {
+      "asset_id": "r1-04-copy-ability-study",
+      "role": "concept_art",
+      "source_path": "data/source_art/r1/r1-04/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["copy_abilities", "fx_palette_band", "animation_contract_required"],
+      "evidence": ["data/source_art/r1/r1-04/notes.md"]
+    },
+    {
+      "asset_id": "r1-05-terrain-vocabulary",
+      "role": "tileset_concept",
+      "source_path": "data/source_art/r1/r1-05/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["terrain_tiles", "tileability_proof_required", "collision_semantics_required"],
+      "evidence": ["data/source_art/r1/r1-05/notes.md"]
+    },
+    {
+      "asset_id": "r1-06-water-palette-study",
+      "role": "palette_study",
+      "source_path": "data/source_art/r1/r1-06/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["palette_split", "hscroll_line", "shadow_highlight_review_required"],
+      "evidence": ["data/source_art/r1/r1-06/above_below.png", "data/source_art/r1/r1-06/distortion.png", "data/source_art/r1/r1-06/notes.md"]
+    },
+    {
+      "asset_id": "r1-07-title-concept",
+      "role": "concept_art",
+      "source_path": "data/source_art/r1/r1-07/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["title_scene", "raster_sky_bands", "logo_safe_area"],
+      "evidence": ["data/source_art/r1/r1-07/notes.md"]
+    },
+    {
+      "asset_id": "r2-01-hero-floating-correction",
+      "role": "concept_art",
+      "source_path": "data/source_art/r2/r2-01/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["localized_pose_correction", "bubblegum_pink_ramp", "native_grid_redraw_required"],
+      "evidence": ["data/source_art/r2/r2-01/notes.md", "data/source_art/r2/r2_mechanical_validation.json"]
+    },
+    {
+      "asset_id": "r2-02-phase1-layer5-correction",
+      "role": "layer_study",
+      "source_path": "data/source_art/r2/r2-02/layers.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["five_layer_parallax", "layer5_luminance_corrected", "semantic_decomposition_required"],
+      "evidence": ["data/source_art/r2/r2-02/notes.md", "data/source_art/r2/r2_mechanical_validation.json"]
+    },
+    {
+      "asset_id": "r2-03-whispy-rekey-correction",
+      "role": "concept_art",
+      "source_path": "data/source_art/r2/r2-03/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["modular_boss", "chroma_key_corrected", "damage_flash_palette_headroom"],
+      "evidence": ["data/source_art/r2/r2-03/notes.md", "data/source_art/r2/r2_mechanical_validation.json"]
+    },
+    {
+      "asset_id": "r2-04-copy-ability-fringe-correction",
+      "role": "concept_art",
+      "source_path": "data/source_art/r2/r2-04/concept.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["copy_abilities", "hard_edge_cleanup", "chroma_key_corrected"],
+      "evidence": ["data/source_art/r2/r2-04/notes.md", "data/source_art/r2/r2_mechanical_validation.json"]
+    },
+    {
+      "asset_id": "r3-02-phase1-layer5-palette-collapse",
+      "role": "layer_study",
+      "source_path": "data/source_art/r3/r3-02/layers.png",
+      "runtime_path": null,
+      "owner": "Codex",
+      "status": "source_candidate_pending_human_judgment",
+      "promotion_allowed": false,
+      "technique_tags": ["five_layer_parallax", "palette_noise_collapse", "zero_new_colors", "semantic_decomposition_required"],
+      "evidence": ["data/source_art/r3/r3-02/notes.md", "data/source_art/r3/r3_validation_report.json"]
+    }
+  ]
+}

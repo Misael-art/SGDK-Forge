@@ -1,0 +1,14 @@
+{
+  "scene_id": "kairo_direct_pixel_art_v01_offline_envelope",
+  "video_mode": "H40",
+  "resolution": {"width": 320, "height": 224},
+  "headroom_justification": "Offline envelope only: one 88x136 Kairo C-scale candidate, one 64x104 Ryo reference body and four 32x32 FX slots. This measures the next hardware step; it is not runtime residency, gameplay or final-art approval.",
+  "sprites": [
+    {"id":"kairo_direct_v01","x":24,"y":56,"w":88,"h":136},
+    {"id":"ryo_reference","x":208,"y":88,"w":64,"h":104},
+    {"id":"fx_00","x":112,"y":136,"w":32,"h":32},
+    {"id":"fx_01","x":144,"y":136,"w":32,"h":32},
+    {"id":"fx_02","x":176,"y":136,"w":32,"h":32},
+    {"id":"fx_03","x":208,"y":136,"w":32,"h":32}
+  ]
+}

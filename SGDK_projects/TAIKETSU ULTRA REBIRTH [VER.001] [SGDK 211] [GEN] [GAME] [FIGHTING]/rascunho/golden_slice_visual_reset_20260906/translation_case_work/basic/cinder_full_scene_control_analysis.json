@@ -1,0 +1,107 @@
+{
+  "asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation_case_work/basic/cinder_full_scene_control_asset_rgba.png",
+  "role": "bg_a",
+  "reference_profile": "generic-megadrive-elite",
+  "critical_visual": true,
+  "paired_bg": null,
+  "status": "needs_review",
+  "metrics": {
+    "palette_efficiency": 0.3857,
+    "tile_efficiency": 0.55,
+    "detail_density_8x8": 0.7,
+    "dithering_density": 0.65,
+    "silhouette_readability": 0.3802,
+    "layer_separation": 0.68,
+    "reuse_opportunity": 0.3045,
+    "reference_alignment": 0.5864,
+    "visual_excellence_score": 0.5864
+  },
+  "metric_inputs": {
+    "palette_efficiency": {
+      "color_count": 42,
+      "tonal_span": 173.99179999999998,
+      "redundancy_ratio": 0.8536585365853658,
+      "low_usage_ratio": 0.8571428571428571
+    },
+    "tile_efficiency": {
+      "empty_ratio": 0.0,
+      "bbox_waste": 0.4377092633928571,
+      "total_tiles": 1120,
+      "empty_tiles": 0,
+      "max_empty_ratio": 0.02,
+      "max_bbox_waste": 0.05,
+      "mode": "default"
+    },
+    "detail_density_8x8": {
+      "avg_transition_density": 0.3110304704352382,
+      "avg_isolated_ratio": 0.29907758708567256,
+      "non_empty_tiles": 1120
+    },
+    "dithering_density": {
+      "dither_ratio": 0.059967585089141004,
+      "noise_ratio": 0.7412209616423555,
+      "samples": 5553
+    },
+    "silhouette_readability": {
+      "boundary_contrast": 3.505981322108899,
+      "fill_ratio": 0.5622907366071429,
+      "components": 9582
+    },
+    "layer_separation": {
+      "contrast_value": 0.0,
+      "source": "unpaired_estimate"
+    },
+    "reuse_opportunity": {
+      "non_empty_tiles": 1120,
+      "exact_duplicates": 317,
+      "flip_reuse_ratio": 0.3044642857142857
+    },
+    "structural_layer": {
+      "paired_structural_layer": false,
+      "transparency_ratio": 0.4377092633928571
+    }
+  },
+  "issues": [
+    {
+      "code": "PALETTE_WASTE",
+      "severity": "warning",
+      "message": "Paleta com baixa eficiencia tonal ou cores redundantes.",
+      "value": 0.3857,
+      "threshold": 0.55
+    },
+    {
+      "code": "OVER_EMPTY_TILES",
+      "severity": "warning",
+      "message": "O asset desperdiça tiles com vazio ou bounding box frouxo.",
+      "value": 0.0,
+      "threshold": 0.02
+    },
+    {
+      "code": "NOISY_TEXTURE",
+      "severity": "warning",
+      "message": "A textura esta operando como ruido, nao como material.",
+      "value": 0.29907758708567256,
+      "threshold": 0.14
+    },
+    {
+      "code": "WEAK_SILHOUETTE",
+      "severity": "warning",
+      "message": "A silhueta nao sustenta leitura forte em escala nativa.",
+      "value": 0.3802,
+      "threshold": 0.56
+    }
+  ],
+  "recommendations": [
+    "Consolidar tons redundantes e preservar apenas diferencas tonais que melhoram leitura material.",
+    "Apertar bounding box, cortar bordas vazias e revisar custo de VRAM do asset.",
+    "Limpar ruido de alta frequencia e reorganizar o detalhe para que ele explique materia.",
+    "Fortalecer massa principal, outline e contraste interno para leitura em 1 frame."
+  ],
+  "benchmarks": [
+    "Streets of Rage 3",
+    "Monster World IV",
+    "Earthworm Jim",
+    "Shinobi III",
+    "Sonic 3 & Knuckles"
+  ]
+}

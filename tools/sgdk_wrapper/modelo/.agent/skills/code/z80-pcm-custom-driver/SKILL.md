@@ -33,6 +33,7 @@ Esta skill existe para o gap critico de audio AAA que separa projetos medianos d
 11. `sdk/sgdk-2.11/src/snd/` (drivers Z80 fonte: drv_null.s80, drv_pcm.s80, drv_pcm4.s80, drv_dpcm2.s80, xgm2/drv_xgm2.s80)
 12. `doc/05_technical/99_aaa_audio_architecture_guide.md`
 13. `tools/sgdk_wrapper/validate_audio.ps1`
+14. `tools/sgdk_wrapper/.agent/scripts/ym2612_patch_validator.py` quando houver patch FM/DAC em JSON
 
 ## Quando usar
 
@@ -66,6 +67,9 @@ Esta skill existe para o gap critico de audio AAA que separa projetos medianos d
   - bytes totais de audio, proporcao do ROM total, estrategia de compressao
 - `hardware_register_map`
   - YM2612 DAC, PSG ports, Z80 bank register, timer A/B config
+- `ym2612_patch_validation_report` quando houver patch FM/DAC declarado em JSON
+- `dac_stream_budget_report`
+- `audio_channel_ownership_report`
 - `integration_contract`
   - como o driver customizado se integra com xgm2-audio-director e sgdk-runtime-coder
 - `blastem_audio_proof_plan`
@@ -95,7 +99,7 @@ Esta skill existe para o gap critico de audio AAA que separa projetos medianos d
 - DMA do VDP PAUSA o Z80 completamente; audio crackling durante DMA e bug, nao feature
 - usar `Z80_setBusProtection(true)` durante transfers DMA criticas
 - `Z80_setForceDelayDMA(true)` adiciona ~3 scanlines de delay mas protege PSG
-- prever worst-case: H-blank DMA + scroll update + sprite DMA no mesmo frame
+- prever worst-case: H-Int/raster work + scroll update + DMA de VBlank + sprite/audio contention no mesmo frame
 - bus protection NAO e optional para audio AAA — e mandatoria
 
 ### Qualidade AAA
@@ -105,6 +109,13 @@ Esta skill existe para o gap critico de audio AAA que separa projetos medianos d
 - audio AAA NAO aceita crackling, popping, ou gaps audíveis em nenhuma condicao de runtime
 - todo sample DEVE ser auditado com headphones antes de integrar
 - silence padding no final de samples previne cliques de loop
+
+### Curadoria 2026-06-04: tecnicas de audio de alto risco
+
+- `psg_delta_pcm_playback`, `ym2612_csm_mode`, `z80_ram_dma_shield`, `cycle_balanced_ym2612_writes`, `z80_math_offloading` e DAC direto seguem o status humano do registry.
+- `ym2612_csm_mode`, `z80_math_offloading`, `cycle_balanced_ym2612_writes` e `z80_ram_dma_shield` permanecem `LABORATORIO`; nenhuma delas e default de producao.
+- Z80 math offload nao pode disputar ownership com audio. Se o projeto usa XGM2/PCM, o fallback e manter matematica no 68K ate benchmark provar beneficio liquido.
+- DAC direto de alta taxa pode suspender gameplay; so e aceitavel em estado/cena explicitamente projetado para isso.
 
 ### Formato e Conversao
 
@@ -183,6 +194,9 @@ Esta skill existe para o gap critico de audio AAA que separa projetos medianos d
 - `cycle_budget_card`
 - `rom_audio_budget`
 - `hardware_register_map`
+- `ym2612_patch_validation_report` quando houver patch FM/DAC declarado em JSON
+- `dac_stream_budget_report`
+- `audio_channel_ownership_report`
 - `integration_contract`
 - `blastem_audio_proof_plan`
 - `delivery_findings`
@@ -193,6 +207,8 @@ Esta skill existe para o gap critico de audio AAA que separa projetos medianos d
 - protocolo 68K-Z80 tem comando, status e handshake sem race obvia
 - bus contention foi medido ou limitado com margem conservadora
 - sample format e alinhamento atendem o driver escolhido
+- `ym2612_patch_validator.py` nao encontra algoritmo, feedback, operador ou DAC fora de faixa
+- `dac_stream_budget_report` declara headroom, sample rate e ausencia de clipping/popping evidente
 - existe prova planejada em BlastEm e fallback para XGM2 padrao
 
 ### Handoff para proxima etapa

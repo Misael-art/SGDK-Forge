@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "golden_path": ["title", "opening", "sector_01", "upgrade_01", "sector_02", "sector_03", "shattered_lane_gauntlet", "sector_04", "boss_approach", "final_boss", "result"],
+  "failure_path": ["race_or_boss", "game_over", "continue_or_title", "retry_checkpoint"],
+  "replay_path": ["result", "sector_star_review", "lore_or_concept_unlock", "title_or_retry"],
+  "phase_rhythm_map": ["calm", "pressure", "breath", "spike", "reward"],
+  "mechanic_reuse_map": {
+    "lane_change": ["all sectors", "boss"],
+    "jump": ["sector_01", "sector_03", "boss"],
+    "Pulse": ["sector_01", "sector_02", "boss"],
+    "upgrades": ["sector_02+", "boss"],
+    "carried_lumen_pressure": ["all sectors", "upgrade decisions"],
+    "pursuer_presence": ["sector_01+", "boss"],
+    "sector_identity_rules": ["sector_02", "sector_03", "sector_04", "boss_approach"]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v02",
+  "generated_at": "2026-07-29",
+  "status": "key_pose_candidate_strip_rejected",
+  "claim_ceiling": "native_key_pose_candidate",
+  "source_of_truth": {
+    "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "sha256": "a453e4670e116460b110445cb6cf15144deac48d2c3799c8530c6fe691284ea5",
+    "human_baseline": "image_04",
+    "exclusive_identity_reference": true
+  },
+  "forbidden_generation_sources": [
+    "taina_lineart_v05",
+    "taina_lineart_v06",
+    "taina_lineart_v07",
+    "taina_idle_guard_native_48x64_v01"
+  ],
+  "artifacts": {
+    "authorial_study": {
+      "path": "rascunho/taina_idle_guard_v02/taina_idle_guard_authorial_study_v02.png",
+      "sha256": "98912fbcca2669d6ffc9ce35e1668b3fda409eab99a62fcdfecd7272fa2461df",
+      "geometry": "2172x724",
+      "measured_colors": 160957,
+      "role": "directional_source_candidate_only",
+      "native_asset": false
+    },
+    "native_proxy_strip": {
+      "path": "rascunho/taina_idle_guard_v02/taina_idle_guard_native_proxy_v02.png",
+      "sha256": "6fc48a381e780cb48a972985b435d09fd48fc5fbff9e84ccf72dcdca9459cadf",
+      "geometry": "288x64",
+      "cell_geometry": "48x64",
+      "measured_colors": 14,
+      "role": "motion_diagnostic_only",
+      "promotable": false
+    },
+    "locked_key_pose_candidate": {
+      "path": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_v02.png",
+      "sha256": "73c2e4db79b868f1aedac647c503eb86b90b33f06f75d2a611681d66d48bcc97",
+      "geometry": "48x64",
+      "bbox": "24x59+15+2",
+      "ground_y": 60,
+      "measured_colors": 14,
+      "role": "pixel_redraw_incumbent",
+      "promotable": false
+    }
+  },
+  "visual_review": {
+    "identity_recovered": [
+      "tall_athletic_proportion",
+      "large_curly_hair_mass",
+      "raised_guard",
+      "orange_top",
+      "teal_wraps_and_asymmetric_sash",
+      "indigo_baggy_pants",
+      "wrapped_bare_feet"
+    ],
+    "key_pose_remaining_risks": [
+      "face_requires_manual_pixel_cleanup",
+      "hair_clusters_require_manual_cleanup",
+      "hands_and_guard_diagonal_require_manual_cleanup",
+      "silhouette_is_only_24_pixels_wide"
+    ],
+    "strip_blockers": [
+      "frame_to_frame_body_redesign",
+      "head_direction_changes",
+      "horizontal_pivot_drift_7_pixels",
+      "bbox_height_drift_3_pixels",
+      "no_stable_foot_contact_across_generated_frames",
+      "secondary_motion_not_derived_from_one_master_pose"
+    ]
+  },
+  "measured_frame_bboxes": [
+    "24x59+15+4",
+    "23x58+15+5",
+    "25x58+13+5",
+    "23x57+11+6",
+    "23x56+10+7",
+    "24x56+8+7"
+  ],
+  "decision": {
+    "authorial_study": "retain_as_directional_evidence",
+    "generated_six_frame_strip": "reject",
+    "frame_0": "retain_as_key_pose_candidate_after_ground_alignment",
+    "res_promotion": "blocked",
+    "runtime_replacement": "blocked"
+  },
+  "production_rule_learned": {
+    "rule": "Approve one native master key pose, then derive every animation frame by controlled pixel editing from that pose.",
+    "forbidden_pattern": "Generate or redraw six nominally related frames independently and treat visual similarity as animation continuity.",
+    "required_next_gate": [
+      "manual_face_hair_hands_cleanup",
+      "native_scale_human_review",
+      "locked_pivot_and_ground",
+      "pixel_edited_breathing_cycle",
+      "frame_delta_and_foot_contact_validation",
+      "rescomp_build",
+      "blastem_runtime_review"
+    ]
+  }
+}

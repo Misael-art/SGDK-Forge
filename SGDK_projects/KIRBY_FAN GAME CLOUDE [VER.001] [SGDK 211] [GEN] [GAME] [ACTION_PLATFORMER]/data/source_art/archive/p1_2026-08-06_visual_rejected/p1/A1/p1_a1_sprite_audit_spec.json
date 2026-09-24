@@ -1,0 +1,79 @@
+{
+  "schema": "sprite_artifact_audit_spec.v2",
+  "asset_id": "P1-A1-ph_kirby",
+  "project_root": "../../../..",
+  "sheet": "data/source_art/p1/A1/ph_kirby.png",
+  "cell": {"w": 32, "h": 32},
+  "transparent_index": 0,
+  "pivot": {"x": 16, "y": 28},
+  "pivot_tolerance_px": 4.0,
+  "required_actions": ["idle", "run", "jump", "float", "inhale"],
+  "actions": [
+    {
+      "name": "idle",
+      "row": 0,
+      "start": 0,
+      "count": 1,
+      "grounded": [true],
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "Corpo completo; dois olhos, dois bracos e dois pes legiveis; silhueta neutra sem clipping."}
+      ],
+      "hold_ms": 180
+    },
+    {
+      "name": "run",
+      "row": 0,
+      "start": 1,
+      "count": 4,
+      "grounded": [true, true, true, true],
+      "frame_delta_min": 0.025,
+      "frame_delta_max": 0.30,
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "Contato 1: pe dianteiro estendido, pe traseiro plantado e bracos em oposicao."},
+        {"status": "passed", "note": "Passagem 1: corpo elevado, pes cruzando sob o torso e bracos invertendo o arco."},
+        {"status": "passed", "note": "Contato oposto: lideranca dos pes trocada e silhueta de contato preservada."},
+        {"status": "passed", "note": "Passagem oposta: segundo cruzamento, ambos os pes presentes e torso estavel."}
+      ],
+      "hold_ms": 90
+    },
+    {
+      "name": "jump",
+      "row": 0,
+      "start": 5,
+      "count": 1,
+      "grounded": [false],
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "Pose ascendente completa; bracos altos e pes recolhidos sem contato com o solo."}
+      ],
+      "hold_ms": 150
+    },
+    {
+      "name": "float",
+      "row": 0,
+      "start": 6,
+      "count": 1,
+      "grounded": [false],
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "Duas bochechas infladas rompem o circulo principal; olhos, corpo e dois pes permanecem completos."}
+      ],
+      "hold_ms": 180
+    },
+    {
+      "name": "inhale",
+      "row": 0,
+      "start": 7,
+      "count": 1,
+      "grounded": [true],
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "Corpo inclinado para tras, boca muito aberta voltada para a direita, braco traseiro e dois pes completos."}
+      ],
+      "hold_ms": 180
+    }
+  ],
+  "previews": {
+    "contact_sheet": "data/source_art/p1/A1/evidence/contact_sheet.png",
+    "animation_root": "data/source_art/p1/A1/evidence/animated",
+    "scale": 8,
+    "animation_scale": 8
+  }
+}

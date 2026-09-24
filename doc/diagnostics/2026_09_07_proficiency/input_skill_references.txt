@@ -1,0 +1,108 @@
+Aqui está o skill pixel-art inteiro, carregado direto do SKILL.md:
+
+Pixel Art (v2.0.0)
+O que faz: Converte qualquer imagem em pixel art retro com paletas de época (NES, Game Boy, PICO-8, arcade, SNES…) e, opcionalmente, gera um vídeo animado (MP4/GIF) com efeitos como chuva, neve, brasas, fireflies etc.
+
+Scripts:
+
+scripts/pixel_art.py — foto → PNG pixel art (dithering Floyd-Steinberg)
+scripts/pixel_art_video.py — PNG pixel art → MP4 animado (+ GIF opcional)
+Categoria: creative | Tags: pixel-art, arcade, snes, nes, gameboy, retro, image, video
+
+Autor: dodo-reach | Licença: MIT
+
+Workflow
+Oferecer estilo (via clarify — máx. 2 chamadas por turno: estilo + cena se animar)
+Oferecer animação (cena: night/urban/snow/etc. ou skip)
+Gerar: pixel_art() → se pedir animação, pixel_art_video() em cadeia
+Presets (14)
+Preset
+Era
+Paleta
+Block
+arcade	80s arcade	16 adaptativa	8px
+snes	16-bit	32 adaptativa	4px
+nes	8-bit	NES (54)	8px
+gameboy	DMG	4 verdes	8px
+gameboy_pocket	Pocket	4 cinzas	8px
+pico8	PICO-8	16 fixas	6px
+c64	Commodore 64	16 fixas	8px
+apple2	Apple II hi-res	6 fixas	10px
+teletext	BBC Teletext	8 puras	10px
+mspaint	MS Paint	24 fixas	8px
+mono_green	CRT verde	2 verdes	6px
+mono_amber	CRT ámbar	2 âmbar	6px
+neon	Cyberpunk	10 neons	6px
+pastel	Pastel	10 pastéis	6px
+28 paletas nomeadas no total em scripts/palettes.py / references/palettes.md.
+
+Cenas de animação (video)
+night, dusk, tavern, indoor, urban, nature, magic, storm, underwater, fire, snow, desert.
+
+Invocação
+Python:
+
+import sys, os
+sys.path.insert(0, os.path.expanduser("~/.hermes/skills/creative/pixel-art/scripts"))
+from pixel_art import pixel_art
+from pixel_art_video import pixel_art_video
+
+pixel_art("in.jpg", "out.png", preset="nes")
+pixel_art_video("out.png", "out.mp4", scene="night", duration=6, fps=15, seed=42, export_gif=True)
+CLI:
+
+cd ~/.hermes/skills/creative/pixel-art/scripts
+python pixel_art.py in.jpg out.png --preset gameboy
+python pixel_art_video.py out.png out.mp4 --scene night --duration 6 --gif
+Dependências
+Python 3.9+
+Pillow (pip install Pillow)
+ffmpeg no PATH (só para vídeo — Hermes instala o pacote)
+Arquivos vinculados
+references/palettes.md — lista completa de 28 paletas
+scripts/palettes.py, scripts/pixel_art.py, scripts/pixel_art_video.py, scripts/__init__.py
+Quer que eu gere um pixel art agora? Se sim, me passe a imagem e me diga o estilo (ou deixa eu sugerir).
+
+
+EXISTE ALGUM SKILL PARA FAZER MUSICA DE VIDEO GAME RETRO AVALIE
+
+Vou verificar o skill de música que parece mais relevante.
+
+Vou também checar se existe algo mais direcionado (chiptune/8-bit) nas skills disponíveis.
+
+Resumo direto: não existe um skill dedicado só a música retro de vídeo game (chiptune/8-bit). O mais próximo é o songwriting-and-ai-music, que serve para criar músicas no geral — me segue o que ele dá e como a gente pode adaptar pra retrô.
+
+O que existe
+songwriting-and-ai-music (o mais relevante)
+Focado em songwriting + Suno AI (gera música com vocal/instrumental via Suno).
+Tem um bloco inteiro de prompt engineering pro Suno — estilo, BPM, instrumentos, metatags dinâmicos ([Intro], [Chorus], [Instrumental Break] etc.).
+Na seção 6.10 dele, cita dois skills opcionais locais/open-source
+heartmula — gera músicas completas com vocal a partir de letra + tags (alternativa open-source ao Suno, exige 8–16 GB VRAM).
+audiocraft — Meta's MusicGen (text-to-music instrumental) e AudioGen (efeitos sonoros).
+Esse skill não é exclusivo de retro, mas a técnica de descrever estilo/instrumentação serve perfeitamente pra chiptune.
+Prompts do tipo "chiptune jazz", "8-bit arcade cabinet sound" são sugeridos explicitamente no skill.
+Isso aqui é o que o skill oferece de útil pra retrô:
+
+Como descrever o estilo (exemplo prático que a gente poderia usar):
+8-bit chiptune, NES-era square wave leads, pulse wave bass,
+noise-channel percussion, 150 BPM, minor key, upbeat action-RPG vibe,
+no vocals, authentic 1989 hardware sound
+Metatags para estrutura ([Intro], [Loop], [Breakdown]…) servem pra moldar o formato de trilha de jogo.
+Workflow: conceito → estrutura → prompt → gerar várias variações (3–5) → refinar.
+Nenhum skill de chiptune pura / síntese local
+No repositório de skills instaladas aqui não tem nada específico em retro music, 8-bit music, chiptune, tracker ou similar.
+O skill de pixel-art é para imagem, não música.
+Web search mostra ferramentas externas (tipo lacuna.fm 8-bit music generator) mas nenhuma skill Hermes que as envolva.
+Como a gente poderia usar o que tem pra musica de vídeo game retro
+Se o objetivo é gerar uma trilha retro de fato, existem duas vias com as skills disponíveis:
+
+A) Via Suno (se tiver conta/accesso ao Suno)
+Usar songwriting-and-ai-music pra escrever o prompt estilo chiptune/NES e a estrutura (loopável, sem vocal ou com vocal se quiser).
+Gera 3–5 variações, pega a que soa mais "hardware antigo" (quadrado, menos polifonia moderna).
+B) Via local/open-source (se preferir não depender de Suno)
+Instalar audiocraft (hermes skills install official/creative/audiocraft-audio-generation) e usar MusicGen com prompt instrumental estilo 8-bit — gera instrumental, sem dependência externa de API.
+Ou heartmula se quiser algo com vocal/letra também.
+Veredito rápido
+Pra música de vídeo game retro: tem skill que dá base (prompt + estrutura via Suno/heartmula/audiocraft), mas não tem um skill "chiptune" pronto que faça síntese 8-bit nativa aqui.
+Se a sua meta é mais "trilha sonora de jogo antigo tipo NES/SNES", a combinação melhor é: adotar o songwriting-and-ai-music pra craft do prompt + estrutura, e escolher Suno (se quiser algo polido) ou audiocraft/heartmula (se quiser gerar localmente).
+Quer que eu te ajude a montar um prompt retrô e estrutura pra gerar uma agora via Suno ou pra instalar/comparar uma das opções locais?

@@ -44,3 +44,9 @@ def test_cram_consumer_write_is_bounded_by_declared_span(tmp_path):
     exe = build(tmp_path, "cram_swap")
     r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
     assert r["bad"] == 0, r
+
+
+def test_super_palette_borrow_is_released_on_demand(tmp_path):
+    exe = build(tmp_path, "cram_borrow")
+    r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
+    assert r["bad"] == 0, r

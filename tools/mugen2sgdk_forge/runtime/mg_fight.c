@@ -17,7 +17,6 @@ static u16 s_vram_cap[2];   /* tiles reservados em s_vram: maior sheet de CORPO 
 /* efeitos de fundo: tiles pre-carregados apos os corpos; base por jogador/efeito (0 = sem espaco) */
 #define MG_MAX_BGFX 4
 static u16 s_bgfx_base[2][MG_MAX_BGFX];
-static u16 s_pal0_saved[16];
 static s8 s_bgfx_owner = -1;
 #ifdef MG_PROFILE
 u32 mg_prof[16];
@@ -547,7 +546,7 @@ static void bgfx_render(MgExplod *e, const MgPlayer *o)
         /* emprestimo de VRAM: a regiao do fundo de super e a regiao do cenario; os tiles sobem
          * so enquanto o super cobre a tela (o cenario, quando existir, recarrega em bgfx_end) */
         VDP_loadTileSet(fx->img->tileset, s_bgfx_base[o->side][(u8)e->bgfx], DMA_QUEUE);
-        PAL_getColors(0, s_pal0_saved, 16);
+        cram_save(&CRAM_SUPER_BGFX, &mg_fight.pal0_saved[1]);
         MG_CRUMB('n');
         VDP_setTileMapEx(BG_B, fx->img->tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, s_bgfx_base[o->side][(u8)e->bgfx]),
                          0, 0, 0, 0, 40, 28, DMA_QUEUE);
@@ -557,16 +556,21 @@ static void bgfx_render(MgExplod *e, const MgPlayer *o)
         mg_fight.bgfx_active = 1;
     }
     u8 k = e->elem < fx->nelem ? fx->elem_pal[e->elem] : 255;
-    if (k < fx->npals) PAL_setColors(1, &fx->pals[k][1], 14, DMA_QUEUE);
+    if (k < fx->npals) cram_write(&CRAM_SUPER_BGFX, &fx->pals[k][1]);
 }
 
-static void bgfx_end(void)
+/* Devolve PAL0[1..14] se houver emprestimo pendente. Idempotente: chamado no fim do explod
+ * E na transicao de round/KO, e o segundo chamado precisa nao escrever nada. */
+void bgfx_release(void)
 {
+    if (!mg_fight.bgfx_active) return;
     VDP_clearTileMapRect(BG_B, 0, 0, 40, 28);
-    PAL_setColors(1, &s_pal0_saved[1], 14, DMA_QUEUE);
+    cram_restore(&CRAM_SUPER_BGFX, &mg_fight.pal0_saved[1]);
     s_bgfx_owner = -1;
     mg_fight.bgfx_active = 0;
 }
+
+static void bgfx_end(void) { bgfx_release(); }
 
 void MG_fightRender(void)
 {
@@ -703,6 +707,9 @@ static void start_round(void)
     reset_player(&mg_fight.p[0], STAGE_W / 2 - 70, 1);
     reset_player(&mg_fight.p[1], STAGE_W / 2 + 70, -1);
     for (u8 i = 0; i < MG_MAX_EXPLOD; i++) mg_fight.explod[i].active = 0;
+    /* o round mata o explod dono sem espera-lo morrer: devolve PAL0 aqui, nao na varredura do render,
+     * que nunca roda se a luta acabar sob o super (vitoria troca de cena antes do proximo frame) */
+    bgfx_release();
     mg_fight.helper_active[0] = mg_fight.helper_active[1] = 0;
     mg_fight.round_state = 0;
     mg_fight.round_timer = 90;                 /* intro */

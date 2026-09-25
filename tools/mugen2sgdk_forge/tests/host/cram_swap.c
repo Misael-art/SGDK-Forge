@@ -37,6 +37,10 @@ int main(void)
     if (CRAM_FLASH_P1.line != 1 || CRAM_FLASH_P1.lo != 1 || CRAM_FLASH_P1.hi != 15) bad++;
     if (CRAM_FLASH_P2.line != 2 || CRAM_FLASH_P2.borrow || CRAM_SUPER_BGFX.borrow != 1) bad++;
     if (CRAM_SUPER_BGFX.line != 0 || CRAM_SUPER_BGFX.lo != 1 || CRAM_SUPER_BGFX.hi != 14) bad++;
+    /* pin das reservas: alargar uma faixa sobre a vizinha na PAL0 nao pode passar despercebido */
+    if (CRAM_STAGERES.line != 0 || CRAM_STAGERES.lo != 1 || CRAM_STAGERES.hi != 8 || CRAM_STAGERES.borrow) bad++;
+    if (CRAM_HUDRES.line != 0 || CRAM_HUDRES.lo != 9 || CRAM_HUDRES.hi != 15 || CRAM_HUDRES.borrow) bad++;
+    if (CRAM_PORTRAIT_P2.line != 2 || CRAM_PORTRAIT_P2.lo || CRAM_PORTRAIT_P2.hi || CRAM_PORTRAIT_P2.borrow) bad++;
 
     /* 5. a convensao de reserva vazia nao confunde lo==0 com faixa vazia */
     if (cram_span(&CRAM_PORTRAIT_P1) != 0) bad++;

@@ -178,6 +178,7 @@ typedef struct {
     u8 combo[2];               /* acertos consecutivos do atacante (lado) no combo atual */
     u32 combo_tick[2];         /* tick do ultimo acerto do combo */
     u8 bgfx_active;            /* fundo de super em tela cheia ativo (HUD deve se esconder) */
+    u16 pal0_saved[16];        /* snapshot PAL0 devolvido por cram_restore no fim do emprestimo */
 } MgFight;
 
 extern MgFight mg_fight;
@@ -232,6 +233,10 @@ void cram_write(const CramConsumer *c, const u16 *src);   /* so [lo..hi], DMA_QU
 void cram_save(const CramConsumer *c, u16 *dst);          /* dst com ao menos hi-lo+1 palavras */
 void cram_restore(const CramConsumer *c, const u16 *saved);
 u8   cram_span(const CramConsumer *c);
+
+/* O emprestimo de PAL0 do super e devolvido de dois lugares (fim do explod e transicao de
+ * round/KO), entao a liberacao precisa ser idempotente. */
+void bgfx_release(void);
 
 void MG_fightRender(void);                   /* posiciona sprites; o upload ocorre em SPR_update */
 void MG_fightEnd(void);

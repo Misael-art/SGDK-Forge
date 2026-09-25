@@ -136,9 +136,10 @@ static void impact_fx_step(void)
     for (u8 s = 0; s < 2; s++) {
         u8 lvl = mg_fight.flash_lvl[s];
         if (!lvl) continue;
+        const CramConsumer *cons = s ? &CRAM_FLASH_P2 : &CRAM_FLASH_P1;
         const u16 *src = s_basepal[s];
-        if (lvl == 1) PAL_setColors(s ? 33 : 17, &src[1], 15, DMA_QUEUE);   /* fim: paleta original exata */
-        else PAL_setColors(s ? 33 : 17, s_flash_tab[s][lvl - 2], 15, DMA_QUEUE);
+        /* lvl 1 = ultima passada: devolve a linha ao corpo original; acima, o swap pre-declarado */
+        cram_write(cons, lvl == 1 ? &src[1] : s_flash_tab[s][lvl - 2]);
         mg_fight.flash_lvl[s] = lvl - 1;
     }
 }

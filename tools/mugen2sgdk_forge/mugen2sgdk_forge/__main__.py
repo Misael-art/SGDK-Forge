@@ -19,7 +19,7 @@ from .converters import sprites as spr_conv
 from .generators import sgdk
 from .source import Source
 
-TOOL_VERSION = "0.3.0"
+TOOL_VERSION = "0.3.1"
 RUNTIME_DIR = Path(__file__).resolve().parent.parent / "runtime"
 RUNTIME_FILES = ["mg_types.h", "mg_runtime.h", "mg_vm.c", "mg_char.c", "mg_fight.c"]
 

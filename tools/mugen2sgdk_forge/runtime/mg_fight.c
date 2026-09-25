@@ -50,6 +50,45 @@ static const u16 *s_basepal[2];     /* paleta do corpo de cada lado (restaurada 
  * DMA_QUEUE le a fonte no VBlank, entao um buffer de pilha ja estaria morto quando a copia rodasse. */
 static u16 s_flash_tab[2][3][15];
 
+/* Consumidores de CRAM declarados (REGRA 1c generalizada). Depois dos statics: as
+ * constantes apontam para dados estaticos e o DMA_QUEUE so os le no VBlank. */
+const CramConsumer CRAM_FLASH_P1   = CRAM_CONSUMER(1, 1, 15, 0);
+const CramConsumer CRAM_FLASH_P2   = CRAM_CONSUMER(2, 1, 15, 0);
+const CramConsumer CRAM_SUPER_BGFX = CRAM_CONSUMER(0, 1, 14, 1);
+const CramConsumer CRAM_FX_PAL3    = CRAM_CONSUMER(3, 0, 15, 0);
+/* Reservas de posse: lo==hi==0 escreve nada. A faixa real e declarada por quem consome
+ * (retrato na Etapa C; stage/HUD na Etapa D), o que impede dois consumidores de reivindicarem
+ * o mesmo indice por silencio. */
+const CramConsumer CRAM_STAGERES   = CRAM_CONSUMER(0, 1, 8, 0);
+const CramConsumer CRAM_HUDRES     = CRAM_CONSUMER(0, 9, 15, 0);
+const CramConsumer CRAM_PORTRAIT_P1 = CRAM_CONSUMER(1, 0, 0, 0);
+const CramConsumer CRAM_PORTRAIT_P2 = CRAM_CONSUMER(2, 0, 0, 0);
+
+u8 cram_span(const CramConsumer *c)
+{
+    if (!c->lo && !c->hi) return 0;                 /* reserva vazia: nao possui indice */
+    return (u8)(c->hi >= c->lo ? c->hi - c->lo + 1 : 0);
+}
+
+static u16 cram_base(const CramConsumer *c) { return (u16)(c->line * 16 + c->lo); }
+
+/* Fonte deve ser memoria estatica: DMA_QUEUE so le o ponteiro no VBlank. */
+void cram_write(const CramConsumer *c, const u16 *src)
+{
+    u8 n = cram_span(c);
+    if (!n) return;
+    PAL_setColors(cram_base(c), src, n, DMA_QUEUE);
+}
+
+void cram_save(const CramConsumer *c, u16 *dst)
+{
+    u8 n = cram_span(c);
+    if (!n) return;
+    PAL_getColors(cram_base(c), dst, n);
+}
+
+void cram_restore(const CramConsumer *c, const u16 *saved) { cram_write(c, saved); }
+
 static void build_flash_table(u8 side)
 {
     const u16 *src = s_basepal[side];

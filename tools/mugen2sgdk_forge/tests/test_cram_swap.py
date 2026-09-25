@@ -12,8 +12,9 @@ import pytest
 HERE = Path(__file__).resolve().parent / "host"
 PROJECT = Path(os.environ.get(
     "MG_DEMO_PROJECT",
-    "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/"
-    "Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/temporario/cram_lab"))
+    Path(__file__).resolve().parents[3] / "SGDK_projects" /
+    "Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]" /
+    "rascunho" / "temporario" / "cram_lab"))
 
 pytestmark = pytest.mark.skipif(
     shutil.which("gcc") is None or not (PROJECT / "src" / "mg_gen" / "mg_ken.c").exists(),
@@ -37,3 +38,9 @@ def test_pal_getcolors_reads_cram(tmp_path):
     got = json.loads(r.stdout)
     assert got["getcolors_roundtrip"] == 1, got
     assert got["clamped"] == 1, got
+
+
+def test_cram_consumer_write_is_bounded_by_declared_span(tmp_path):
+    exe = build(tmp_path, "cram_swap")
+    r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
+    assert r["bad"] == 0, r

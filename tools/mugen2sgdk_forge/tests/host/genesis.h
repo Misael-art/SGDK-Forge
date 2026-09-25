@@ -82,7 +82,10 @@ static inline void VDP_drawText(const char *s, u16 x, u16 y) { (void)s; (void)x;
 static inline u16 VDP_loadTileSet(const TileSet *t, u16 i, TransferMethod m) { (void)t; (void)i; (void)m; return 1; }
 static inline bool VDP_setTileMapEx(VDPPlane p, const TileMap *m, u16 b, u16 xp, u16 yp, u16 x, u16 y, u16 w, u16 h, TransferMethod t) { (void)p; (void)m; (void)b; (void)xp; (void)yp; (void)x; (void)y; (void)w; (void)h; (void)t; return 1; }
 static inline void VDP_clearTileMapRect(VDPPlane p, u16 x, u16 y, u16 w, u16 h) { (void)p; (void)x; (void)y; (void)w; (void)h; }
-static inline void PAL_getColors(u16 i, u16 *d, u16 n) { (void)i; memset(d, 0, n * 2); }
+static inline void PAL_getColors(u16 i, u16 *d, u16 n)
+{
+    for (u16 k = 0; k < n && i + k < 64; k++) d[k] = host_cram[i + k];
+}
 static inline void VDP_clearTextArea(u16 x, u16 y, u16 w, u16 h) { (void)x; (void)y; (void)w; (void)h; }
 static inline u16 host_random(void) { static u32 s = 12345; s = s * 1103515245u + 12345u; return (u16)(s >> 16); }
 #define random() host_random()

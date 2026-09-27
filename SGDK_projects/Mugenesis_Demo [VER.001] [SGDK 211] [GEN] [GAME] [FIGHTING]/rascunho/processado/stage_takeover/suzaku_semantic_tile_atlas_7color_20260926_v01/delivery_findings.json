@@ -1,0 +1,15 @@
+{
+  "status": "needs_visual_review",
+  "positive": [
+    "source geometry retained",
+    "seven-color candidate uses fewer patterns than eight-color control",
+    "indexed planes recompose pixel-exactly from the emitted atlas"
+  ],
+  "open": [
+    "source color error requires human comparison",
+    "camera endpoints and intermediate scroll are not represented",
+    "BG0 velocity and BG5 animation remain absent",
+    "production VRAM/DMA fit unproven"
+  ],
+  "promotion": "blocked; scratch study only"
+}

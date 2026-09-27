@@ -1,0 +1,57 @@
+{
+  "variant": "eight_color_control",
+  "index0": "transparent",
+  "entries": {
+    "deep_shadow": {
+      "index": 1,
+      "input_swatch_rgb": "#224466",
+      "vdp_word": "0x642",
+      "hardware_rgb": "#24486C"
+    },
+    "blue_mid": {
+      "index": 2,
+      "input_swatch_rgb": "#4488AA",
+      "vdp_word": "0xA84",
+      "hardware_rgb": "#4890B4"
+    },
+    "blue_vivid": {
+      "index": 3,
+      "input_swatch_rgb": "#4488CC",
+      "vdp_word": "0xC84",
+      "hardware_rgb": "#4890D8"
+    },
+    "sky_light": {
+      "index": 4,
+      "input_swatch_rgb": "#66AAEE",
+      "vdp_word": "0xEA6",
+      "hardware_rgb": "#6CB4FC"
+    },
+    "cloud_light": {
+      "index": 5,
+      "input_swatch_rgb": "#AACCEE",
+      "vdp_word": "0xECA",
+      "hardware_rgb": "#B4D8FC"
+    },
+    "wood_dark": {
+      "index": 6,
+      "input_swatch_rgb": "#886622",
+      "vdp_word": "0x268",
+      "hardware_rgb": "#906C24"
+    },
+    "wood_mid": {
+      "index": 7,
+      "input_swatch_rgb": "#AA8866",
+      "vdp_word": "0x68A",
+      "hardware_rgb": "#B4906C"
+    },
+    "wood_light": {
+      "index": 8,
+      "input_swatch_rgb": "#CCAA66",
+      "vdp_word": "0x6AC",
+      "hardware_rgb": "#D8B46C"
+    }
+  },
+  "visible_colors": 8,
+  "valid_vdp_words": true,
+  "mapping_note": "semantic role whitelist first; nearest target only within the role ramp"
+}

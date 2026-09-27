@@ -191,6 +191,8 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 
 ## Regras canonicas imediatas
 
+- Ao enfileirar paleta/tiles, preservar vida util e conteudo da fonte ate o consumo; testes host devem modelar o atraso real. Ler [curadoria MUGEN: DMA e evidencia](../../../references/mugen_conversion_safety_2026_09_24.md), secoes 4 e 6. Teste host nao promove budget ou qualidade audiovisual.
+
 - SGDK 2.11 real vence memoria do agente
 - `extern` em header e definicao unica em `.c`
 - `SYS_doVBlankProcess()` no loop principal
@@ -650,3 +652,11 @@ Cada caso ali existe para travar um aprendizado real em forma reproduzivel.
 - combinar com `character-design` quando uma decisao de runtime depender de palette swap ou escala do roster
 - combinar com `forward-kinematics-rigging` quando a tarefa envolver juntas, correntes, tentaculos ou membros articulados
 - combinar com `xgm2-audio-director` quando a tarefa envolver ownership de canal, mix de PCM e arquitetura de audio
+
+## Curadoria MUGEN — 2026-09-25
+
+Em conversao MUGEN, HUD, FX e planejamento do cenario, aplicar a
+[curadoria operacional de 2026-09-25](../../../references/mugen_curation_operational_2026_09_25.md). Ela qualifica paletas proprias,
+mascara, grid PNG, footprints de limpeza HUD, provas forcadas, budgets e
+reuso de evidencia. As correcoes substituem generalizacoes antigas de escala,
+WINDOW e custo universal. Promocao de instrucao nao aprova arte nem ROM.

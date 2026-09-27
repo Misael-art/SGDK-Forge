@@ -18,13 +18,21 @@ static u16 s_vram_cap[2];   /* tiles reservados em s_vram: maior sheet de CORPO 
 /* efeitos de fundo: tiles pre-carregados apos os corpos; base por jogador/efeito (0 = sem espaco) */
 #define MG_MAX_BGFX 4
 static u16 s_bgfx_base[2][MG_MAX_BGFX];
+static u32 sSpriteFailures;
+u32 MG_fightSpriteFailures(void) { return sSpriteFailures; }
 static u16 s_pal0_saved[16];
 static s8 s_bgfx_owner = -1;
 #ifdef MG_PROFILE
 u32 mg_prof[16];
 #endif
 
-#define STAGE_W        640      /* palco sem cenario convertido (E4): so limites */
+#ifndef MG_STAGE_WORLD_WIDTH
+#define MG_STAGE_WORLD_WIDTH 640 /* largura compatível do runtime sem contrato local de stage */
+#endif
+#if MG_STAGE_WORLD_WIDTH < 320
+#error "MG_STAGE_WORLD_WIDTH must cover at least one 320px viewport"
+#endif
+#define STAGE_W        MG_STAGE_WORLD_WIDTH
 #define FLOOR_Y        200      /* linha do chao na tela (px) */
 #define ROUND_TIME     99
 #define SPR_VRAM_TILES 900
@@ -37,10 +45,13 @@ u32 mg_prof[16];
  * Palette flash: todo acerto (nunca defesa) clareia a linha de paleta de quem apanhou em
  * direcao ao branco e apaga em 4 quadros. Impacto pesado comeca no branco puro. */
 #define MG_HEAVY_DAMAGE 100
+#ifndef MG_TEST_DISABLE_STAGE3_SHAKE
 #define MG_SHAKE_LEN    12
 /* resposta da mola em oitavos da amplitude, 1 entrada por quadro */
 static const s8 kShake[MG_SHAKE_LEN] = { 8, -6, 5, -4, 3, -3, 2, -2, 1, -1, 1, 0 };
+#endif
 /* canal de 3 bits clareado para o branco em nivel/4 (nivel 0..4) */
+#ifndef MG_TEST_DISABLE_STAGE3_FLASH
 static const u8 kFlash[5][8] = {
     { 0, 1, 2, 3, 4, 5, 6, 7 }, { 2, 3, 3, 4, 5, 6, 6, 7 }, { 4, 4, 5, 5, 6, 6, 7, 7 },
     { 5, 6, 6, 6, 7, 7, 7, 7 }, { 7, 7, 7, 7, 7, 7, 7, 7 },
@@ -62,12 +73,18 @@ static void build_flash_table(u8 side)
         }
     }
 }
+#endif
 static s16 s_bgb_scroll_x, s_bgb_scroll_y;
 
 static void impact_fx(const MgPlayer *d, s32 dmg, s8 afc)
 {
+#if !defined(MG_TEST_DISABLE_STAGE3_FLASH) || !defined(MG_TEST_DISABLE_STAGE3_SHAKE)
     u8 heavy = d->gh_fall || d->life <= 0 || dmg >= MG_HEAVY_DAMAGE;
+#endif
+#ifndef MG_TEST_DISABLE_STAGE3_FLASH
     mg_fight.flash_lvl[d->side] = heavy ? 4 : 3;
+#endif
+#ifndef MG_TEST_DISABLE_STAGE3_SHAKE
     if (!heavy) return;
     s8 a = 2 + (s8)(dmg / 40);                      /* 35 -> 2 px ... 130 -> 5 px */
     if (d->life <= 0) a += 2;                       /* KO: o golpe final pesa mais */
@@ -75,17 +92,24 @@ static void impact_fx(const MgPlayer *d, s32 dmg, s8 afc)
     mg_fight.shake_ax = afc < 0 ? -a : a;
     mg_fight.shake_ay = (d->gh_fall || d->life <= 0) ? a / 2 + 1 : 0;
     mg_fight.shake_t = 0;
+#else
+    (void)d;
+    (void)dmg;
+    (void)afc;
+#endif
 }
 
 /* avanca 1 quadro: calcula o deslocamento da camera e aplica o flash. Custo zero parado. */
 static void impact_fx_step(void)
 {
     s8 x = 0, y = 0;
+#ifndef MG_TEST_DISABLE_STAGE3_SHAKE
     if (mg_fight.shake_t < MG_SHAKE_LEN) {
         s8 k = kShake[mg_fight.shake_t++];
         x = (s8)((mg_fight.shake_ax * k) >> 3);
         y = (s8)((mg_fight.shake_ay * (k < 0 ? -k : k)) >> 3);   /* Y so desce: o chao quica */
     }
+#endif
     if (mg_fight.screen_shake > 0) {                /* EnvShake do personagem: vertical, alternado */
         s8 e = mg_fight.envshake_ampl ? mg_fight.envshake_ampl : 2;
         y += (mg_fight.screen_shake & 2) ? e : -e;
@@ -93,8 +117,19 @@ static void impact_fx_step(void)
     }
     mg_fight.shake_x = x;
     mg_fight.shake_y = y;
-    if (x != s_bgb_scroll_x) { s_bgb_scroll_x = x; VDP_setHorizontalScroll(BG_B, x); }
-    if (y != s_bgb_scroll_y) { s_bgb_scroll_y = y; VDP_setVerticalScroll(BG_B, -y); }
+    if (x != s_bgb_scroll_x) {
+        s_bgb_scroll_x = x;
+#ifndef MG_STAGE_SOURCE_STREAM
+        VDP_setHorizontalScroll(BG_B, x);
+#endif
+    }
+    if (y != s_bgb_scroll_y) {
+        s_bgb_scroll_y = y;
+#ifndef MG_STAGE_SOURCE_STREAM
+        VDP_setVerticalScroll(BG_B, -y);
+#endif
+    }
+#ifndef MG_TEST_DISABLE_STAGE3_FLASH
     for (u8 s = 0; s < 2; s++) {
         u8 lvl = mg_fight.flash_lvl[s];
         if (!lvl) continue;
@@ -103,6 +138,7 @@ static void impact_fx_step(void)
         else PAL_setColors(s ? 33 : 17, s_flash_tab[s][lvl - 2], 15, DMA_QUEUE);
         mg_fight.flash_lvl[s] = lvl - 1;
     }
+#endif
 }
 
 /* ------------------------------------------------------------------ som / explod */
@@ -423,10 +459,10 @@ static void draw_part(const MgCharDef *d, MgDraw *dr, u8 k, s16 sheet, u8 frame,
                                                    SPR_FLAG_AUTO_TILE_UPLOAD)
                                 : SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR(pal, TRUE, FALSE, FALSE),
                                                    SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
-        if (!*spr) return;                     /* VRAM de sprite esgotada: parte pulada */
+        if (!*spr) { sSpriteFailures++; return; }                     /* VRAM de sprite esgotada: parte pulada */
         dr->sheet[k] = sheet;
     } else if (dr->sheet[k] != sheet) {
-        if (!SPR_setDefinition(*spr, sh->def)) { SPR_setVisibility(*spr, HIDDEN); return; }
+        if (!SPR_setDefinition(*spr, sh->def)) { sSpriteFailures++; SPR_setVisibility(*spr, HIDDEN); return; }
         dr->sheet[k] = sheet;
     }
     SPR_setAnimAndFrame(*spr, 0, frame);
@@ -461,6 +497,24 @@ static void draw(const MgCharDef *d, MgDraw *dr, u16 anim_idx, u8 elem,
 static u16 s_vram_next;
 
 u16 MG_fightVramNext(void) { return s_vram_next; }
+
+bool MG_fightGetBgFxLoan(u16 *base, u16 *tileCount)
+{
+    if (!base || !tileCount) return FALSE;
+    for (u8 side = 0; side < 2; side++) {
+        const MgCharDef *def = mg_fight.p[side].def;
+        if (!def) continue;
+        for (u8 i = 0; i < MG_MAX_BGFX && i < def->nbgfx; i++) {
+            if (!s_bgfx_base[side][i]) continue;
+            *base = s_bgfx_base[side][i];
+            *tileCount = def->bgfx[i].img->tileset->numTile;
+            return TRUE;
+        }
+    }
+    *base = 0;
+    *tileCount = 0;
+    return FALSE;
+}
 
 static void hud(void)
 {
@@ -722,6 +776,7 @@ static void round_flow(void)
 /* ------------------------------------------------------------------ API */
 void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, u8 p2_cpu)
 {
+    sSpriteFailures = 0;
     memset(&mg_fight, 0, sizeof(mg_fight));
     mg_fight.stage_left = 0;
     mg_fight.stage_right = STAGE_W;
@@ -739,9 +794,12 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
         MG_drawInit(&p->dr);
         MG_drawInit(&mg_fight.helper[s].dr);
         for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawInit(&p->proj[i].dr);
-        s_basepal[s] = defs[s]->pals[pals[s] % defs[s]->npals];
+        const u16 *bodypal = defs[s]->pals[pals[s] % defs[s]->npals];
+#ifndef MG_TEST_DISABLE_STAGE3_FLASH
+        s_basepal[s] = bodypal;
         build_flash_table(s);
-        PAL_setColors(s ? 32 : 16, s_basepal[s], 16, DMA);
+#endif
+        PAL_setColors(s ? 32 : 16, bodypal, 16, DMA);
     }
     PAL_setColors(48, p1->fxpal, 16, DMA);
     s_bgfx_owner = -1;

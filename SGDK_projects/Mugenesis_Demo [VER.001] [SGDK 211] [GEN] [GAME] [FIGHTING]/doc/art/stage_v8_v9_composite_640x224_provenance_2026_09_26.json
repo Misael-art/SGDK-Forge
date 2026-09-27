@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "status": "technical_translation_source_only",
+  "asset_id": "suzaku_v8_v9_composite_640x224_source_20260926",
+  "path": "rascunho/processado/stage_takeover/suzaku_v8_v9_composite_640x224_source_20260926.png",
+  "sha256": "2ed84c16ab112cff7afda002523ce94cabb27b41835051b50b454fc3b7d97f84",
+  "dimensions": [640, 224],
+  "mode": "RGB",
+  "source_kind": "procedural_composed_from_authored",
+  "authored_sources": [
+    {
+      "path": "rascunho/inputs/suzaku_v8_far_plate_ai_concept_20260926.png",
+      "sha256": "ee70ec50092b16036cdd200ce48ec30e5c7dbeff7398bb426cc7fa90a07183c4"
+    },
+    {
+      "path": "rascunho/inputs/suzaku_v9_near_overlay_ai_concept_20260926.png",
+      "sha256": "d6aa3c4e8e72cfcb1ba544ef78e26b3bfcdf6eca6fe24ab06c13b3c2e02bdf64"
+    }
+  ],
+  "composition_script": {
+    "path": "rascunho/processado/stage_takeover/compose_suzaku_v8_v9_target_composite.py",
+    "sha256": "c73c6a5b3623e424c556f7618dcbdaf2911b010ad8c0074846c1546329992d02"
+  },
+  "method": {
+    "resize": "nearest neighbor to 640x224, independently per source plate",
+    "alpha_threshold": 128,
+    "threshold_order": "threshold near alpha before resize; opaque far remains full-canvas",
+    "layer_order": ["BG_B far", "BG_A near"]
+  },
+  "purpose": "Exact target-size composite reference required by the stage-plane-assets splitter and Forge-Art palette conversion; not final art.",
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false,
+  "claim_ceiling": "640x224_composition_source_only"
+}

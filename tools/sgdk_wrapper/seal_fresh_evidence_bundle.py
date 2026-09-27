@@ -53,6 +53,7 @@ def load_screenshot_gate() -> Any:
 
 # Espelha os campos estruturais de system/runtime_probe.c. Se mudar la, muda aqui.
 PROBE_VLAB_PALETTE_WORDS = 64
+PROBE_VLAB_SCHEMA2_TRAILER_WORDS = 2
 PROBE_VLAB_LEGACY_METRIC_WORDS = 43
 PROBE_VLAB_RANGE_CAPACITY = 4
 PROBE_VLAB_RANGE_WORD_OFFSET = PROBE_VLAB_LEGACY_METRIC_WORDS
@@ -82,14 +83,20 @@ def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
     # contador de alocacao — caiam no balde da paleta e nunca chegavam ao report.
     # Quando a probe passou a 32, os seis quadros de pico sumiram do mesmo jeito,
     # e o sintoma foi campo `None` num bundle cuja SRAM tinha o dado.
-    metric_count = max(24, len(words) - PROBE_VLAB_PALETTE_WORDS)
+    trailer_words = PROBE_VLAB_SCHEMA2_TRAILER_WORDS if schema_version >= 2 else 0
+    if len(words) < 24 + PROBE_VLAB_PALETTE_WORDS + trailer_words:
+        raise ValueError("vlab_metrics_incomplete")
+    metric_count = max(24, len(words) - PROBE_VLAB_PALETTE_WORDS - trailer_words)
+    palette_end = metric_count + PROBE_VLAB_PALETTE_WORDS
     return {
         "schema_version": schema_version,
         "offset": offset,
         "total_bytes": total_bytes,
         "metric_word_count": metric_count,
         "metric_words": words[:metric_count],
-        "palette_words": words[metric_count:],
+        "palette_words": words[metric_count:palette_end],
+        "measurement_frames": words[palette_end] if trailer_words else None,
+        "measurement_target_frames": words[palette_end + 1] if trailer_words else None,
     }
 
 
@@ -131,6 +138,14 @@ def build_runtime_metrics(
 ) -> dict[str, Any]:
     words = vlab["metric_words"]
     runtime_ranges = extract_runtime_tile_ranges(words)
+    measurement_frames = vlab.get("measurement_frames")
+    measurement_target_frames = vlab.get("measurement_target_frames")
+    over_budget_frames = words[17]
+    over_budget_ratio = (
+        over_budget_frames / measurement_frames
+        if measurement_frames is not None and measurement_frames > 0
+        else None
+    )
     fps_match = re.search(r"([0-9]+(?:\.[0-9]+)?)\s+fps", window_title, re.IGNORECASE)
     return {
         "schema_version": "1.0.0",
@@ -156,7 +171,16 @@ def build_runtime_metrics(
             "vscroll_mode": words[8],
             "frame_counter_snapshot": words[15],
             "sample_count": words[16],
-            "over_budget_frames": words[17],
+            "cpu_samples_stored": words[16],
+            "over_budget_frames": over_budget_frames,
+            "measurement_frames": measurement_frames,
+            "measurement_target_frames": measurement_target_frames,
+            "measurement_window_complete": (
+                measurement_frames >= measurement_target_frames
+                if measurement_frames is not None and measurement_target_frames
+                else False if measurement_frames is not None else None
+            ),
+            "over_budget_ratio": over_budget_ratio,
             "max_cpu_load": words[18],
             "max_cpu_jitter": words[19],
             "max_scanline_sprites": words[20],
@@ -345,11 +369,22 @@ def seal_bundle(
     return {"sealed": sealed, "manifest": manifest, "freshness": freshness}
 
 
-def _fixture_sram(metric_words: list[int], palette_words: int = PROBE_VLAB_PALETTE_WORDS) -> bytes:
+def _fixture_sram(
+    metric_words: list[int],
+    palette_words: int = PROBE_VLAB_PALETTE_WORDS,
+    *,
+    schema_version: int = 1,
+    measurement_frames: int | None = None,
+    measurement_target_frames: int | None = None,
+) -> bytes:
     """Monta um bloco VLAB sintetico, com lixo antes para exercitar o find()."""
     words = list(metric_words) + [0] * palette_words
+    if schema_version >= 2:
+        if measurement_frames is None or measurement_target_frames is None:
+            raise ValueError("schema_v2_requires_measurement_frame_fields")
+        words.extend([measurement_frames, measurement_target_frames])
     total = 8 + len(words) * 2
-    return (b"\xAA" * 16 + b"VLAB" + struct.pack(">HH", 1, total)
+    return (b"\xAA" * 16 + b"VLAB" + struct.pack(">HH", schema_version, total)
             + struct.pack(f">{len(words)}H", *words))
 
 
@@ -444,8 +479,42 @@ def self_check() -> int:
             print("self-check failed: ROM antiga recebeu faixa de residencia fantasma",
                   file=sys.stderr)
             return 1
+        if (r26["measurement_frames"] is not None
+                or r26["measurement_target_frames"] is not None
+                or r26["measurement_window_complete"] is not None
+                or r26["over_budget_ratio"] is not None):
+            print("self-check failed: VLAB schema 1 recebeu denominador inventado",
+                  file=sys.stderr)
+            return 1
 
-        # 3. sem bloco VLAB
+        # 3. VLAB schema 2 appends its denominator after CRAM without shifting
+        # fixed metric or palette offsets.
+        v2_words = list(range(32))
+        v2_words[16] = 32
+        v2_words[17] = 35
+        v2_sram = tmp / "v2.sram"
+        v2_sram.write_bytes(_fixture_sram(
+            v2_words,
+            schema_version=2,
+            measurement_frames=1200,
+            measurement_target_frames=1200,
+        ))
+        v2 = extract_vlab(v2_sram, dump)
+        r2 = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v2,
+                                   sram_path=v2_sram, dump_path=dump,
+                                   window_title="", generated_at="t")["vlab"]
+        if (v2["metric_word_count"] != 32
+                or len(v2["palette_words"]) != PROBE_VLAB_PALETTE_WORDS
+                or r2["measurement_frames"] != 1200
+                or r2["measurement_target_frames"] != 1200
+                or not r2["measurement_window_complete"]
+                or r2["cpu_samples_stored"] != 32
+                or r2["over_budget_ratio"] != 35 / 1200):
+            print("self-check failed: VLAB schema 2 denominator/sample-count contract",
+                  file=sys.stderr)
+            return 1
+
+        # 4. sem bloco VLAB
         bad = tmp / "sem.sram"
         bad.write_bytes(b"\x00" * 256)
         try:
@@ -459,7 +528,7 @@ def self_check() -> int:
             print("self-check failed: SRAM sem VLAB foi aceita", file=sys.stderr)
             return 1
 
-        # 4. total_bytes maior que a SRAM
+        # 5. total_bytes maior que a SRAM
         trunc = tmp / "trunc.sram"
         trunc.write_bytes(b"VLAB" + struct.pack(">HH", 1, 9999) + b"\x00" * 32)
         try:
@@ -473,7 +542,7 @@ def self_check() -> int:
             print("self-check failed: total_bytes impossivel foi aceito", file=sys.stderr)
             return 1
 
-        # 5. metricas de menos
+        # 6. metricas de menos
         short = tmp / "short.sram"
         short.write_bytes(_fixture_sram(list(range(10)), palette_words=0))
         try:

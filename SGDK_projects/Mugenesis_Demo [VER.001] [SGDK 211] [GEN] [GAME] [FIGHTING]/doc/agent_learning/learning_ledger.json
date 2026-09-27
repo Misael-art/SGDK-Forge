@@ -9,8 +9,8 @@
     "human_approval_required": true,
     "evidence_required": true
   },
-  "generated_at": "2026-09-23T12:17:37Z",
-  "source_digest": "abec8c86eea45e4a94f58845f8284847ed4faaba9060fc95d371bd36eae922dc",
+  "generated_at": "2026-09-26T18:30:46Z",
+  "source_digest": "0e067eeb6d350b14d31eb98fb4058589b5f6462fa3a885d2b0874bf68e9ee875",
   "lessons": [
     {
       "lesson_id": "lesson_6e659d4edead1346",
@@ -28,7 +28,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -74,7 +74,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -120,7 +120,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -166,7 +166,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -212,7 +212,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -258,7 +258,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -304,9 +304,56 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_bd69240eacd66c4e",
+      "title": "Conceitos gerados afastaram Suzaku da fonte antes de esgotar arquitetura",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "conceitos_gerados_afastaram_suzaku_da_fonte_antes_de_esgotar_arquitetura",
+      "context": "port de cenario",
+      "observation": "Conceitos gerados afastaram Suzaku da fonte antes de esgotar arquitetura",
+      "diagnosis": "Budget da engine tratado cedo como teto visual",
+      "resolution_or_preventive_heuristic": "Fonte DEF/SFF primeiro; medir paleta e residencia; reautoria local somente onde necessario",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/mugen/suzaku_source_fidelity_recovery_2026_09_26.md"
         ],
         "gaps": [
           "operational_evidence_missing"
@@ -350,7 +397,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -396,7 +443,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -442,7 +489,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -488,7 +535,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -534,7 +581,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -580,7 +627,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -626,7 +673,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -672,7 +719,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -718,7 +765,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -764,7 +811,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -810,7 +857,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -856,7 +903,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d647311cdcb48052",
+      "title": "O V17 ficou forte como imagem isolada, mas moveu lua/castelo/roof como se compartilhassem um unico eixo mundial e reduziu a faixa de piso",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "o_v17_ficou_forte_como_imagem_isolada_mas_moveu_lua_castelo_roof_como_se_compartilhassem_um_unico_eixo_mundial_e_reduziu_a_faixa_de_piso",
+      "context": "reautoria panoramica de layer art MUGEN",
+      "observation": "O V17 ficou forte como imagem isolada, mas moveu lua/castelo/roof como se compartilhassem um unico eixo mundial e reduziu a faixa de piso",
+      "diagnosis": "BG0, BG1/2/3 e BG4 possuem coordenadas/velocidades diferentes; o panorama ignorou a geometria por camada",
+      "resolution_or_preventive_heuristic": "Registrar anchors 0/224/448 e bounds por layer antes de qualquer geracao; usar uma camada por transformacao validada ou marcar a saida como referencia negativa",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -902,9 +995,56 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_cddb9b92f710f1d8",
+      "title": "Perfis que cabem matematicamente em dois speeds ainda podem mover a lua/castelo para fora da leitura ou abrir pixels magenta no extremo",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "perfis_que_cabem_matematicamente_em_dois_speeds_ainda_podem_mover_a_lua_castelo_para_fora_da_leitura_ou_abrir_pixels_magenta_no_extremo",
+      "context": "composicao fonte de stage com duas velocidades VDP",
+      "observation": "Perfis que cabem matematicamente em dois speeds ainda podem mover a lua/castelo para fora da leitura ou abrir pixels magenta no extremo",
+      "diagnosis": "Reclassificar velocidades sem redesenhar overlap altera a relacao entre massas; o preview fonte nao inventa pixels de preenchimento",
+      "resolution_or_preventive_heuristic": "Escolher anchor visual por storyboard, reautorizar as massas que compartilham speed e medir fallback/overlap; nunca promover por menor erro numerico",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/mugen/stage_plane_ownership_study_2026_09_26.md"
         ],
         "gaps": [
           "operational_evidence_missing"
@@ -948,7 +1088,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -994,7 +1134,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -1040,7 +1180,145 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c33a66e9aa2e6527",
+      "title": "Relatorio removeu todas as linhas y0..55 do custo do stage por assumir que a regiao WINDOW era opaca; o HUD real deixa celulas sem preenchimento",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "relatorio_removeu_todas_as_linhas_y0_55_do_custo_do_stage_por_assumir_que_a_regiao_window_era_opaca_o_hud_real_deixa_celulas_sem_preenchimento",
+      "context": "oclusao HUD e residencia de tiles",
+      "observation": "Relatorio removeu todas as linhas y0..55 do custo do stage por assumir que a regiao WINDOW era opaca; o HUD real deixa celulas sem preenchimento",
+      "diagnosis": "Confundimos cobertura geometrica do plano Window com cobertura de pixels opacos; `clearWindow()` limpa 40x7 celulas e o HUD preenche apenas partes. Codigo 0 revela o plano inferior",
+      "resolution_or_preventive_heuristic": "Derivar uma mascara por pixel do WINDOW/tiles reais e fases do HUD; contar o frame completo enquanto a oclusao nao for provada em BlastEm com o stage carregado",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_5fee1a6af783684b",
+      "title": "Stage-plane tool recusou BG_B integralmente transparente",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "stage_plane_tool_recusou_bg_b_integralmente_transparente",
+      "context": "separacao BG_A/B",
+      "observation": "Stage-plane tool recusou BG_B integralmente transparente",
+      "diagnosis": "Contrato atual requer BG_B opaco; transparente dependia de cor-base global n\u00e3o expressa no asset",
+      "resolution_or_preventive_heuristic": "Tornar a cor de fundo VDP expl\u00edcita na composicao de estudo e testar o owner/runtime antes de mudar o contrato da ferramenta",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_bed14036cee0a1e6",
+      "title": "stage_measure classificava cores diferente do conversor",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "stage_measure_classificava_cores_diferente_do_conversor",
+      "context": "medicao de paleta",
+      "observation": "stage_measure classificava cores diferente do conversor",
+      "diagnosis": "round RGB/255 versus grade vdp_word",
+      "resolution_or_preventive_heuristic": "Reusar semantica com vetores de fronteira conhecidos e teste RED/GREEN",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -1086,9 +1364,240 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_214fe64bbbd7dfe5",
+      "title": "Tornar o ceu do V15 transparente e apontar o backdrop a CRAM[3] reconstruiu os pixels, mas elevou ResComp de 915 para 924 tiles e a pior janela de 42 colunas de 543 para 547",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "tornar_o_ceu_do_v15_transparente_e_apontar_o_backdrop_a_cram_3_reconstruiu_os_pixels_mas_elevou_rescomp_de_915_para_924_tiles_e_a_pior_janela_de_42_colunas_de_543_para_547",
+      "context": "economia de tiles por backdrop",
+      "observation": "Tornar o ceu do V15 transparente e apontar o backdrop a CRAM[3] reconstruiu os pixels, mas elevou ResComp de 915 para 924 tiles e a pior janela de 42 colunas de 543 para 547",
+      "diagnosis": "A cor reutilizada n\u00e3o elimina padr\u00f5es de tiles automaticamente; transpar\u00eancia pode criar bordas/padr\u00f5es novos e a nametable continua existindo",
+      "resolution_or_preventive_heuristic": "Tratar como hip\u00f3tese visual; medir valores CRAM, tile patterns, mapa, resid\u00eancia e DMA separadamente; n\u00e3o creditar economia sem compara\u00e7\u00e3o ResComp",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_36dcc7edb8f7016f",
+      "title": "Um landmark pareceu duplicado em left/center/right",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "um_landmark_pareceu_duplicado_em_left_center_right",
+      "context": "revisao visual por contact sheet de camera",
+      "observation": "Um landmark pareceu duplicado em left/center/right",
+      "diagnosis": "Janelas adjacentes compartilhavam 160px do mundo",
+      "resolution_or_preventive_heuristic": "Registrar cada camera crop e mapear landmarks para coordenadas-fonte antes de diagnosticar repeticao",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_b25db80039122ba6",
+      "title": "V2 detalhado foi melhor em detalhe percebido, mas ocupou 1.664 tiles; V3 8-color teve menor weighted MSE mas ainda passou 125 tiles do teto estimado",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "v2_detalhado_foi_melhor_em_detalhe_percebido_mas_ocupou_1_664_tiles_v3_8_color_teve_menor_weighted_mse_mas_ainda_passou_125_tiles_do_teto_estimado",
+      "context": "conversao de fundo / budget",
+      "observation": "V2 detalhado foi melhor em detalhe percebido, mas ocupou 1.664 tiles; V3 8-color teve menor weighted MSE mas ainda passou 125 tiles do teto estimado",
+      "diagnosis": "Resolu\u00e7\u00e3o/paleta e fidelidade de cor nao preveem deduplicacao tile nem VRAM",
+      "resolution_or_preventive_heuristic": "Comparar ResComp pareado e flat com MSE; medir os planos individualmente e nunca promover por erro de cor isolado",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_8e5c635574883d4a",
+      "title": "V3 locked-six fecha em 446 tiles contra teto estimado de 446",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "v3_locked_six_fecha_em_446_tiles_contra_teto_estimado_de_446",
+      "context": "capacidade de tile do palco",
+      "observation": "V3 locked-six fecha em 446 tiles contra teto estimado de 446",
+      "diagnosis": "Igualdade com estimativa ignora fragmentacao, reservas reais e tiles transientes",
+      "resolution_or_preventive_heuristic": "Exigir budget medido na ROM pesada, incluir HUD/FX e manter headroom demonstrado antes de fechar; se necessario testar atlas compartilhado/streaming",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_7fdc0e71ace18374",
+      "title": "validate_resources` reportou pool de luta 16 contra 600",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-26",
+      "problem_signature": "validate_resources_reportou_pool_de_luta_16_contra_600",
+      "context": "leitura de budget de sprite por cena",
+      "observation": "validate_resources` reportou pool de luta 16 contra 600",
+      "diagnosis": "Escolheu a primeira chamada `SPR_initEx(16)` de `APP_boot`; a cena de luta executa `SPR_end()` e depois `SPR_initEx(600)",
+      "resolution_or_preventive_heuristic": "Seguir ordem e ownership por estado/cena; nao alterar o pool da luta por um parser textual de chamada unica; confirmar ROM/SRAM fresca",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/validation_report.json"
         ],
         "gaps": [
           "operational_evidence_missing"
@@ -1132,7 +1641,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -1178,7 +1687,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -1226,7 +1735,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/skill_promotion_candidates.md"
         ],
@@ -1276,7 +1785,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/skill_promotion_candidates.md"
         ],
@@ -1326,7 +1835,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/skill_promotion_candidates.md"
         ],
@@ -1359,6 +1868,57 @@
       }
     },
     {
+      "lesson_id": "lesson_9e62ed31b1a9f329",
+      "title": "Regra existente sobre budget pass and visual pass remain independent gates: avaliar edicao minima + decomposicao de sprite antes de relaxar o teto",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-09-25",
+      "problem_signature": "regra_existente_sobre_budget_pass_and_visual_pass_remain_independent_gates_avaliar_edicao_minima_decomposicao_de_sprite_antes_de_relaxar_o_teto",
+      "context": "",
+      "observation": "Um quadro MUGEN excedia tiles com o mesmo numero de sprites; cinco pixels de brilho perif\u00e9rico removidos e dois recortes de hardware reduziram custo compilado de 28/2 para 25/2 com paridade visual aprovada",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Revisar com owners existentes de budget VDP e traducao visual; repetir em outro quadro, medir scanline total em BlastEm e adicionar fixture antes de proposta canonica"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/mugen/fx_pilot_hadouken/budget25_split_report.json",
+          "doc/mugen/fx_pilot_hadouken/budget25_user_approval_2026_09_25.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "technical_pass_does_not_imply_visual_pass"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: Regra existente sobre budget pass and visual pass remain independent gates: avaliar edicao minima + decomposicao de sprite antes de relaxar o teto",
+        "required_tests": [
+          "visual gate blocked with technical pass fixture",
+          "perceptual evidence regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
       "lesson_id": "lesson_2616199ce08c2f2d",
       "title": "--audio-driver disk + RMS por segundo (float32) prova que os sons tocam",
       "source_kind": "success_pattern",
@@ -1376,7 +1936,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1422,7 +1982,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1468,7 +2028,146 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_fc776e66a9dcc243",
+      "title": "Busca exaustiva apontou cinco pixels perif\u00e9ricos de glow; remover apenas esses cinco e dividir a imagem em recortes 24x24 + 32x32 preservou 99,5667% dos pixels opacos e compilou 25 tiles/2 sprites no ResComp. O usu\u00e1rio confirmou sucesso da estrat\u00e9gia e paridade visual. A cor `0xE82` foi aplicada no \u00edndice 6 de PAL1/PAL2 nas 12 variantes do teste",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "busca_exaustiva_apontou_cinco_pixels_perif_ricos_de_glow_remover_apenas_esses_cinco_e_dividir_a_imagem_em_recortes_24x24_32x32_preservou_99_5667_dos_pixels_opacos_e_compilou_25_tiles_2_sprites_no_rescomp_o_usu_rio_confirmou_sucesso_da_estrat_gia_e_paridade_visual_a_cor_0xe82_foi_aplicada_no_ndice_6_de_pal1_pal2_nas_12_variantes_do_teste",
+      "context": "hadouken AIR 750,1: encaixe no budget 26/2 com paridade aprovada",
+      "observation": "Busca exaustiva apontou cinco pixels perif\u00e9ricos de glow; remover apenas esses cinco e dividir a imagem em recortes 24x24 + 32x32 preservou 99,5667% dos pixels opacos e compilou 25 tiles/2 sprites no ResComp. O usu\u00e1rio confirmou sucesso da estrat\u00e9gia e paridade visual. A cor `0xE82` foi aplicada no \u00edndice 6 de PAL1/PAL2 nas 12 variantes do teste",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Um quadro aprovado e um projeto. A sonda for\u00e7a flash PAL1 nivel 3 e congela o estado enquanto o Hadouken ativo permanece renderizado; prova compartilhamento visual de CRAM, nao hit natural, timing/cadencia ou desempenho. Os outros quadros AIR seguem sem aprovacao; `palette-check` global falha em 24/15. Aprendizado local para curadoria futura; sem promocao canonica automatica"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/mugen/fx_pilot_hadouken/budget25_split_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2ae523e13c523740",
+      "title": "Color code 0 do MD revela a camada inferior; n\u00e3o declarar m\u00e1scara sem equivalente. Expor delta por camada/scanline, agregar left/center/right e reportar erro/frame E drift acumulado desde a c\u00e2mera-\u00e2ncora. Suzaku: 19.655/215.040 amostras (9,14%) remapeadas; m\u00e9dia 0,04105 px/pixel/frame, pior linha y62=0,803572. Do anchor224, drift m\u00e9dio 2,10254 px/pixel e m\u00e1ximo45 px em BG3/y62 no extremo: erro/frame baixo pode esconder deslocamento grande do cen\u00e1rio. Preview fonte: 9.625/0/6.356 \u00edndices diferentes; sem aprova\u00e7\u00e3o visual",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "color_code_0_do_md_revela_a_camada_inferior_n_o_declarar_m_scara_sem_equivalente_expor_delta_por_camada_scanline_agregar_left_center_right_e_reportar_erro_frame_e_drift_acumulado_desde_a_c_mera_ncora_suzaku_19_655_215_040_amostras_9_14_remapeadas_m_dia_0_04105_px_pixel_frame_pior_linha_y62_0_803572_do_anchor224_drift_m_dio_2_10254_px_pixel_e_m_ximo45_px_em_bg3_y62_no_extremo_erro_frame_baixo_pode_esconder_deslocamento_grande_do_cen_rio_preview_fonte_9_625_0_6_356_ndices_diferentes_sem_aprova_o_visual",
+      "context": "tradeoff de scroll em dois planos com transpar\u00eancia correta",
+      "observation": "Color code 0 do MD revela a camada inferior; n\u00e3o declarar m\u00e1scara sem equivalente. Expor delta por camada/scanline, agregar left/center/right e reportar erro/frame E drift acumulado desde a c\u00e2mera-\u00e2ncora. Suzaku: 19.655/215.040 amostras (9,14%) remapeadas; m\u00e9dia 0,04105 px/pixel/frame, pior linha y62=0,803572. Do anchor224, drift m\u00e9dio 2,10254 px/pixel e m\u00e1ximo45 px em BG3/y62 no extremo: erro/frame baixo pode esconder deslocamento grande do cen\u00e1rio. Preview fonte: 9.625/0/6.356 \u00edndices diferentes; sem aprova\u00e7\u00e3o visual",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Perfil \u00e9 limite inferior por amostras, n\u00e3o prova composi\u00e7\u00e3o coerente, est\u00e9tica, ResComp, budget ou VBlank; `mask=false` + source index0 requer remap vis\u00edvel somente se visto; BG/BGCtrl continuam fora deste render"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_cac272abe7ce2c48",
+      "title": "Comparar limites verticais apos o crop encontrou camadas frontais contiguas que preservam tres velocidades em BG_A: `[0,176)`, `[176,212)`, `[212,224)`. Manter os deltas originais por linha e registrar o conflito quando camadas sobrepostas compartilham a mesma linha; medir padroes da janela completa antes de escolher",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "comparar_limites_verticais_apos_o_crop_encontrou_camadas_frontais_contiguas_que_preservam_tres_velocidades_em_bg_a_0_176_176_212_212_224_manter_os_deltas_originais_por_linha_e_registrar_o_conflito_quando_camadas_sobrepostas_compartilham_a_mesma_linha_medir_padroes_da_janela_completa_antes_de_escolher",
+      "context": "composicao de palco com HSCROLL_LINE",
+      "observation": "Comparar limites verticais apos o crop encontrou camadas frontais contiguas que preservam tres velocidades em BG_A: `[0,176)`, `[176,212)`, `[212,224)`. Manter os deltas originais por linha e registrar o conflito quando camadas sobrepostas compartilham a mesma linha; medir padroes da janela completa antes de escolher",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Rota especifica deste Suzaku e apenas candidata. Padroes fonte 700 frente sem reuse; 1.021 fundo apos 378 reusos entre quatro layers (959 sem BG0a), nao equivalem a custo ResComp nem viewport simultanea"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1514,7 +2213,53 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_505b69a57998395b",
+      "title": "Corrigir o decode local para a funcao canonica do conversor e testar todas as 512 palavras. Antes de atribuir diferenca visual a bug de decodificacao, comparar os outputs: transformacao comum de canais/escala sob distancia quadratica pode preservar o vizinho mais proximo e nao mudar pixels",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "corrigir_o_decode_local_para_a_funcao_canonica_do_conversor_e_testar_todas_as_512_palavras_antes_de_atribuir_diferenca_visual_a_bug_de_decodificacao_comparar_os_outputs_transformacao_comum_de_canais_escala_sob_distancia_quadratica_pode_preservar_o_vizinho_mais_proximo_e_nao_mudar_pixels",
+      "context": "conversao de paleta CRAM na analise do stage",
+      "observation": "Corrigir o decode local para a funcao canonica do conversor e testar todas as 512 palavras. Antes de atribuir diferenca visual a bug de decodificacao, comparar os outputs: transformacao comum de canais/escala sob distancia quadratica pode preservar o vizinho mais proximo e nao mudar pixels",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "A invariancia vale para esse mapeamento/distancia e comparacao; nao e desculpa para decodificadores divergentes nem para pular prova de output"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1560,7 +2305,101 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1c446534d371183f",
+      "title": "Derivar a largura de cada plano de `viewport + camera_span*delta` e medir a pior uniao visivel antes de discutir streaming ou residencia. O primeiro crop 512/512 subcontou o Suzaku em 130 tiles; corrigido para 520/624 e 1366 tiles. Uma paleta indexada valida ainda pode exceder VRAM e alterar grande parte dos pixels",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "derivar_a_largura_de_cada_plano_de_viewport_camera_span_delta_e_medir_a_pior_uniao_visivel_antes_de_discutir_streaming_ou_residencia_o_primeiro_crop_512_512_subcontou_o_suzaku_em_130_tiles_corrigido_para_520_624_e_1366_tiles_uma_paleta_indexada_valida_ainda_pode_exceder_vram_e_alterar_grande_parte_dos_pixels",
+      "context": "stage MUGEN com camera e PAL0 compartilhada",
+      "observation": "Derivar a largura de cada plano de `viewport + camera_span*delta` e medir a pior uniao visivel antes de discutir streaming ou residencia. O primeiro crop 512/512 subcontou o Suzaku em 130 tiles; corrigido para 520/624 e 1366 tiles. Uma paleta indexada valida ainda pode exceder VRAM e alterar grande parte dos pixels",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao e aprovacao estetica, conversor generico, custo ResComp ou prova de ROM; os deltas compostos continuam aproximados"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/mugen/stage_suzaku_route_2026_09_25.md",
+          "rascunho/processado/stage_takeover/v1/candidate_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_a5d80585e9650fcb",
+      "title": "Exigir scene_id observado quando target_scene e pedido: ROM direct-fight solicitou menu (2), mas SRAM mostrou luta (3). O runner agora reprova mismatch/ID ausente; build de menu isolado mostrou cena 2. `.agents/skills` era copia obsoleta e foi substituida por link apos backup e guard",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "exigir_scene_id_observado_quando_target_scene_e_pedido_rom_direct_fight_solicitou_menu_2_mas_sram_mostrou_luta_3_o_runner_agora_reprova_mismatch_id_ausente_build_de_menu_isolado_mostrou_cena_2_agents_skills_era_copia_obsoleta_e_foi_substituida_por_link_apos_backup_e_guard",
+      "context": "runner de cena e ponte de skills",
+      "observation": "Exigir scene_id observado quando target_scene e pedido: ROM direct-fight solicitou menu (2), mas SRAM mostrou luta (3). O runner agora reprova mismatch/ID ausente; build de menu isolado mostrou cena 2. `.agents/skills` era copia obsoleta e foi substituida por link apos backup e guard",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Audio bruto nao prova BGM, loop ou mix; scene_id pontual nao prova a transicao inteira; link so e correto neste workspace"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1606,7 +2445,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1652,7 +2491,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1698,9 +2537,102 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_9bd822cc702cdd3d",
+      "title": "Medidor de layers estaticas sozinho deixa um falso buraco de cobertura. Incluir AIR frame refs, tempos, offsets/flips, padroes nao vazios e janelas Enable do BGCtrl; marcar referencia SFF ausente e ciclo infinito como nao medido, nunca zerar silenciosamente",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "medidor_de_layers_estaticas_sozinho_deixa_um_falso_buraco_de_cobertura_incluir_air_frame_refs_tempos_offsets_flips_padroes_nao_vazios_e_janelas_enable_do_bgctrl_marcar_referencia_sff_ausente_e_ciclo_infinito_como_nao_medido_nunca_zerar_silenciosamente",
+      "context": "medicao de stage MUGEN com animacoes BGCtrl",
+      "observation": "Medidor de layers estaticas sozinho deixa um falso buraco de cobertura. Incluir AIR frame refs, tempos, offsets/flips, padroes nao vazios e janelas Enable do BGCtrl; marcar referencia SFF ausente e ciclo infinito como nao medido, nunca zerar silenciosamente",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Evidencia estatica de fonte, sem conversao/runtime; os ciclos/eventos precisam de ROM e prova audiovisual antes de alegar paridade"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_7ce54f39accf0c6f",
+      "title": "Medir `SPR_getFreeVRAM()` e `SPR_getLargestFreeVRAMBlock()` em uma sonda SRAM sem overlay renderizado. Pool 600: sob dois Ken max-power, 2941 amostras deram 247 tiles livres, mas o maior bloco era 72; sem falha, porem sem cenario e audio dummy. Nao escolher `SPR_initEx` por free total nem por contagem de sprites ativos",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "medir_spr_getfreevram_e_spr_getlargestfreevramblock_em_uma_sonda_sram_sem_overlay_renderizado_pool_600_sob_dois_ken_max_power_2941_amostras_deram_247_tiles_livres_mas_o_maior_bloco_era_72_sem_falha_porem_sem_cenario_e_audio_dummy_nao_escolher_spr_initex_por_free_total_nem_por_contagem_de_sprites_ativos",
+      "context": "residencia VRAM de background e pool de sprites",
+      "observation": "Medir `SPR_getFreeVRAM()` e `SPR_getLargestFreeVRAMBlock()` em uma sonda SRAM sem overlay renderizado. Pool 600: sob dois Ken max-power, 2941 amostras deram 247 tiles livres, mas o maior bloco era 72; sem falha, porem sem cenario e audio dummy. Nao escolher `SPR_initEx` por free total nem por contagem de sprites ativos",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Probe e E1, nao worst-case completo: audio dummy, stage ausente, 116/1200 acima do budget, FPS apenas snapshot. Exige comparacao pareada com stage/audio e allocator fragmentation"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/mugen/vram_residency_probe_2026_09_25.json"
         ],
         "gaps": [
           "operational_evidence_missing"
@@ -1744,9 +2676,56 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_e9bd860beb46aec6",
+      "title": "Performance probe deve declarar e controlar custo do overlay de debug. Um teste anterior com texto debug apresentou CPU max209 e 527/1200 acima do budget; probe posterior sem overlay teve 145 e 116/1200, mas flags/estado nao foram paridade estrita, portanto nao atribuir a diferenca causal ainda. Repetir A/B com mesma ROM exceto overlay e mesma entrada",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "performance_probe_deve_declarar_e_controlar_custo_do_overlay_de_debug_um_teste_anterior_com_texto_debug_apresentou_cpu_max209_e_527_1200_acima_do_budget_probe_posterior_sem_overlay_teve_145_e_116_1200_mas_flags_estado_nao_foram_paridade_estrita_portanto_nao_atribuir_a_diferenca_causal_ainda_repetir_a_b_com_mesma_rom_exceto_overlay_e_mesma_entrada",
+      "context": "contaminacao de medicao por overlay visual",
+      "observation": "Performance probe deve declarar e controlar custo do overlay de debug. Um teste anterior com texto debug apresentou CPU max209 e 527/1200 acima do budget; probe posterior sem overlay teve 145 e 116/1200, mas flags/estado nao foram paridade estrita, portanto nao atribuir a diferenca causal ainda. Repetir A/B com mesma ROM exceto overlay e mesma entrada",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Hipotese de contaminacao, nao conclusao quantitativa; custo do overlay continua por medir em pares identicos"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/mugen/vram_residency_probe_2026_09_25.json"
         ],
         "gaps": [
           "operational_evidence_missing"
@@ -1790,7 +2769,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1836,9 +2815,148 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_b26a9f8aa6bc46c8",
+      "title": "Quando a camera cruza uma cena larga, pesos de tres screenshots nao representam o caminho inteiro. Percorrer cada camera inteira e comparar preservacao dos deltas-fonte com minimax de deriva acumulada. Suzaku: 449 posicoes/32.184.320 amostras; discreto remapeia5,03%, mas piora45px; continuo minimax limita22,5px, mas remapeia14,33% e piora o erro/frame. O menor maximo ainda pode quebrar a relacao entre massas visuais",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "quando_a_camera_cruza_uma_cena_larga_pesos_de_tres_screenshots_nao_representam_o_caminho_inteiro_percorrer_cada_camera_inteira_e_comparar_preservacao_dos_deltas_fonte_com_minimax_de_deriva_acumulada_suzaku_449_posicoes_32_184_320_amostras_discreto_remapeia5_03_mas_piora45px_continuo_minimax_limita22_5px_mas_remapeia14_33_e_piora_o_erro_frame_o_menor_maximo_ainda_pode_quebrar_a_relacao_entre_massas_visuais",
+      "context": "otimizacao de parallax precisa de sweep de visibilidade e de dois objetivos",
+      "observation": "Quando a camera cruza uma cena larga, pesos de tres screenshots nao representam o caminho inteiro. Percorrer cada camera inteira e comparar preservacao dos deltas-fonte com minimax de deriva acumulada. Suzaku: 449 posicoes/32.184.320 amostras; discreto remapeia5,03%, mas piora45px; continuo minimax limita22,5px, mas remapeia14,33% e piora o erro/frame. O menor maximo ainda pode quebrar a relacao entre massas visuais",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Limite inferior estatico, sem ownership/priority A/B, BGCtrl, arte aprovada ou ROM; a decisao entre velocidades e composicao autoral, nao automatizavel por um escalar"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_fa179e86253d93bd",
+      "title": "Reaplicar o helper hash-bound deve retornar `already_applied` e preservar hashes de `.res`, C gerado, proveni\u00eancia, contrato de paleta e sheets; a suite na c\u00f3pia integrada deve refletir o uso efetivo do slot sem afrouxar o blocker global",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "reaplicar_o_helper_hash_bound_deve_retornar_already_applied_e_preservar_hashes_de_res_c_gerado_proveni_ncia_contrato_de_paleta_e_sheets_a_suite_na_c_pia_integrada_deve_refletir_o_uso_efetivo_do_slot_sem_afrouxar_o_blocker_global",
+      "context": "integra\u00e7\u00e3o idempotente sob assets aprovados",
+      "observation": "Reaplicar o helper hash-bound deve retornar `already_applied` e preservar hashes de `.res`, C gerado, proveni\u00eancia, contrato de paleta e sheets; a suite na c\u00f3pia integrada deve refletir o uso efetivo do slot sem afrouxar o blocker global",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "N\u00e3o generalizar a paleta: Ken segue em 24/15, e o AIR aprovado continua limitado a 750,1; proposta local, exige revis\u00e3o humana antes de curadoria can\u00f4nica"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_164bc917fcb5735f",
+      "title": "res_graph` deve descobrir somente `res/**/*.res` no modo padrao; copias de laboratorio exigem -ResPath explicito. O escopo recursivo antigo contou 11 manifests e 484 issues falsos; o ativo tem 3 manifests/161 declaracoes e 1 aviso real. Link relativo de skills deve resolver contra a pasta da ponte",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "res_graph_deve_descobrir_somente_res_res_no_modo_padrao_copias_de_laboratorio_exigem_respath_explicito_o_escopo_recursivo_antigo_contou_11_manifests_e_484_issues_falsos_o_ativo_tem_3_manifests_161_declaracoes_e_1_aviso_real_link_relativo_de_skills_deve_resolver_contra_a_pasta_da_ponte",
+      "context": "auditoria de recursos vs rascunho",
+      "observation": "res_graph` deve descobrir somente `res/**/*.res` no modo padrao; copias de laboratorio exigem -ResPath explicito. O escopo recursivo antigo contou 11 manifests e 484 issues falsos; o ativo tem 3 manifests/161 declaracoes e 1 aviso real. Link relativo de skills deve resolver contra a pasta da ponte",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao remove o aviso de tiles carregados por codigo nem os 11 sprites grandes; quantidade baixa de issues nao aprova AAA"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/logs/res_graph_summary.md"
         ],
         "gaps": [
           "operational_evidence_missing"
@@ -1882,7 +3000,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1928,7 +3046,53 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_6229702a613705fa",
+      "title": "Testar os offsets do cabecalho VGM v1.70 com referencia independente: o builder deslocava total/loop/rate em +4 bytes, apesar de ResComp aceitar. Corrigido e compilado; alvo absoluto do loop e 0x100",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-25",
+      "problem_signature": "testar_os_offsets_do_cabecalho_vgm_v1_70_com_referencia_independente_o_builder_deslocava_total_loop_rate_em_4_bytes_apesar_de_rescomp_aceitar_corrigido_e_compilado_alvo_absoluto_do_loop_e_0x100",
+      "context": "VGM gerado e observacao de audio",
+      "observation": "Testar os offsets do cabecalho VGM v1.70 com referencia independente: o builder deslocava total/loop/rate em +4 bytes, apesar de ResComp aceitar. Corrigido e compilado; alvo absoluto do loop e 0x100",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Audio float32 nao nulo em ambas as ROMs; nao atribuir melhoria audivel ou qualidade da juncao sem escuta/evento sincronizado"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1974,7 +3138,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -2020,7 +3184,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -2066,7 +3230,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "not_applicable",
+        "freshness": "fresh",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -2153,6 +3317,14 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_bd69240eacd66c4e",
+      "title": "Conceitos gerados afastaram Suzaku da fonte antes de esgotar arquitetura",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_72531e1fec6aba47",
       "title": "Cortina de coluna corta a bigorna; wipe apaga o ferro; unpack APLIB 8x + WINDOW some com o MASTER",
       "lifecycle_status": "evidence_incomplete",
@@ -2249,8 +3421,24 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_d647311cdcb48052",
+      "title": "O V17 ficou forte como imagem isolada, mas moveu lua/castelo/roof como se compartilhassem um unico eixo mundial e reduziu a faixa de piso",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_2d294633e2781391",
       "title": "Passos consecutivos no mesmo tick (soltar D e apertar DF) nao casavam",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_cddb9b92f710f1d8",
+      "title": "Perfis que cabem matematicamente em dois speeds ainda podem mover a lua/castelo para fora da leitura ou abrir pixels magenta no extremo",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",
@@ -2281,8 +3469,72 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_c33a66e9aa2e6527",
+      "title": "Relatorio removeu todas as linhas y0..55 do custo do stage por assumir que a regiao WINDOW era opaca; o HUD real deixa celulas sem preenchimento",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_5fee1a6af783684b",
+      "title": "Stage-plane tool recusou BG_B integralmente transparente",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_bed14036cee0a1e6",
+      "title": "stage_measure classificava cores diferente do conversor",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_2d9c97b5171a534d",
       "title": "sVramAuthor = sVramBgA` apaga a bigorna em F451",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_214fe64bbbd7dfe5",
+      "title": "Tornar o ceu do V15 transparente e apontar o backdrop a CRAM[3] reconstruiu os pixels, mas elevou ResComp de 915 para 924 tiles e a pior janela de 42 colunas de 543 para 547",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_36dcc7edb8f7016f",
+      "title": "Um landmark pareceu duplicado em left/center/right",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_b25db80039122ba6",
+      "title": "V2 detalhado foi melhor em detalhe percebido, mas ocupou 1.664 tiles; V3 8-color teve menor weighted MSE mas ainda passou 125 tiles do teto estimado",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_8e5c635574883d4a",
+      "title": "V3 locked-six fecha em 446 tiles contra teto estimado de 446",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7fdc0e71ace18374",
+      "title": "validate_resources` reportou pool de luta 16 contra 600",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",
@@ -2327,6 +3579,14 @@
       "evidence_grade": "E1_artifact",
       "action": "create_skill",
       "target_path": null
+    },
+    {
+      "lesson_id": "lesson_9e62ed31b1a9f329",
+      "title": "Regra existente sobre budget pass and visual pass remain independent gates: avaliar edicao minima + decomposicao de sprite antes de relaxar o teto",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
     }
   ],
   "canonical_promotion_performed": false

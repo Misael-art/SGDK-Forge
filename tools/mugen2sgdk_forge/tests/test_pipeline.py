@@ -265,6 +265,20 @@ def test_generator_is_deterministic(tmp_path):
     assert "float" not in c and "double" not in c and "malloc" not in c
 
 
+def test_sprite_compression_is_explicit_and_default_remains_fast(tmp_path):
+    pkg = make_pkg(tmp_path)
+    fast, raw = tmp_path / "fast", tmp_path / "raw"
+    for project in (fast, raw):
+        (project / "doc").mkdir(parents=True)
+    cli.convert_char(pkg, "fixture", fast)
+    report = cli.convert_char(pkg, "fixture", raw, sprite_compression="NONE")
+    fast_res = (fast / "res/mgres_fixture.res").read_text()
+    raw_res = (raw / "res/mgres_fixture.res").read_text()
+    assert " FAST 0 NONE BALANCED" in fast_res
+    assert " NONE 0 NONE BALANCED" in raw_res
+    assert report["generator"]["sprite_compression"] == "NONE"
+
+
 def test_large_frame_is_split_into_valid_parts():
     from mugen2sgdk_forge.parsers.sff import Sprite
     from PIL import Image

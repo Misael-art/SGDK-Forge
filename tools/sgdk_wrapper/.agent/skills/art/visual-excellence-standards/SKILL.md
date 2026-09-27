@@ -603,6 +603,12 @@ Regra de ouro:
 - Em traducao elite, quantizacao cega so pode servir de controle.
 - O resultado canônico vem de curadoria manual semantica: escolher quais rampas ficam, quais tons fundem e qual highlight realmente merece sobreviver.
 
+#### Backdrop como decisao de paleta
+- Escolha a cor de backdrop para harmonizar o campo visivel com os planos, lutadores e HUD sem apagar silhuetas nem reduzir a hierarquia de contraste.
+- No SGDK 2.11, `VDP_setBackgroundColor(value)` escolhe um indice CRAM global de 0..63; nao recebe RGB, nao carrega a cor e nao cria um slot. Prefira apontar para uma palavra CRAM ja carregada que corresponda exatamente apos a quantizacao do VDP.
+- Um pixel transparente pode revelar o backdrop somente quando os planos abaixo tambem nao o cobrem. Trocar preenchimento plano por indice 0 exige provar a composicao das duas layers, HUD, limites de mapa e efeitos fullscreen nos extremos da camera.
+- Aponte para uma palavra ja carregada para evitar uma cor exclusiva; a transparencia so libera um slot de cor se nenhum tile opaco continuar a usar essa cor. Nao declare economia de VRAM apenas porque o backdrop mudou: conte tiles de preenchimento e bytes/mapas efetivamente poupados.
+
 ### Review de tileset
 - `palette_strip`, `tileset_sheet` e auditoria de `H-Flip` ajudam a revelar disciplina estrutural real.
 - Isso e criterio de review e planejamento de VRAM, nao objetivo estetico isolado.
@@ -1077,3 +1083,11 @@ Nenhum dos dois libera `visual_quality`. Um veredito de qualidade exige criterio
 observaveis, leitura em 320x224, comparacao com a referencia/papel visual e
 evidencia hash-bound; oito frames, GIF, screenshot ou metadata sem essa comparacao
 ficam em `needs_review`.
+
+## Curadoria MUGEN — 2026-09-25
+
+Em conversao MUGEN, HUD, FX e planejamento do cenario, aplicar a
+[curadoria operacional de 2026-09-25](../../../references/mugen_curation_operational_2026_09_25.md). Ela qualifica paletas proprias,
+mascara, grid PNG, footprints de limpeza HUD, provas forcadas, budgets e
+reuso de evidencia. As correcoes substituem generalizacoes antigas de escala,
+WINDOW e custo universal. Promocao de instrucao nao aprova arte nem ROM.

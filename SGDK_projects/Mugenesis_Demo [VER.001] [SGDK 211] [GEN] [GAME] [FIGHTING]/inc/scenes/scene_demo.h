@@ -3,5 +3,6 @@
 
 void SCENE_demoEnter(void);
 void SCENE_demoUpdate(void);
+void SCENE_demoExit(void);
 
 #endif

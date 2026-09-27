@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Controlled Stage 3 compile and runtime matrix for base, flash-only, shake-only, and both effects",
+  "status": "matrix_measured_visual_motion_observed_attribution_pending",
+  "project": "Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "source_commit": "7cf00ed8243536d73ea0affa07dba6822c1c511b",
+  "working_tree_source_sha256": {
+    "src/mg/mg_fight.c": "7c8a201bfe0cb8d2353ee4ce8ad006802357fa1380ff5d420c75603655478c58",
+    "src/scenes/scene_demo.c": "ece1d102301e62907c3b5ebb1b579be38edf9a8aa162002ff3b3e61291cb3ee8"
+  },
+  "build": {
+    "wrapper": "tools/sgdk_wrapper/build_sgdk_wine_bridge.sh",
+    "sdk_content_sha256": "d25987b0363ddd0c9f4918c074e6312a2f53d108d1fa5ec58c419e821d73f6b3",
+    "compiler_config": "-DMG_TEST_SCRIPT; P2 idle; same scripted P1 input; per-mode effect-disable flags below",
+    "production_rom_replaced": false,
+    "output_root": "out/stage3_matrix/",
+    "rom_artifact_name": "rom.bin",
+    "rom_out_note": "rom.out is an ELF linker output, not the Mega Drive ROM; it must not be launched by BlastEm"
+  },
+  "capture_configuration": {
+    "emulator": "BlastEm Flatpak Linux",
+    "target_scene": 3,
+    "region_requested": "ntsc",
+    "region_forced_by_emulator": "U",
+    "audio_driver": "disk",
+    "warmup_seconds": 24,
+    "burst_delay_seconds": 18,
+    "burst_frame_count": 30,
+    "burst_interval_seconds": 0.03,
+    "sram_seed_recipe": "SBIS block at SRAM offset 0x120 with version=1, size=12, scene_id=3, checksum=0xA55A XOR version XOR size XOR scene_id",
+    "same_configuration_for_all_modes": true
+  },
+  "tests": {
+    "initial_branch_suite": "python3 -m pytest tools/mugen2sgdk_forge/tests -q -ra: 70 passed, no skips reported, run before the test-only compile gates",
+    "directed_after_compile_gates": "python3 -m pytest tools/mugen2sgdk_forge/tests/test_host_runtime.py::test_impact_fx_shake_on_heavy_flash_on_hit -q -ra: 1 passed",
+    "full_suite_rerun": false
+  },
+  "freshness": {
+    "session_bundle_reports": "all matrix and corrected event session freshness_report.json files report status=ok",
+    "project_freshness_audit": {
+      "status": "warning",
+      "generated_at": "2026-09-25T00:50:02.1075853Z",
+      "checks_total": 10,
+      "stale_count": 1,
+      "missing_required_count": 2,
+      "errors": 0,
+      "findings": [
+        "validation_report stale after the new capture",
+        "scene_contract_compile report missing",
+        "res_graph report missing",
+        "doc/13-spec-cenas.md predates latest evidence (informational)"
+      ]
+    },
+    "report_path": "out/logs/freshness_audit_report.json"
+  },
+  "modes": [
+    {
+      "mode": "base",
+      "build_flags": [
+        "-DMG_TEST_SCRIPT",
+        "-DMG_TEST_DISABLE_STAGE3_FLASH",
+        "-DMG_TEST_DISABLE_STAGE3_SHAKE"
+      ],
+      "rom_sha256": "46747958fa666f0cca70235943da32bb35936b8bb1f8c872ea24ca407fddc275",
+      "session_id": "blastem-linux-20260925T001928Z-239692",
+      "session_path": "out/mugenesis_evidence/stage3_matrix/base/blastem-linux-20260925T001928Z-239692/",
+      "mdrt": {
+        "scene_id": 3,
+        "scene_frames": 1291,
+        "measured_post_warmup": 1200,
+        "over_budget": 250,
+        "over_budget_percent": 20.8,
+        "max_cpu": 145,
+        "max_line_sprites": 9,
+        "frames_line_sprites_gt20": 0,
+        "max_line_pixels": 248,
+        "frames_line_pixels_gt320": 0
+      },
+      "audio_bytes": 19628032,
+      "bundle_status": "sealed"
+    },
+    {
+      "mode": "flash_only",
+      "build_flags": [
+        "-DMG_TEST_SCRIPT",
+        "-DMG_TEST_DISABLE_STAGE3_SHAKE"
+      ],
+      "rom_sha256": "50aad339660d3ee014ba823e76e50f826adb61003c56fa611d89ce982681b576",
+      "session_id": "blastem-linux-20260925T002055Z-244183",
+      "session_path": "out/mugenesis_evidence/stage3_matrix/flash_only/blastem-linux-20260925T002055Z-244183/",
+      "mdrt": {
+        "scene_id": 3,
+        "scene_frames": 1291,
+        "measured_post_warmup": 1200,
+        "over_budget": 250,
+        "over_budget_percent": 20.8,
+        "max_cpu": 145,
+        "max_line_sprites": 9,
+        "frames_line_sprites_gt20": 0,
+        "max_line_pixels": 248,
+        "frames_line_pixels_gt320": 0
+      },
+      "audio_bytes": 21438464,
+      "bundle_status": "sealed"
+    },
+    {
+      "mode": "shake_only",
+      "build_flags": [
+        "-DMG_TEST_SCRIPT",
+        "-DMG_TEST_DISABLE_STAGE3_FLASH"
+      ],
+      "rom_sha256": "77f637849f8eb1845cdbe451da35c1d2907786649f5883f71076fbe377571282",
+      "session_id": "blastem-linux-20260925T002223Z-249163",
+      "session_path": "out/mugenesis_evidence/stage3_matrix/shake_only/blastem-linux-20260925T002223Z-249163/",
+      "mdrt": {
+        "scene_id": 3,
+        "scene_frames": 1291,
+        "measured_post_warmup": 1200,
+        "over_budget": 250,
+        "over_budget_percent": 20.8,
+        "max_cpu": 145,
+        "max_line_sprites": 9,
+        "frames_line_sprites_gt20": 0,
+        "max_line_pixels": 248,
+        "frames_line_pixels_gt320": 0
+      },
+      "audio_bytes": 21299200,
+      "bundle_status": "sealed"
+    },
+    {
+      "mode": "both",
+      "build_flags": [
+        "-DMG_TEST_SCRIPT"
+      ],
+      "rom_sha256": "94139f16dbaacfc4ae6a6312e515f2c3224ffd8b81edbca99be3d36e173eb1d2",
+      "session_id": "blastem-linux-20260925T002347Z-257296",
+      "session_path": "out/mugenesis_evidence/stage3_matrix/both/blastem-linux-20260925T002347Z-257296/",
+      "mdrt": {
+        "scene_id": 3,
+        "scene_frames": 1291,
+        "measured_post_warmup": 1200,
+        "over_budget": 250,
+        "over_budget_percent": 20.8,
+        "max_cpu": 145,
+        "max_line_sprites": 9,
+        "frames_line_sprites_gt20": 0,
+        "max_line_pixels": 248,
+        "frames_line_pixels_gt320": 0
+      },
+      "audio_bytes": 21151744,
+      "bundle_status": "sealed"
+    }
+  ],
+  "interpretation": {
+    "all_four_windows_closed": true,
+    "scanline_overflow_observed": false,
+    "controlled_matrix_result": "identical MDRT aggregates across the four variants: 250/1200 over budget, CPU max 145, 9 sprites and 248 pixels max per line",
+    "historical_flash_only_capture": "ROM 595116bccccd83e0fc45c30cd8a3da9d31dfe0c385182854821eca02494d3623 measured 71/1200 (5.9%), but it is a different ROM and non-scripted state; it is not the base for this controlled matrix",
+    "visual_review": "Contact sheets were reviewed for all four matrix bursts. An additional 90-frame burst from the valid both ROM shows the defender's palette flash clearly on frames 83-85 and a hit/recoil sequence. A separate high-power probe now records transient screen-space movement against a stationary HUD and floor-shadow anchor in the both ROM; the Stage 3 contribution is not isolated from legacy EnvShake and visual-quality approval remains pending. Details are in doc/mugen/stage3_event_probe_2026_09_25.json.",
+    "fps_claim": "not established; window-title FPS is a point snapshot only",
+    "audio_claim": "not established; non-empty disk audio sidecars do not prove audible quality or mix",
+    "emulator_exit": "The capture wrapper records an X11 BadWindow exit after window close on this host; each bundle sealed with matching ROM SHA and semantic_capture_valid=true. This is a host close behavior, not a game failure.",
+    "pull_requests": {
+      "PR21": {
+        "state": "OPEN",
+        "isDraft": false,
+        "mergeable": "MERGEABLE",
+        "head": "f3b92bb919ab2fd5a01f7a656d0893d1a0e7a2f9"
+      },
+      "PR22": {
+        "state": "OPEN",
+        "isDraft": true,
+        "mergeable": "MERGEABLE",
+        "head": "7cf00ed8243536d73ea0affa07dba6822c1c511b"
+      },
+      "merge_or_cherry_pick_performed": false
+    },
+    "limits": [
+      "No art-integrated ROM was built",
+      "No production res/ assets changed",
+      "No 60 fps, AAA, or audiovisual approval claim",
+      "The earlier 71/1200 ROM result cannot be substituted into this matrix"
+    ]
+  },
+  "event_burst": {
+    "mode": "both",
+    "session_id": "blastem-linux-20260925T004004Z-390245",
+    "session_path": "out/mugenesis_evidence/stage3_event_corrected/blastem-linux-20260925T004004Z-390245/",
+    "rom_sha256": "94139f16dbaacfc4ae6a6312e515f2c3224ffd8b81edbca99be3d36e173eb1d2",
+    "bundle_status": "sealed",
+    "capture_configuration": {
+      "target_scene": 3,
+      "region": "ntsc/U",
+      "audio_driver": "disk",
+      "delay_seconds": 17.6,
+      "frame_count": 90,
+      "interval_seconds": 0.02
+    },
+    "vlab_scope": {
+      "sample_count": 32,
+      "over_budget_frames": 242,
+      "max_cpu_load": 145,
+      "max_scanline_sprites": 9,
+      "window_title_fps_snapshot": 59.6,
+      "sustained_performance_proven": false
+    },
+    "audio_bytes": 27467776,
+    "observed": {
+      "palette_flash": "visible on the defender around frames 83-85",
+      "hit_motion": "visible",
+      "camera_shake_visual_approval": "pending; transient displacement is observed in the separate high-power probe, but Stage 3 impact shake is not isolated from legacy EnvShake and quality is not approved",
+      "art_integration": "none"
+    },
+    "contact_sheet": "out/mugenesis_evidence/stage3_event_corrected/blastem-linux-20260925T004004Z-390245/event_contact_sheet.png"
+  },
+  "rejected_attempt": {
+    "session_id": "blastem-linux-20260925T003546Z-357558",
+    "cause": "The ELF linker output out/stage3_matrix/both/rom.out (SHA-256 3d1e232590b702d3b5067488961f59039daa95bdeabdee7e9893a1b48d508ed8, 1197028 bytes) was accidentally passed to BlastEm instead of the valid 1 MiB rom.bin. The black capture and missing VDP/VLAB artifacts are rejected and excluded from every claim.",
+    "preserved": true
+  },
+  "visual_contact_sheets": [
+    "out/mugenesis_evidence/stage3_matrix/base/blastem-linux-20260925T001928Z-239692/contact_sheet.png",
+    "out/mugenesis_evidence/stage3_matrix/flash_only/blastem-linux-20260925T002055Z-244183/contact_sheet.png",
+    "out/mugenesis_evidence/stage3_matrix/shake_only/blastem-linux-20260925T002223Z-249163/contact_sheet.png",
+    "out/mugenesis_evidence/stage3_matrix/both/blastem-linux-20260925T002347Z-257296/contact_sheet.png"
+  ]
+}

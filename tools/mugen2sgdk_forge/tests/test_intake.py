@@ -25,6 +25,19 @@ def _les(i, owner="real-skill"):
 
 
 class IntakeIndex(unittest.TestCase):
+    def test_curated_wording_preserves_source_and_nonpromotion(self):
+        with tempfile.TemporaryDirectory() as t:
+            repo = _repo(Path(t), [_les("a")], [{
+                "id": "a", "verdict": "rejeitar_generalizacao",
+                "curated_lesson": "Instrucao qualificada; evidencia adicional pendente.",
+                "promotion": "not_promoted", "canonized_in": [],
+            }])
+            intake.write(repo)
+            row = intake.build(repo)["lessons"][0]
+            self.assertEqual(row["source_lesson"], "l")
+            self.assertEqual(row["lesson"], "Instrucao qualificada; evidencia adicional pendente.")
+            self.assertEqual(intake.check(repo), [])
+
     def test_clean_then_drift(self):
         with tempfile.TemporaryDirectory() as t:
             repo = _repo(Path(t), [_les("a")], [{"id": "a", "verdict": "qualificar", "next_action": "G03",

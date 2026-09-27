@@ -1,0 +1,87 @@
+{
+  "schema_version": "stage3_event_probe.v1",
+  "status": "transient_screen_motion_observed_visual_quality_pending",
+  "purpose": "high_power_visual_event_probe_for_flash_and_camera_shake",
+  "claim_ceiling": "captured_event_observation_only",
+  "source_revision": "7cf00ed8243536d73ea0affa07dba6822c1c511b",
+  "builds": {
+    "base": {
+      "compile_defines": [
+        "MG_TEST_SCRIPT",
+        "MG_TEST_FULL_POWER",
+        "MG_TEST_DISABLE_STAGE3_FLASH",
+        "MG_TEST_DISABLE_STAGE3_SHAKE"
+      ],
+      "rom": "out/stage3_event_probe/base/rom.bin",
+      "rom_sha256": "eb625c3c7dbbfa1c36ea61a44e26e77aef72219071812dc2c96c1cb78b3ed3a3",
+      "session_id": "blastem-linux-20260925T010729Z-509077",
+      "evidence_dir": "out/mugenesis_evidence/stage3_event_probe/base/blastem-linux-20260925T010729Z-509077"
+    },
+    "both": {
+      "compile_defines": [
+        "MG_TEST_SCRIPT",
+        "MG_TEST_FULL_POWER"
+      ],
+      "rom": "out/stage3_event_probe/both/rom.bin",
+      "rom_sha256": "23e03215fb5e11c38736f695bdcb18ecaff28c383f9fee82baafa3903e958826",
+      "session_id": "blastem-linux-20260925T010853Z-515954",
+      "evidence_dir": "out/mugenesis_evidence/stage3_event_probe/both/blastem-linux-20260925T010853Z-515954"
+    }
+  },
+  "capture_config": {
+    "emulator": "BlastEm Flatpak",
+    "scene_id": 3,
+    "region": "NTSC/U",
+    "audio_driver": "disk",
+    "warmup_seconds": 24,
+    "burst_delay_seconds": 3,
+    "burst_frame_count": 150,
+    "burst_interval_seconds": 0.02,
+    "burst_scope": "event_window_only",
+    "semantic_capture_gate": "passed_for_both",
+    "evidence_bundle_status": "sealed_for_both"
+  },
+  "observations": {
+    "impact_and_recoil": "visible in both captures",
+    "defender_palette_flash": "visible during the both-effects capture; the visual sequences do not align closely enough to isolate causation in this pair",
+    "camera_shake": "transient screen displacement is measurable in the both-effects capture relative to the fixed HUD; effect-specific attribution and visual-quality approval remain pending because this is not a phase-synchronized base/both comparison and MUGEN EnvShake also contributes to screen_y",
+    "sustained_fps": "not_proven",
+    "audio_quality": "not_proven",
+    "vdp_snapshot": "32 sampled runtime counters per bundle; not a replacement for the controlled 1200-frame matrix",
+    "window_title_snapshot": "59.8 fps in both; a single title snapshot does not prove sustained cadence"
+  },
+  "visual_motion_analysis": {
+    "both_capture": "out/mugenesis_evidence/stage3_event_probe/both/blastem-linux-20260925T010853Z-515954",
+    "reference_frame": "animation_frames/frame_024.png",
+    "player_roi_captured_pixels": [135, 260, 325, 405],
+    "player_roi_foreground_pixel_count": 11894,
+    "frame_offsets_from_reference_captured_pixels": {
+      "frame_026": {"offset": [4, 4], "exact_foreground_matches": 11310, "match_ratio": 0.9509},
+      "frame_027": {"offset": [4, 4], "exact_foreground_matches": 11614, "match_ratio": 0.9765},
+      "frame_028": {"offset": [4, 4], "exact_foreground_matches": 11610, "match_ratio": 0.9761},
+      "frame_029": {"offset": [-4, 2], "exact_foreground_matches": 11894, "match_ratio": 1.0},
+      "frame_030": {"offset": [0, 0], "exact_foreground_matches": 11894, "match_ratio": 1.0},
+      "frame_031": {"offset": [-4, 0], "exact_foreground_matches": 11894, "match_ratio": 1.0}
+    },
+    "fixed_hud_roi": {"captured_pixels": [0, 0, 640, 75], "best_translation_for_frames_026_to_031": [0, 0]},
+    "floor_shadow_check": "In the left fighter's floor-shadow patch, the dark shadow's top edge is y=410 at frame 024, y=414 at frames 026-028, y=412 at frame 029, and back to y=410 at frame 030. The shadow is positioned from floor_y plus shake_y in mg_fight.c, independently of the fighter's vertical pose.",
+    "base_reference": "The same attacker-body template matches at zero offset in base frames 032-035. These are separate capture windows and support visual context only; they do not phase-lock the two ROMs.",
+    "frame_sha256": {
+      "frame_024": "ab44cafc973057cd28a4237ac020d76c4e1ff340c7cbb136f17ad36210fecede",
+      "frame_026": "1ed7b65e64f68525f2691a927787607ed7003e4bc41fd734705d602dc4e7feeb",
+      "frame_027": "8678775f5427f458a724aaf995d7efaeb39d880800614a8aa480c635bd973fe0",
+      "frame_028": "2a9edf2dc3ae2b289165118920e2393186a5fb9068331dd595310daf3fcb6202",
+      "frame_029": "2386f6d0bcbae473dc4a1d3618597ec7f47820683b3dc03b9f007496cfd089d4",
+      "frame_030": "913dde349c6c7c4925bef49fd3cdccb1d62dc2ba5409cdca344ca98019f66543",
+      "frame_031": "b12d1a4a866ecbcc6b2db7372a8d48018da7a9ca4da4ba19ae8b384855a367e4"
+    },
+    "interpretation": "A stable-pose match and fixed-HUD comparison demonstrate visible screen-space movement in the running both ROM. The game combines Stage 3 impact shake with legacy vertical EnvShake, so this trace does not identify their individual contributions or approve shake quality."
+  },
+  "limits": [
+    "This event probe is separate from the four-variant 1200-frame Stage 3 performance matrix.",
+    "The 150-frame burst demonstrates only captured visual states and does not establish sustained frame rate or audio quality.",
+    "Visible transient screen movement is recorded; the independent Stage 3 contribution and perceptual quality remain unapproved.",
+    "No production source, res asset, or runtime default was changed for this probe."
+  ],
+  "next_action": "Keep visual-quality approval pending; if effect-specific attribution is required, capture a phase-synchronized shake-only versus base event or isolate legacy EnvShake from the event using an existing test configuration."
+}

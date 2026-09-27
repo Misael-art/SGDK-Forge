@@ -1,5 +1,26 @@
 # 11 - Game Design Document — Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## Escopo autorizado de HUD e proxima fase (2026-09-25)
+
+O corte de demonstracao de luta prioriza leitura do rosto, vida, rounds,
+combo e especial. P1/P2 iniciam nos cantos opostos. Barras de especial ficam
+junto aos cantos; energia cheia exibe `SUPER` e pisca; ao gastar, a
+apresentacao descarrega com desaceleracao sem mudar a regra de combate.
+Estrelas de vitoria e combo permanecem distintos. O retrato preserva a
+expressao da fonte e recebe moldura legivel/externo transparente quando a
+arte 32x32 nativa passar pela revisao visual.
+
+Proxima fase autorizada para estudo e implementacao sequencial: Suzaku
+reautorado dentro do budget medido, camera de palco e cantos, diferenca
+de profundidade por scroll, chao com velocidades por linha, elementos
+ambientais ligados a eventos e trilha/SFX auditados em jogo. Objetos
+destrutiveis dependem de escolha de palco e contrato de gameplay. O plano
+com ordem, dependencias e gates esta em
+`doc/mugen/hud_stage_review_2026_09_25.md`.
+
+Este registro especifica o pedido novo; as secoes de template abaixo
+continuam incompletas e nao sustentam claim de jogo completo/AAA.
+
 ## Project Brief
 
 - [qual e a promessa central do jogo]

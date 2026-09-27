@@ -44,3 +44,14 @@ IMAGE   img_logo_project_v2   "branding/logo_project_224x48.png"         BEST
 IMAGE   img_presents_text_v2  "branding/presents_text_96x16.png"         BEST
 IMAGE   img_presents_bar_v2   "branding/presents_bar_8x8.png"            NONE
 // =====================================================================
+
+// Source-derived Suzaku anchor. Native 8-colour contract; stage and HUD share PAL0.
+IMAGE img_suzaku_anchor "bgs/suzaku/source_anchor_8_bleed.png" NONE ALL
+// Experimental source-faithful two-plane split; both plates use the same eight PAL0 colors.
+IMAGE img_suzaku_far "bgs/suzaku/source_far_8_bleed.png" NONE ALL
+IMAGE img_suzaku_near "bgs/suzaku/source_near_8_bleed.png" NONE ALL
+// Lab stream pack: 1608 canonical patterns shared by both source-derived world maps.
+TILESET suzaku_stream_patterns "bgs/suzaku/source_stream_pattern_atlas.png" NONE NONE
+
+// Existing authored Suzaku score; perceptual mix review remains pending.
+XGM2 mus_suzaku_fight "music/suzaku_fight_loop.vgm"

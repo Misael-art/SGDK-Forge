@@ -20,6 +20,7 @@ from dataclasses import dataclass, field
 from PIL import Image
 
 from ..parsers import ini, sff
+from ..vdp_authoring import png_palette_for_words
 from .sprites import _kmeans, _nearest, to_vdp, vdp_word
 
 FIRST_SLOT = 9                       # PAL0 9..15 = 7 cores do HUD
@@ -253,6 +254,27 @@ def convert(pkg_path) -> Hud:
                 seq.append(t)
         add("win", seq)
 
+    # Preserve a native authored font for SUPER (48x8), without scaling or
+    # drawing substitute glyphs. Appended so existing tile offsets stay stable.
+    small_fonts = [f for f in fonts.values() if f[1][1] <= 8
+                   and all(c in f[2] for c in "SUPER")
+                   and sum(f[2][c][1] for c in "SUPER") <= 48]
+    if small_fonts:
+        font = max(small_fonts, key=lambda f: (f[1][1], sum(f[2][c][1] for c in "SUPER")))
+        img, size, glyphs = font
+        w, h, px = _to_rgb_pixels(img)
+        line = [[0] * 48 for _ in range(8)]
+        x0 = (48 - sum(glyphs[c][1] for c in "SUPER")) // 2
+        for char in "SUPER":
+            gx, gw = glyphs[char]
+            for y in range(min(size[1], h)):
+                for x in range(gw):
+                    color = px[y * w + gx + x]
+                    line[y][x0 + x] = slot_of(color) if color else 0
+            x0 += gw
+        add("super_label", [[line[y][tx * 8 + x] for y in range(8) for x in range(8)]
+                            for tx in range(6)])
+
     sheet = Image.new("P", (8 * len(tiles), 8), 0)
     buf = bytearray(8 * len(tiles) * 8)
     W = 8 * len(tiles)
@@ -261,11 +283,11 @@ def convert(pkg_path) -> Hud:
             for x in range(8):
                 buf[y * W + i * 8 + x] = t[y * 8 + x]
     sheet = Image.frombytes("P", (W, 8), bytes(buf))
-    flat = []
-    for k in range(16):
-        c = cols[k - FIRST_SLOT] if k >= FIRST_SLOT else (250, 0, 250)
-        flat += list(c)
+    flat = png_palette_for_words(words)
+    for k in range(FIRST_SLOT):
+        flat[k * 3:k * 3 + 3] = [238, 0, 238]  # reserved PAL0 slots keep their prior value
     sheet.putpalette(flat)
+    sheet.info["transparency"] = 0
 
     # mensagens: recorte ao conteudo, quantizacao nos slots do HUD, metades <= 248 px, 8-alinhado
     messages = {}
@@ -295,6 +317,7 @@ def convert(pkg_path) -> Hud:
                         data[y * pw + x] = slot_of(c)
             im = Image.frombytes("P", (pw, ph), bytes(data))
             im.putpalette(flat)
+            im.info["transparency"] = 0
             parts.append(im)
         messages[name] = parts
 

@@ -608,6 +608,27 @@ function Add-Detail($results, $type, $level, $message, $resource, $file, $extra 
     Add-RiskTaxonomyEntry -results $results -detail $detail
 }
 
+$script:CompiledSpriteAudit = $null
+function Get-CompiledSpriteProof([string]$ResourceName) {
+    if ($null -eq $script:CompiledSpriteAudit) {
+        $auditTool = Join-Path $PSScriptRoot 'audit_compiled_sprite_limits.py'
+        $python = Get-Command python3 -ErrorAction SilentlyContinue
+        if ($null -eq $python) { $python = Get-Command python -ErrorAction SilentlyContinue }
+        if ($null -ne $python -and (Test-Path -LiteralPath $auditTool)) {
+            $auditPath = Join-Path $LOG_DIR 'compiled_sprite_limits_report.json'
+            $null = & $python.Source $auditTool --project-root $ProjectRoot --output $auditPath 2>$null
+            if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $auditPath)) {
+                try { $script:CompiledSpriteAudit = Get-Content -LiteralPath $auditPath -Raw -Encoding UTF8 | ConvertFrom-Json }
+                catch { $script:CompiledSpriteAudit = $null }
+            }
+        }
+    }
+    if ($null -eq $script:CompiledSpriteAudit -or $script:CompiledSpriteAudit.status -ne 'passed') { return $null }
+    $property = $script:CompiledSpriteAudit.sprites.PSObject.Properties[$ResourceName]
+    if ($null -eq $property -or $property.Value.status -ne 'proved') { return $null }
+    return $property.Value
+}
+
 function Test-CloseoutOnlyBlockingStatus($status) {
     $normalizedStatus = Get-SafeString $status ""
     return $normalizedStatus -in @(
@@ -3184,7 +3205,16 @@ function Get-AgentBootstrapStatus {
                 $isReparsePoint = ($bridgeItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0
                 $isLink = $isReparsePoint -and ($result.agents_bridge.link_type -in @("Junction", "SymbolicLink"))
                 $expectedFull = [System.IO.Path]::GetFullPath($expectedTarget)
-                $actualFull = if ($actualTarget) { [System.IO.Path]::GetFullPath($actualTarget) } else { "" }
+                # A portable symlink target is relative to the link's parent,
+                # not the current project directory where this validator runs.
+                $actualFull = if ($actualTarget) {
+                    $candidate = if ([System.IO.Path]::IsPathRooted($actualTarget)) {
+                        $actualTarget
+                    } else {
+                        Join-Path (Split-Path $bridgePath -Parent) $actualTarget
+                    }
+                    [System.IO.Path]::GetFullPath($candidate)
+                } else { "" }
 
                 if (-not $isLink) {
                     $result.bootstrap_degradado = $true
@@ -4145,12 +4175,25 @@ foreach ($res in $resFiles) {
 
         if ($kind -eq "SPRITE") {
             $estSprites = Estimate-VDPSprites $w $h
+            $compiledSpriteProof = $null
             if ($estSprites -gt $MAX_INTERNAL_SPRITES -and -not $hasOptType) {
+                $compiledSpriteProof = Get-CompiledSpriteProof $name
+            }
+            if ($estSprites -gt $MAX_INTERNAL_SPRITES -and -not $hasOptType -and
+                ($null -eq $compiledSpriteProof -or $compiledSpriteProof.max_internal_sprites -gt $MAX_INTERNAL_SPRITES)) {
                 $suggestion = "Adicione 'NONE 1 1' ao final da linha ou reduza o tamanho do frame."
                 $msg = "Sprite $name ($w x $h tiles) usa ~$estSprites sprites internos, excedendo o limite SGDK ($MAX_INTERNAL_SPRITES). $suggestion"
                 Write-Log $msg "ERROR"
                 $results.summary.errors++
                 Add-Detail $results "VDP_SPRITE_LIMIT" "ERROR" $msg $name $path @{ estimated = $estSprites; suggestion = $suggestion }
+            } elseif ($null -ne $compiledSpriteProof) {
+                $msg = "Estimativa geometrica ($estSprites) substituida pela definicao SGDK compilada: maximo de $($compiledSpriteProof.max_internal_sprites) sprites internos neste ROM."
+                Add-Detail $results "VDP_SPRITE_LIMIT_COMPILED_PROOF" "INFO" $msg $name $path @{
+                    estimated = $estSprites
+                    compiledMaximum = $compiledSpriteProof.max_internal_sprites
+                    compiledTiles = $compiledSpriteProof.max_tiles
+                    romSha256 = $script:CompiledSpriteAudit.rom.sha256
+                }
             }
             if ($w -gt $MAX_SPRITE_SIZE_TILES -or $h -gt $MAX_SPRITE_SIZE_TILES) {
                 $msg = "Sprite $name tem dimensões ($w, $h) excedendo o limite SGDK (32x32 tiles)."

@@ -1,0 +1,483 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "suzaku_castle",
+  "status": "route_exploration",
+  "source": {
+    "path": "rascunho/entrada_bruta/ssf2_01_ryu.zip",
+    "sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96",
+    "usage": "local study and conversion; redistribution not cleared"
+  },
+  "route_decision_record": {
+    "context_type": "existing_project_new_scene",
+    "dominant_route": "source_translation",
+    "first_skill": "art-translation-to-vdp",
+    "first_tool": "mugen2sgdk_forge stage-candidate",
+    "resource_loading_model": "undecided; compare scene_local_preload and tilemap_streaming",
+    "asset_strategy": "paired BG_B/BG_A with source-derived modularity; compare_flat remains a lab control",
+    "evidence_required": [
+      "semantic_parse_report",
+      "scene_tilemap_conversion_report",
+      "per_tile_palette_conflict_report",
+      "tilemap_flag_report when deduplication or flips are used",
+      "res_graph_report",
+      "vram_residency_report",
+      "dma_queue_contract if streaming is selected",
+      "BlastEm evidence for the exact ROM hash"
+    ],
+    "forbidden_shortcuts_until_evidence": [
+      "copying an offline composite directly into res/",
+      "accepting the repeated 32-pixel floor candidate",
+      "shrinking the production sprite pool based only on the stage's tile estimate",
+      "promoting the generated painterly image concept into runtime assets",
+      "calling compare_flat a finished multi-plane stage"
+    ]
+  },
+  "shared_canvas_contract": {
+    "viewport": [
+      320,
+      224
+    ],
+    "source_localcoord": [
+      320,
+      240
+    ],
+    "crop_top_provisional": 16,
+    "combat_band_y": [
+      56,
+      207
+    ],
+    "floor_anchor_y": 200,
+    "hud_fixed_bands_y": [
+      [
+        0,
+        55
+      ],
+      [
+        208,
+        223
+      ]
+    ],
+    "world_x": [
+      0,
+      767
+    ],
+    "camera_x": [
+      0,
+      448
+    ],
+    "camera_initial_x": 224,
+    "camera_status": "proposed; runtime currently uses world 640, center 160 and clamp 4 px/tick"
+  },
+  "depth_role_map": {
+    "BG_B": "sky/castle/wall overlap; independent source deltas 0/.470982/.537946 conflict on shared scanlines, so a visual compromise or source redraw is still required",
+    "BG_A": "front roof/floor encoded as three non-overlapping scanline bands: BG 3 [0,176), BG 4a [176,212), BG 4b [212,224); HSCROLL_LINE per source delta is a measured route candidate, not implemented",
+    "foreground": "roof mass remains compositional foreground, not actor sprites",
+    "mugen_source_deltas": [
+      0.0,
+      0.470982,
+      0.537946,
+      0.671875,
+      0.79241,
+      1.102678
+    ],
+    "mapping_status": "static source layers and BG5 animation measured; BG_A band boundaries align exactly after crop16, BG_B mapping and all runtime scroll remain undecided",
+    "mask_semantics": "Genesis/MD color code 0 is transparent and reveals the lower-priority layer; BG 3 mask=1 is representable when the tilemap and plane priority are composed accordingly.",
+    "full_stage_speed_conflict": "A source-view sweep over all 449 integer camera positions confirms the conflict across 32,184,320 visible pixel samples. Discrete preservation remaps 5.03% but leaves 45px maximum endpoint drift; continuous minimax remaps 14.33% and still leaves 22.5px. Both previews visibly alter roof/castle relation at an endpoint. No profile is approved; BG_A/B ownership, tile priority and coherent composition remain unmodeled."
+  },
+  "route_family_matrix": [
+    {
+      "route": "two_plane_full_resident",
+      "current_status": "blocked_budget",
+      "measured_pattern_count": 1366,
+      "maximum_joint_visible_patterns_estimate": 845,
+      "budget_at_sprite_pool_600_with_declared_bgfx_loan": 446
+    },
+    {
+      "route": "two_plane_tilemap_streaming",
+      "current_status": "candidate_not_implemented",
+      "known_risks": [
+        "seams",
+        "camera boundaries",
+        "preload DMA",
+        "per-VBlank DMA",
+        "resident-window worst case"
+      ]
+    },
+    {
+      "route": "single_plane_compare_flat",
+      "current_status": "lab_control_only",
+      "measured_rescomp_tiles": 719,
+      "repeated_32px_floor_experiment_tiles": 531,
+      "visual_verdict": "repetitive floor rejected; not a production route"
+    }
+  ],
+  "hardware_budget_review": {
+    "verdict": "nao_cabe_na_configuracao_historica_446_reorcamento_pendente",
+    "basis": "Current declared background capacity 446 tiles; source-derived paired-view estimate reaches 845 visible patterns. These are not ResComp or ROM residency measurements. BG_A line bands preserve three depths but do not reduce the 700 front source patterns; BG_B source layers total 1,021 unique patterns after 378 exact reuse (or 959 without tiled-sky fallback). Neither count substitutes for actual viewport/ResComp/DMA measurement.",
+    "sprite_allocator_probe": "doc/mugen/vram_residency_probe_2026_09_25.json",
+    "pool_change": "not approved; 247 total free tiles and 72 largest contiguous block were measured without a stage in a diagnostic build",
+    "missing_project_contract": "doc/tdd_contract.json, doc/camera_behavior_contract.json and doc/technique_usage_manifest.json now exist and pass their schemas; the stage-specific viewport, palette, DMA and asset reports remain incomplete"
+  },
+  "translation_findings": {
+    "existing_candidate_palette": "PAL0[1..8] stage colors plus PAL0[9..15] fixed HUD colors",
+    "visible_pixels_recoloured": {
+      "back_percent": 55.7,
+      "front_percent": 69.0
+    },
+    "current_visual_status": "technical palette candidate only; not approved",
+    "required_reports_missing": [
+      "scene_tilemap_conversion_report",
+      "per_tile_palette_conflict_report",
+      "tilemap_flag_report",
+      "camera_window_tile_residency_report",
+      "dma_queue_contract for line-scroll updates"
+    ],
+    "animated_layers_measured": {
+      "count": 3,
+      "action": 5,
+      "frames": 51,
+      "cycle_ticks": 278,
+      "unique_patterns_per_animation": 9,
+      "event_intervals_ticks": [
+        [
+          900,
+          1178
+        ],
+        [
+          1778,
+          2056
+        ],
+        [
+          3086,
+          3364
+        ]
+      ],
+      "events_overlap": false,
+      "status": "measured_from_source; conversion_and_runtime_unimplemented"
+    },
+    "source_layer_report": "rascunho/processado/stage_takeover/suzaku_measure_v2.json"
+  },
+  "next_actions": [
+    "Review doc/mugen/suzaku_plane_storyboard_draft_2026_09_26.json against the source endpoints, HUD and fighter silhouettes; close BG_A/B ownership, priority, transparent overlap and the moon/castle/roof anchor. It is a source-translation draft, not an approved speed map or art asset.",
+    "Translate that storyboard into original modular plates/tiles, then produce scene_tilemap_conversion_report, per_tile_palette_conflict_report, tilemap_flag_report and camera-window residency measurement with actual ResComp output.",
+    "Measure palette and VDP residency against the current 446-tile scene capacity; compare panel/streaming candidates and declare preload/per-VBlank DMA before runtime integration.",
+    "Implement BG5/BGCtrl's 51-frame/278-tick cycle only after the static two-plane composition fits; keep event cadence and layer offsets in the runtime contract.",
+    "Integrate a scene-local candidate on an isolated branch, replay camera endpoints/reversal/push/super with fighters and audio, measure worst-frame VRAM/DMA/scanline use, and capture the exact ROM in BlastEm.",
+    "Human visual approval remains hash-bound and required before production-asset promotion."
+  ],
+  "source_layer_measurement": {
+    "report": "rascunho/processado/stage_takeover/suzaku_measure_v2.json",
+    "report_sha256": "b357e7e252337c01b521cdc68981ac25489d15adae34e0dd15507e5d99012257",
+    "crop_top": 16,
+    "bg_a_candidate_bands": [
+      {
+        "layer": "BG 3",
+        "visible_y_exclusive": [
+          0,
+          176
+        ],
+        "delta_x": 0.671875
+      },
+      {
+        "layer": "BG 4a",
+        "visible_y_exclusive": [
+          176,
+          212
+        ],
+        "delta_x": 0.79241
+      },
+      {
+        "layer": "BG 4b",
+        "visible_y_exclusive": [
+          212,
+          224
+        ],
+        "delta_x": 1.102678
+      }
+    ],
+    "source_pattern_estimates_not_rescomp": {
+      "front_layers": [
+        "BG 3",
+        "BG 4a",
+        "BG 4b"
+      ],
+      "nonempty_unique_with_flip": 959,
+      "cross_layer_reuse": 0,
+      "back_layers": [
+        "BG 0a",
+        "BG 0b",
+        "BG 1",
+        "BG 2"
+      ],
+      "back_sum_before_cross_layer_reuse": 1399,
+      "back_exact_reuse": 378,
+      "back_overlay_without_tiled_sky_fallback": {
+        "layers": [
+          "BG 0b",
+          "BG 1",
+          "BG 2"
+        ],
+        "nonempty_unique_with_flip": 959,
+        "cross_layer_reuse": 0
+      },
+      "back_nonempty_unique_with_flip": 1021
+    },
+    "animation": {
+      "frames_per_layer": 51,
+      "cycle_ticks": 278,
+      "unique_nonempty_patterns": 9,
+      "peak_nonempty_tiles_per_frame": 2,
+      "events": [
+        {
+          "id": 51,
+          "ticks": [
+            900,
+            1178
+          ]
+        },
+        {
+          "id": 53,
+          "ticks": [
+            1778,
+            2056
+          ]
+        },
+        {
+          "id": 52,
+          "ticks": [
+            3086,
+            3364
+          ]
+        }
+      ],
+      "events_overlap": false,
+      "duration_matches_enable_window": true
+    },
+    "note": "Pattern counts exclude all-empty tiles and exact source reuse is reported separately; BG0b fully covers BG0a in the current candidate render over their shared opaque extent, but source-in-emulator order must be checked. These are pre-ResComp measurements, not simultaneous viewport cost, VDP allocation, or visual approval."
+  },
+  "source_composition_tradeoff": {
+    "status": "analysis_only_optimistic_scroll_tradeoff",
+    "source_view_report": "rascunho/processado/stage_takeover/suzaku_static_source_view_v1.json",
+    "source_view_report_sha256": "e4a867f92e682ba81293d788f190163d7b8eeb73c4829ac9cea70f3db2bd4613",
+    "tradeoff_report": "rascunho/processado/stage_takeover/suzaku_two_plane_scroll_tradeoffs_v1.json",
+    "tradeoff_report_sha256": "84aecf7c49feb100decb0a34fc0972123b2848e92f9dab2918d8e4e7aa342f1f",
+    "candidate_preview_report": "rascunho/processado/stage_takeover/suzaku_two_plane_scroll_candidate_v1.json",
+    "candidate_preview_report_sha256": "09a09a959b0b5506816f27c3d6a30cbba9b08f3fc06e23f0cd3a2544f8368885",
+    "aggregate_camera_samples": [
+      0,
+      224,
+      448
+    ],
+    "camera_frame_step_assumption": 4,
+    "source_scanlines_over_two_speed_capacity": 112,
+    "pixel_samples_total": 215040,
+    "pixel_samples_assigned_different_speed": 19655,
+    "fraction_assigned_different_speed": 0.09140159970238096,
+    "mean_displacement_error_px_per_pixel_per_frame": 0.04105298975074405,
+    "max_displacement_error_px_per_frame": 0.803572,
+    "max_error_scanline_y": 62,
+    "source_index_diff_pixels_by_camera": [
+      9625,
+      0,
+      6356
+    ],
+    "approval": "none; source-derived analysis only",
+    "limitations": [
+      "scanline assignment is not coherent Plane A/B ownership or tilemap proof",
+      "no priority/palette/ResComp/VRAM/DMA/VBlank modeling",
+      "not an aesthetic or MUGEN runtime parity judgment"
+    ],
+    "mean_endpoint_alignment_drift_px_per_visible_pixel_sample": 2.102539512500001,
+    "maximum_endpoint_alignment_drift_px": 45.000032,
+    "maximum_endpoint_alignment_drift_case": {
+      "camera_from_left": 0,
+      "screen_y": 62,
+      "layer": "BG 3",
+      "source_speed": 0.671875,
+      "assigned_speed": 0.470982,
+      "visible_pixels": 76
+    },
+    "endpoint_anchor_camera_from_left": 224,
+    "superseded_by": "full_camera_sweep_comparison"
+  },
+  "full_camera_sweep_comparison": {
+    "status": "analysis_only_no_route_approved",
+    "source_view_report": "rascunho/processado/stage_takeover/suzaku_static_source_view_sweep_v1.json",
+    "source_view_report_sha256": "bd8060753db6c987f876070e5b7e4594cad0a4f1f10f561b99ca588367e8524e",
+    "camera_samples": 449,
+    "camera_positions_inclusive": [
+      0,
+      448
+    ],
+    "visible_pixel_samples": 32184320,
+    "camera_anchor": 224,
+    "camera_frame_step_assumption": 4,
+    "profiles": [
+      {
+        "objective": "visible_pixel_weighted_discrete",
+        "report": "rascunho/processado/stage_takeover/suzaku_two_plane_discrete_full_sweep_v1.json",
+        "sha256": "7d8aec62d2d9480ae49072a3cd325070cb7c99b86a22cf47ce15b22648f0fbdd",
+        "preview_report": "rascunho/processado/stage_takeover/suzaku_two_plane_discrete_full_sweep_preview_v1.json",
+        "preview_sha256": "ad779a9295938678cce5925e73cc1a015a1de31ef0b876403c2f4887cf7cdcac",
+        "remapped_samples": 1618094,
+        "remapped_fraction": 0.050276,
+        "mean_frame_error_px_per_sample": 0.02415044,
+        "mean_anchor_drift_px_per_sample": 0.955265,
+        "maximum_anchor_drift_px": 45.000032,
+        "extreme_preview_pixel_index_differences": [
+          8875,
+          0,
+          6614
+        ]
+      },
+      {
+        "objective": "endpoint_minimax_continuous",
+        "report": "rascunho/processado/stage_takeover/suzaku_two_plane_minimax_full_sweep_v1.json",
+        "sha256": "2b45a186a2b4d2c6fc401b174cbc0e191d3a9b12528f80e220e7a38b96e0482e",
+        "preview_report": "rascunho/processado/stage_takeover/suzaku_two_plane_minimax_full_sweep_preview_v1.json",
+        "preview_sha256": "92d077cee650b62409b764fbb84642dfd237abbd7c53b807631f8f042c283c90",
+        "remapped_samples": 4611304,
+        "remapped_fraction": 0.143278,
+        "mean_frame_error_px_per_sample": 0.04756524,
+        "mean_anchor_drift_px_per_sample": 1.488408,
+        "maximum_anchor_drift_px": 22.500016,
+        "extreme_preview_pixel_index_differences": [
+          11920,
+          0,
+          18102
+        ],
+        "worst_case": {
+          "camera_from_left": 0,
+          "screen_y": 40,
+          "layer": "BG 1",
+          "source_speed": 0.470982,
+          "target_speed": 0.5714285,
+          "visible_pixel_samples": 1796
+        }
+      }
+    ],
+    "visual_review": "Source-derived previews inspected at 1x; both alter roof/castle relation at an endpoint. No approval.",
+    "decision": "Neither profile is eligible for res/; reauthor the two-speed composition around the castle/fight-floor focal relationship, then remeasure.",
+    "limitations": [
+      "static source only; BG5/BGCtrl omitted",
+      "does not construct Plane A/B ownership or tile priority",
+      "not ResComp, palette-conflict, VRAM, DMA, VBlank, runtime, or aesthetic approval"
+    ]
+  },
+  "semantic_profile_comparison_2026_09_26": {
+    "status": "analysis_only_no_profile_approved",
+    "storyboard_draft": "doc/mugen/suzaku_plane_storyboard_draft_2026_09_26.json",
+    "storyboard_draft_sha256": "aaa1691fc3ff7f1dd5e989fca29f4fa5e82622dda1e49635d302f0639771701f",
+    "source_view_report": "rascunho/processado/stage_takeover/suzaku_static_source_view_sweep_v1.json",
+    "source_view_report_sha256": "bd8060753db6c987f876070e5b7e4594cad0a4f1f10f561b99ca588367e8524e",
+    "tool": "tools/mugen2sgdk_forge/mugen2sgdk_forge/stage_plane_profile.py",
+    "scanline_groups": [
+      {
+        "y": [
+          0,
+          39
+        ],
+        "source_speeds": [
+          0.0,
+          0.537946,
+          0.671875
+        ]
+      },
+      {
+        "y": [
+          40,
+          111
+        ],
+        "source_speeds": [
+          0.0,
+          0.470982,
+          0.537946,
+          0.671875
+        ]
+      },
+      {
+        "y": [
+          112,
+          175
+        ],
+        "source_speeds": [
+          0.537946,
+          0.671875
+        ]
+      },
+      {
+        "y": [
+          176,
+          211
+        ],
+        "source_layers": [
+          "BG 4a"
+        ],
+        "speed_range": [
+          0.79241,
+          1.091517833
+        ]
+      },
+      {
+        "y": [
+          212,
+          223
+        ],
+        "source_layers": [
+          "BG 4b"
+        ],
+        "speed": 1.102678
+      }
+    ],
+    "profiles": [
+      {
+        "profile_id": "castle_anchor_front_preserve",
+        "spec": "rascunho/processado/stage_takeover/suzaku_castle_anchor_front_profile_v1.json",
+        "spec_sha256": "f933362de7d414d04eae795308daa7cdb0fa14cc9e5971105c2c7d4aacafe85d",
+        "report": "rascunho/processado/stage_takeover/suzaku_castle_anchor_front_profile_v1_report.json",
+        "report_sha256": "9390d2949ed11f881f41686d529a2a55e68a44060466647e1a2e7e7c3c1ba892",
+        "preview_report": "rascunho/processado/stage_takeover/suzaku_castle_anchor_front_profile_v1_preview_report.json",
+        "preview_report_sha256": "b914dedabf09a665652c3b81be8af5d4a9338bbd4e924a6fbb215af99553df5f",
+        "remapped_fraction": 0.4373090374,
+        "mean_frame_error_px_per_sample": 0.7891744721,
+        "maximum_anchor_drift_px": 120.499904,
+        "extreme_preview_pixel_index_differences": [
+          18024,
+          18446
+        ],
+        "visual_finding": "Sky/moon shifts to the edge and is partly cropped; castle/roof remain close to their source relationship.",
+        "approval": "none"
+      },
+      {
+        "profile_id": "sky_anchor_castle_front_merge",
+        "spec": "rascunho/processado/stage_takeover/suzaku_sky_anchor_castle_front_profile_v1.json",
+        "spec_sha256": "e2ce580bf836b7aa3d2411c6067d9bafec873695b7e1cd296441444e531e2eeb",
+        "report": "rascunho/processado/stage_takeover/suzaku_sky_anchor_castle_front_profile_v1_report.json",
+        "report_sha256": "8d7219a76bf6a8151890f7e03f656aff8b8365dba2e611196fb3b7d0ec04d57f",
+        "preview_report": "rascunho/processado/stage_takeover/suzaku_sky_anchor_castle_front_profile_v1_preview_report.json",
+        "preview_report_sha256": "3a26ec2afe5b7b65e545b5cbe6689994b7c0de4c68966e649d6c8c741c4393ed",
+        "remapped_fraction": 0.2856850789,
+        "mean_frame_error_px_per_sample": 0.1746317809,
+        "maximum_anchor_drift_px": 45.000032,
+        "extreme_preview_pixel_index_differences": [
+          5366,
+          35049
+        ],
+        "visual_finding": "Sky/moon stays anchored, but castle motion changes and the right-edge preview exposes a magenta hole with no source-space fill.",
+        "approval": "none"
+      }
+    ],
+    "limitations": [
+      "source-space remapping is not Plane A/B ownership or tile priority",
+      "no pixel-art approval, tilemap/palette/ResComp, VRAM, DMA or VBlank evidence",
+      "BG5/BGCtrl animation and live fighter occlusion are not modeled"
+    ],
+    "decision": "Use the profiles to direct a redraw/overlap storyboard; do not copy either candidate into res/."
+  },
+  "source_fidelity_recovery": {
+    "date": "2026-09-26",
+    "plan": "doc/mugen/suzaku_source_fidelity_recovery_2026_09_26.md",
+    "decision": "Original DEF/SFF pixels and composition take precedence; generated V1-V16 are fallback research, not next source. Historical 446 limit is allocation-specific.",
+    "status": "measured_diagnosis_runtime_pending"
+  }
+}

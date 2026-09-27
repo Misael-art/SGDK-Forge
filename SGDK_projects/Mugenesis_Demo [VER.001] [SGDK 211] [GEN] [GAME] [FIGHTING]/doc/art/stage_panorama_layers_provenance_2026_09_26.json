@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "parent_asset": "suzaku_panorama_concept_20260926",
+  "parent_sha256": "9e88daab25cc07d67cf0abe363eaa48479b94a7d8409171b5cf74081e35ed3f3",
+  "layers": [
+    {
+      "asset_id": "suzaku_panorama_bg_b_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_panorama_bg_b_20260926.png",
+      "sha256": "7d997cdd3cb7540f8ab78f723016e3dead478b1171a831453effc3670fbaebc5",
+      "dimensions": [2172, 724],
+      "mode": "RGB",
+      "source_kind": "ai_generated",
+      "role": "opaque far plane: deep sky, clouds, moon, mountain silhouettes",
+      "prompt": "Create only the FAR BG_B atmosphere layer for this exact ultrawide Suzaku Castle panorama. Maintain the same 3:1 aspect, same horizontal world layout, same sky/mountain elevations, same moon size and world position; do not change composition. Include only a solid deep navy sky, pale full moon at the same x, exactly the existing simple cloud silhouettes, and the two broad distant blue mountain bands. Remove the central castle, all walls/buildings, fence, lanterns, and floor entirely. The sky is opaque edge-to-edge in deep navy. Use flat Mega Drive-friendly color clusters with no tiny texture, gradients, antialiasing, or new objects. Keep upper screen HUD region uniform and unobstructed. Maintain the existing three-screen panorama continuity and current center castle anchor position, though the castle is absent in this far plate.",
+      "human_visual_approval": "pending"
+    },
+    {
+      "asset_id": "suzaku_panorama_bg_a_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_panorama_bg_a_20260926.png",
+      "sha256": "1d94d4352d710a56a72e8989c4387e5df7256b5eacfdf02c3d9b260c36b525e5",
+      "dimensions": [2172, 724],
+      "mode": "RGBA",
+      "source_kind": "ai_generated",
+      "role": "transparent near plane: castle, connected walls, fence and floor",
+      "prompt": "Create only the NEAR BG_A foreground architecture plate that overlays the supplied 3:1 Suzaku panorama. Preserve its ultrawide world canvas, pixel scale, and exact horizontal castle anchor. Keep a single central castle keep around world center x=50% with three roof tiers, stone base, and long low connecting castle walls extending left and right to the same endpoints as reference 1. Keep the repeated dark-brown fence across the full width at the same y as the reference and the continuous three-band dojo floor from y≈78% to the bottom. The actual viewport is 320x224 over a 640x224 world; the castle must remain centered in the 640 target after its later center crop. Use reference 2 only for broad pixel-cluster style and blue tonal range. Everything outside the castle, connecting walls, fence and floor must be truly transparent alpha 0: no black background, no sky, no moon, no clouds, no stars, no mountains. All architecture pixels opaque; use a clean hard matte without glow, fringe, or partial-alpha edges. Keep the fighting floor low-detail and repeat the same identical fence post/rail module across the whole panorama. Use broad tiles and flat materials, at most 8 visible colors, no texture noise, no glints, no extra towers or buildings. No characters, HUD, text, effects or logos. The plate must align over the far atmosphere without moving its skyline or castle anchor.",
+      "alpha_policy": "binary threshold 128 for study; actual generated image contains alpha to be measured",
+      "human_visual_approval": "pending"
+    }
+  ],
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true,
+    "world_target": "640x224 current runtime study; 768 remains proposed and not changed"
+  }
+}

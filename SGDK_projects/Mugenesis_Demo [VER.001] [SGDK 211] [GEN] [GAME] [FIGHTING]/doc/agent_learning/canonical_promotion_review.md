@@ -1,3 +1,15 @@
+# Escopo vigente da revisao — 2026-09-25
+
+O usuario autorizou explicitamente a curadoria MUGEN nesta sessao. O parecer
+por ID esta no workspace em `doc/curation/2026_09_25_mugen_coordination/`.
+Foram promovidas instrucoes delimitadas; nenhuma ROM, arte ou qualidade AAA.
+O ledger local contem aprendizado herdado de The Forge. Sua presenca ou schema
+valido nao comprova ocorrencia local; nao promover em lote. A tabela abaixo
+sobre branding pertence ao material legado do template e fica preservada
+como historico, nao como estado de autorizacao ou evidencia do Mugenesis.
+
+---
+
 # Canonical Promotion Review
 
 Use este arquivo para revisar, com cautela, se algum aprendizado local deve ser levado para o framework canonico.

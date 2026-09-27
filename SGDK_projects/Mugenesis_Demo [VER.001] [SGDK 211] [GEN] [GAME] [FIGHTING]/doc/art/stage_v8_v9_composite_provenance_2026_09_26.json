@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "status": "technical_translation_source_only",
+  "asset_id": "suzaku_v8_v9_composite_source_20260926",
+  "path": "rascunho/processado/stage_takeover/suzaku_v8_v9_composite_source_20260926.png",
+  "sha256": "7c7d306be752a5455b8f273f9a380ce9752dba6069e5f7e0ee3967b725ad2c2c",
+  "dimensions": [2119, 742],
+  "mode": "RGB",
+  "source_kind": "procedural_composed_from_authored",
+  "authored_sources": [
+    {
+      "path": "rascunho/inputs/suzaku_v8_far_plate_ai_concept_20260926.png",
+      "sha256": "ee70ec50092b16036cdd200ce48ec30e5c7dbeff7398bb426cc7fa90a07183c4"
+    },
+    {
+      "path": "rascunho/inputs/suzaku_v9_near_overlay_ai_concept_20260926.png",
+      "sha256": "d6aa3c4e8e72cfcb1ba544ef78e26b3bfcdf6eca6fe24ab06c13b3c2e02bdf64"
+    }
+  ],
+  "composition_script": {
+    "path": "rascunho/processado/stage_takeover/compose_suzaku_v8_v9_planes_source.py",
+    "sha256": "9b516abbdd61bf2147a2ddafc4bc90d8b40a94b25b118197129256f560139ca9"
+  },
+  "method": {
+    "layer_order": ["BG_B far opaque", "BG_A near overlay"],
+    "alpha_threshold": 128,
+    "operation": "threshold the generated RGBA near plate to binary alpha, then composite it over the opaque generated far plate at identical source coordinates"
+  },
+  "purpose": "Hash-bound flattened reference for canonical palette conversion and exact split-plane reconstruction; not final pixel art or approved stage output.",
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false,
+  "claim_ceiling": "composition_source_only"
+}

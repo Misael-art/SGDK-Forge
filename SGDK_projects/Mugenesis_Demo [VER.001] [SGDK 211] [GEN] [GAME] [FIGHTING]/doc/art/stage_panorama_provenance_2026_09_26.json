@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_panorama_concept_20260926",
+  "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_panorama_20260926.png",
+  "sha256": "9e88daab25cc07d67cf0abe363eaa48479b94a7d8409171b5cf74081e35ed3f3",
+  "dimensions": [2172, 724],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "role": "wide original Suzaku Castle stage panorama for current world-width study",
+  "prompt": "Create a new original ULTRAWIDE HORIZONTAL panorama background concept for the full 768x224 world of a Mega Drive fighting game stage, matching the reference's restrained 16-bit Suzaku Castle style. Target aspect exactly 768:224 (about 3.43:1); this is a long world canvas, not a 320-wide screen. No characters, HUD graphics, text or logos. Keep the upper 56 rows of the full world as uniform deep navy so fixed screen HUD can overlay at any camera position. Build one continuous night-sky/mountain/architecture/floor composition across all 768 columns, designed for camera viewport slices x=0..319, x=224..543 and x=448..767. Place the major castle keep centered around world x=380, spanning roughly x=250..515; this makes it complete in the center view and partially recede off the sides at the corners. Place a bright simple full moon around world x=250,y=82, diameter 44, always below the HUD. Extend a long low castle wall and repeating fence beyond both sides so the corner views still feel composed. The foreground fence and dojo floor must be continuous and horizontally tile-friendly, with the identical 16-pixel fence motif repeated across the entire 768 width. Floor starts at y=178, the playable fighting lane y=178..207 stays uncluttered, and the footing reference is y=200. Use 8 visible colors maximum: deep navy, two medium blues, pale moon/stone, blue-gray stone, dark brown, warm brown, muted amber. Large flat clusters, simple mountains and clouds, exactly three roof tiers, broad stone blocks, no tiny grain, no unique fence posts, no repeated castle, no extra towers. Preserve the calm dramatic mood and strong silhouettes. Make this look like an authored 1990s console fighting-game panorama, not a painting or a set of 3 repeated panels.",
+  "actual_source_aspect": "2172x724 (3:1); target production study will center-crop to current 640x224 world contract before nearest resize",
+  "human_visual_approval": "pending",
+  "production_eligibility": "eligible_for_staging_only; requires camera-window review, two-plane authoring/fit, palette and tile reports, runtime and exact-ROM proof",
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true,
+    "authored_for_current_world_640_study_not_768_runtime_change": true
+  }
+}

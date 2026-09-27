@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_panorama_v7_centered_moon_ai_concept_20260926",
+  "path": "rascunho/inputs/suzaku_panorama_v7_centered_moon_ai_concept_20260926.png",
+  "sha256": "97055a9793e77cf91a3dd3223e35715a62876bb459ab780c2e19a817149ea4a5",
+  "dimensions": [2119, 742],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "derived_from": {
+    "asset_id": "suzaku_panorama_v6_centered_moon_parent_ai_concept_20260926",
+    "sha256": "9210fd5b72059f9293afd1d9a3e8af317e09523b38f1e1e7b33a6ae6a582f8de",
+    "operation": "image edit: lower the moon in the panorama so it clears the top HUD in the center camera and retain the floor contact band."
+  },
+  "purpose": "Center-camera layout correction candidate for Suzaku; exact aspect ratio is close to 640x224. Concept only, not native hardware art.",
+  "prompt": "Refine the vertical composition of this original AI-generated wide pixel-art Japanese castle fighting-game stage. Keep the same 2:1 canvas, palette mood, castle centered horizontally, moon horizontally about two-thirds of the panorama, clouds, mountains, railings, lanterns, and stone floor. The image will later be fit to a 640x224 world by preserving its full width and cropping the lower part; therefore place the moon center at about 24% of the source canvas height from the top (around y=245 on a 1024-pixel-tall canvas), rather than near the top fifth. This should put the moon lower in the playable image, mostly beneath a fixed HUD occupying y=0..55, with its center near playfield y=78 after hardware framing. Keep the castle's main spire center near y=250 so it remains visible in the camera's central view. Keep the floor contact zone near y=560 of the source (about playfield y=175 after width scaling), leaving clear room for fighters' feet at y=200. Preserve crisp hand-clustered 16-bit pixel-art, strong readable silhouettes, selective cloud highlights, and a restrained warm lantern glow. No smooth gradients, photo textures, text, fighters, UI, or new objects. This is a precise layout correction; do not change the scene design."
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false
+}

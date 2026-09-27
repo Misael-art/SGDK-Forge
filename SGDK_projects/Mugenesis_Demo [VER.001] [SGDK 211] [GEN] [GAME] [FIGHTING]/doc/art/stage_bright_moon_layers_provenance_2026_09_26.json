@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "parent_asset": "suzaku_bright_moon_concept_20260926",
+  "parent_sha256": "ebdf320aef759e2c39d047df0f514b789d4db03e0dd743a6f675909a3e39ef79",
+  "layers": [
+    {
+      "asset_id": "suzaku_bg_b_bright_moon_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_b_bright_moon_20260926.png",
+      "sha256": "b46a73d3249757a7fa9676f6a2dcabd1905da9adc13d6357bb1bf505c66cd841",
+      "dimensions": [1499, 1049],
+      "mode": "RGB",
+      "source_kind": "ai_generated",
+      "role": "opaque deep plane with night sky, moon, clouds, mountain bands",
+      "prompt": "Extract and redraw only the far BG_B plate from this composition, preserving the same positions and 320x224 framing. The plate is ONLY the deep-navy sky, the bright flat pale moon centered at x≈135,y≈82 with diameter ≈44, exactly three simple blue cloud silhouettes, and two broad mountain bands in the lower middle. The top 48 rows stay uniform navy and unmarked. Remove castle, buildings, roof, stone, fence, lanterns, floor, and all foreground architecture. Since BG_B is the deepest plane, you may make all sky opaque deep navy; if alpha is provided outside the moon/cloud/mountains, it must still composite to that same navy. Use hard-edged low-detail pixel clusters, exactly the same reduced palette and color treatment as the reference, no noise, no tiny highlights, no antialiasing, no gradients. Do not move the moon or mountain horizon.",
+      "human_visual_approval": "pending"
+    },
+    {
+      "asset_id": "suzaku_bg_a_bright_moon_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_a_bright_moon_20260926.png",
+      "sha256": "41acf088fbdc0de1dd4feec65268ac878ea38ad4dad8214ec3fbac84a008ccf5",
+      "dimensions": [1499, 1049],
+      "mode": "RGBA",
+      "source_kind": "ai_generated",
+      "role": "transparent near plane with castle, fence, and floor",
+      "prompt": "Create only the near BG_A architecture plate from this exact Suzaku Castle composition. Keep the same pixel scale, alignment, and object coordinates as the reference. Preserve ONLY the castle keep at right of center with three flat blue roof tiers and pale walls, its large rectangular stone foundation, the very low side building extending toward the right edge, the repeating dark-brown fence across the screen around y=158/224, and the simple three-band brown fighting floor from y=178/224 to bottom. These foreground architectural elements must stay in their current positions and sizes. Every pixel outside those objects must be truly transparent (alpha 0), with a hard binary matte; do not paint a black background. Do not include sky, moon, clouds, stars, mountains, ground atmosphere, distant trees, water, HUD, fighters, text, or effects. Preserve the bright blue roof, light walls, broad 8x8-friendly stone blocks, and repeating fence posts. Keep large simple pixel clusters and very low texture density; do not add glints or grain. Match the limited night palette of the reference, with 8 or fewer visible colors. Do not alter the castle silhouette or extend new objects into the moon/sky area. This is a separate overlay plate intended to sit over the matching far plane.",
+      "alpha_policy": "binary threshold 128 for study; native generation includes antialiased partial alpha",
+      "human_visual_approval": "pending"
+    }
+  ],
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true
+  }
+}

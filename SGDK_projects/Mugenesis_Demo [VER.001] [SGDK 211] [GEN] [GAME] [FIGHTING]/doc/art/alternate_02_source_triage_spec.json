@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "data/raw_ai/hadouken_fx_pilot_2026-09-24/alternate_02_visual_source.png",
+  "source_class": "unclassified_raster",
+  "intended_role": "effect_reference",
+  "matte_policy": "existing_alpha",
+  "reviewer": "agent_visual_triage",
+  "visual_source_of_truth_contract": "doc/mugen/fx_pilot_hadouken/frame_contract.json",
+  "derivation": "Second and final AI-generated concept alternative derived from the accepted source pose; reference only pending technical translation and human palette decision.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": true,
+    "background_color_collision": false,
+    "notes": "The generated concept has a compact central core but a broad luminous halo and many partially transparent edge pixels. It is visibly wider and softer than native pixel art and should remain an effect reference unless a native-grid translation proves otherwise."
+  }
+}

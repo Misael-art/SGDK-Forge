@@ -17,12 +17,20 @@ static u16 s_vram_cap[2];   /* tiles reservados em s_vram: maior sheet de CORPO 
 /* efeitos de fundo: tiles pre-carregados apos os corpos; base por jogador/efeito (0 = sem espaco) */
 #define MG_MAX_BGFX 4
 static u16 s_bgfx_base[2][MG_MAX_BGFX];
+static u32 sSpriteFailures;
+u32 MG_fightSpriteFailures(void) { return sSpriteFailures; }
 static s8 s_bgfx_owner = -1;
 #ifdef MG_PROFILE
 u32 mg_prof[16];
 #endif
 
-#define STAGE_W        640      /* palco sem cenario convertido (E4): so limites */
+#ifndef MG_STAGE_WORLD_WIDTH
+#define MG_STAGE_WORLD_WIDTH 640 /* largura compatível do runtime sem contrato local de stage */
+#endif
+#if MG_STAGE_WORLD_WIDTH < 320
+#error "MG_STAGE_WORLD_WIDTH must cover at least one 320px viewport"
+#endif
+#define STAGE_W        MG_STAGE_WORLD_WIDTH
 #define FLOOR_Y        200      /* linha do chao na tela (px) */
 #define ROUND_TIME     99
 #define SPR_VRAM_TILES 900
@@ -461,10 +469,10 @@ static void draw_part(const MgCharDef *d, MgDraw *dr, u8 k, s16 sheet, u8 frame,
                                                    SPR_FLAG_AUTO_TILE_UPLOAD)
                                 : SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR(pal, TRUE, FALSE, FALSE),
                                                    SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
-        if (!*spr) return;                     /* VRAM de sprite esgotada: parte pulada */
+        if (!*spr) { sSpriteFailures++; return; }                     /* VRAM de sprite esgotada: parte pulada */
         dr->sheet[k] = sheet;
     } else if (dr->sheet[k] != sheet) {
-        if (!SPR_setDefinition(*spr, sh->def)) { SPR_setVisibility(*spr, HIDDEN); return; }
+        if (!SPR_setDefinition(*spr, sh->def)) { sSpriteFailures++; SPR_setVisibility(*spr, HIDDEN); return; }
         dr->sheet[k] = sheet;
     }
     SPR_setAnimAndFrame(*spr, 0, frame);
@@ -768,6 +776,7 @@ static void round_flow(void)
 /* ------------------------------------------------------------------ API */
 void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, u8 p2_cpu)
 {
+    sSpriteFailures = 0;
     memset(&mg_fight, 0, sizeof(mg_fight));
     mg_fight.stage_left = 0;
     mg_fight.stage_right = STAGE_W;

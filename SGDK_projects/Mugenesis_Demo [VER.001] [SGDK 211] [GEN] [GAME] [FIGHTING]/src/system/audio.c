@@ -23,6 +23,7 @@ static void audioPulsePsg(u8 channel, u16 tone, u8 envelope, u8 frames)
 void AUDIO_stopAll(void)
 {
     sBgmWanted = 0;
+    sCueFrames = 0;
     audioStopPsg();
     XGM2_stopPCM(SOUND_PCM_CH1);
     XGM2_stopPCM(SOUND_PCM_CH2);
@@ -34,6 +35,12 @@ void AUDIO_startBrandBgm(void)
 {
     sBgmWanted = 1;
     XGM2_play(mus_forge_brand);
+}
+
+void AUDIO_startFightBgm(void)
+{
+    sBgmWanted = 2;
+    XGM2_play(mus_suzaku_fight);
 }
 
 void AUDIO_init(void)
@@ -49,25 +56,25 @@ void AUDIO_playCue(AudioCue cue)
     switch (cue)
     {
         case AUDIO_CUE_MENU:
-            AUDIO_stopAll();
+            audioStopPsg();
             audioPulsePsg(0, 440, 5, 5);
             break;
         case AUDIO_CUE_JUMP:
-            AUDIO_stopAll();
+            audioStopPsg();
             audioPulsePsg(0, 720, 3, 6);
             break;
         case AUDIO_CUE_LAND:
-            AUDIO_stopAll();
+            audioStopPsg();
             PSG_setNoise(PSG_NOISE_TYPE_PERIODIC, PSG_NOISE_FREQ_CLOCK8);
             PSG_setEnvelope(2, 6);
             sCueFrames = 4;
             break;
         case AUDIO_CUE_STRIKE:
-            AUDIO_stopAll();
+            audioStopPsg();
             audioPulsePsg(1, 180, 2, 8);
             break;
         case AUDIO_CUE_PAUSE:
-            AUDIO_stopAll();
+            audioStopPsg();
             audioPulsePsg(0, 320, 4, 4);
             break;
         case AUDIO_CUE_BRAND_ENGINE_HIT:
@@ -110,7 +117,7 @@ void AUDIO_playCue(AudioCue cue)
 void AUDIO_update(void)
 {
     if (sBgmWanted && !XGM2_isPlaying()) {
-        XGM2_play(mus_forge_brand);
+        XGM2_play(sBgmWanted == 2 ? mus_suzaku_fight : mus_forge_brand);
     }
 
     if (sCueFrames == 0) {

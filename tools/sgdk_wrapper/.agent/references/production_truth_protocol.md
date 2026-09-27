@@ -32,6 +32,10 @@ uma falha que ainda pertence ao host.
 
 - Metadados gerados pelo RESCOMP prevalecem sobre inferencias visuais da sprite
   sheet.
+- Para alertas de sprites internos por `SpriteDefinition`, aplicar
+  `tools/sgdk_wrapper/.agent/references/vdp_sprite_definition_estimate_gate_2026_09_26.md`:
+  estimativa dimensional e triagem; o resultado real por quadro do ResComp e o
+  gate de 16; scanline e desempenho de cena sao gates separados.
 - Headers SGDK 2.11 prevalecem sobre memoria ou exemplos antigos.
 - Evidencia explicita de VRAM e VDP dump prevalece sobre heuristica estatica.
 - Input enviado nao equivale a input recebido. A ROM deve confirma-lo por

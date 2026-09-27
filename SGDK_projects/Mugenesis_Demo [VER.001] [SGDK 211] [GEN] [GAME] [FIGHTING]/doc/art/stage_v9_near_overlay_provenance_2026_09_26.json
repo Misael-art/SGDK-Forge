@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_v9_near_overlay_ai_concept_20260926",
+  "path": "rascunho/inputs/suzaku_v9_near_overlay_ai_concept_20260926.png",
+  "sha256": "d6aa3c4e8e72cfcb1ba544ef78e26b3bfcdf6eca6fe24ab06c13b3c2e02bdf64",
+  "dimensions": [2119, 742],
+  "mode": "RGBA",
+  "source_kind": "ai_generated",
+  "derived_from": {
+    "asset_id": "suzaku_panorama_v7_centered_moon_ai_concept_20260926",
+    "sha256": "97055a9793e77cf91a3dd3223e35715a62876bb459ab780c2e19a817149ea4a5",
+    "operation": "generate an aligned castle/rampart/rail/platform overlay with transparent empty regions."
+  },
+  "purpose": "Near BG_A architecture and fighting-platform overlay concept with alpha; not native Mega Drive art.",
+  "prompt": "Create the aligned NEAR/MIDGROUND overlay plate from this original Suzaku Castle fighting-stage panorama, keeping exactly the same full-width coordinates and scale as the reference. Isolate only the Japanese castle towers, connecting ramparts, foreground roof/wooden railing, lanterns, and stone fighting platform. Keep castle main tower centered at world x=320, castle top near y=60, railing around y=150, and the walkable floor around y=176..224 in a 640x224 Mega Drive playfield. Remove all moon, clouds, mountains, sky and distant forest. Everywhere outside the isolated architecture and platform must be a perfectly uniform flat saturated magenta RGB #FF00FF key color with no texture, gradient, shadow, checkerboard or outline; do not use this magenta in the art itself. Preserve the full panoramic canvas; do not crop or move objects. Crisp grouped 16-bit pixel-art, strong silhouettes and limited material clusters, warm lit windows/lanterns, no fighters, no HUD, no text, no labels, no new architecture, no pseudo-3D. This is a staging matte source for a future compositing test, not a final hardware asset.",
+  "observed_output": {
+    "mode": "RGBA",
+    "alpha_extrema": [0, 255],
+    "note": "Image generation returned true alpha transparency although the prompt requested a uniform magenta key."
+  },
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false
+}

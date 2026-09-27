@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "suzaku_castle",
+  "asset_id": "suzaku_v14_tile_economy_ai_concept_20260926",
+  "source_path": "rascunho/inputs/suzaku_v14_tile_economy_ai_concept_20260926.png",
+  "source_sha256": "7de54097f36f4f9440332b0a1fc1d7f497355c0143e613658bce8ebc2ff1f8b9",
+  "authority_path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+  "authority_sha256": "ec69d43c3f885bb30923c021ca3c874139b1efe427eb7ce622731748a8ef1b31",
+  "authority_scope": "Japanese night fortress identity, castle/moon/watchtower landmarks, lantern warmth, continuous deck and night palette; V14 is a generated concept and not pixel-identical to V12.",
+  "design_anchors": [
+    "Japanese night fortress with a distinctive multi-tier keep near world x=360",
+    "pale moon, distant mountain silhouettes, cloud bands and watchtowers",
+    "continuous fighting deck with a clear feet-contact edge at y=200",
+    "broad surfaces use repeated 8x8-aligned motifs; landmarks remain sparse and distinctive",
+    "quiet top HUD band y=0..55 and bottom HUD band y=208..223"
+  ],
+  "gameplay_constraints": {
+    "viewport": [320, 224],
+    "current_world_width": 640,
+    "hud_top_y": [0, 55],
+    "combat_band_y": [56, 207],
+    "feet_contact_y_target": 200,
+    "hud_bottom_y": [208, 223],
+    "fighters_and_large_fx_must_remain_legible": true,
+    "no_parallax_or_occlusion_claim_from_flattened_control": true
+  },
+  "allowed_transformations": [
+    "mechanical_nearest_resizing_for_cost_probe",
+    "deterministic_vdp_palette_conversion_for_cost_probe",
+    "offline_layer_reauthoring_from_persisted_source_pixels_with_provenance_and_review"
+  ],
+  "prohibited_claims": [
+    "native_megadrive_art",
+    "human_visual_approval",
+    "runtime_ready",
+    "parallax_ready",
+    "residency_or_vblank_proven"
+  ],
+  "approval_status": "pending_human_visual_review",
+  "production_res_usage": false,
+  "runtime_usage": false
+}

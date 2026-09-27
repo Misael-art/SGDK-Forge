@@ -211,7 +211,9 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
 void MG_fightUpdate(u16 pad1, u16 pad2);     /* 1 tick de logica (sem DMA fora do VBlank) */
 void MG_fightRender(void);                   /* posiciona sprites; o upload ocorre em SPR_update */
 void MG_fightEnd(void);
+u32 MG_fightSpriteFailures(void);
 u16  MG_fightVramNext(void);                 /* primeiro tile livre apos corpos e fundos (para o HUD) */
+bool MG_fightGetBgFxLoan(u16 *base, u16 *tileCount); /* resource range temporarily loaned to stage streaming */
 
 /* internos compartilhados */
 mgfx MG_eval(const MgPlayer *p, u16 off);

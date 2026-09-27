@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "status": "staging_composite_only",
+  "builder": "rascunho/processado/stage_takeover/build_suzaku_plate_composite_study.py",
+  "source_artifacts": [
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_b_tile_economy_20260926.png",
+      "sha256": "81b9821a6a2671dcb4c1bc0c1f70b5541d45b57102ac79463c392ddb443ab074",
+      "source_kind": "ai_generated"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_a_tile_economy_20260926.png",
+      "sha256": "638d72fbb418b77ba85475e4a83a03e2c8887c7f4ac9a492db2001242b390a00",
+      "source_kind": "ai_generated"
+    }
+  ],
+  "derived_artifacts": [
+    {
+      "path": "rascunho/processado/stage_takeover/suzaku_tile_economy_plates_20260926/bg_b_far_opaque_study.png",
+      "sha256": "94f930e636fcc857c9c14070348f43e8b0bdba5261770014197496dd67cc4c5b",
+      "operation": "alpha_composite onto declared VDP-grid backdrop RGB 0,0,34"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/suzaku_tile_economy_plates_20260926/suzaku_plates_composite_320x224.png",
+      "sha256": "3d399811d041d076368f847d3049bcf02181c2c1344a77abb6be1348ce2ea47b",
+      "operation": "nearest-neighbor resize and binary-alpha composition at threshold 128"
+    }
+  ],
+  "claim_ceiling": "authored_source_composition_study; no final approval, res integration, or runtime proof"
+}

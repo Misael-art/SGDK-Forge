@@ -268,6 +268,18 @@ if [[ $seal_exit_code -ne 0 ]]; then
     exit "$seal_exit_code"
 fi
 
+# The SRAM scene marker is only a request. Some ROMs ignore it (for example
+# MG_DIRECT_FIGHT builds); a sealed screenshot of the wrong scene is not proof.
+if [[ -n "$target_scene" ]]; then
+    if ! python3 "$script_dir/verify_emulator_target_scene.py" \
+        --metrics "$session_root/runtime_metrics.json" \
+        --target-scene "$target_scene" \
+        --report "$session_root/target_scene_verification.json"; then
+        echo "linux_blastem_capture_status=blocked reason=target_scene_unverified session_root=$session_root"
+        exit 1
+    fi
+fi
+
 if [[ -n "$canonical_root" ]]; then
     mkdir -p "$canonical_root" "$project_root/out/logs"
     for artifact in rom.bin screenshot.png save.sram visual_vdp_dump.bin runtime_metrics.json audio.raw evidence_manifest.json freshness_report.json session_runtime.json runtime_animation.gif; do

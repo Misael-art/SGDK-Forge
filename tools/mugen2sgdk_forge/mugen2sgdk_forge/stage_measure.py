@@ -14,6 +14,7 @@ import zipfile
 from pathlib import Path
 
 from .parsers import sff, stage as stage_parser
+from .converters.sprites import vdp_word
 
 MD_H = 224
 TILES_VRAM = 0xC000 // 32          # SGDK 2.11, planos 64x32: mapas a partir de 0xC000
@@ -21,7 +22,9 @@ FONT_LEN, SYSTEM_TILES = 96, 16
 
 
 def _md(rgb) -> tuple[int, int, int]:
-    return tuple(round(v / 255 * 7) for v in rgb)
+    # Classify the exact word the converter emits, including its tie boundaries.
+    word = vdp_word(rgb)
+    return tuple((word >> shift) & 7 for shift in (1, 5, 9))
 
 
 def _canon(t):
@@ -53,6 +56,111 @@ def layer_stats(s: sff.Sprite, pal) -> dict:
     return {"size": [W, H], "sff_indices": len(used), "md_colours": len({_md(pal[i]) for i in used}),
             "tiles_total": ((W + 7) // 8) * ((H + 7) // 8), "tiles_unique_with_flip": len(uniq),
             "max_md_colours_per_tile": worst, "max_md_colours_per_16px_block": blk}
+
+
+def _frame_stats(sprite: sff.Sprite) -> dict:
+    """Custo visual de um frame animado: tiles 8x8 nao vazios e cores por tile."""
+    W, H, px = sprite.width, sprite.height, sprite.pixels
+    tiles, worst_colours = set(), 0
+    for ty in range(0, H, 8):
+        for tx in range(0, W, 8):
+            tile = tuple(tuple(px[y * W + x] if x < W and y < H else 0
+                               for x in range(tx, tx + 8)) for y in range(ty, ty + 8))
+            if not any(any(row) for row in tile):
+                continue
+            tiles.add(_canon(tile))
+            worst_colours = max(worst_colours, len({_md(sprite.palette[i]) for row in tile for i in row if i}))
+    return {"size": [W, H], "visible_pixels": sum(i != 0 for i in px),
+            "tiles_unique_with_flip": len(tiles), "max_md_colours_per_tile": worst_colours}
+
+
+def animated_layer_stats(st, sprites: dict[tuple[int, int], sff.Sprite]) -> list[dict]:
+    """Relata referencias, custo por frame e janelas BGCtrl das camadas animadas.
+
+    Isto nao escolhe se a animacao fica em BG, sprites ou slots streamados; explicita
+    o custo e a agenda que a decisao de traducao precisa preservar.
+    """
+    result = []
+    for layer in st.layers:
+        if layer.type != "anim" or layer.actionno is None:
+            continue
+        action = st.actions.get(layer.actionno)
+        if action is None:
+            result.append({"name": layer.name, "id": layer.id, "action": layer.actionno,
+                           "status": "missing_action", "frames": []})
+            continue
+        rows, union_tiles, missing = [], set(), []
+        frame_times = [frame.time for frame in action.frames]
+        has_infinite_frame = any(time < 0 for time in frame_times)
+        first_pass = None if has_infinite_frame else sum(frame_times)
+        loop_cycle = None if has_infinite_frame else sum(frame_times[action.loopstart:])
+        for index, frame in enumerate(action.frames):
+            sprite = sprites.get((frame.group, frame.image))
+            if sprite is None:
+                missing.append([frame.group, frame.image])
+                rows.append({"index": index, "sprite": [frame.group, frame.image],
+                             "duration_ticks": frame.time, "status": "missing_sprite"})
+                continue
+            measured = _frame_stats(sprite)
+            W, H, px = sprite.width, sprite.height, sprite.pixels
+            for ty in range(0, H, 8):
+                for tx in range(0, W, 8):
+                    tile = tuple(tuple(px[y * W + x] if x < W and y < H else 0
+                                       for x in range(tx, tx + 8)) for y in range(ty, ty + 8))
+                    if any(any(row) for row in tile):
+                        union_tiles.add(_canon(tile))
+            rows.append({"index": index, "sprite": [frame.group, frame.image],
+                         "duration_ticks": frame.time, "offset": [frame.x, frame.y],
+                         "hflip": frame.hflip, "vflip": frame.vflip, "blend": frame.blend,
+                         "status": "measured", **measured})
+        windows = [{"start": start, "end": end, "loop_ticks": loop,
+                    "enabled_ticks": max(0, end - start),
+                    "matches_action_cycle": (loop_cycle is not None and action.loopstart == 0
+                                              and end - start == loop_cycle)}
+                   for start, end, loop in stage_parser.enabled_windows(st, layer.id)]
+        result.append({"name": layer.name, "id": layer.id, "action": layer.actionno,
+                       "start": list(layer.start), "delta": list(layer.delta),
+                       "loopstart_frame": action.loopstart, "frame_count": len(action.frames),
+                       "has_infinite_frame": has_infinite_frame,
+                       "first_pass_duration_ticks": first_pass,
+                       "loop_cycle_duration_ticks": loop_cycle,
+                       "unique_nonempty_frame_tiles_with_flip": len(union_tiles),
+                       "missing_sff_sprites": missing, "enable_windows": windows,
+                       "status": "missing_sprites" if missing else "measured", "frames": rows})
+    return result
+
+
+def static_layer_group_stats(st, sprites: dict[tuple[int, int], sff.Sprite], names: list[str]) -> dict:
+    """Estima reutilizacao exata de padroes entre layers estaticas de uma rota.
+
+    Mantem paleta e indices na chave: so declara deduplicacao quando duas imagens
+    realmente compartilham o mesmo contrato de pixels/paleta. Nao e medida ResComp.
+    """
+    layers = {layer.name: layer for layer in st.layers}
+    patterns, per_layer = set(), {}
+    for name in names:
+        layer = layers[name]
+        if layer.type == "anim" or layer.spriteno is None:
+            raise ValueError(f"{name}: grupo estatico recebeu layer sem spriteno estatico")
+        sprite = sprites[tuple(layer.spriteno)]
+        W, H, px = sprite.width, sprite.height, sprite.pixels
+        palette_key = tuple(sprite.palette)
+        local = set()
+        for ty in range(0, H, 8):
+            for tx in range(0, W, 8):
+                tile = tuple(tuple(px[y * W + x] if x < W and y < H else 0
+                                   for x in range(tx, tx + 8)) for y in range(ty, ty + 8))
+                if not any(any(row) for row in tile):
+                    continue
+                local.add((palette_key, _canon(tile)))
+        per_layer[name] = len(local)
+        patterns.update(local)
+    summed = sum(per_layer.values())
+    return {"layers": names, "unique_nonempty_tiles_by_layer": per_layer,
+            "sum_without_cross_layer_dedup": summed,
+            "unique_nonempty_tiles_with_cross_layer_dedup_and_flip": len(patterns),
+            "exact_pattern_savings": summed - len(patterns),
+            "status": "source_pattern_estimate_not_rescomp"}
 
 
 def compose(st, sprites, names: list[str], delta: float, width: int, crop_top: int) -> list[list[int]]:
@@ -146,6 +254,12 @@ PLANS = [
     ("so telhados, delta 0.67", ["BG 3"], 0.67, None),
 ]
 
+STATIC_LAYER_GROUPS = {
+    "suzaku_back_plane_source_layers": ["BG 0a", "BG 0b", "BG 1", "BG 2"],
+    "suzaku_back_overlay_without_tiled_sky_fallback": ["BG 0b", "BG 1", "BG 2"],
+    "suzaku_front_banded_plane_source_layers": ["BG 3", "BG 4a", "BG 4b"],
+}
+
 
 def measure(zip_path: Path, def_name: str, sff_name: str, crop_top: int = 8) -> dict:
     with zipfile.ZipFile(zip_path) as z:
@@ -157,8 +271,21 @@ def measure(zip_path: Path, def_name: str, sff_name: str, crop_top: int = 8) -> 
     layers = {}
     for la in st.layers:
         if la.spriteno:
-            layers[la.name] = {"type": la.type, "spriteno": list(la.spriteno), "delta_x": la.delta[0],
+            sprite = sprites[tuple(la.spriteno)]
+            y0 = int(la.start[1]) - sprite.axis_y - crop_top
+            y1 = y0 + sprite.height
+            visible_y = [max(0, y0), min(MD_H, y1)]
+            layers[la.name] = {"type": la.type, "id": la.id, "spriteno": list(la.spriteno),
+                               "start": list(la.start), "delta": list(la.delta),
+                               "layerno": la.layerno, "mask": la.mask,
+                               "axis": [sprite.axis_x, sprite.axis_y],
+                               "source_y_bounds_after_crop_exclusive": [y0, y1],
+                               "visible_y_bounds_exclusive": visible_y if visible_y[0] < visible_y[1] else None,
                                **layer_stats(sprites[tuple(la.spriteno)], pal)}
+    animated = animated_layer_stats(st, sprites)
+    static_groups = {key: static_layer_group_stats(st, sprites, names)
+                     for key, names in STATIC_LAYER_GROUPS.items()
+                     if all(name in {layer.name for layer in st.layers} for name in names)}
     all_idx = set()
     for s in sprites_list:
         all_idx |= set(s.pixels) - {0}
@@ -169,6 +296,7 @@ def measure(zip_path: Path, def_name: str, sff_name: str, crop_top: int = 8) -> 
     sky = compose(st, sprites, ["BG 0b", "BG 1", "BG 2"], 0.43, 520, crop_top)
     return {"stage": st.name, "localcoord": list(st.localcoord), "camera_span": span, "crop_top": crop_top,
             "parser_warnings": st.warnings, "sff_warnings": warn, "stage_md_colours": len({_md(pal[i]) for i in all_idx}),
-            "stage_sff_indices": len(all_idx), "layers": layers, "planes": plans,
+            "stage_sff_indices": len(all_idx), "layers": layers, "static_layer_groups": static_groups,
+            "animated_layers": animated, "planes": plans,
             "bg_b_bands_delta_0_43": {"ceu linhas 0-47": plane_stats(sky, pal, (0, 48)),
                                       "castelo+muro linhas 48-223": plane_stats(sky, pal, (48, MD_H))}}

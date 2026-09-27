@@ -9,7 +9,7 @@
     "source_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
     "source_class": {"enum": ["high_res_full_body_character", "native_pixel_art_integer_scale", "unclassified_raster"]},
     "intended_role": {"enum": ["identity_authority", "translation_source", "pose_reference", "style_reference", "effect_reference"]},
-    "matte_policy": {"enum": ["existing_alpha", "border_connected", "reference_only"]},
+    "matte_policy": {"enum": ["existing_alpha", "border_connected", "opaque", "reference_only"]},
     "reviewer": {"enum": ["agent_visual_triage", "agent_curated_review", "vision_model", "human", "human_and_vision"]},
     "identity_authority_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
     "identity_authority_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},

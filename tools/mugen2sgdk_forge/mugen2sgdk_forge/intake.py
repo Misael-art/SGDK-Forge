@@ -59,7 +59,8 @@ def build(repo: Path) -> dict:
             a = adj.get(les["id"])
             rows.append({
                 "id": les["id"],
-                "lesson": les["lesson"],
+                "lesson": (a or {}).get("curated_lesson", les["lesson"]),
+                "source_lesson": les["lesson"],
                 "source": rel,
                 "source_commit": commit,
                 "source_blob_sha1": blob,
@@ -118,6 +119,6 @@ def check(repo: Path) -> list[str]:
     for r in index["lessons"]:
         if r["owner_path"] is None:
             problems.append(f"{r['id']}: owner '{r['owner']}' nao existe no repositorio")
-        if r["promotion"] not in ("pending_human_review",) and not r["canonized_in"]:
+        if r["promotion"] not in ("pending_human_review", "not_promoted") and not r["canonized_in"]:
             problems.append(f"{r['id']}: promocao '{r['promotion']}' sem canonized_in")
     return problems

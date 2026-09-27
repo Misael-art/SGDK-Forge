@@ -240,6 +240,7 @@ void bgfx_release(void);
 
 void MG_fightRender(void);                   /* posiciona sprites; o upload ocorre em SPR_update */
 void MG_fightEnd(void);
+u32 MG_fightSpriteFailures(void);
 u16  MG_fightVramNext(void);                 /* primeiro tile livre apos corpos e fundos (para o HUD) */
 
 /* internos compartilhados */

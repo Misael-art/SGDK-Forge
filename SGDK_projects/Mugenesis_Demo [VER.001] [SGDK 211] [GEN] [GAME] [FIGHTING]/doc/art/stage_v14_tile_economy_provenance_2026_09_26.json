@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation generate",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_v14_tile_economy_ai_concept_20260926",
+  "path": "rascunho/inputs/suzaku_v14_tile_economy_ai_concept_20260926.png",
+  "sha256": "7de54097f36f4f9440332b0a1fc1d7f497355c0143e613658bce8ebc2ff1f8b9",
+  "dimensions": [2120, 742],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "derived_from": {
+    "asset_id": "suzaku_v12_modular_reauthoring_ai_concept_20260926",
+    "path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+    "sha256": "ec69d43c3f885bb30923c021ca3c874139b1efe427eb7ce622731748a8ef1b31",
+    "operation": "new image-generation concept using V12 only as visual identity and landmark reference, with explicit tile-motif and HUD/contact constraints"
+  },
+  "identity_contract": "doc/mugen/suzaku_v14_visual_identity_contract_2026_09_26.json",
+  "purpose": "Test whether a more explicit reusable-material brief can reduce exact 8x8 patterns while retaining the Suzaku landmarks and readable floor.",
+  "exact_prompt": "Use case: stylized-concept\nAsset type: unapproved visual development source for a Mega Drive fighting-game stage, widescreen 640x224 world panorama\nInput images: Image 1 is the visual identity and landmark reference only; preserve the Japanese night fortress, central castle silhouette, full moon, lantern warmth, distant mountain shapes, and wooden fighting deck, but redesign the arrangement to be economical for 8x8 tile reuse.\nPrimary request: Create a fresh pixel-art concept plate for the Suzaku castle stage. The final scene will scroll horizontally through 640x224 pixels with fighters' feet contacting a continuous deck at y=200. The castle is the focal landmark around x=360; the moon stays clear of the central timer area and outside the main castle roof silhouette.\nStyle/medium: crisp 16-bit console pixel art, deliberate pixel clusters, strong silhouettes, carefully grouped shading, atmospheric depth without smooth gradients or anti-aliasing.\nComposition/framing: extra-wide 20:7 panoramic game background. Keep the top 56 pixels visually quiet and dark for a fixed HUD, the bottom 16 pixels as quiet under-deck visible behind a fixed HUD, and preserve a readable combat band between y=56 and y=207. The visible wooden deck surface begins at y=192 and crosses the full width; its exact front edge is at y=200. No characters.\nColor palette: limited coherent night palette of about 10-12 colors total: deep navy sky, two blue mountain/castle shadows, cool stone mid/highlight, dark brown beams, warm amber lanterns/moon. Avoid isolated color noise.\nMaterials/textures: build the long cloud strips, distant mountain ridges, castle masonry, roof tiles, railing, and deck from a small set of reusable 8x8-aligned pixel motifs. Reuse motifs in varied, non-obvious rhythm; keep unique castle silhouette, layered roof corners, lantern housings, deck edge and posts as sparse authored accents. The floor must show playable perspective and retain clean foot contact.\nConstraints: tile-aware authorship is essential: broad surfaces should be composed from repeated exact pixel motifs aligned to an 8x8 grid, with variation added only in sparse landmarks. Avoid texture changes every tile. Keep the background visually rich and hand-pixeled at actual game scale, not smooth illustrative concept art.\nAvoid: text, logos, HUD, fighters, UI, gradients, anti-aliased edges, dithering noise, tiny scattered stars, checkerboards, bloom, 3D, blur, watermarks, unaligned microdetail, transparent holes, and any object over the fight floor.",
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false
+}

@@ -10,7 +10,9 @@
   "required_skills": [
     "governance/truth-hierarchy-guard",
     "governance/doc-sync-audit",
-    "operation/sgdk-build-wrapper-operator"
+    "operation/sgdk-build-wrapper-operator",
+    "art/visual-excellence-standards",
+    "code/sgdk-runtime-coder"
   ],
   "required_validations": [
     "preflight_host",
@@ -22,16 +24,21 @@
   ],
   "claims": {
     "critical_motion": {
-      "applicability": "review_required",
-      "rationale": "Classificar antes de implementar ou promover animacao critica."
+      "applicability": "required",
+      "rationale": "O piloto Hadouken e uma animacao de ataque com hitboxes e leitura diretamente ligada ao gameplay; deve ser avaliado temporalmente antes de promocao.",
+      "critical_asset_ids": [
+        "fx_pilot_hadouken_750_751"
+      ],
+      "motion_gif_path": "rascunho/processado/fx_pilot_hadouken/source_air_preview.gif",
+      "human_approval_record_path": "doc/mugen/fx_pilot_hadouken/user_source_approval_2026_09_24.md"
     },
     "road_physics": {
-      "applicability": "review_required",
-      "rationale": "Classificar antes de declarar chase, estrada pseudo-3D ou fisica de pista."
+      "applicability": "not_applicable",
+      "rationale": "O escopo classificado e um piloto de luta 2D; nao inclui pistas, lanes de estrada, chase ou fisica de conducao."
     },
     "modular_boss": {
-      "applicability": "review_required",
-      "rationale": "Classificar antes de declarar boss modular ou forward kinematics."
+      "applicability": "not_applicable",
+      "rationale": "O piloto nao inclui chefe composto por partes nem cadeia de forward kinematics; o alvo e uma familia de projectile FX Hadouken."
     }
   }
 }

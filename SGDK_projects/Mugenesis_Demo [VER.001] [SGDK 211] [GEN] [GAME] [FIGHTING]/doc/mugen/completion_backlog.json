@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Backlog operacional da conclusao da demo de luta Mugenesis_Demo (autorizacao ampliada 2026-09-25: demo completa de combate com cenario e audio). Ordem dependente, nao lista opcional.",
+  "source_prompt": "doc/prompts_modelo/prompt_mugen_sgdk_completion_2026_09_25.md",
+  "authorization": {
+    "granted_by": "usuario",
+    "granted_at": "2026-09-25",
+    "scope": "Concluir pendencias: Suzaku elaborado, musica e refinos; demo completa de combate com cenario e audio.",
+    "ceiling_policy": "Manter delivery_claim_ceiling=technical_demo enquanto gates AAA nao satisfeitos; trocar string nao promove demo para AAA.",
+    "artist_approval": "Aprovacao artistica permanece humana e vinculada a SHA; nada de inventar evidencia."
+  },
+  "baseline_snapshot": {
+    "captured_at": "2026-09-25",
+    "branch": "feat/mugenesis-impact-fx-v2",
+    "head": "7cf00ed8243536d73ea0affa07dba6822c1c511b",
+    "working_tree": "54 itens modificados/nao rastreados (etapa 3 v2 em andamento: conversor, runtime C, docs, manifests). NAO commitar/merge/push sem autorizacao. NAO trocar branch de outro agente.",
+    "concurrent_refs": {
+      "PR21": "aberta em f3b92bb9 (protecao de proveniencia); nao integrada a esta branch",
+      "PR22": "draft nesta linha; merge-tree PR21+PR22 reporta conflitos documentais (changelog, indices de curadoria)",
+      "pilot_isolated": "worktree isolada /tmp/sgdk-mugenesis-pr21-pr22; nao parte automatica da principal"
+    },
+    "historical_baseline_to_verify": {
+      "suite_principal_testes": 73,
+      "hud_normal_rom_sha256": "f5eb26a3b057c3439c344aa9d8863386dc6eb9662dc3f20ebe7356aee0b62d1d",
+      "validate_resources": "14 erros / 20 avisos (exit 1)",
+      "palette_check_ken": "23/15 principal, 24/15 piloto (ambos reprovados)",
+      "note": "Numeros historicos, nao metas nem resultado desta branch. Re-medir."
+    }
+  },
+  "items": [
+    {
+      "id": "A1",
+      "etapa": "A",
+      "title": "Checkpoint de linha de base",
+      "dependencia": [],
+      "criterio_aceite": "Branch/HEAD/diff/hashes registrados; suite e validate_resources medidos nesta branch; completion_backlog criado; project_intent atualizado para escopo ampliado mantendo teto technical_demo.",
+      "estado": "completed",
+      "owner": "executor",
+      "ultima_evidencia": "Medido nesta branch 2026-09-25: suite 74 passed/0 failed (88,9s); palette-check Ken FAIL 23/15 over_by 8 (14 indices corpo, slot 6 livre, 11 FX exatas, lossless_merges vazio nesta branch); validate_resources 14 erros/20 avisos, closeout_gate=False. out/rom.bin atual = 595116bc (flash-only Stage3, superseded).",
+      "proxima_acao": "Fechado. Baseline registrada; prosseguir A2/A3 e o portao de reconciliacao PR21+PR22."
+    },
+    {
+      "id": "A2",
+      "etapa": "A",
+      "title": "Protecao de proveniencia e reconversao idempotente",
+      "dependencia": [
+        "A1"
+      ],
+      "criterio_aceite": "Anotacoes humanas separadas dos dados regeneraveis; aprovacoes vinculadas a SHA; recursos removidos preservados no historico; reconversao em copia preserva decisoes e resultado byte a byte.",
+      "estado": "concluido_verificacao_aguarda_commit",
+      "owner": "executor",
+      "ultima_evidencia": "PROTECAO INTEGRADA no working tree (autorizacao do usuario 2026-09-25, opcao 'aplicar ao working tree', SEM commit/merge/res/producao). Cross-control em worktree isolado: provenance.py PR21 + HEAD -> 4/4 pass; provenance.py atual -> 4/4 fail (no attribute load_annotations). Suite completa desta branch com WIP impact-FX: 78 passed/0 failed (46,9s) = zero regressao. TESTE EM COPIA controlada (/tmp/mugrecopy; producao intocada: manifesto real segue 377482ae, sem annotations): (1) IDEMPOTENCIA convert-char#1==#2 byte a byte nos 125 arquivos regeneraveis+proveniencia; (2) MIGRACAO S0->S1 tocou so 2 arquivos (manifesto 377482ae->6eb0342c + annotations criado b44736e0), pixels/C intactos; (3) SOBREVIVENCIA nota humana injetada no retrato sobreviveu ao run#3 e foi capturada no manifesto (8c234fe7), pixels idempotentes. Recibo: rascunho/temporario/reconversion_copytest/receipt_2026-09-25.json. Candidato aprovado 750,1 (rascunho/processado/fx_pilot_hadouken/candidate_750_1_slot6_e82_budget25.png) confere SHA 89425892906b151b15ea32345737f0f9653440e8810858b3e2c3f0e07a8b3e9f; zip-fonte ken 822936f0 confere hygiene.",
+      "proxima_acao": "Com humano: (a) commit da integracao (2 arquivos de tooling); (b) reconciliar changelog/curation PR21+PR22 antes de migracao fix-provenance na PRODUCAO ou promocao do piloto. Etapa B pode comecar sob o contrato de protecao verificado."
+    },
+    {
+      "id": "A3",
+      "etapa": "A",
+      "title": "Corrigir blockers reais da validacao por causa",
+      "dependencia": [
+        "A1"
+      ],
+      "criterio_aceite": "Cada erro da validacao classificado por causa e corrigido: 11 VDP_SPRITE_LIMIT legados (g42, g270, g272, cinco g8000_*), 3 BLOCKING_STATUS, metadados stale, evidencia incorreta. Sem waiver, exclusao de recurso ou mudanca de assert para ficar verde.",
+      "estado": "in_progress",
+      "owner": "executor",
+      "ultima_evidencia": "14 erros classificados por causa (2026-09-25): [11x VDP_SPRITE_LIMIT] g42,g270,g272,g745_fx,g760_fx,g810 (~20) e super g8000_0/1/p1_0/p1_1/p2_fx (32-64 sprites internos > 16 por SpriteDefinition) -> exige decomposicao de sheet com origem no conversor + custo compilado medido, e aprovacao humana por familia (nao e metadado). [1x res_graph] res_graph_report.json ausente; gerador existe (tools/sgdk_wrapper/res_graph_audit.ps1) mas rodar contra out/rom.bin flash-only velho geraria evidencia do ROM errado. [2x claim_reconciliation] report_rom_identity_mismatch + report_status_conflict: report aponta ROM != 595116bc flash-only atual. Root comum: falta build de producao limpo a partir de fonte reconciliada.",
+      "proxima_acao": "Sem waiver/assert-change. Portao real: reconciliar historico PR21 (protecao de proveniencia, f3b92bb9) + PR22 (impact FX, 7cf00ed8) com aprovacao humana, RECONVERTER EM COPIA, fazer build de producao limpo, entao re-rodar validate_resources/res_graph/palette-check e decompor sheets FX um a um."
+    },
+    {
+      "id": "B1",
+      "etapa": "B",
+      "title": "Mapa real de CRAM por estado",
+      "dependencia": [
+        "A2"
+      ],
+      "criterio_aceite": "Mapa PAL0 cenario / PAL1-2 corpo+FX / PAL3 HUD por estado (retrato, sombra, carga, projetil, super, KO, transicoes). Migrar consumidores HUD que ainda usam PAL0 9..15 para PAL3. Contar uniao de indices, nao por arquivo.",
+      "estado": "tres_rotas_medidas_decisao_pendente",
+      "owner": "executor",
+      "ultima_evidencia": "Mapa real de CRAM em doc/mugen/cram_map_2026_09_25.md. SIMULACAO DAS 3 ROTAS executada em copia (doc/mugen/routes_cost_simulation_2026_09_25.md; cenas em rascunho/temporario/routes_sim) com self-check aprovado. ACHADO 1: pressao de scanline e INVARIANTE a rota (posse CRAM nao muda geometria) — super_peak mede 28/20 sprites, 832/320 px, 156/80 links (estoura tudo) em i/ii/iii por igual; decomposicao de sheets (B2) e obrigatoria em qualquer rota. ACHADO 2: palette-check exato = exact_need 23 vs line_slots 15, over_by 8, lossless_merges vazio -> ROTA (ii) INVIAVEL por numero (corpo+FX nao cabe sem remape lossy, falha aprovacao) e nao resolve retrato-vs-flash. ROTA (i) custo zero de linha mas PAL0 fica 15/15 (stage8+HUD7) e bgfx invade ambos -> bloqueia Etapa D (stage+super+HUD simultaneos). ROTA (iii) mantem FX em PAL3 dedicada (corpo 14/15 cabe), resolve colisoes #3/#4/#6 por mascaras de swap pre-declaradas (~4-5 tabelas REGRA 1c) com DMA apenas em transicao de estado, sem linha nova e sem remape.",
+      "proxima_acao": "Decisao HUMANA de rota pendente. Recomendacao medida: com escopo ampliado (D stage + C retrato-sem-flash + B2 familias), (i) nao acomoda stage+super+HUD, (ii) estoura CRAM em 8; (iii) e a unica compativel, custo em codigo de swap. Aguarda escolha; nao tocar producao nem emprestar linha sem dono antes da decisao."
+    },
+    {
+      "id": "B2",
+      "etapa": "B",
+      "title": "Catalogo das 15 familias de FX (por grupo MUGEN)",
+      "dependencia": [
+        "B1"
+      ],
+      "criterio_aceite": "Uma pose piloto por familia preservando AIR/pivots/hitboxes/velocidade e os 8 elementos (3 vazios). AIR6800=carga, AIR30100=g8000_* (nao remover como duplicado). Uma familia integrada por vez; custo compilado medido, nao retangulo do PNG.",
+      "estado": "pending",
+      "owner": "executor+agente_grafico",
+      "ultima_evidencia": "So 750,1 aprovada; demais poses no estudo sem aprovacao.",
+      "proxima_acao": "Produzir pose piloto por familia; depois ciclo temporal coerente; integrar familia a familia."
+    },
+    {
+      "id": "B3",
+      "etapa": "B",
+      "title": "Flash de impacto sem interferencia de CRAM",
+      "dependencia": [
+        "B1"
+      ],
+      "criterio_aceite": "Flash via tabela de swap pre-declarada (REGRA 1c). Provar em evento natural que nao afeta projetil/retrato que compartilham indices. Contar sprites E pixels por scanline + custo de upload simultaneos. Buffers DMA validos/intactos ate VBlank.",
+      "estado": "pending",
+      "owner": "executor",
+      "ultima_evidencia": "Sonda congelada prova interferencia CRAM (projetil+P1 clareados); NAO e isolamento. Stage3 matriz 250/1200 above budget, attribution isolada pendente.",
+      "proxima_acao": "Testar hitstop/hit repetido/projetil distante/superpause/KO/retorno de round. Se isolamento impossivel no contrato, encaminhar opcoes medidas; nao emprestar PAL3."
+    },
+    {
+      "id": "C1",
+      "etapa": "C",
+      "title": "Retrato 32x32 nativo reconhecivel",
+      "dependencia": [
+        "B1"
+      ],
+      "criterio_aceite": "Paleta propria do retrato, mascara opaca, externo transparente, olhos/boca/cabelo preservados, P2 legivel, moldura autoral discreta. Nao reintroduzir conversao por indice do corpo (perdeu 229 px). Ferramenta grafica + pipeline, nao primitivas em Python.",
+      "estado": "pending",
+      "owner": "agente_grafico",
+      "ultima_evidencia": "Conceito 1254x1254 = concept_only; so atualizar res/mugen/ken/portrait.png apos revisao por hash.",
+      "proxima_acao": "Entregar rosto em staging com SHA + contato 1x + vistas claro/escuro; comparar 1x/zoom nearest/contexto de luta."
+    },
+    {
+      "id": "C2",
+      "etapa": "C",
+      "title": "HUD acabado (barras, estrela, combo, SUPER)",
+      "dependencia": [
+        "B1"
+      ],
+      "criterio_aceite": "Barras nos cantos, estrela sem sobreposicao com limpeza de combo, largura 2 digitos. SUPER legivel nos dois lados, durante alternancia, pes por cima. Gasto real instantaneo; descarga quadratica 24 atualizacoes e apresentacao.",
+      "estado": "pending",
+      "owner": "executor",
+      "ultima_evidencia": "Legibilidade SUPER sob poses baixas = needs_review.",
+      "proxima_acao": "Testar gasto parcial/total, recarga no meio da descarga, pause, KO/reset, enchimento por ambos jogadores, estrela+12 HITS simultaneos."
+    },
+    {
+      "id": "D1",
+      "etapa": "D",
+      "title": "Suzaku elaborado: pre-producao medida",
+      "dependencia": [
+        "B1"
+      ],
+      "criterio_aceite": "roteiro->storyboard pixels->coreografia->medição->budget->contrato->model sheet->assets->runtime->prova. Declarar canvas/mundo, viewport, horizonte, linha dos pes, limites laterais, faixas HUD. Comparar 3 rotas de background por custo real e fidelidade.",
+      "estado": "parcial_frame_integrado",
+      "owner": "executor+agente_grafico",
+      "ultima_evidencia": "Frame-fonte Suzaku integrado na cena BG_B com Ken P1/P2, HUD e música XGM2 em ROM vista no BlastEm. Build FAST inicial: 87/1200 over-budget, max CPU149, snapshot58.9fps. Cópia NONE exploratória: 40/1200, CPU131, 256KiB maior, causa ainda não fechada. Captura registrada na memória operacional. Frame de 8 cores fixo; câmera/parallax e BG5 ainda ausentes.",
+      "proxima_acao": "Concluir o build/captura NONE em ROM de trabalho; fechar movimento de câmera preservando landmarks MUGEN; integrar variação ambiental por fase; revisar fidelidade de paleta; medir ROM final com música e FX."
+    },
+    {
+      "id": "D2",
+      "etapa": "D",
+      "title": "Camera e profundidade",
+      "dependencia": [
+        "D1"
+      ],
+      "criterio_aceite": "Especificar dead zone, limites, saltos, troca de lado, push/corner, horizonte ANTES de mudar codigo. Parallax por faixas (distante lento, arquitetura media, chao por linha). Sem Mode7. Tabelas inteiras; limite transferencias; avaliar costura/tremor/HUD.",
+      "estado": "pendente_frame_fixo_ainda",
+      "owner": "executor",
+      "ultima_evidencia": "Faixas frontais: BG3 [0,176), BG4a [176,212) xscale .792410..1.091517833, BG4b [212,224), 449 cameras. Color code0 transparente torna mask=1 representavel. Source-view completo excede dois grupos em 72/32/72 linhas; tradeoff por linha agregando cameras desloca 9,14% das amostras, média .04105 px/pixel/frame, max .803572 em y62; drift acumulado do anchor224 media 2.10254 px/pixel e max45 no extremo. O preview candidate varia de 0 a 9.625 índices por posição e segue sem avaliação humana. HSCROLL_LINE, plano A/B e arte não implementados. Full camera sweep (2026-09-25): 449 positions/32,184,320 visible pixel samples. Discrete profile: 5.03% remapped, mean drift 0.95527px, max45px; continuous minimax: 14.33% remapped, mean drift1.48841px, max22.5px. Endpoint previews alter roof/castle relationship in both routes; neither approved. Reports/hashes and route rationale in doc/mugen/stage_suzaku_route_2026_09_25.md; tooling tests 108 passed. 2026-09-26 exact full-sweep row groups: y0-39 has 3 rates; y40-111 has 4; y112-175 has 2; y176-223 shows one front layer per row. Two semantic two-speed maps were previewed. Preserving sky moves castle/wall and exposes a magenta hole; preserving castle/roof shifts the moon by up to 120.5px. HSCROLL_LINE and coherent BG_A/B ownership remain unimplemented. Tooling validation 2026-09-26: full mugen2sgdk_forge suite 114 passed; six semantic profile tests; compileall and JSON checks pass. Learning capture/audit: 60 lessons, 31 candidates, no canonical promotion. Storyboard draft created at doc/mugen/suzaku_plane_storyboard_draft_2026_09_26.json: sky/moon anchor BG_B=0; castle/wall/roof candidate BG_A=.671875 through y175; front bands retain measured per-line speeds. Status remains draft_source_translation_requires_visual_review.",
+      "proxima_acao": "Priorizar fonte DEF/SFF original conforme doc/mugen/suzaku_source_fidelity_recovery_2026_09_26.md. Recuperar ownership de paleta e medir residencia/movimento antes de redesenhar; V1-V16 preservados como experimentos historicos."
+    },
+    {
+      "id": "D3",
+      "etapa": "D",
+      "title": "Vida ambiental",
+      "dependencia": [
+        "D2"
+      ],
+      "criterio_aceite": "Ao menos um movimento ambiental e uma tecnica de profundidade com funcao visual clara, dentro do budget. Owner de paleta resolve conflito raio/super/restauracao. Medir degrau seguinte de detalhe; folga exige justificativa.",
+      "estado": "pending",
+      "owner": "executor+agente_grafico",
+      "ultima_evidencia": "Apos cenario estatico aprovado em ROM.",
+      "proxima_acao": "Adicionar nuvens/tecido/clima previstos; sem destruicao/efeitos fora de escopo."
+    },
+    {
+      "id": "E0",
+      "etapa": "E",
+      "title": "Fluxo real de entrada e audio do menu",
+      "dependencia": [
+        "A2"
+      ],
+      "criterio_aceite": "Build normal abre branding/menu e permite entrar e sair da luta; build de sonda usa MG_DIRECT_FIGHT=1 declarado. A musica FM continua enquanto o cue PSG do menu toca; prova por captura de audio identificada pelo mesmo SHA da ROM e escuta humana.",
+      "estado": "in_progress",
+      "owner": "executor",
+      "ultima_evidencia": "src/core/app.c define MG_DIRECT_FIGHT=1 por padrao, portanto a ROM 05a27a06 inicia na luta mesmo quando runner recebe target_scene=2; scene_id=3 verificado e mismatch agora bloqueado pelo wrapper. Corrigido AUDIO_playCue para preservar XGM2 nos cues PSG simples. Perfil isolado -DMG_DIRECT_FIGHT=0 compilou ROM 1898bdc7, capturada no BlastEm em out/stage_takeover_menu_probe: scene_id=2, screenshot menu, audio.raw nao vazio. O cue de navegacao nao foi acionado na captura e o audio nao foi escutado; menu/BGM ainda nao aprovados.",
+      "proxima_acao": "Automatizar input de menu com timing/PTS e comparar trilha antes/depois do cue; escutar, validar loop/mix, ligar menu->luta->resultado->revanche no perfil normal. Nao inferir cena pelo target_scene se ROM nao consumir marcador."
+    },
+    {
+      "id": "E1",
+      "etapa": "E",
+      "title": "Musica, vozes e mixagem",
+      "dependencia": [
+        "A2"
+      ],
+      "criterio_aceite": "BGM de luta com loop correto, entradas round/fight/KO, prioridades SFX, vozes, restauracao apos pause/transicao. Preferir driver XGM2 existente. Testar musica+2 vozes+impactos+super no pior caso, OUVIR e registrar clipping/cortes/loop/click/pitch. Medir CPU/DMA/Z80 com audio habilitado.",
+      "estado": "musica_integrada_percepcao_pendente",
+      "owner": "executor",
+      "ultima_evidencia": "A trilha Suzaku XGM2 foi integrada à cena; BlastEm confirmou cena 3 e houve captura SDL. Som/Mix não aprovado por audição humana, e overbudget/cadência não aprovados.",
+      "proxima_acao": "Human-listen to the hash-bound audio.wav and record loop seam, tonal identity, fatigue and PSG masking. Then build a matched fight control without candidate BGM to compare the fixed runtime probe; after stage selection, retest BGM with voices, impacts and super in the worst-state capture. Keep approval and production integration blocked until listening and mix are recorded."
+    },
+    {
+      "id": "F1",
+      "etapa": "F",
+      "title": "Desempenho e regressao conjunta",
+      "dependencia": [
+        "A3",
+        "B1",
+        "B2",
+        "B3",
+        "C1",
+        "C2",
+        "D1",
+        "D2",
+        "D3",
+        "E1"
+      ],
+      "criterio_aceite": "ROM final integrada: 3 execucoes >=1200 frames do mesmo combate pesado + 1 luta completa ate resultado/retorno. Meta NTSC: progresso em cada VBlank nominal sem slowdown nao intencional. Registrar missed-vblank/overbudget, distribuicao, pico sprites/pixels por linha, DMA, residencia.",
+      "estado": "pending",
+      "owner": "executor",
+      "ultima_evidencia": "Stage3 matriz atual 250/1200 above budget; sem claim 60 fps sustentado.",
+      "proxima_acao": "Concluir matriz atribuindo transiente; gravar video+audio com integridade temporal; se ferramenta so ve frames registrar images_only."
+    }
+  ],
+  "source_fidelity_recovery": {
+    "date": "2026-09-26",
+    "plan": "doc/mugen/suzaku_source_fidelity_recovery_2026_09_26.md",
+    "status": "measured_diagnosis_runtime_pending",
+    "report": "rascunho/processado/stage_takeover/original_source_recovery_audit_20260926.json"
+  }
+}

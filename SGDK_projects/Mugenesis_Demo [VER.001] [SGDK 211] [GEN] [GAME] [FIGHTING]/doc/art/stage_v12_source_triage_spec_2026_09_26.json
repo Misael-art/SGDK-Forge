@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+  "source_class": "unclassified_raster",
+  "intended_role": "translation_source",
+  "matte_policy": "opaque",
+  "reviewer": "agent_curated_review",
+  "identity_authority_path": "rascunho/inputs/suzaku_v11_modular_reauthoring_ai_concept_20260926.png",
+  "identity_authority_sha256": "d4df30abb90a1f09101fd377a01df20e9477db20707cdcff2ac03dd1f7c2b89e",
+  "visual_source_of_truth_contract": "doc/mugen/suzaku_v12_visual_identity_contract_2026_09_26.json",
+  "derivation": "AI-generated reauthoring of the hash-bound V11 concept; opaque full-scene source. Convert only as mechanical color/tile cost controls until visual review.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Opaque panorama, not a character cutout. Mountain clouds and the platform are content rather than alpha contamination. No segmentation, palette acceptance or final-asset status is implied."
+  }
+}

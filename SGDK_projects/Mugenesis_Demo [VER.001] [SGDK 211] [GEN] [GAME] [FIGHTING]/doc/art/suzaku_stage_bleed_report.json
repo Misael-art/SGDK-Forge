@@ -1,0 +1,28 @@
+{
+  "schema_version": "suzaku_stage_bleed.v1",
+  "status": "source_composed_candidate",
+  "source": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/res/bgs/suzaku/source_anchor_8.png",
+  "source_sha256": "0e2f35a3d2bc260cbf944c38b104b9f81f5010d8c30d40ce1d7235237e82af65",
+  "output": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/res/bgs/suzaku/source_anchor_8_bleed.png",
+  "output_sha256": "0da0700f4c5a2e7ea7773471ef53e10f034a7f17783f4b980f8996a79e2823a7",
+  "source_dimensions": [
+    320,
+    224
+  ],
+  "output_dimensions": [
+    336,
+    256
+  ],
+  "padding_px": {
+    "left": 8,
+    "right": 8,
+    "top": 16,
+    "bottom": 16
+  },
+  "center_pixel_mismatches": 0,
+  "source_hv_canonical_tile_patterns": 640,
+  "output_hv_canonical_tile_patterns": 640,
+  "new_tile_patterns": 0,
+  "method": "reflect_existing_indexed_edge_pixels",
+  "claim_ceiling": "shake_overscan_only_static_camera_anchor"
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "tools/sgdk_wrapper/schemas/camera_behavior_contract.schema.json",
+  "schema_version": "1.0.0",
+  "artifact_kind": "camera_behavior_contract",
+  "scene_id": "first_playable_slice",
+  "camera_role": "fighting_stage",
+  "model": "fighting_stage_lock",
+  "coordinate_model": "integer_only",
+  "target_anchor": {
+    "subject": "midpoint_between_p1_and_p2",
+    "x_offset_px": 0,
+    "y_offset_px": 0,
+    "vertical_priority": "custom"
+  },
+  "dead_zone": {
+    "enabled": false,
+    "left_px": 0,
+    "right_px": 0,
+    "top_px": 0,
+    "bottom_px": 0,
+    "reason": "The current fighting runtime follows the fighters' midpoint with a bounded integer step; do not add a dead zone without comparing combat framing."
+  },
+  "smoothing": {
+    "enabled": true,
+    "method": "fixed_step",
+    "frames_to_target": 0,
+    "max_speed_px_per_frame": 4
+  },
+  "lookahead": {
+    "enabled": false,
+    "x_px": 0,
+    "y_px": 0,
+    "switch_frames": 0,
+    "source": "none"
+  },
+  "clamp": {
+    "enabled": true,
+    "min_x_px": 0,
+    "max_x_px": 448,
+    "min_y_px": 0,
+    "max_y_px": 0,
+    "empty_space_policy": "forbidden"
+  },
+  "render_snap": {
+    "final_position": "integer_pixels_only",
+    "scroll_register_units": "pixels",
+    "sprite_camera_space": "world_minus_camera_integer",
+    "subpixel_jitter_guard": true
+  },
+  "trigger_zones": [],
+  "screen_shake": {
+    "allowed": true,
+    "max_offset_px": 7,
+    "max_duration_frames": 12,
+    "decay": "lookup_table",
+    "snap_after_shake": true,
+    "gameplay_events": ["heavy_hit", "knockdown", "ko"]
+  },
+  "culling_policy": {
+    "enabled": false,
+    "margin_px": 0,
+    "disable_physics_outside_view": false,
+    "telegraph_safe": true,
+    "exceptions": ["Fighting actors and projectiles keep gameplay simulation while outside the visible viewport."]
+  },
+  "runtime_owner": {
+    "module": "src/mg/mg_fight.c (generated copy; canonical source is tools/mugen2sgdk_forge/runtime/mg_fight.c)",
+    "update_function": "push_and_bounds",
+    "reset_function": "start_round"
+  },
+  "fallback": "If the source-derived camera viewport or H-scroll misses its VDP budget, retain the current 640-pixel fight world and use plane-level scroll with a documented delta compromise until a new measured composition is accepted.",
+  "evidence_required": [
+    {"evidence_type": "camera_bounds_and_integer_snap", "path": "out/stage_takeover/camera_bounds_report.json", "passed": false},
+    {"evidence_type": "corner_and_reversal_video", "path": "out/stage_takeover/camera_corners/", "passed": false},
+    {"evidence_type": "hscroll_band_seam_and_dma", "path": "out/stage_takeover/hscroll_runtime_report.json", "passed": false},
+    {"evidence_type": "hud_and_shake_fixed_space", "path": "out/stage_takeover/hud_camera_regression.json", "passed": false}
+  ],
+  "blockers": [
+    "world_768_not_integrated",
+    "source_camera_sign_not_verified_in_rom",
+    "bg_b_overlap_speed_unresolved",
+    "viewport_vram_budget_not_measured",
+    "hscroll_runtime_not_implemented",
+    "human_visual_approval_missing"
+  ]
+}

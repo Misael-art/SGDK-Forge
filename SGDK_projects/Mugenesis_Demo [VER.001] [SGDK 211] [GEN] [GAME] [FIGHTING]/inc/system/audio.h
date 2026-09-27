@@ -22,5 +22,6 @@ void AUDIO_update(void);
 void AUDIO_stopAll(void);
 void AUDIO_playCue(AudioCue cue);
 void AUDIO_startBrandBgm(void);
+void AUDIO_startFightBgm(void);
 
 #endif

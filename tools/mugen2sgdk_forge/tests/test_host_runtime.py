@@ -24,7 +24,7 @@ def build(tmp_path, main):
     out = tmp_path / main / "bin"
     out.parent.mkdir(parents=True)
     env = dict(os.environ, MG_HOST_MAIN=str(HERE / f"{main}.c"))
-    subprocess.run([str(HERE / "build_host.sh"), str(PROJECT), str(out), "-O1"], check=True, env=env,
+    subprocess.run(["bash", str(HERE / "build_host.sh"), str(PROJECT), str(out), "-O1"], check=True, env=env,
                    capture_output=True)
     return out
 
@@ -62,7 +62,7 @@ def build_flags(tmp_path, main, *flags):
     out = tmp_path / (main + "_fp") / "bin"
     out.parent.mkdir(parents=True)
     env = dict(os.environ, MG_HOST_MAIN=str(HERE / f"{main}.c"))
-    subprocess.run([str(HERE / "build_host.sh"), str(PROJECT), str(out), "-O1", *flags], check=True, env=env,
+    subprocess.run(["bash", str(HERE / "build_host.sh"), str(PROJECT), str(out), "-O1", *flags], check=True, env=env,
                    capture_output=True)
     return out
 

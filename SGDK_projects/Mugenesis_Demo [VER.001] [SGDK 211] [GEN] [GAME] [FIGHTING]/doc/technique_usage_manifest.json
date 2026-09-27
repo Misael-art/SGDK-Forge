@@ -3,15 +3,76 @@
   "project": {
     "name": "Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
     "project_root_policy": "all_project_material_inside_project",
-    "lab_not_delivery": true
+    "lab_not_delivery": false
   },
   "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
   "documentation_sync": {
-    "doc_13_spec_cenas": false,
-    "doc_10_memory_bank": false,
-    "doc_changelog": false,
-    "notes": "Template inicial. Marcar true apenas quando tecnicas forem declaradas e refletidas nos docs do projeto."
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Registry techniques below are planned for the authorized technical demo. Source measurements exist for Suzaku, but no stage/runtime technique is promoted without budget reports and exact-ROM BlastEm evidence."
   },
   "allowed_external_artifacts": [],
-  "techniques": []
+  "techniques": [
+    {
+      "scene_id": "global_runtime",
+      "registry_id": "dma_transfer_safety",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["DMA_OPTIMIZADO", "DMA_QUEUE", "VBLANK_BUDGET_AUDIT"],
+      "owner_skills": ["megadrive-vdp-budget-analyst", "sgdk-runtime-coder"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": "out/stage_takeover/dma_budget_report.json", "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Selected as a safety requirement. Stage preload and per-frame table transfers are not measured yet."
+    },
+    {
+      "scene_id": "first_playable_slice",
+      "registry_id": "camera_scroll_management",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["CAMERA_MANAGEMENT", "PARALLAX", "INTEGER_RENDER_SNAP"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst", "scene-state-architect"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": "out/stage_takeover/camera_bounds_report.json", "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Camera contract records current integer midpoint behavior and proposed Suzaku bounds; expanded world and corner response are not implemented."
+    },
+    {
+      "scene_id": "first_playable_slice",
+      "registry_id": "line_scrolling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["LINE_SCROLL", "PARALLAX", "VBLANK_BUDGET_AUDIT"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst", "multi-plane-composition"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": "out/stage_takeover/hscroll_runtime_report.json", "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "BG_A HSCROLL_LINE is a route candidate because the three foreground bands align exactly after crop16; no runtime or VBlank proof exists."
+    },
+    {
+      "scene_id": "suzaku_castle",
+      "registry_id": "advanced_tilemap_design",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["DMA_STREAMING", "VRAM_TILE_INDEX_MANAGEMENT"],
+      "owner_skills": ["multi-plane-composition", "visual-excellence-standards", "megadrive-vdp-budget-analyst", "sgdk-runtime-coder"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": "rascunho/processado/stage_takeover/suzaku_measure_v2.json", "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "The report measures source patterns and animated events, not compiled tiles or simultaneous viewport residency."
+    },
+    {
+      "scene_id": "fight_and_suzaku_stage",
+      "registry_id": "palette_state_transitions",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["PALETTE_MANAGEMENT_AVANCADO", "PALETTE_TRANSITION", "PALETTE_FLASH"],
+      "owner_skills": ["visual-excellence-standards", "sgdk-runtime-coder"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": "doc/mugen/cram_map_2026_09_25.md", "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "CRAM ownership is documented; stage/HUD/super and fighter/FX consumers still need a resolved route and exact restore proof."
+    },
+    {
+      "scene_id": "global_audio",
+      "registry_id": "xgm2_audio_architecture",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["AUDIO_ENGINEERING", "XGM2_AUDIO", "FM_SYNTHESIS", "YM2612_AUDIO"],
+      "owner_skills": ["sgdk-runtime-coder", "scene-state-architect"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": "out/stage_takeover/audio_validation_report.json", "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "XGM2 remains the driver route. Fight music, final loop, cue priority, human listening review and worst-case CPU measurement are pending."
+    }
+  ]
 }

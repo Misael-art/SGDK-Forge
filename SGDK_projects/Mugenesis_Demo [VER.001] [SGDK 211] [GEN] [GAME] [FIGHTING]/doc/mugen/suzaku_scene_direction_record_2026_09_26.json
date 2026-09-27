@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "scene_id": "suzaku_castle",
+  "scene_role": "gameplay",
+  "selected_profile": "competent",
+  "selected_archetype_id": "suzaku_japanese_fortress_moonlight_local",
+  "catalog_path": "tools/sgdk_wrapper/.agent/references/scene_archetype_catalog.json",
+  "auto_selected": false,
+  "confidence": 0.72,
+  "confidence_threshold": 0.65,
+  "scene_narrative_function": "scale",
+  "gameplay_visual_link": "The keep and moon orient camera position across the stage; the continuous deck gives a stable floor-contact and spacing reference. Lanterns mark stage edges and depth but do not obscure fighters or change combat state.",
+  "archetype_adaptation_note": "The catalog has no Japanese-fortress archetype. The nearest castle-role archetype is used only for its scene-role and budgeting vocabulary. Do not import gothic architecture, stained glass, god rays, torch-cycle palettes, or its signature techniques; Suzaku retains its original Japanese fortress identity.",
+  "selected_archetype_origin": "project_local_composition_from_existing_scene_identity",
+  "selected_archetype_definition": "Grounded Japanese fortress at night, moon and mountain/cloud depth, repeatable rail and wood deck, clear fighting floor and original warm lantern accents.",
+  "top_candidates": [
+    {
+      "archetype_id": "gothic_cathedral_palette_drama",
+      "score": 0.72,
+      "why_fit": "Only catalog entry with castle gameplay role and dramatic vertical architecture; the stage's keep silhouette can serve as a scale anchor.",
+      "risks": "Strong thematic mismatch. Reuse no Gothic motifs or technique cards without a new scene-specific owner and budget."
+    },
+    {
+      "archetype_id": "sky_islands_cloud_sea",
+      "score": 0.49,
+      "why_fit": "Moon, clouds and wide atmospheric sky are relevant to the far depth plane.",
+      "risks": "No fortress/fighting-stage role; could make the scene too airy and weaken the grounded platform."
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "archetype_id": "gothic_cathedral_palette_drama",
+      "reason": "Rejected as a literal visual style; retained only as a structural castle-role reference."
+    },
+    {
+      "archetype_id": "sky_islands_cloud_sea",
+      "reason": "Rejected as the selected whole-scene archetype because floating-island scale and cloud-sea motifs conflict with the grounded fortress stage."
+    }
+  ],
+  "signature_techniques": [],
+  "fallback_profile": "minimal_static_single_plane_320x224",
+  "mode7_claim_redirected": false,
+  "budget_preconditions": {
+    "vram_pressure": "high",
+    "cpu_pressure": "medium",
+    "h_int_required": false
+  },
+  "blocking_statuses": [
+    "V11 remains concept-only and lacks human visual approval",
+    "scene plane split and camera window sweep are unmeasured",
+    "stage plus fighters, HUD, effects and audio residency/cadence are unproven"
+  ],
+  "decision_basis": {
+    "current_world_width": 640,
+    "historical_446_tile_estimate_is_not_runtime_proof": true,
+    "V10_peak_viewport_tiles": 494,
+    "latest_audio_on_probe_over_budget_frames": 74,
+    "monumental_profile_deferred_until_current_worst_case_budget_closes": true
+  }
+}

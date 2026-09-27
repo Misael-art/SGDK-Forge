@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "suzaku_v15_backdrop_transparent_control_640x224",
+  "status": "offline_technical_control_only",
+  "source": {
+    "path": "rascunho/processado/stage_takeover/suzaku_v13_floor_reuse_shift32_control_640x224.png",
+    "sha256": "95db5991a6d170ebfb568e49a3f9f066c23f043f8f5c2b6e546116092e1a5551"
+  },
+  "operation": {
+    "script_path": "rascunho/processado/stage_takeover/compose_suzaku_v15_backdrop_transparency.py",
+    "script_sha256": "06461479eb7eeb79fabdf00ba64aecb6077b538367dd6127b8cedcafd7293784",
+    "report_path": "rascunho/processado/stage_takeover/suzaku_v15_backdrop_transparency_report_20260926.json",
+    "report_sha256": "f2f8a7cbac51d572c530db38afa8dedcb5d158a9db710da7c1d42a5c62f4021e",
+    "kind": "four_connected_border_flood_to_index0",
+    "source_color_index": 3,
+    "transparent_index": 0,
+    "pixels_made_transparent": 64630,
+    "reconstruction_rgb_mismatch_pixels": 0
+  },
+  "output": {
+    "path": "rascunho/processado/stage_takeover/suzaku_v15_backdrop_transparent_control_640x224.png",
+    "sha256": "19bb5167f7bf0e1fe809b61100549a634aecf42e73694ba964836628d6cb6935",
+    "dimensions": [640, 224],
+    "mode": "P",
+    "index0_role": "transparent0",
+    "proposed_global_cram_index_if_palette0": 3,
+    "proposed_backdrop_rgb": [0, 0, 68]
+  },
+  "economics": {
+    "cram_slot_saving_proven": false,
+    "background_fill_tile_saving": "pending_rescomp",
+    "map_entry_saving_proven": false,
+    "runtime_savings_proven": false,
+    "reason": "Palette index 3 remains the selected backdrop color. Exact RGB reconstruction proves only offline visual equivalence; real plane transparency, palette ownership and tile cost require ResComp plus a ROM test."
+  },
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime": false
+}

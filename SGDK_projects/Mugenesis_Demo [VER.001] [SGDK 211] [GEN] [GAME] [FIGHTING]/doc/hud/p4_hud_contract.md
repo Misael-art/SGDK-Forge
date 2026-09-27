@@ -76,3 +76,23 @@ e a anim de super comum (anim 100) hoje registradas como indisponiveis.
 - Plano: BG_A linha 26 (o WINDOW nao pode estar no topo e na base ao mesmo tempo).
 - Contrato com o cenario: essa linha de BG_A fica com scroll 0 (line scroll) quando houver palco.
 - Some com o HUD durante o fundo de super, como o resto.
+
+## Revisao aprovada pelo pedido de 2026-09-25 — HUD de cantos
+
+Esta secao substitui as coordenadas da REGRA 2 e do storyboard historico para
+o especial. P1 ocupa BG_A colunas 1..5, P2 34..38, linha 26. `SUPER` ocupa
+linha 25, seis tiles a partir de 1/33 enquanto energia real >=3000. A barra
+cheia alterna entre arte azul e clara a cada 12 ticks; gasto real de energia
+dispara apresentacao de descarga de 24 ticks, mais rapida no inicio. Nenhum
+desses efeitos altera a energia usada pelo combate. O scroll de BG_A nas
+linhas 25/26 deve ser zero quando o palco for implementado.
+
+Retrato: fonte 9000,0 possui paleta propria, passada aos slots estaveis da
+linha do lutador. Index 0 e transparente e preto opaco continua visivel;
+gerador anterior apagava 229 pixels que eram opacos. Moldura autoral ainda
+pendente. Estrela fica nas linhas 3/4 do WINDOW, combo nas 5/6 e usa 12 tiles
+para dois digitos + `HITS`. O risco de o texto SUPER ser parcialmente coberto
+por poses baixas segue em `needs_review` apos burst de prova.
+
+ROM de prova e resultados: `doc/mugen/hud_stage_review_2026_09_25.md`.
+Atualizar este contrato novamente antes de mudar transporte/paleta no cenario.

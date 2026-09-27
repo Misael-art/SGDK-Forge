@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MUGEN to SGDK shared-palette stage plane conversion spec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "asset_id", "target", "far_source", "near_source",
+    "composite_source", "alpha_threshold", "palette_candidate",
+    "palette_conversion_report", "palette_conversion_spec", "output_dir"
+  ],
+  "properties": {
+    "schema": {"const": "mugen2sgdk_forge.stage_plane_assets_spec/v1"},
+    "asset_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "height": {"type": "integer", "minimum": 8, "multipleOf": 8}
+      }
+    },
+    "far_source": {"$ref": "#/$defs/projectSource"},
+    "near_source": {"$ref": "#/$defs/projectSource"},
+    "composite_source": {"$ref": "#/$defs/projectSource"},
+    "alpha_threshold": {"type": "integer", "minimum": 0, "maximum": 255},
+    "palette_candidate": {"$ref": "#/$defs/paletteCandidate"},
+    "palette_conversion_report": {"$ref": "#/$defs/paletteCandidate"},
+    "palette_conversion_spec": {"$ref": "#/$defs/projectSource"},
+    "output_dir": {
+      "type": "string",
+      "pattern": "^(?:out|rascunho)/[A-Za-z0-9_./-]+$"
+    }
+  },
+  "$defs": {
+    "projectSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "paletteCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^out/[A-Za-z0-9_./-]+$"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}

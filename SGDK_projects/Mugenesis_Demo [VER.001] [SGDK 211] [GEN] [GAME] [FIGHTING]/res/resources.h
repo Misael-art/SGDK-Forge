@@ -10,6 +10,7 @@ extern const u8 brand_stamp_whoosh[6400];
 extern const u8 brand_reverb_tail[9984];
 extern const u8 brand_hammer_slam[5632];
 extern const u8 mus_forge_brand[768];
+extern const u8 mus_suzaku_fight[1024];
 extern const Image img_brand_fx_tiles;
 extern const Image img_brand_engine_logo;
 extern const Image img_brand_author_logo;
@@ -26,5 +27,8 @@ extern const Image img_logo_author_v2;
 extern const Image img_logo_project_v2;
 extern const Image img_presents_text_v2;
 extern const Image img_presents_bar_v2;
+extern const Image img_suzaku_anchor;
+extern const Image img_suzaku_far;
+extern const Image img_suzaku_near;
 
 #endif // _RES_RESOURCES_H_

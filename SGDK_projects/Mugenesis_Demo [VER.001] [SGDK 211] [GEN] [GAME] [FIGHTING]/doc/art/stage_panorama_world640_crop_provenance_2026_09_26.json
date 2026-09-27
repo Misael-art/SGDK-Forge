@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "status": "staging_world640_plane_crop",
+  "builder": "rascunho/processado/stage_takeover/prepare_suzaku_panorama_layers_world640.py",
+  "report": "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_20260926/layer_crop_study_report.json",
+  "source_artifacts": [
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_panorama_bg_b_20260926.png",
+      "sha256": "7d997cdd3cb7540f8ab78f723016e3dead478b1171a831453effc3670fbaebc5",
+      "source_kind": "ai_generated"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_panorama_bg_a_20260926.png",
+      "sha256": "1d94d4352d710a56a72e8989c4387e5df7256b5eacfdf02c3d9b260c36b525e5",
+      "source_kind": "ai_generated"
+    }
+  ],
+  "operations": {
+    "center_crop_xyxy": [52, 0, 2120, 724],
+    "resize": "nearest neighbor to 640x224",
+    "near_alpha_threshold": 128,
+    "pixel_drawing": false
+  },
+  "derived_artifacts": [
+    {
+      "path": "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_20260926/bg_b_far_world640_crop.png",
+      "sha256": "4dfbe778ed4467c4e68703197d069089d3010d0faa1feb09432e7524289f18b9",
+      "source_kind": "procedural_composed_from_authored"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_20260926/bg_a_near_world640_crop.png",
+      "sha256": "9f7e3f2810a2d36f4fd1a04258a3d15d741002399630492ad5899fc5c7123c33",
+      "source_kind": "procedural_composed_from_authored"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_20260926/composite_world640_640x224.png",
+      "sha256": "665a0cac541595f4e4a634b57ff38705500e4649366d40ff975c187b727a454c",
+      "source_kind": "procedural_composed_from_authored"
+    }
+  ],
+  "claim_ceiling": "crop_and_alpha_composite_technical_study_only"
+}

@@ -112,6 +112,24 @@ def test_measure_suzaku_numbers_are_reproducible():
     assert by["BG_B ceu+castelo+muro0.43"]["tiles_unique_with_flip"] == 739
     assert by["BG_A telhados+chao1.0"]["tiles_unique_with_flip"] == 540
     assert by["S1 BG_B estatico 320 (sem scroll)0.0"]["tiles_unique_with_flip"] == 476
+    anims = {a["id"]: a for a in r["animated_layers"]}
+    assert set(anims) == {51, 52, 53}
+    assert all(a["frame_count"] == 51 and a["loop_cycle_duration_ticks"] == 278 for a in anims.values())
+    assert all(a["unique_nonempty_frame_tiles_with_flip"] == 9 for a in anims.values())
+    assert all(a["enable_windows"][0]["matches_action_cycle"] for a in anims.values())
+    back = r["static_layer_groups"]["suzaku_back_plane_source_layers"]
+    assert back["layers"] == ["BG 0a", "BG 0b", "BG 1", "BG 2"]
+    assert back["sum_without_cross_layer_dedup"] == 1399
+    assert back["unique_nonempty_tiles_with_cross_layer_dedup_and_flip"] == 1021
+    assert back["exact_pattern_savings"] == 378
+    overlay = r["static_layer_groups"]["suzaku_back_overlay_without_tiled_sky_fallback"]
+    assert overlay["unique_nonempty_tiles_with_cross_layer_dedup_and_flip"] == 959
+    front = r["static_layer_groups"]["suzaku_front_banded_plane_source_layers"]
+    assert front["sum_without_cross_layer_dedup"] == 700
+    assert front["unique_nonempty_tiles_with_cross_layer_dedup_and_flip"] == 700
+    assert front["status"] == "source_pattern_estimate_not_rescomp"
+    bands = {name: r["layers"][name]["visible_y_bounds_exclusive"] for name in ("BG 3", "BG 4a", "BG 4b")}
+    assert bands == {"BG 3": [0, 184], "BG 4a": [184, 220], "BG 4b": [220, 224]}  # default crop_top=8
 
 
 def test_plane_stats_dedupes_mirrors_and_skips_empty():
@@ -125,3 +143,101 @@ def test_plane_stats_dedupes_mirrors_and_skips_empty():
     s = sm.plane_stats(buf, pal)
     assert s["tiles_unique_with_flip"] == 2 and s["md_colours"] == 2
     assert s["empty_cells"] == 3 * (sm.MD_H // 8) - 3
+
+
+def test_animated_stage_report_preserves_frames_tiles_and_enable_schedule():
+    from mugen2sgdk_forge import stage_measure as sm
+    from mugen2sgdk_forge.parsers.sff import Sprite
+
+    st = stage.parse("""[BG spark]
+type = anim
+actionno = 9
+id = 51
+start = 111, 90
+delta = .47, 1
+[BGCtrlDef event]
+looptime = 100
+[BGCtrl on]
+type = enable
+time = 10
+value = 1
+[BGCtrl off]
+type = enable
+time = 13
+value = 0
+[Begin Action 9]
+5,2,0,0,2
+5,3,0,0,1
+""")
+    palette = [(0, 0, 0), (255, 0, 0), (0, 255, 0)] + [(0, 0, 0)] * 253
+    pixels_a = bytes([0, 1, 0, 0, 0, 0, 0, 0] * 8)
+    pixels_b = bytes([0, 0, 2, 0, 0, 0, 0, 0] * 8)
+    sprites = {
+        (5, 2): Sprite(5, 2, 0, 0, 8, 8, pixels_a, palette, False, None, 0),
+        (5, 3): Sprite(5, 3, 0, 0, 8, 8, pixels_b, palette, False, None, 1),
+    }
+    report = sm.animated_layer_stats(st, sprites)
+    assert len(report) == 1
+    anim = report[0]
+    assert anim["status"] == "measured"
+    assert anim["frame_count"] == 2 and anim["first_pass_duration_ticks"] == 3
+    assert anim["loop_cycle_duration_ticks"] == 3 and anim["has_infinite_frame"] is False
+    assert anim["unique_nonempty_frame_tiles_with_flip"] == 2
+    assert anim["enable_windows"] == [{"start": 10, "end": 13, "loop_ticks": 100,
+                                       "enabled_ticks": 3, "matches_action_cycle": True}]
+    assert [f["visible_pixels"] for f in anim["frames"]] == [8, 8]
+    assert anim["frames"][0]["offset"] == [0, 0]
+
+
+def test_animated_action_with_infinite_frame_has_unknown_cycle_duration():
+    from mugen2sgdk_forge import stage_measure as sm
+    from mugen2sgdk_forge.parsers.sff import Sprite
+    st = stage.parse("""[BG spark]
+type = anim
+actionno = 9
+id = 51
+[Begin Action 9]
+5,2,0,0,-1
+""")
+    palette = [(0, 0, 0), (255, 0, 0)] + [(0, 0, 0)] * 254
+    sprite = Sprite(5, 2, 0, 0, 1, 1, bytes([1]), palette, False, None, 0)
+    result = sm.animated_layer_stats(st, {(5, 2): sprite})[0]
+    assert result["has_infinite_frame"] is True
+    assert result["first_pass_duration_ticks"] is None
+    assert result["loop_cycle_duration_ticks"] is None
+
+
+def test_static_layer_group_reports_only_proven_cross_layer_reuse():
+    from mugen2sgdk_forge import stage_measure as sm
+    from mugen2sgdk_forge.parsers.sff import Sprite
+    st = stage.parse("""[BG left]
+spriteno = 1,0
+[BG right]
+spriteno = 1,1
+""")
+    palette = [(0, 0, 0), (255, 0, 0)] + [(0, 0, 0)] * 254
+    a = bytes([1, 0, 0, 0, 0, 0, 0, 0] * 8)
+    b = bytes([0, 0, 0, 0, 0, 0, 0, 1] * 8)
+    sprites = {
+        (1, 0): Sprite(1, 0, 0, 0, 8, 8, a, palette, False, None, 0),
+        (1, 1): Sprite(1, 1, 0, 0, 8, 8, b, palette, False, None, 1),
+    }
+    result = sm.static_layer_group_stats(st, sprites, ["BG left", "BG right"])
+    assert result["sum_without_cross_layer_dedup"] == 2
+    assert result["unique_nonempty_tiles_with_cross_layer_dedup_and_flip"] == 1
+    assert result["exact_pattern_savings"] == 1
+    assert result["status"] == "source_pattern_estimate_not_rescomp"
+
+
+def test_animated_stage_report_blocks_missing_sprite_references():
+    from mugen2sgdk_forge import stage_measure as sm
+    st = stage.parse("""[BG spark]
+type = anim
+actionno = 9
+id = 51
+[Begin Action 9]
+5,2,0,0,1
+""")
+    report = sm.animated_layer_stats(st, {})
+    assert report[0]["status"] == "missing_sprites"
+    assert report[0]["missing_sff_sprites"] == [[5, 2]]

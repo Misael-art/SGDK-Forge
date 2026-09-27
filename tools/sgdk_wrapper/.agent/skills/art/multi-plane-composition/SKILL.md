@@ -108,6 +108,20 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - promocao para ROM exige budget honesto e pode pedir `compare_flat`
 - `WINDOW` e HUD/dialogo/plano fixo; nao usar como mascara de foreground/oclusao so para esconder problema de rota
 - imagem-fonte grande nao vira `IMAGE` inteira por default; primeiro medir janela visivel, paineis candidatos e tiles unicos locais
+- ao estudar pecas modulares, medir tiles exatos e equivalentes por H/V/HV na
+  grade 8x8 **do recurso original indexado**, com mascara e paleta finais.
+  Contar a uniao do plano e o compartilhamento de cada peca com o restante;
+  somar contagens de crops ou recortar sem alterar pixels nao cria economia
+  adicional se o ResComp ja deduplica. Um deslocamento de 4 px muda a fase
+  da grade; considerar variantes de alinhamento antes de redesenhar diagonal.
+  Qualquer ajuste local declara pixels alterados, tiles poupados no recurso
+  compilado, iluminacao, perspectiva e revisao em tamanho nativo. Preservar
+  silhueta/bordas antes de otimizar miolo, ornamentos ou piso.
+- atlas de tiles e paleta carregada devem compartilhar a mesma tabela de
+  indices para todas as cores usadas. Comparar palavras CRAM compiladas por
+  indice, nao apenas contagem de cores ou aparencia dos PNGs. Um mapa/atlas
+  indexado com paleta distinta pode compilar e aparecer com cores erradas;
+  bloquear a integracao ate a ligacao explicita da paleta ser demonstrada.
 - para conversao de cenario/tilemap critico (>=320x224, ou tecnica declarada, ou entrega), a promocao exige reports em `out/logs/` (`scene_tilemap_conversion_report.json`, `per_tile_palette_conflict_report.json` e `tilemap_flag_report.json` quando houver dedup/flip/otimizacao)
 - `IMAGE` full-screen com alto unique_ratio e suspeito por padrao; se insistir em imagem inteira, usar estrategia `COMPARE_FLAT` e registrar benchmark/justificativa antes do closeout
 - stage MUGEN/DEF ou palco de luta com BG deltas diferentes nao pode ser

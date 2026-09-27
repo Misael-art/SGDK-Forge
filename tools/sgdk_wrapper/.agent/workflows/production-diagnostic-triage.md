@@ -35,6 +35,12 @@ misturadas durante producao ou recuperacao de projetos.
    `host_executor_route_mismatch`, nunca `emulator_dependency_missing`.
 5. Classifique `rom_runtime` somente com observacao da ROM, telemetria ou
    evidencia rastreavel.
+   Em falha de inicializacao de cena, registre o primeiro retorno falso e os
+   operandos da guarda (bases, contagens, limites e fase), preferencialmente em
+   SRAM de ROM diagnostica. Nao atribua a etapas ainda nao executadas uma
+   causa inferida de capacidade parcial. Depois de remover uma guarda, abra
+   uma nova triagem: a cena pode revelar defeito independente de paleta,
+   scroll ou ownership antes oculto pelo retorno antecipado.
 6. Avalie `creative_quality` separadamente e apenas depois da verdade tecnica.
 7. Para projeto existente, preserve worktree, baseline, historico e claims
    rebaixados. Nao renomeie legado automaticamente.

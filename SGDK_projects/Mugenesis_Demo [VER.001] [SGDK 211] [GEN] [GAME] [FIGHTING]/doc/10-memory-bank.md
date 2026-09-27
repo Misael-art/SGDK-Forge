@@ -629,3 +629,23 @@ Branch `feat/mugenesis-impact-fx-v2` @ `7cf00ed8`; 54 itens WIP preservados; sem
 - Candidato estático em dois planos: SHA `c1b03a491848803ccecc56c678b09c88c040069db132e61c6030610500788c9a`; `stage_ready=0`, restaurações 0, falhas de alocação de sprite 0, menor bloco contíguo observado 94 tiles; VLAB: 82/1200 quadros acima do orçamento, CPU máxima 141. Bundle local `out/mugenesis_evidence/suzaku_static_planes/canonical` (sessão `blastem-linux-20260927T022756Z-1860145`). Os snapshots de 59,9 e 59,5 FPS não demonstram cadência estável.
 - A rota de streaming reservou apenas 456 tiles porque o BGFX de 272 tiles não estava disponível como empréstimo no estado medido; empréstimo e faixa-base compartilham a mesma faixa de VRAM e não podem ser somados como capacidade independente. Isso ainda não explica a falha da inicialização estática de dois planos.
 - Próximo passo: instrumentar o resultado/capacidades exatas de `FIGHT_STAGE_init`, confirmar flags de compressão e dimensões dos recursos gerados e comparar com a última ROM âncora conhecida com `stage_ready=1`. Repetir BlastEm após a correção, verificando explicitamente pixels do cenário e SRAM antes de qualquer claim. Detalhe: `doc/mugen/suzaku_capture_regression_2026_09_27.md`.
+
+
+## Continuidade 2026-09-27 — diagnóstico físico corrigido
+
+A ROM diagnóstica `bef4dba9d29d9abf9d3e3c604229a08a3465e4fbd4b9a6d60c9eb0b25d9f683d` registrou em SRAM: stage_ready=0, status=CAPACITY, lowBase=650, spriteStart=1010, capacidade=648, requerido=685 (far259 + near426), MG_fightVramNext=492. Evidência: `out/mugenesis_evidence/piece_init/canonical`. O bloqueio da rota estática é falta de37 tiles, não o orçamento estimado de462.
+
+Errata da hipótese de streaming: capacidade456 era parada prematura em TILE_MAX_NUM, não prova de BGFX ausente ou duplicado. `fight_stage_stream.c` agora permite gaps físicos D000/F800 e exclui C000–CFFF/E000–F7FF, com rejeição atômica de overlap. Testes host: 3/3 passaram (bancos estáticos, dois planos e pool stream). Capacidade648+272=920 provada no alocador host; ainda não capturada em ROM com essa correção.
+
+Lição candidata: distinguir teto do alocador SDK de VRAM física; diagnosticar a primeira guarda que retorna e exportar seus operandos, sem inferir estado das etapas não executadas. Manter mapa de ownership por fase e validar restauração do empréstimo. Nenhuma promoção canônica ou aprovação visual nesta etapa. Próxima entrega: piso fiel isolado com movimento, depois módulos do telhado; preservar a ROM principal e comparar cada degrau compilado.
+
+Auditoria por peça implementada em `tools/mugen2sgdk_forge/mugen2sgdk_forge/stage_piece_reuse.py`: baseline `doc/mugen/suzaku_piece_reuse_baseline.json`. Piso âncora 240 células/218 exatos/146 com H/V; telhado 281/280; plano completo579/426. Zero pixels alterados. Contagens de regiões não são somáveis; ferramenta registra compartilhamento externo e exige alinhamento original8×8. Quatro testes direcionados passaram com PYTHONPATH=tools/mugen2sgdk_forge.
+
+
+## Captura da guarda corrigida — resultado parcial
+
+ROM `8bf3b933943ad4cda3292ef3952d76ad2c53c1c9ef6f0eae1022dae618f02890`; sessão `out/mugenesis_evidence/piece_stream_guard/sessions/blastem-linux-20260927T105449Z-1338066`. Build concluído. Screenshot inspecionado: cenário presente com jogadores/HUD, mas cores erradas e artefatos nas barras inferiores. Bundle rejeitado: vlab_block_missing, artifact_missing:vdp_dump, artifact_missing:runtime_metrics. Não sustenta teste completo, movimento, orçamento ou FPS.
+
+Causa concreta adicional: `source_stream_pattern_atlas.png` tem paleta diferente de `source_anchor_8_bleed.png`, mas `FIGHT_STAGE_init` carrega `img_suzaku_anchor.palette`. Índice1 do atlas é (102,136,136), enquanto a âncora fornece (34,68,102). A guarda corrigida apenas expôs esse defeito antes invisível. Próxima correção deve vincular explicitamente a paleta do atlas e conferir todos os índices, sem confundir o problema com perda inevitável do VDP.
+
+Ainda investigar separadamente o tempo até telemetria, alinhamento de scroll por linha versus origem comum da tile-row, ordem de vscroll far/near, overlay do HUD e restauração BGFX. O piso isolado em BG_B permite testar perspectiva original sem congelar suas linhas sob a barra. Não promover o streaming completo antes desses testes.

@@ -63,6 +63,17 @@ static void testVramBudgetTick(void)
         SRAM_writeWord(0x0320, sStageReady);
         SRAM_writeWord(0x0322, FIGHT_STAGE_restoreCount());
         SRAM_writeLong(0x0324, MG_fightSpriteFailures());
+#ifndef MG_STAGE_SOURCE_STREAM
+        const FightStageInitDiagnostics *diag = FIGHT_STAGE_initDiagnostics();
+        SRAM_writeWord(0x0328, diag->status);
+        SRAM_writeWord(0x032A, diag->lowBase);
+        SRAM_writeWord(0x032C, diag->spriteStart);
+        SRAM_writeWord(0x032E, diag->capacity);
+        SRAM_writeWord(0x0330, diag->required);
+        SRAM_writeWord(0x0332, diag->farTiles);
+        SRAM_writeWord(0x0334, diag->nearTiles);
+        SRAM_writeWord(0x0336, MG_fightVramNext());
+#endif
         SRAM_disable();
     }
 }

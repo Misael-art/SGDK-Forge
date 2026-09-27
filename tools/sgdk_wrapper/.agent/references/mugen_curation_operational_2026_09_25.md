@@ -166,3 +166,10 @@ e automaticamente aplicavel ao SMS. Prompts de continuidade ficam em
 
 Aplicar [guia de custo e qualidade](mugen_cost_quality_decisions.md): alternativas
 exploradas sao opcionais; diagnosticar recursos atuais e integrar cedo.
+
+## Diagnostico Suzaku (2026-09-27)
+
+[Caso e limites de evidencia](mugen_suzaku_vram_diagnostic_2026_09_27.md).
+A curadoria incorporou o metodo nos owners de budget VDP, composicao de
+planos, triagem de producao e evidencia de emulador. Capacidade de streaming,
+fidelidade do piso, qualidade visual, FPS e entrega do jogo seguem pendentes.

@@ -58,15 +58,28 @@ static s16 floor_tile(s16 pixels)
     return (s16)-(((-pixels) + 7) / 8);
 }
 
+/* This scene explicitly reclaims gaps above SGDK's automatic allocation ceiling.
+ * TILE_MAX_NUM is NOT the physical VRAM limit. Keep the name tables, HScroll
+ * and SAT excluded even when a caller supplies an otherwise physical range. */
 static bool append_slots(u16 base, u16 count, bool reject_overlap)
 {
-    if ((u32)base + count > TILE_MAX_NUM || (u32)sCapacity + count > STREAM_MAX_CACHE)
+    const u32 end = (u32)base + count;
+    if (end > 0x10000UL / TILE_SIZE || (u32)sCapacity + count > STREAM_MAX_CACHE)
         return FALSE;
-    for (u16 i = 0; i < count; i++) {
-        const u16 address = base + i;
+    if (count && ((base < 0xD000 / TILE_SIZE && end > 0xC000 / TILE_SIZE) ||
+                  (base < 0xF800 / TILE_SIZE && end > 0xE000 / TILE_SIZE)))
+        return FALSE;
+    /* Validate before committing: failure must leave the pool unchanged. */
+    for (u16 i = 0; i < count; i++)
         for (u16 j = 0; j < sCapacity; j++)
-            if (sSlotVram[j] == address) return reject_overlap ? FALSE : TRUE;
-        sSlotVram[sCapacity++] = address;
+            if (sSlotVram[j] == base + i) {
+                if (reject_overlap) return FALSE;
+            }
+    for (u16 i = 0; i < count; i++) {
+        bool present = FALSE;
+        for (u16 j = 0; j < sCapacity; j++)
+            if (sSlotVram[j] == base + i) { present = TRUE; break; }
+        if (!present) sSlotVram[sCapacity++] = base + i;
     }
     return TRUE;
 }

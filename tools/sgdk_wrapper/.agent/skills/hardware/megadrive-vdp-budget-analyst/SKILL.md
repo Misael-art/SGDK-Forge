@@ -296,6 +296,21 @@ Configs comuns (maps_addr = 0xC000 em todas):
 ```
 **OBRIGATORIO: calcular tile count com `rescomp` (IMAGE ou TILESET) ANTES de integrar arte.**
 
+**Caso especial: bancos fisicos recuperados por owner explicito.** A formula acima
+define a area que o alocador SGDK pode entregar automaticamente; `TILE_MAX_NUM`
+nao e o tamanho fisico da VRAM. Codigo que usa indices fixos fora dessa area
+exige um mapa de intervalos em tiles para cada fase da cena: inicio/fim,
+owner (mapas BG_A/B, WINDOW, HScroll, SAT, fonte, sprites, HUD, BGFX), quem
+escreve, quando empresta e como restaura. Provar que todos os intervalos sao
+disjuntos no mesmo instante; conferir `base + count <= 2048` e excluir tabelas
+reservadas antes de qualquer upload. Um banco livre em um layout nao vira
+reserva universal. Exportar a guarda que falhou e seus operandos na ROM de
+diagnostico: capacidade parcial nao prova que etapas posteriores, inclusive
+emprestimos, falharam. Testar limite fisico, sobreposicao e falha atomica no
+runtime C; depois medir a ROM e a restauracao no BlastEm. Nunca somar um
+emprestimo sem demonstrar que ele e disjunto da capacidade fixa e livre na
+fase de uso. [Caso Suzaku](../../../references/mugen_suzaku_vram_diagnostic_2026_09_27.md).
+
 Para jogo de luta com dois personagens grandes:
 
 - declarar `SPR_init` ou `SPR_initEx` usado no codigo

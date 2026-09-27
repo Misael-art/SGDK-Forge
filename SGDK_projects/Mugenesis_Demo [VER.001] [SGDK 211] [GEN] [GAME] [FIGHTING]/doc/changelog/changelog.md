@@ -566,3 +566,21 @@ aprovacao audiovisual. Instrucoes SMS sao plano, nao port implementado.
 - Streaming (`2c62c7f5…`): 456 tiles de capacidade, zero residentes, zero restaurações; hipótese de empréstimo BGFX inválido porque usa a mesma faixa-base da VRAM. Estático (`c1b03a49…`): zero restaurações e stage não inicializado; causa ainda sem prova.
 - Os gates visuais e de desempenho ficam bloqueados. VLAB contou 50/1200 e 82/1200 quadros acima do orçamento, respectivamente; amostras pontuais de FPS não substituem cadência estável.
 - Evidência local, não versionada: `out/mugenesis_evidence/suzaku_stream/canonical` e `out/mugenesis_evidence/suzaku_static_planes/canonical`. Relatório e próximo diagnóstico: `doc/mugen/suzaku_capture_regression_2026_09_27.md`.
+
+
+## Continuidade 2026-09-27 — diagnóstico físico corrigido
+
+A ROM diagnóstica `bef4dba9d29d9abf9d3e3c604229a08a3465e4fbd4b9a6d60c9eb0b25d9f683d` registrou em SRAM: stage_ready=0, status=CAPACITY, lowBase=650, spriteStart=1010, capacidade=648, requerido=685 (far259 + near426), MG_fightVramNext=492. Evidência: `out/mugenesis_evidence/piece_init/canonical`. O bloqueio da rota estática é falta de37 tiles, não o orçamento estimado de462.
+
+Errata da hipótese de streaming: capacidade456 era parada prematura em TILE_MAX_NUM, não prova de BGFX ausente ou duplicado. `fight_stage_stream.c` agora permite gaps físicos D000/F800 e exclui C000–CFFF/E000–F7FF, com rejeição atômica de overlap. Testes host: 3/3 passaram (bancos estáticos, dois planos e pool stream). Capacidade648+272=920 provada no alocador host; ainda não capturada em ROM com essa correção.
+
+Lição candidata: distinguir teto do alocador SDK de VRAM física; diagnosticar a primeira guarda que retorna e exportar seus operandos, sem inferir estado das etapas não executadas. Manter mapa de ownership por fase e validar restauração do empréstimo. Nenhuma promoção canônica ou aprovação visual nesta etapa. Próxima entrega: piso fiel isolado com movimento, depois módulos do telhado; preservar a ROM principal e comparar cada degrau compilado.
+
+
+## Captura da guarda corrigida — resultado parcial
+
+ROM `8bf3b933943ad4cda3292ef3952d76ad2c53c1c9ef6f0eae1022dae618f02890`; sessão `out/mugenesis_evidence/piece_stream_guard/sessions/blastem-linux-20260927T105449Z-1338066`. Build concluído. Screenshot inspecionado: cenário presente com jogadores/HUD, mas cores erradas e artefatos nas barras inferiores. Bundle rejeitado: vlab_block_missing, artifact_missing:vdp_dump, artifact_missing:runtime_metrics. Não sustenta teste completo, movimento, orçamento ou FPS.
+
+Causa concreta adicional: `source_stream_pattern_atlas.png` tem paleta diferente de `source_anchor_8_bleed.png`, mas `FIGHT_STAGE_init` carrega `img_suzaku_anchor.palette`. Índice1 do atlas é (102,136,136), enquanto a âncora fornece (34,68,102). A guarda corrigida apenas expôs esse defeito antes invisível. Próxima correção deve vincular explicitamente a paleta do atlas e conferir todos os índices, sem confundir o problema com perda inevitável do VDP.
+
+Ainda investigar separadamente o tempo até telemetria, alinhamento de scroll por linha versus origem comum da tile-row, ordem de vscroll far/near, overlay do HUD e restauração BGFX. O piso isolado em BG_B permite testar perspectiva original sem congelar suas linhas sob a barra. Não promover o streaming completo antes desses testes.

@@ -13,7 +13,7 @@ Os dois candidatos chegaram à cena de luta no BlastEm, mas não inicializaram o
 
 ## Diagnóstico disponível
 
-Na rota de streaming, o BGFX de 272 tiles não foi reservado no estado atual do alocador. A capacidade que sobrou foi 456 tiles. A conta anterior tratava o empréstimo como capacidade adicional, embora ele ocupe a mesma faixa de VRAM do pool-base; essa soma era inválida. O sweep, portanto, não testou movimento real do cenário: não houve cache residente nem mapa carregado.
+Correção de diagnóstico: os 456 tiles eram o ponto de interrupção da guarda `TILE_MAX_NUM=1536`, antes de alcançar D000, F800 ou consultar o empréstimo BGFX. Não demonstravam ausência de reserva nem dupla contagem. O layout medido reserva BGFX em 220–491, HUD em 492–649 e pool baixo em 650–1009. Os bancos fixos somam 648 tiles; o empréstimo disjunto de 272 permite 920 durante sua vigência. O sweep anterior não testou movimento real do cenário: não houve cache residente nem mapa carregado. A correção da guarda passou em teste host; streaming completo e restauração do empréstimo continuam sem aprovação.
 
 Isso não explica por que a inicialização estática em dois planos também retornou falso. A causa dessa falha permanece aberta; não atribuir a compressão dos recursos nem outra condição sem observar os campos reais gerados e o motivo exato do retorno.
 
@@ -25,3 +25,12 @@ Isso não explica por que a inicialização estática em dois planos também ret
 4. Capturar novamente o hash corrigido no BlastEm. O gate visual exige cenário visível, e o gate temporal exige cadência estável em 1200 quadros com áudio.
 
 Até esses passos passarem, ambas as rotas são experimentais e bloqueadas para promoção.
+
+
+## Captura da guarda corrigida — resultado parcial
+
+ROM `8bf3b933943ad4cda3292ef3952d76ad2c53c1c9ef6f0eae1022dae618f02890`; sessão `out/mugenesis_evidence/piece_stream_guard/sessions/blastem-linux-20260927T105449Z-1338066`. Build concluído. Screenshot inspecionado: cenário presente com jogadores/HUD, mas cores erradas e artefatos nas barras inferiores. Bundle rejeitado: vlab_block_missing, artifact_missing:vdp_dump, artifact_missing:runtime_metrics. Não sustenta teste completo, movimento, orçamento ou FPS.
+
+Causa concreta adicional: `source_stream_pattern_atlas.png` tem paleta diferente de `source_anchor_8_bleed.png`, mas `FIGHT_STAGE_init` carrega `img_suzaku_anchor.palette`. Índice1 do atlas é (102,136,136), enquanto a âncora fornece (34,68,102). A guarda corrigida apenas expôs esse defeito antes invisível. Próxima correção deve vincular explicitamente a paleta do atlas e conferir todos os índices, sem confundir o problema com perda inevitável do VDP.
+
+Ainda investigar separadamente o tempo até telemetria, alinhamento de scroll por linha versus origem comum da tile-row, ordem de vscroll far/near, overlay do HUD e restauração BGFX. O piso isolado em BG_B permite testar perspectiva original sem congelar suas linhas sob a barra. Não promover o streaming completo antes desses testes.

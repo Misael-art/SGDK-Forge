@@ -3306,3 +3306,15 @@ opacos ainda podem exigir a cor. Só creditar economia medida separando CRAM,
 tiles, mapas, residência e DMA. A experiência de Suzaku V15 é um contraexemplo:
 transparência aumentou 9 tiles e 312 bytes; ver
 `SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/suzaku_candidate_review_2026_09_26.md`.
+
+## Curadoria MUGEN/Suzaku — 2026-09-27
+
+Pedido humano explicito autorizou incorporar metodo diagnostico ao agente
+canonico. O caso em `tools/sgdk_wrapper/.agent/references/mugen_suzaku_vram_diagnostic_2026_09_27.md`
+documenta: 685 tiles exigidos contra 648 na rota estatica; parada prematura
+do streaming em `TILE_MAX_NUM` antes de D000/F800 e BGFX; atlas e paleta
+carregada divergentes; contagem de reuso por uniao de tiles; screenshot
+diagnostica de bundle rejeitado. Owners existentes de VRAM, composicao,
+triagem e evidencia foram atualizados, sem nova skill. A ROM de streaming,
+piso, FPS, audio e qualidade continuam pendentes. Registro detalhado:
+`SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/curation/2026_09_27_stage_agent_curation.md`.

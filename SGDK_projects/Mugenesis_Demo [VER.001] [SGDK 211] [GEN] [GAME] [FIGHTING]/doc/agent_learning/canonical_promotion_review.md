@@ -34,3 +34,4 @@ Promocao canonica so ocorre quando um humano ordenar explicitamente a assimilaca
 | Data | Candidato | Decisao | Justificativa | Autor humano |
 |---|---|---|---|---|
 | [DATA] | [candidato] | `needs_human_review` | [motivo] | [nome/handle] |
+| 2026-09-27 | Diagnostico de VRAM fisica, primeiro guard, paleta de atlas e uniao de tiles | `instrucoes_canonicas_aplicadas` | Pedido humano explicito nesta conversa; testes host e ROM diagnostica sustentam o metodo. O caso continua sem aprovacao de streaming, piso ou FPS. Owners existentes atualizados; ver `tools/sgdk_wrapper/.agent/references/mugen_suzaku_vram_diagnostic_2026_09_27.md`. | usuario desta sessao |

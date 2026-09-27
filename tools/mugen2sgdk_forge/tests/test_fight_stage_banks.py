@@ -114,8 +114,11 @@ int main(void){
  for(u16 y=0;y<32;y++)for(u16 x=0;x<42;x++)assert(queued[y*42+x]==map[y*64+x]);
  FIGHT_STAGE_update();assert(restores==1 && uploads==4);
  tiles.numTile=649; assert(!FIGHT_STAGE_init(650)); assert(uploads==4);
+ assert(FIGHT_STAGE_initDiagnostics()->status==STAGE_INIT_CAPACITY);
+ assert(FIGHT_STAGE_initDiagnostics()->required==649 && FIGHT_STAGE_initDiagnostics()->capacity==648);
  tiles.numTile=640; assert(!FIGHT_STAGE_init(1011)); assert(uploads==4);
  tiles.compression=1; assert(!FIGHT_STAGE_init(650)); assert(uploads==4);
+ assert(FIGHT_STAGE_initDiagnostics()->status==STAGE_INIT_COMPRESSED);
  return 0;
 }
 ''')

@@ -18,6 +18,9 @@ static u8 sLoaded, sSuper;
 static u16 sRestores;
 static u8 sHudInvalidation;
 static s16 sLastScrollX, sLastScrollY;
+static FightStageInitDiagnostics sInit;
+
+const FightStageInitDiagnostics *FIGHT_STAGE_initDiagnostics(void) { return &sInit; }
 
 #ifdef MG_STAGE_SOURCE_PLANES
 static u16 sFarMap[STAGE_MAP_CELLS];
@@ -56,6 +59,7 @@ void FIGHT_STAGE_setup(void)
     sRestores = 0;
     sHudInvalidation = 0;
     sLastScrollX = sLastScrollY = 0;
+    memset(&sInit, 0, sizeof(sInit));
 }
 
 #ifdef MG_STAGE_SOURCE_PLANES
@@ -138,6 +142,12 @@ bool FIGHT_STAGE_init(u16 lowBase)
     const u16 base[4] = { lowBase, TILE_FONT_INDEX, 0xD000 / 32, 0xF800 / 32 };
     const u16 count[4] = { lowBase <= TILE_SPRITE_INDEX ? TILE_SPRITE_INDEX - lowBase : 0,
                           96, 128, 64 };
+    sLoaded = FALSE;
+    sInit.status = STAGE_INIT_PENDING;
+    sInit.lowBase = lowBase;
+    sInit.spriteStart = TILE_SPRITE_INDEX;
+    sInit.capacity = count[0] + 288;
+    sInit.nearTiles = 0;
 
 #ifdef MG_STAGE_SOURCE_PLANES
     const TileSet *farSet = img_suzaku_far.tileset;
@@ -145,19 +155,28 @@ bool FIGHT_STAGE_init(u16 lowBase)
     const TileSet *nearSet = img_suzaku_near.tileset;
     const TileMap *nearMap = img_suzaku_near.tilemap;
     const u16 total = farSet->numTile + nearSet->numTile;
+    sInit.farTiles = farSet->numTile;
+    sInit.nearTiles = nearSet->numTile;
+    sInit.required = total;
+    /* Never inspect compressed bytes as unpacked pixels when finding blank. */
+    if (farSet->compression || farMap->compression || nearSet->compression || nearMap->compression) {
+        sInit.status = STAGE_INIT_COMPRESSED; return FALSE;
+    }
+    if (farMap->w != STAGE_MAP_W || farMap->h != STAGE_MAP_H ||
+        nearMap->w != STAGE_MAP_W || nearMap->h != STAGE_MAP_H) {
+        sInit.status = STAGE_INIT_DIMENSIONS; return FALSE;
+    }
+    if (lowBase > TILE_SPRITE_INDEX || total > sInit.capacity) {
+        sInit.status = STAGE_INIT_CAPACITY; return FALSE;
+    }
     const s16 nearBlankLocal = find_transparent_tile(nearSet);
-    if (lowBase > TILE_SPRITE_INDEX || farSet->compression || farMap->compression ||
-        nearSet->compression || nearMap->compression ||
-        farMap->w != STAGE_MAP_W || farMap->h != STAGE_MAP_H ||
-        nearMap->w != STAGE_MAP_W || nearMap->h != STAGE_MAP_H ||
-        nearBlankLocal < 0 || total > (u16)(count[0] + 288))
-        return FALSE;
+    if (nearBlankLocal < 0) { sInit.status = STAGE_INIT_NO_TRANSPARENT_TILE; return FALSE; }
 
     load_stage_patterns(farSet, nearSet, base, count, total);
     if (!build_stage_map(farMap, 0, base, count, sFarMap, 0xFFFF) ||
         !build_stage_map(nearMap, farSet->numTile, base, count, sNearMap,
                          (u16)(farSet->numTile + nearBlankLocal)))
-        return FALSE;
+        { sInit.status = STAGE_INIT_MAP; return FALSE; }
 
     PAL_setColors(0, img_suzaku_far.palette->data, 9, CPU);
     VDP_setTileMapDataRect(BG_B, sFarMap, 0, 0, STAGE_MAP_W, STAGE_MAP_H, STAGE_MAP_W, CPU);
@@ -166,9 +185,14 @@ bool FIGHT_STAGE_init(u16 lowBase)
 #else
     const TileSet *ts = img_suzaku_anchor.tileset;
     const TileMap *tm = img_suzaku_anchor.tilemap;
-    if (lowBase > TILE_SPRITE_INDEX || ts->compression || tm->compression ||
-        tm->w != STAGE_MAP_W || tm->h != STAGE_MAP_H || ts->numTile > (u16)(count[0] + 288))
-        return FALSE;
+    sInit.farTiles = sInit.required = ts->numTile;
+    if (ts->compression || tm->compression) { sInit.status = STAGE_INIT_COMPRESSED; return FALSE; }
+    if (tm->w != STAGE_MAP_W || tm->h != STAGE_MAP_H) {
+        sInit.status = STAGE_INIT_DIMENSIONS; return FALSE;
+    }
+    if (lowBase > TILE_SPRITE_INDEX || ts->numTile > sInit.capacity) {
+        sInit.status = STAGE_INIT_CAPACITY; return FALSE;
+    }
     u16 used = 0;
     for (u16 bank = 0; bank < 4 && used < ts->numTile; bank++) {
         u16 n = ts->numTile - used;
@@ -180,7 +204,7 @@ bool FIGHT_STAGE_init(u16 lowBase)
     for (u16 i = 0; i < STAGE_MAP_CELLS; i++) {
         const u16 entry = tm->tilemap[i];
         u16 index = entry & TILE_INDEX_MASK;
-        if (index >= ts->numTile) return FALSE;
+        if (index >= ts->numTile) { sInit.status = STAGE_INIT_MAP; return FALSE; }
         u16 bank = 0;
         while (bank < 3 && index >= count[bank]) index -= count[bank++];
         sMap[i] = (entry & (TILE_ATTR_HFLIP_MASK | TILE_ATTR_VFLIP_MASK)) | (base[bank] + index);
@@ -193,6 +217,7 @@ bool FIGHT_STAGE_init(u16 lowBase)
      * bounded hit shake. In two-plane mode both layers stay registered. */
     set_stage_scroll(-STAGE_BLEED_X, STAGE_BLEED_Y);
     sLoaded = TRUE;
+    sInit.status = STAGE_INIT_READY;
     return TRUE;
 }
 

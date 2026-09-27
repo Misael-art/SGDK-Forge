@@ -125,6 +125,9 @@ int main(void){
  assert(FIGHT_STAGE_restoreCount()==1 && FIGHT_STAGE_takeHudInvalidation());
  assert(queued_a!=0 && queued_b!=0 && restores==3);
  for(u16 i=0;i<42*32;i++){assert(queued_a[i]==map_a[(i/42)*64+i%42]);assert(queued_b[i]==map_b[(i/42)*64+i%42]);}
+ assert(!FIGHT_STAGE_init(650));
+ assert(FIGHT_STAGE_initDiagnostics()->status==STAGE_INIT_CAPACITY);
+ assert(FIGHT_STAGE_initDiagnostics()->required==685 && FIGHT_STAGE_initDiagnostics()->capacity==648);
  return 0;
 }
 ''')

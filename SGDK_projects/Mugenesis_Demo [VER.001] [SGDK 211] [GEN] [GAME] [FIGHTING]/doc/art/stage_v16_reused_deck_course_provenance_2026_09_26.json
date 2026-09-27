@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "suzaku_v16_reused_deck_course_control_640x224",
+  "status": "offline_composition_control_only",
+  "source": {
+    "path": "rascunho/processado/stage_takeover/suzaku_v13_floor_reuse_shift32_control_640x224.png",
+    "sha256": "95db5991a6d170ebfb568e49a3f9f066c23f043f8f5c2b6e546116092e1a5551"
+  },
+  "material_source": {
+    "path": "rascunho/processado/stage_takeover/suzaku_v12_indexed12_source_640x224.png",
+    "sha256": "1be7a87140c7dade9d1814d264af5a612b0a44cf0ec6d4ecb1b1505f08483356"
+  },
+  "operation": {
+    "script_path": "rascunho/processado/stage_takeover/compose_suzaku_v16_reuse_deck_course.py",
+    "script_sha256": "24379c39088702447873972de4f8b50956a88c166de56d6b7914a63d13ca9dad",
+    "report_path": "rascunho/processado/stage_takeover/suzaku_v16_reused_deck_course_report_20260926.json",
+    "report_sha256": "d2b6ce9c26ce682c0f1880379588dc47e543255d00cb35af8d7634f35e88d7c3",
+    "kind": "repeat_exact_persisted_deck_material_module",
+    "module_source_rect_px": [128, 160, 192, 168],
+    "destination_rect_px": [0, 192, 640, 200],
+    "repeat_count": 10,
+    "pixels_changed": 2459,
+    "new_palette_indices": []
+  },
+  "output": {
+    "path": "rascunho/processado/stage_takeover/suzaku_v16_reused_deck_course_control_640x224.png",
+    "sha256": "403509c88435917e3f1e56b1efe7279801b94ad9c1b398d5f1e78694bdce6720",
+    "dimensions": [640, 224],
+    "mode": "P"
+  },
+  "identity_contract": "doc/mugen/suzaku_v12_visual_identity_contract_2026_09_26.json",
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime": false
+}

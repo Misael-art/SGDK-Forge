@@ -332,7 +332,13 @@ static void exec(MgPlayer *p, const MgCtrl *c)
         if (v >= 0) p->gh_fall = v;
         break;
     }
-    case MG_CT_ENVSHAKE: mg_fight.screen_shake = PIV(p, c, MG_P_ENVSHAKE_TIME, 10); break;
+    case MG_CT_ENVSHAKE: {                        /* MUGEN: vertical; ampl padrao -4 (so o modulo importa) */
+        s16 a = PIV(p, c, MG_P_ENVSHAKE_AMPL, -4);
+        if (a < 0) a = -a;
+        mg_fight.envshake_ampl = (s8)(a > 7 ? 7 : a);
+        mg_fight.screen_shake = PIV(p, c, MG_P_ENVSHAKE_TIME, 10);
+        break;
+    }
     case MG_CT_EXPLOD: {
         s16 anim = PIV(p, c, MG_P_EXPLOD_ANIM, -1);
         if (anim >= 0)

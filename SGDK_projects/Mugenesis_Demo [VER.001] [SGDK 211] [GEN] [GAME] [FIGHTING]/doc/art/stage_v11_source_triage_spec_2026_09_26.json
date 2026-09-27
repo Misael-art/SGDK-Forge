@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "rascunho/inputs/suzaku_v11_modular_reauthoring_ai_concept_20260926.png",
+  "source_class": "unclassified_raster",
+  "intended_role": "translation_source",
+  "matte_policy": "opaque",
+  "reviewer": "agent_curated_review",
+  "identity_authority_path": "rascunho/inputs/suzaku_v10_modular_tile_economy_ai_concept_20260926.png",
+  "identity_authority_sha256": "43cbd4ccb23ddd1bc01d855d2f0b4d56bee980e384d9154bf9f88dd30cb42d62",
+  "visual_source_of_truth_contract": "doc/mugen/suzaku_v11_visual_identity_contract_2026_09_26.json",
+  "derivation": "New AI panorama guided by the shared Suzaku scene anchors; opaque full-scene source. The upcoming conversion is a mechanical cost probe only, and no matte extraction is requested.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Opaque panorama, not a character cutout. Roof towers, moon, water, platform, rail and lamps are scene content. The source-audit opaque policy preserves the full canvas; conversion uses transparency_policy=opaque. No object segmentation or final palette approval is implied."
+  }
+}

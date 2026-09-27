@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "parent_asset": "suzaku_tile_economy_concept_20260926",
+  "parent_sha256": "110d12d11c27edf5419856a78c6b9342ff925e689e2f87f43cd3aa9fbae7ffaf",
+  "layers": [
+    {
+      "asset_id": "suzaku_bg_b_tile_economy_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_b_tile_economy_20260926.png",
+      "sha256": "81b9821a6a2671dcb4c1bc0c1f70b5541d45b57102ac79463c392ddb443ab074",
+      "dimensions": [1500, 1049],
+      "mode": "RGBA",
+      "source_kind": "ai_generated",
+      "role": "BG_B far atmosphere plate; transparent ground represents shared backdrop reveal",
+      "prompt": "Create only the far BG_B atmosphere plate that matches the supplied original Suzaku Castle stage concept exactly in palette, pixel scale, and composition. Keep a 320x224 4:3 layout on the same 1499x1049 canvas geometry. This is a background-plane plate: it must contain only the nearly uniform deep-navy sky, the pale moon (same center and diameter as reference), three broad cloud silhouettes, and two blue mountain bands. Keep the top 48 final pixels quiet navy for HUD. No castle, no buildings, no roof, no stone base, no tree, no fence, no lantern, no floor, no character, no UI, no text. Flat solid areas, broad tile-friendly clusters, exactly eight or fewer colors drawn from the reference's night-blue and moon palette; no texture noise, no gradients, no blur, no antialiasing. Keep mountain band position exactly where the reference has it so a separate near BG_A can cover the castle/floor. The sky must be fully opaque edge to edge; objects remain simple silhouettes.",
+      "production_eligibility": "eligible_for_staging_only; alpha is measured and composited against the declared backdrop in a technical study",
+      "human_visual_approval": "pending"
+    },
+    {
+      "asset_id": "suzaku_bg_a_tile_economy_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_a_tile_economy_20260926.png",
+      "sha256": "638d72fbb418b77ba85475e4a83a03e2c8887c7f4ac9a492db2001242b390a00",
+      "dimensions": [1500, 1049],
+      "mode": "RGBA",
+      "source_kind": "ai_generated",
+      "role": "BG_A near architecture plate with transparent exterior",
+      "prompt": "Create the matching near-architecture BG_A plate for the supplied Suzaku Castle stage concept, preserving the exact 4:3 game composition, scale, object positions, and pixel-art treatment of reference 1. Use reference 2 only to match its broad-cluster blue night art style. This is a layer with a genuinely transparent background everywhere except the foreground architecture. Keep the castle keep slightly right of center with exactly three roof tiers, broad pale-blue walls, and a blocky cool stone base; keep the low side buildings at far left and right; keep the repeating dark timber fence across the full width around final y=157; keep the wooden fighting floor across the full width from final y=177 to bottom. Preserve the center fighting lane with low-detail wood bands. Do not draw any sky, moon, stars, clouds, mountain, water, tree, or far atmosphere; leave all of those areas transparent. No HUD, characters, logos, text, effects, or cast shadows. Use large flat tile-friendly clusters, no masonry microtexture, no roof glints, no fine grain. Reuse the same repeated 16-pixel fence motif and broad stone blocks; do not invent unique repeated posts. Keep color family compatible with reference: deep/navy blues and blue-gray stone plus dark and warm brown timber, at most eight visible colors. The alpha must be fully opaque on the castle, side buildings, fence, and floor and fully transparent elsewhere, with a clean hard silhouette and no partial-alpha fringe. This plate must overlay the far plate without changing the underlying composition.",
+      "production_eligibility": "eligible_for_staging_only; alpha-matte integrity and alignment require measurable validation",
+      "human_visual_approval": "pending"
+    }
+  ],
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true,
+    "composite_is_derived_only_from_persisted_authored_sources": true
+  }
+}

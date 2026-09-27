@@ -252,6 +252,8 @@ def audit_source(project_root: Path, spec: dict[str, Any]) -> dict[str, Any]:
             blockers.append("reference_only_matte_cannot_enter_route_shootout")
         if spec["matte_policy"] == "existing_alpha" and not measurements["has_alpha_channel"]:
             blockers.append("declared_existing_alpha_is_absent")
+        if spec["matte_policy"] == "opaque" and measurements["alpha_extrema"] != [255, 255]:
+            blockers.append("opaque_source_contains_nonopaque_pixels")
         if spec["matte_policy"] == "border_connected" and obs["background_color_collision"]:
             blockers.append("border_matte_unsafe_with_background_color_collision")
     elif detached_effects:
@@ -327,8 +329,11 @@ def _canonical_source(source: Path, matte_policy: str, source_class: str) -> tup
             if matte_report["blocking_statuses"]:
                 raise TriageError("foreground_matte_rejected:" + ",".join(matte_report["blocking_statuses"]))
             rgba.putalpha(mask)
+        elif matte_policy == "opaque":
+            if rgba.getchannel("A").getextrema() != (255, 255):
+                raise TriageError("opaque_source_contains_nonopaque_pixels")
         elif matte_policy != "existing_alpha":
-            raise TriageError("route_shootout_requires_real_or_border_connected_alpha")
+            raise TriageError("route_shootout_requires_opaque_real_or_border_connected_alpha")
     bbox = rgba.getchannel("A").getbbox()
     if not bbox:
         raise TriageError("source_has_no_visible_foreground")
@@ -842,6 +847,52 @@ def self_check() -> dict[str, Any]:
         no_alpha_spec = spec(source_path="data/source_art/no_alpha.png")
         no_alpha_report = audit_source(root, no_alpha_spec)
         add("missing_declared_alpha_rejected", "declared_existing_alpha_is_absent" in no_alpha_report["blockers"], str(no_alpha_report["blockers"]))
+
+        panorama = Image.new("RGB", (64, 32), (8, 16, 40))
+        panorama.putpixel((32, 12), (200, 180, 120))
+        panorama_path = root / "data/source_art/panorama.png"; panorama.save(panorama_path, "PNG")
+        panorama_authority = root / "data/source_art/panorama_authority.png"; panorama.save(panorama_authority, "PNG")
+        stage_contract = root / "data/source_art/stage_contract.json"
+        stage_contract.write_text(json.dumps({"scene": "opaque panorama technical fixture"}), encoding="utf-8")
+        opaque_spec = spec(
+            source_path="data/source_art/panorama.png", source_class="unclassified_raster",
+            matte_policy="opaque", identity_authority_path="data/source_art/panorama_authority.png",
+            identity_authority_sha256=_sha256(panorama_authority),
+            visual_source_of_truth_contract="data/source_art/stage_contract.json",
+            derivation="opaque panorama fixture; no matte extraction or transparency conversion",
+        )
+        opaque_report = audit_source(root, opaque_spec)
+        canonical, matte_report = _canonical_source(panorama_path, "opaque", "unclassified_raster")
+        add("opaque_panorama_translation_source_passes", opaque_report["route_exploration_allowed"]
+            and canonical.size == panorama.size and matte_report is None, str(opaque_report["blockers"]))
+        transparent_panorama = Image.new("RGBA", (64, 32), (8, 16, 40, 255))
+        transparent_panorama.putpixel((0, 0), (8, 16, 40, 0))
+        transparent_path = root / "data/source_art/panorama_transparent.png"; transparent_panorama.save(transparent_path, "PNG")
+        transparent_report = audit_source(root, spec(
+            source_path="data/source_art/panorama_transparent.png", source_class="unclassified_raster",
+            matte_policy="opaque", identity_authority_path="data/source_art/panorama_authority.png",
+            identity_authority_sha256=_sha256(panorama_authority),
+            visual_source_of_truth_contract="data/source_art/stage_contract.json",
+            derivation="negative control with transparent pixel",
+        ))
+        try:
+            _canonical_source(transparent_path, "opaque", "unclassified_raster")
+            transparent_route_rejected = False
+        except TriageError as exc:
+            transparent_route_rejected = str(exc) == "opaque_source_contains_nonopaque_pixels"
+        add("opaque_policy_rejects_transparency", "opaque_source_contains_nonopaque_pixels" in transparent_report["blockers"]
+            and transparent_route_rejected, str(transparent_report["blockers"]))
+        partial_panorama = panorama.convert("RGBA"); partial_panorama.putpixel((1, 1), (8, 16, 40, 128))
+        partial_path = root / "data/source_art/panorama_partial.png"; partial_panorama.save(partial_path, "PNG")
+        partial_report = audit_source(root, spec(
+            source_path="data/source_art/panorama_partial.png", source_class="unclassified_raster",
+            matte_policy="opaque", identity_authority_path="data/source_art/panorama_authority.png",
+            identity_authority_sha256=_sha256(panorama_authority),
+            visual_source_of_truth_contract="data/source_art/stage_contract.json",
+            derivation="negative control with partial alpha",
+        ))
+        add("opaque_policy_rejects_partial_alpha", "opaque_source_contains_nonopaque_pixels" in partial_report["blockers"],
+            str(partial_report["blockers"]))
 
         (root / "out/logs").mkdir(parents=True)
         triage_path = root / "out/logs/source_triage_report.json"

@@ -167,12 +167,16 @@ def main() -> None:
     header[0x0C:0x10] = u32(SN76489)
     header[0x2C:0x30] = u32(YM2612)
     header[0x34:0x38] = u32(0x100 - 0x34)
-    header[0x24:0x28] = u32((BEATS * FRAMES_PER_BEAT) * FRAME)  # loop samples
-    header[0x1C:0x20] = u32((BEATS * FRAMES_PER_BEAT) * FRAME)  # total samples
-    # loop offset: relative to 0x1C, points at loop_start in data
-    # VGM loop offset is relative to 0x1C
+    # VGM v1.70: total samples @0x18, loop offset @0x1C, loop samples
+    # @0x20, rate @0x24. These fields used to be shifted by four bytes:
+    # ResComp accepted the file but the loop pointer was outside the file.
+    total_samples = (BEATS * FRAMES_PER_BEAT) * FRAME
+    header[0x18:0x1C] = u32(total_samples)
+    # VGM loop offset is relative to 0x1C and points at loop_start in data.
     loop_abs = 0x100 + loop_start
-    header[0x20:0x24] = u32(loop_abs - 0x1C)
+    header[0x1C:0x20] = u32(loop_abs - 0x1C)
+    header[0x20:0x24] = u32(total_samples)
+    header[0x24:0x28] = u32(60)
     eof = 0x100 + len(data) - 4
     header[0x04:0x08] = u32(eof)
 

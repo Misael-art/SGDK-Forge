@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "suzaku_hud_safe_ai_concept_20260926",
+  "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_hud_safe_20260926.png",
+  "sha256": "a8cff718c33f9812eb2b46f55683c6a3b31e2c41f08e135a6771557f3c461e57",
+  "dimensions": [1499, 1049],
+  "source_kind": "ai_generated",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "prompt": "Create a NEW original 16-bit-era fighting-game stage concept inspired by the mood and motifs of the reference (moonlit Japanese castle, layered tiled roofs, wooden rooftop arena), but redesign the composition for actual Mega Drive playability. Wide 10:7 composition for a 320x224 game viewport. Authentic hand-placed pixel-art look with crisp square pixel clusters, strong readable silhouettes, controlled dithering only on sky and roof gradients, no antialiasing, no painterly blur, no photorealism, no scanline overlay. Strictly no characters, no HUD, no words, logos, UI, or border. Critical layout: keep the top 56 pixels as low-detail dark navy sky with no moon, bright clouds, roof peaks, lanterns, or focal details because a fighting-game HUD occupies that band. Put a modest crescent moon lower at upper-left around y=70, outside the HUD band. Put the castle keep as the clear architectural focal point slightly right of center, fully below y=56, readable behind fighters. Place distant mountains/cloud silhouettes as a quiet far layer. Use the near tiled roof and parapet as framing at mid-height, but keep the central combat silhouette zone (roughly y=135-205) low contrast and uncluttered. A warm wooden rooftop floor must be continuous from edge to edge and occupy only the bottom gameplay band around y=176-207, with a clear horizontal feet baseline at y=200. Keep bottom 16 pixels low-detail because it is occupied by fixed HUD. Palette direction: deep indigo/navy sky, restrained blue-gray stone and roof, a few warm amber windows, muted brown floor; bold value separation between distant atmosphere, castle structure, and playable floor. Make the scene feel elaborate through large intentional shapes and a few designed details, not tiny texture noise. The image is a composition/art-direction concept, not an exported game asset.",
+  "generation_input_sha256": "a8c09afbf224bd7c5b6d08ede56588bffd0f8c0a037028018999c00f4c8f5314",
+  "derivation_role": "composition and value-organization candidate for Suzaku; not an approved translation source",
+  "production_eligibility": "eligible_for_staging_only_under_user_authorized_suzaku_workset; requires native-grid translation, visual review, ResComp reports, budget, and exact-ROM evidence before promotion",
+  "used_by_resources_res": false,
+  "used_by_stage_candidate": false,
+  "visual_assessment": "HUD-safe upper negative space, moon moved below the top HUD, castle focal point moved right of center, central combat band calmer, continuous floor. Still high-resolution AI concept with dense microtexture; downscale and 15-color global quantization are only a basic technical control and are not final art.",
+  "source_of_truth_for_original_stage": "rascunho/entrada_bruta/ssf2_01_ryu.zip",
+  "human_visual_approval": "pending"
+}

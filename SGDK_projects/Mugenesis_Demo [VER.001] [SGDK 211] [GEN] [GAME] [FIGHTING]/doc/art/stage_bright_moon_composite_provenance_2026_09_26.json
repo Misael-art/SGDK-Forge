@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "status": "staging_composite_only",
+  "builder": "rascunho/processado/stage_takeover/build_suzaku_bright_moon_composite_study.py",
+  "sources": [
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_b_bright_moon_20260926.png",
+      "sha256": "b46a73d3249757a7fa9676f6a2dcabd1905da9adc13d6357bb1bf505c66cd841",
+      "source_kind": "ai_generated"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_a_bright_moon_20260926.png",
+      "sha256": "41acf088fbdc0de1dd4feec65268ac878ea38ad4dad8214ec3fbac84a008ccf5",
+      "source_kind": "ai_generated"
+    }
+  ],
+  "derived": {
+    "path": "rascunho/processado/stage_takeover/suzaku_bright_moon_plates_20260926/suzaku_bright_moon_composite_320x224.png",
+    "sha256": "47d2506ea1fb1f42105e6e99d8e3c00323fbe3b8b78580504df21b7d7cb01738",
+    "source_kind": "procedural_composed_from_authored",
+    "operation": "NEAREST 320x224 resize plus threshold-128 alpha composite",
+    "builder_report": "rascunho/processado/stage_takeover/suzaku_bright_moon_plates_20260926/composite_study_report.json"
+  },
+  "claim_ceiling": "staging_only; no visual approval, runtime integration, or release claim"
+}

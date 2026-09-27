@@ -169,7 +169,13 @@ typedef struct {
     s16 round_timer, round_no;
     u8 wins[2];
     u32 ticks;
-    s16 screen_shake;
+    s16 screen_shake;          /* EnvShake do personagem: ticks restantes (eixo vertical, sem decaimento) */
+    s8 envshake_ampl;          /* EnvShake: amplitude em pixels */
+    /* efeitos de impacto (etapa 3): gatilho em apply_hit, avancados 1x por quadro em MG_fightRender */
+    u8 shake_t;                /* ticks desde o impacto pesado; >= MG_SHAKE_LEN = parado */
+    s8 shake_ax, shake_ay;     /* amplitude com sinal: X na direcao do golpe, Y (para baixo) so em queda/KO */
+    s8 shake_x, shake_y;       /* deslocamento da camera NESTE quadro (mundo inteiro; HUD fica parado) */
+    u8 flash_lvl[2];           /* flash de acerto por lado: 0 apagado, 4 branco puro */
     u8 combo[2];               /* acertos consecutivos do atacante (lado) no combo atual */
     u32 combo_tick[2];         /* tick do ultimo acerto do combo */
     u8 bgfx_active;            /* fundo de super em tela cheia ativo (HUD deve se esconder) */
@@ -205,7 +211,9 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
 void MG_fightUpdate(u16 pad1, u16 pad2);     /* 1 tick de logica (sem DMA fora do VBlank) */
 void MG_fightRender(void);                   /* posiciona sprites; o upload ocorre em SPR_update */
 void MG_fightEnd(void);
+u32 MG_fightSpriteFailures(void);
 u16  MG_fightVramNext(void);                 /* primeiro tile livre apos corpos e fundos (para o HUD) */
+bool MG_fightGetBgFxLoan(u16 *base, u16 *tileCount); /* resource range temporarily loaned to stage streaming */
 
 /* internos compartilhados */
 mgfx MG_eval(const MgPlayer *p, u16 off);

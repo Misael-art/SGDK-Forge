@@ -3260,3 +3260,61 @@ Fora do escopo desta remediacao, ainda abertos:
 Limite factual: `framework_conformance_validated` cobre infraestrutura de
 conformance. Nao use `ready_for_aaa`. Nada aqui prova ROM, gameplay, audio,
 budget VDP ou execucao no BlastEm.
+
+
+## 2026-09-24 — Curadoria aplicada de seguranca MUGEN
+
+Autorizada pelo usuario para preservar aprendizado e reduzir custo de continuidade.
+Duas skills canonicas atualizadas: `sgdk-runtime-coder` e `art-conversion-pipeline`.
+Referencia: `tools/sgdk_wrapper/.agent/references/mugen_conversion_safety_2026_09_24.md`. Cinco licoes existentes promovidas via
+`doc/curation/2026_09_24_canonical/lesson_adjudication.json`; demais candidatas
+nao promovidas em lote. Indice de intake regenerado, sem duplicar registros.
+
+Checkout inspecionado: `7cf00ed8`. Suite MUGEN: 70 passed, sem skips, 48.61s.
+PR21 aberta: protecao de proveniencia inspecionada na branch separada, nao
+integrada nem executada aqui. PR22 ainda depende de capturas. Nenhuma ROM,
+arte ou claim AAA promovido. Nao executar reconversao de producao presumindo
+que PR21 esteja presente.
+
+Prompt de continuidade: `doc/prompts_modelo/prompt_mugenesis_continuation_safe.md`.
+Prioridade: piloto hadouken isolado, contrato exato, protecao de proveniencia,
+evidencia da mesma ROM e ciclos limitados com checkpoint. Bootstrap passou;
+`.agents/skills` existe como diretorio real: usar fonte canonica em
+`tools/sgdk_wrapper/.agent/skills`, sem sobrescrever a ponte nesta curadoria.
+
+## 2026-09-25 — curadoria e coordenacao da continuidade MUGEN
+
+Pedido humano autoriza curadoria e planejamento da continuidade SGDK/SMS.
+Parecer canonico por ID em `doc/curation/2026_09_25_mugen_coordination/` do
+workspace: 24 instrucoes pendentes promovidas com qualificacoes; nove
+formulacoes nao promovidas/corrigidas; sete aprendizados novos; cinco
+promocoes anteriores preservadas. Ledger herdado nao foi promovido em bloco.
+Prompts novos em `doc/prompts_modelo/prompt_mugen_sgdk_completion_2026_09_25.md`
+e `prompt_mugen_sms_port_2026_09_25.md` no workspace. Escopo ampliado pelo
+usuario inclui cenario/musica no SGDK; executor deve sincronizar contexto/GDD
+antes da producao. Esta rodada nao alterou gameplay/ROM nem executou uma nova
+aprovacao audiovisual. Instrucoes SMS sao plano, nao port implementado.
+
+## 2026-09-26 — Orientacao canonica de backdrop no Mega Drive
+
+O pedido de curadoria identificou que “economia de paleta” ja aparecia em
+`visual-excellence-standards`, mas a semantica de `VDP_setBackgroundColor` nao
+estava clara. As skills de direção visual e budget VDP agora explicam que o
+parâmetro seleciona índice CRAM global 0..63 (não RGB), que transparência só
+revela o backdrop se os planos inferiores não cobrirem o pixel, e que tiles
+opacos ainda podem exigir a cor. Só creditar economia medida separando CRAM,
+tiles, mapas, residência e DMA. A experiência de Suzaku V15 é um contraexemplo:
+transparência aumentou 9 tiles e 312 bytes; ver
+`SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/suzaku_candidate_review_2026_09_26.md`.
+
+## Curadoria MUGEN/Suzaku — 2026-09-27
+
+Pedido humano explicito autorizou incorporar metodo diagnostico ao agente
+canonico. O caso em `tools/sgdk_wrapper/.agent/references/mugen_suzaku_vram_diagnostic_2026_09_27.md`
+documenta: 685 tiles exigidos contra 648 na rota estatica; parada prematura
+do streaming em `TILE_MAX_NUM` antes de D000/F800 e BGFX; atlas e paleta
+carregada divergentes; contagem de reuso por uniao de tiles; screenshot
+diagnostica de bundle rejeitado. Owners existentes de VRAM, composicao,
+triagem e evidencia foram atualizados, sem nova skill. A ROM de streaming,
+piso, FPS, audio e qualidade continuam pendentes. Registro detalhado:
+`SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/curation/2026_09_27_stage_agent_curation.md`.

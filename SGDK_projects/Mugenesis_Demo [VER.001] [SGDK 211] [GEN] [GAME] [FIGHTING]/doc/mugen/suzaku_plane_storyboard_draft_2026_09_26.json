@@ -1,0 +1,325 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "suzaku_castle",
+  "status": "draft_source_translation_requires_visual_review",
+  "source": {
+    "path": "rascunho/entrada_bruta/ssf2_01_ryu.zip",
+    "sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96",
+    "use": "local source study and translation; redistribution not cleared"
+  },
+  "reference_evidence": {
+    "sweep_report": "rascunho/processado/stage_takeover/suzaku_static_source_view_sweep_v1.json",
+    "sweep_sha256": "bd8060753db6c987f876070e5b7e4594cad0a4f1f10f561b99ca588367e8524e",
+    "candidate_profile": "rascunho/processado/stage_takeover/suzaku_sky_anchor_castle_front_profile_v1_report.json",
+    "candidate_profile_sha256": "8d7219a76bf6a8151890f7e03f656aff8b8365dba2e611196fb3b7d0ec04d57f",
+    "approval": "none"
+  },
+  "canvas_and_camera": {
+    "viewport": [
+      320,
+      224
+    ],
+    "source_localcoord": [
+      320,
+      240
+    ],
+    "crop_top": 16,
+    "crop_status": "provisional; review feet line and HUD overlap",
+    "world_width": 768,
+    "camera_bounds": [
+      0,
+      448
+    ],
+    "camera_anchor": 224,
+    "world_and_camera_status": "proposed; production runtime remains world640/camera160",
+    "camera_review_samples": [
+      0,
+      224,
+      448
+    ],
+    "required_camera_events": [
+      "follow",
+      "reversal",
+      "push",
+      "corner_lock",
+      "jump",
+      "super"
+    ]
+  },
+  "screen_storyboard": {
+    "hud_top_fixed": {
+      "x": [
+        0,
+        320
+      ],
+      "y": [
+        0,
+        56
+      ],
+      "owner": "existing HUD",
+      "camera_follow": false
+    },
+    "combat_viewport": {
+      "x": [
+        0,
+        320
+      ],
+      "y": [
+        56,
+        208
+      ],
+      "owner": "stage planes plus fighter sprites"
+    },
+    "floor_contact_line": {
+      "y": 200,
+      "status": "provisional; verify shoes/feet in gameplay"
+    },
+    "hud_bottom_fixed": {
+      "x": [
+        0,
+        320
+      ],
+      "y": [
+        208,
+        224
+      ],
+      "owner": "existing HUD",
+      "camera_follow": false
+    },
+    "fighters_at_camera_anchor": [
+      {
+        "id": "P1",
+        "world_x": 314,
+        "screen_x": 90,
+        "feet_y": 200
+      },
+      {
+        "id": "P2",
+        "world_x": 454,
+        "screen_x": 230,
+        "feet_y": 200
+      }
+    ],
+    "visual_mass_regions_approximate": [
+      {
+        "id": "moon_and_clouds",
+        "screen_box": [
+          165,
+          0,
+          255,
+          42
+        ],
+        "role": "far visual anchor",
+        "note": "partly shares the top HUD band; preserve open silhouette around timer/bars"
+      },
+      {
+        "id": "castle_silhouette",
+        "screen_box": [
+          128,
+          44,
+          238,
+          118
+        ],
+        "role": "main architectural anchor",
+        "note": "box estimated from center source preview; its top intersects HUD"
+      },
+      {
+        "id": "foreground_roof",
+        "screen_box": [
+          0,
+          96,
+          320,
+          180
+        ],
+        "role": "depth and playable-stage frame",
+        "note": "approximate envelope; source layer BG3 extends to y176"
+      },
+      {
+        "id": "fight_floor",
+        "screen_box": [
+          0,
+          176,
+          320,
+          208
+        ],
+        "role": "footing/readability",
+        "note": "HUD covers y208..223; confirm enough visible floor remains at y200"
+      }
+    ]
+  },
+  "plane_ownership_candidate": {
+    "candidate_id": "sky_far_architecture_and_roof_near",
+    "status": "visual_candidate_not_approved",
+    "BG_B": {
+      "materials": [
+        "BG 0b sky/cloud/moon"
+      ],
+      "target_delta_by_band": [
+        {
+          "y": [
+            0,
+            223
+          ],
+          "delta": 0.0
+        }
+      ],
+      "priority": "low; all current MUGEN layers declare layerno=0",
+      "material_rule": "sky remains the slow motion and moon anchor; redraw edges so moved foreground layers never uncover an undefined field"
+    },
+    "BG_A": {
+      "materials": [
+        "BG 1 castle",
+        "BG 2 wall/castle",
+        "BG 3 roof",
+        "BG 4a foreground band",
+        "BG 4b floor/foreground band"
+      ],
+      "target_delta_by_band": [
+        {
+          "y": [
+            0,
+            175
+          ],
+          "delta": 0.671875,
+          "source_materials": [
+            "BG 1",
+            "BG 2",
+            "BG 3"
+          ],
+          "operation": "redraw/composite at the shared speed; do not shift source layers independently in final art"
+        },
+        {
+          "y": [
+            176,
+            211
+          ],
+          "delta": "interpolate 0.792410..1.091517833 per line",
+          "source_materials": [
+            "BG 4a"
+          ],
+          "operation": "retain measured line band after pixel-rounding review"
+        },
+        {
+          "y": [
+            212,
+            223
+          ],
+          "delta": 1.102678,
+          "source_materials": [
+            "BG 4b"
+          ],
+          "operation": "retain candidate rate only after HUD overlap review"
+        }
+      ],
+      "priority": "low relative to fighter sprites; tile-level priority/occlusion must be verified after actual tilemap composition",
+      "source_order": [
+        "BG 1",
+        "BG 2",
+        "BG 3",
+        "BG 4a",
+        "BG 4b"
+      ]
+    },
+    "sprites": {
+      "fighters": "above both low-priority stage planes",
+      "shadows": "below/at feet per existing sprite order; not baked into stage"
+    },
+    "hud": {
+      "ownership": "existing HUD owner",
+      "palette": "no CRAM mutation authorized by this storyboard",
+      "priority": "above stage; verify with transparent HUD gaps"
+    }
+  },
+  "known_risks_and_review_gates": [
+    "The semantic speed candidate remaps 28.5685% of source-visible samples and has 45.000032px worst endpoint drift; it is not source parity.",
+    "Its right endpoint exposes a magenta hole because the shifted source layers have no authored fallback under the roof/castle edge.",
+    "The castle and roof would share a speed, reducing one original parallax relationship; inspect silhouette depth at 1x and with both fighters.",
+    "The moon overlaps the fixed HUD band; preserve a clear silhouette around timer and health bars.",
+    "All source layerno values are 0, so fighters must remain above both low-priority planes unless a deliberate, measured occlusion mask is approved.",
+    "Before assets: complete an owner/priority map per tile, palette/material key, seam/bleed notes, and endpoint storyboard; then measure actual ResComp, per-tile palettes, VRAM residency, DMA/VBlank and scanlines.",
+    "BG5/BGCtrl's 51-frame/278-tick environmental schedule remains unconverted and must be staged after the static composition fits.",
+    "Exact screen-space recomposition preserves per-layer camera motion offline but the worst adjacent 1 px step implies about 19.8 KB lower-bound tile+map traffic; requires a different runtime representation or must be rejected after actual DMA/VBlank proof."
+  ],
+  "production_ceiling": "source_translation_draft_only",
+  "source_coordinate_and_budget_update_2026_09_26": {
+    "status": "offline_evidence_only_no_asset_or_runtime_approval",
+    "coordinate_board": {
+      "path": "rascunho/processado/stage_takeover/suzaku_source_coordinate_board_20260926_v1.json",
+      "sha256": "11924145c8eb68bbc5a1ed3a7ee72a4edc15894a233508ffb8a168640f969c16"
+    },
+    "visible_window_residency": {
+      "path": "rascunho/processado/stage_takeover/suzaku_visible_window_residency_20260926_v2/visible_window_residency_report.json",
+      "sha256": "1765088e5677cd9e417b2473869739582789da772caf859d93f92c5f65928452"
+    },
+    "exact_source_camera_composite_cost": {
+      "path": "rascunho/processado/stage_takeover/suzaku_exact_camera_screen_tiles_20260926_v2/exact_camera_screen_tile_cost.json",
+      "sha256": "28a22adc1cfdfba2a286a64374997d8045863280484b3fe3b3735d23c2bca833"
+    },
+    "negative_art_reference": {
+      "path": "rascunho/processado/stage_takeover/suzaku_v17_source_layer_panorama_negative_20260926.png",
+      "sha256": "69dc8d4f21088f8ec2fec1c49165c1854c398fafc7b890e0facf42d8ade252dc",
+      "reason": "generated panorama placed separately scrolling MUGEN layers in one shared world coordinate frame and shortened visible floor; reference-only, not production source"
+    },
+    "findings": {
+      "all_static_layers_layerno": 0,
+      "source_camera_positions": "0/224/448 on full sweep 0..448",
+      "visible_top_window_rows": [
+        0,
+        55
+      ],
+      "two_plane_ring_active_patterns_at_visible_window": {
+        "current_8_stage_plus_7_hud_peak": 679,
+        "full_15_stage_after_hud_relocation_peak": 710,
+        "estimated_stage_capacity_after_two_260_tile_fighter_sheets": 304
+      },
+      "exact_screen_composite": {
+        "current_palette_peak_patterns": 629,
+        "full_15_palette_peak_patterns": 638,
+        "worst_one_pixel_camera_step_lower_bound_bytes_current": 19776,
+        "worst_one_pixel_camera_step_lower_bound_bytes_full15": 19838
+      },
+      "fight_pool_source_value": 600,
+      "boot_pool_source_value": 16,
+      "modeled_capacity_basis": "304 assumes fight pool 600 and excludes HUD/portrait/FX margin; do not use as confirmed ROM capacity."
+    },
+    "decision": "Do not promote the shared-speed concept or generated panorama. Preserve MUGEN source layer coordinates, compare three camera anchors, and only pursue a runtime architecture after it proves both motion fidelity and actual VRAM/VBlank fit.",
+    "indexed_center_reference_views": [
+      {
+        "path": "rascunho/processado/stage_takeover/suzaku_exact_camera_screen_tiles_20260926_v2/current_8_stage_plus_7_hud/camera_0224_indexed.png",
+        "sha256": "c53ba1e7da1a3a1470cc065c7f8cc88b5d0408ec2259c9d9c91149a06c9f3049",
+        "role": "quality_reference_only"
+      },
+      {
+        "path": "rascunho/processado/stage_takeover/suzaku_exact_camera_screen_tiles_20260926_v2/full_15_stage_after_hud_relocation/camera_0224_indexed.png",
+        "sha256": "131e695d9850e01ab51107d0f9345b3856ed544007211e9a7dea4e7a38bf8caa",
+        "role": "quality_reference_only"
+      }
+    ],
+    "budget_assumption": {
+      "source_lifecycle": [
+        {
+          "owner": "src/core/app.c",
+          "sha256": "49439e712e7a8b12a4317a66e4a7da3469cf9f3b836ad332774d6d44e13ab306",
+          "call": "APP_boot SPR_initEx(16)",
+          "purpose": "minimal boot/branding pool"
+        },
+        {
+          "owner": "src/scenes/scene_demo.c",
+          "sha256": "7f6f620b01e4dd5e83a862b3ad3b2031210f7dd48d4b040ff166ec9ab6b2fc5c",
+          "call": "SCENE_demoEnter calls SPR_end then SPR_initEx(FIGHT_SPR_VRAM=600)",
+          "purpose": "fight-scene sprite pool"
+        }
+      ],
+      "modeled_stage_capacity_tiles": 304,
+      "derivation": "1536 total tile patterns - 96 font - 16 system - 600 fight sprite pool = 824 general; minus 2 * 260 maximum fighter sheets = 304 before HUD/portraits/FX/stage transition buffers; not a measured runtime allocation or contiguous block.",
+      "validator_discrepancy": {
+        "report": "out/logs/validation_report.json",
+        "report_sha256": "cd09da6834505e84a5aa784e5bd2b78c6d6d6772431015d760a01eee8b92890f",
+        "observed_rom": "out/rom.bin",
+        "observed_rom_sha256": "200346548a57cb6196cf21773c9233bd53b72b02e1bdf7f6548fd3331aa81c2c",
+        "finding": "validate_resources reports SPR_initEx=16 after selecting the first boot call; it does not model the SCENE_demoEnter reinitialization to 600. ROM identity is stale/mismatched, so runtime pool remains unverified."
+      },
+      "status": "source_lifecycle_resolved; live_rom_budget_unverified"
+    }
+  }
+}

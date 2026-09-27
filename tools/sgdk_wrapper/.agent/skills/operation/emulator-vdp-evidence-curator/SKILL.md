@@ -48,6 +48,11 @@ conta propria.
   `testado_em_emulador` apenas por build.
 - BizHawk nao substitui o gate BlastEm.
 - Relatorio textual nao substitui screenshot, SRAM ou VDP dump exigido.
+- Um bundle rejeitado ainda pode conter screenshot diagnostica util. Registrar
+  a imagem e seu SHA/ROM como observacao local, junto aos artefatos faltantes;
+  nao chamar a sessao de `testado_em_emulador`, `validado_budget` ou aprovada.
+  Ao corrigir a captura, repetir a janela necessaria com o mesmo contrato de
+  cena, telemetria, VDP dump e audio aplicavel.
 - `System.Windows.Forms` ausente em Linux nao e blocker de emulador; e selecao
   indevida do backend Windows e deve ser corrigida antes de atribuir causa ao host.
 

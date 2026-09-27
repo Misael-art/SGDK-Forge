@@ -83,6 +83,7 @@ void APP_changeScene(AppScene nextScene)
      * internal sprite list, SPR_update commits an empty list to VRAM SAT so no
      * stale hardware sprites from the previous scene bleed into the next one.
      */
+    if (gApp.currentScene == APP_SCENE_DEMO) SCENE_demoExit();
     SPR_reset();
     SPR_update();
 
@@ -146,14 +147,14 @@ void APP_update(void)
         default: SCENE_bootUpdate(); break;
     }
 
-    if (gApp.showDebugHud) {
+    if (gApp.showDebugHud && gApp.currentScene != APP_SCENE_DEMO) {
         APP_drawDebugHud();
     }
 
     if (gApp.transitionFrames > 0) {
-        APP_drawTransitionHud();
+        if (gApp.currentScene != APP_SCENE_DEMO) APP_drawTransitionHud();
         gApp.transitionFrames--;
-        if (gApp.transitionFrames == 0) {
+        if (gApp.transitionFrames == 0 && gApp.currentScene != APP_SCENE_DEMO) {
             VDP_clearTextArea(0, 0, VDP_TEXT_COLS, 1);
         }
     }

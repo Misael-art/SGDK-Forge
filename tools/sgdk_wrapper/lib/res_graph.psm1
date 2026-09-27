@@ -261,7 +261,7 @@ function Get-SgdkResDeclarations {
 function Get-SgdkResFiles {
     <#
     .SYNOPSIS
-        Discovers .res files in a project, excluding build output directories.
+        Discovers active .res files under the project's res/ directory.
     .PARAMETER ProjectRoot
         Absolute path to the project root.
     .PARAMETER ResPath
@@ -286,11 +286,14 @@ function Get-SgdkResFiles {
         return @($files)
     }
 
-    $allRes = Get-ChildItem -LiteralPath $ProjectRoot -Filter '*.res' -Recurse -ErrorAction SilentlyContinue |
-        Where-Object {
-            $rel = $_.FullName.Substring($ProjectRoot.Length).TrimStart('\', '/')
-            $rel -notmatch '^(out[\\/]|build[\\/]|\.)'
-        }
+    # Project drafts may contain complete copied builds in rascunho/. They
+    # are not part of the ROM and must never create duplicate-name findings.
+    # Callers auditing a draft can still pass its paths through -ResPath.
+    $activeRes = Join-Path $ProjectRoot 'res'
+    if (-not (Test-Path -LiteralPath $activeRes -PathType Container)) {
+        return @()
+    }
+    $allRes = Get-ChildItem -LiteralPath $activeRes -Filter '*.res' -Recurse -ErrorAction SilentlyContinue
 
     return @($allRes)
 }

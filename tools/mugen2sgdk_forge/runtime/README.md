@@ -30,6 +30,12 @@ tiles é feito pelo `SPR_update()` do SGDK dentro do VBlank.
   `getpower` / `givepower`, `kill`, faísca (`sparkno` do próprio AIR) e sons de acerto/defesa.
 - Projéteis (até 4 por jogador), explods (6 no total), SuperPause, Target* (arremessos), VarSet/Add/Random.
 
+## Efeitos de impacto do Forge (não vêm do personagem)
+
+- **Camera shake**: só em impacto pesado (acerto que derruba, mata ou tira ≥ 100). É uma mola amortecida de 12 quadros: começa na direção do golpe e oscila perdendo força. Queda e KO também mexem no eixo Y (o chão quica). Move sprites, sombras e BG_B; o HUD fica parado.
+- **Palette flash**: todo acerto (nunca defesa) clareia a linha de paleta de quem apanhou e apaga em 4 quadros; impacto pesado começa no branco puro. No último quadro a paleta original volta exata.
+- Os dois são só de render: o trace de gameplay do host não muda. Teste: `test_impact_fx_shake_on_heavy_flash_on_hit`, com 6 mutantes que o reprovam.
+
 ## Divergências declaradas
 
 | Tema | Comportamento aqui | Motivo |
@@ -41,6 +47,8 @@ tiles é feito pelo `SPR_update()` do SGDK dentro do VBlank.
 | `AfterImage`, `PalFX`, `EnvColor` | ignorados (registrados no relatório) | exigiriam CRAM dinâmica ou sprites extras |
 | Helpers | não suportados | seriam personagens completos |
 | Efeitos dos 2 jogadores | compartilham PAL3 (paleta de efeitos do P1) | só há 4 paletas de hardware |
+| `EnvShake` | vertical, amplitude `ampl` (limitada a 7 px), alternando a cada 2 quadros, sem `freq`/`phase` | somado ao shake de impacto na mesma câmera |
+| Flash de acerto | clareia a linha de paleta inteira do defensor, inclusive projéteis dele | a paleta é por linha de hardware |
 | VFlip | espelha sem corrigir o eixo | raro nos pacotes |
 | Palco | limites de 640 px e chão fixo em y=200, sem arte | stage entra na Etapa 4 |
 | HUD | texto provisório | a lifebar convertida entra na etapa de screenpack |

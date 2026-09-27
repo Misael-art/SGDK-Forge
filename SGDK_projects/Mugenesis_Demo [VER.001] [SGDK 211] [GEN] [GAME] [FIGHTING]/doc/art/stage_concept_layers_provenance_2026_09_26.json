@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "reference_used": "rascunho/processado/stage_takeover/ai_concept_suzaku_hud_safe_20260926.png",
+  "reference_sha256": "a8cff718c33f9812eb2b46f55683c6a3b31e2c41f08e135a6771557f3c461e57",
+  "layers": [
+    {
+      "asset_id": "suzaku_bg_b_ai_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_b_20260926.png",
+      "sha256": "fba573cf870407bb7af1a5e6d4c0f08a95f56c8bd610f2924b50deff64984abb",
+      "dimensions": [1499, 1049],
+      "mode": "RGB",
+      "source_kind": "ai_generated",
+      "role": "BG_B_far_atmosphere_concept",
+      "prompt": "Author only the FAR ATMOSPHERE PLATE for a 320x224 Mega Drive fighting-game background, using the reference solely for the moonlit Japanese-night mood. Make a wide 10:7 pixel-art scene with crisp square clusters designed on a 320x224 grid then magnified with nearest-neighbor style; no smooth gradients, no antialiasing, no blur, no photorealism, no tiny noise texture. The whole canvas is opaque and edge-to-edge tileable in horizontal mood. Show ONLY deep navy night sky, a restrained crescent moon at x≈45 y≈72 (below the fighting HUD), a few broad cloud bands, and distant mountain silhouettes low around y=105-140. Keep y=0-55 very quiet and nearly uniform because HUD overlays it. Absolutely no castle, buildings, roof, fence, floor, trees, lanterns, text, characters, or UI. Use a tiny coherent shared Mega Drive palette: near-black navy, two dark blues, one mid blue, one muted blue-gray, and one pale moon/cloud color; keep the moon subdued so it does not compete with health bars. Atmospheric background only, no focal details in the center combat area. Output should look like intentional 1990s console pixel art, not a filtered painting.",
+      "production_eligibility": "eligible_for_staging_only; requires shared-palette translation, tilemap/ResComp reports, visual review, and exact-ROM evidence",
+      "human_visual_approval": "pending"
+    },
+    {
+      "asset_id": "suzaku_bg_a_ai_concept_20260926",
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_a_20260926.png",
+      "sha256": "6d831bc4baf8f1d9729e575dcbe1d418f5cf1804d442bcedba3a5d28cb045828",
+      "dimensions": [1499, 1049],
+      "mode": "RGBA",
+      "source_kind": "ai_generated",
+      "role": "BG_A_castle_roof_floor_concept",
+      "prompt": "Create only the NEAR ARCHITECTURE PLATE for a 320x224 Mega Drive fighting-game stage, aligned to a wide 10:7 canvas and the same side-view composition as the reference. This is a separate BG_A image layer to place over a night-sky BG_B. Use a perfectly uniform pure magenta (#FF00FF) matte wherever no architecture exists; leave y=0-55 entirely matte/empty. Keep hard pixel edges and deliberate chunky 16-bit console pixel-art clusters, no antialiasing, no transparency gradients, no blur, no photographic microtexture. Draw only a Japanese castle keep slightly right of center, its stone base/walls, a large tiled roof mass framing the far-left edge, and a continuous wooden rooftop fighting floor from x=0 to x=319 across y=176-207. Keep floor-contact line exactly at y=200. Put architecture mainly at y=56-175. Leave clear magenta holes between silhouettes so the far sky can show through. Reduce contrast and detail behind fighter bodies in central band y=135-200; the foreground floor may have three broad wood planks and simple posts, not small bolts or noise. No moon, sky, clouds, mountains, trees, lanterns, text, characters, HUD, logos, border, checkerboard, or cast shadow. Restrict the art to a shared low-color Mega Drive palette: cool navy/blue-gray roof and stone using at most 7 cool colors, 4 warm brown floor colors, 1 muted green accent, and 2 amber window colors; avoid bright white. The plate should feel like a designed 1990s fighting-game background with large readable architecture and a quiet combat lane. Image is an isolated composition concept, not final game art.",
+      "production_eligibility": "eligible_for_staging_only; alpha contains partial coverage and requires hard-matte validation before any hardware conversion",
+      "human_visual_approval": "pending"
+    }
+  ],
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true,
+    "original_mugen_source_redistribution": "not_cleared"
+  }
+}

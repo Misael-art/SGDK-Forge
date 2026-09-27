@@ -5,6 +5,13 @@ description: Use quando assets visuais ja existem e precisam ser convertidos ou 
 
 # Art Conversion Pipeline
 
+Para reconversao, paletas variantes ou handoff de FX, aplicar a
+[curadoria de seguranca MUGEN](../../../references/mugen_conversion_safety_2026_09_24.md):
+oraculo independente, fusao exata entre variantes, transparencia por indice,
+contrato unico de budget e preservacao de anotacoes/aprovacoes por hash.
+Sprites de FX separados podem compartilhar a linha do lutador conforme contrato;
+isso exige auditar os efeitos de qualquer troca de paleta sobre todos os consumidores.
+
 Para adaptar referencias de filtros/presets retro, leia
 [retro-presets-megadrive.md](references/retro-presets-megadrive.md).
 
@@ -561,3 +568,11 @@ Ao converter sprites, use estes jogos como benchmark visual:
 - entregar assets promovidos, spec/builder, `.res`, relatorio e lineage quando existir para `megadrive-pixel-strict-rules`
 - quando o asset entrar em cena, entregar tambem para `megadrive-vdp-budget-analyst`
 - quando ja houver ROM alvo, entregar logs para `sgdk-runtime-coder` e `sgdk-build-wrapper-operator`
+
+## Curadoria MUGEN — 2026-09-25
+
+Em conversao MUGEN, HUD, FX e planejamento do cenario, aplicar a
+[curadoria operacional de 2026-09-25](../../../references/mugen_curation_operational_2026_09_25.md). Ela qualifica paletas proprias,
+mascara, grid PNG, footprints de limpeza HUD, provas forcadas, budgets e
+reuso de evidencia. As correcoes substituem generalizacoes antigas de escala,
+WINDOW e custo universal. Promocao de instrucao nao aprova arte nem ROM.

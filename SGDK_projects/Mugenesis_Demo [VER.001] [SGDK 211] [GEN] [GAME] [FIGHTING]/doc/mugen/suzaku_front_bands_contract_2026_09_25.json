@@ -1,0 +1,40 @@
+{
+  "schema": "mugen2sgdk_forge.stage_band_contract/v1",
+  "description": "Estudo da faixa frontal do Suzaku usando uma banda por camada fonte e scroll horizontal por linha.",
+  "viewport_width": 320,
+  "viewport_height": 224,
+  "crop_top": 16,
+  "camera_sampling": {
+    "step": 1,
+    "camera_frame_step": 4,
+    "meaning": "unidades inteiras do camera span medidas a partir do boundleft"
+  },
+  "bands": [
+    {
+      "name": "roof_and_castle_front",
+      "layer": "BG 3",
+      "y0": 0,
+      "y1": 176
+    },
+    {
+      "name": "mid_roof_parallax",
+      "layer": "BG 4a",
+      "y0": 176,
+      "y1": 212
+    },
+    {
+      "name": "ground_strip",
+      "layer": "BG 4b",
+      "y0": 212,
+      "y1": 224
+    }
+  ],
+  "acceptance": {
+    "status": "analysis_only",
+    "palette_approved": false,
+    "asset_approved": false,
+    "mugen_mask_semantics_resolved": false,
+    "runtime_implemented": false,
+    "rescomp_measured": false
+  }
+}

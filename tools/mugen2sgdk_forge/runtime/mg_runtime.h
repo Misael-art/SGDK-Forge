@@ -168,10 +168,17 @@ typedef struct {
     s16 round_timer, round_no;
     u8 wins[2];
     u32 ticks;
-    s16 screen_shake;
+    s16 screen_shake;          /* EnvShake do personagem: ticks restantes (eixo vertical, sem decaimento) */
+    s8 envshake_ampl;          /* EnvShake: amplitude em pixels */
+    /* efeitos de impacto (etapa 3): gatilho em apply_hit, avancados 1x por quadro em MG_fightRender */
+    u8 shake_t;                /* ticks desde o impacto pesado; >= MG_SHAKE_LEN = parado */
+    s8 shake_ax, shake_ay;     /* amplitude com sinal: X na direcao do golpe, Y (para baixo) so em queda/KO */
+    s8 shake_x, shake_y;       /* deslocamento da camera NESTE quadro (mundo inteiro; HUD fica parado) */
+    u8 flash_lvl[2];           /* flash de acerto por lado: 0 apagado, 4 branco puro */
     u8 combo[2];               /* acertos consecutivos do atacante (lado) no combo atual */
     u32 combo_tick[2];         /* tick do ultimo acerto do combo */
     u8 bgfx_active;            /* fundo de super em tela cheia ativo (HUD deve se esconder) */
+    u16 pal0_saved[16];        /* snapshot PAL0 devolvido por cram_restore no fim do emprestimo */
 } MgFight;
 
 extern MgFight mg_fight;
@@ -202,8 +209,38 @@ extern u32 mg_prof[16];   /* 8..: detalhe (8 hist, 9 laco comandos, 10 negativos
 /* API */
 void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, u8 p2_cpu);
 void MG_fightUpdate(u16 pad1, u16 pad2);     /* 1 tick de logica (sem DMA fora do VBlank) */
+
+/* ---- REGRA 1c generalizada: posse de CRAM declarada por consumidor ----
+ * Uma linha CRAM tem 16 indices (0 = transparente). O contrato do projeto e
+ * PAL0 cenario/HUD, PAL1/PAL2 corpo+retrato, PAL3 FX. Como as 4 linhas ja estao
+ * todas comprometidas, isolamento se faz por FAIXA de indice e por emprestimo com
+ * save/restore -- nunca por emprestar a linha inteira. */
+typedef struct {
+    u8        line;                    /* 0..3 = PAL0..PAL3 */
+    u8        lo, hi;                  /* indices [lo..hi] que o consumidor possui;
+                                        * (lo==hi==0) = reserva sem dono: indice 0 de uma linha
+                                        * e a entrada transparente, entao nenhuma faixa propria e perdida */
+    u8        borrow;                  /* 1 = nao dono: save/restore obrigatorios */
+    const u16 *tab;                    /* swap pre-declarado (REGRA 1c) ou 0 */
+} CramConsumer;
+
+#define CRAM_CONSUMER(l, lo, hi, br) { (l), (lo), (hi), (br), 0 }
+
+extern const CramConsumer CRAM_FLASH_P1, CRAM_FLASH_P2, CRAM_SUPER_BGFX, CRAM_FX_PAL3;
+extern const CramConsumer CRAM_STAGERES, CRAM_HUDRES, CRAM_PORTRAIT_P1, CRAM_PORTRAIT_P2;
+
+void cram_write(const CramConsumer *c, const u16 *src);   /* so [lo..hi], DMA_QUEUE, fonte estatica */
+void cram_save(const CramConsumer *c, u16 *dst);          /* dst com ao menos hi-lo+1 palavras */
+void cram_restore(const CramConsumer *c, const u16 *saved);
+u8   cram_span(const CramConsumer *c);
+
+/* O emprestimo de PAL0 do super e devolvido de dois lugares (fim do explod e transicao de
+ * round/KO), entao a liberacao precisa ser idempotente. */
+void bgfx_release(void);
+
 void MG_fightRender(void);                   /* posiciona sprites; o upload ocorre em SPR_update */
 void MG_fightEnd(void);
+u32 MG_fightSpriteFailures(void);
 u16  MG_fightVramNext(void);                 /* primeiro tile livre apos corpos e fundos (para o HUD) */
 
 /* internos compartilhados */

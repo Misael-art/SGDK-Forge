@@ -101,6 +101,58 @@ class FreshEvidenceBundleTests(unittest.TestCase):
             self.assertFalse(result["sealed"])
             self.assertIn("blank_or_low_information_capture", result["freshness"]["blockers"])
 
+    def test_vlab_schema2_reports_measurement_denominator(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="sgdk_vlab_v2_") as temp:
+            root = Path(temp)
+            metric_words = [0] * 32
+            metric_words[16] = 32  # stored CPU samples, not measured frames
+            metric_words[17] = 35  # over-budget frames in the fixed measurement window
+            sram = root / "save.sram"
+            dump = root / "visual_vdp_dump.bin"
+            sram.write_bytes(tool._fixture_sram(
+                metric_words,
+                schema_version=2,
+                measurement_frames=1200,
+                measurement_target_frames=1200,
+            ))
+            vlab = tool.extract_vlab(sram, dump)
+            report = tool.build_runtime_metrics(
+                session_id="v2-test",
+                rom_sha256="0" * 64,
+                vlab=vlab,
+                sram_path=sram,
+                dump_path=dump,
+                window_title="",
+                generated_at="t",
+            )["vlab"]
+            self.assertEqual(report["sample_count"], 32)
+            self.assertEqual(report["cpu_samples_stored"], 32)
+            self.assertEqual(report["measurement_frames"], 1200)
+            self.assertEqual(report["measurement_target_frames"], 1200)
+            self.assertTrue(report["measurement_window_complete"])
+            self.assertAlmostEqual(report["over_budget_ratio"], 35 / 1200)
+
+    def test_vlab_schema1_keeps_measurement_denominator_unknown(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="sgdk_vlab_v1_") as temp:
+            root = Path(temp)
+            sram = root / "save.sram"
+            dump = root / "visual_vdp_dump.bin"
+            sram.write_bytes(tool._fixture_sram([0] * 32, schema_version=1))
+            vlab = tool.extract_vlab(sram, dump)
+            report = tool.build_runtime_metrics(
+                session_id="v1-test",
+                rom_sha256="0" * 64,
+                vlab=vlab,
+                sram_path=sram,
+                dump_path=dump,
+                window_title="",
+                generated_at="t",
+            )["vlab"]
+            self.assertIsNone(report["measurement_frames"])
+            self.assertIsNone(report["measurement_target_frames"])
+            self.assertIsNone(report["measurement_window_complete"])
+            self.assertIsNone(report["over_budget_ratio"])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

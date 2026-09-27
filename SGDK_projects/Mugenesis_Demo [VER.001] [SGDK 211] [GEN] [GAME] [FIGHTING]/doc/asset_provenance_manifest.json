@@ -1451,7 +1451,7 @@
       "authored_source": "mugen-package:ken_masters_adv.zip",
       "authored_source_hash": "sha256:822936f0de76a51db6174ffced7f1cbce6c54bb532fda4e68fd177bf6aaf25a3",
       "license": "terceiros: uso local autorizado pelo usuario; redistribuicao NAO verificada",
-      "notes": "Ken Masters ADV por Chok; retrato MUGEN 9000,0 (direto, paleta do corpo); technical_candidate: aprovacao visual humana pendente"
+      "notes": "Ken Masters ADV por Chok; retrato MUGEN 9000,0 (paleta propria traduzida para slots estaveis do corpo, indice 0 transparente); technical_candidate: aprovacao visual humana pendente"
     },
     {
       "res_symbol": "mg_ken_shadow",
@@ -1476,6 +1476,17 @@
       "authored_source_hash": "sha256:822936f0de76a51db6174ffced7f1cbce6c54bb532fda4e68fd177bf6aaf25a3",
       "license": "terceiros: uso local autorizado pelo usuario; redistribuicao NAO verificada",
       "notes": "Ken Masters ADV por Chok; fundo em tela cheia animado por paleta; geometria mirror_4.; technical_candidate: aprovacao visual humana pendente"
+    },
+    {
+      "res_symbol": "img_suzaku_anchor",
+      "res_kind": "IMAGE",
+      "asset_path": "bgs/suzaku/source_anchor_8_bleed.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "authored_source": "data/source_art/stage_suzaku/source_composite_anchor.png",
+      "authored_source_hash": "sha256:d399b5550af26f199e4ac92eae7bda8c2730186a6cb1af766f803672106dbbb5",
+      "notes": "MUGEN SSF2 Suzaku source-derived anchor, quantized to eight stage colors. Bleed mirrors existing indexed edge pixels only; the centered 320x224 pixels and H/V-canonical tile set remain unchanged. Static-camera slice; world pan, parallax and autonomous layer animation remain pending. Redistribution unverified; no artistic approval.",
+      "generated_by": "data/source_art/stage_suzaku/build_suzaku_shake_bleed.py"
     }
   ]
 }

@@ -1,17 +1,24 @@
 {
   "schema_version": "1.0.0",
-  "context_type": "unclassified",
-  "context_status": "unclassified",
-  "delivery_claim_ceiling": "none",
-  "documentation_profile": "unclassified",
+  "context_type": "technical_demo",
+  "context_status": "active",
+  "delivery_claim_ceiling": "technical_demo",
+  "documentation_profile": "demo",
   "project_intent": {
-    "one_sentence_goal": "Classificar o contexto antes de gerar escopo, arte, runtime ou entrega.",
-    "success_definition": "O agente sabe se esta abrindo jogo AAA, demo tecnica, exercicio, review ou consultoria.",
+    "one_sentence_goal": "Concluir a demo de luta do Mugenesis_Demo no Mega Drive: piloto Hadouken preservado, familias de FX, HUD e retrato acabados, cenario Suzaku elaborado com camera/profundidade e trilha/SFX auditados, sem prometer jogo completo ou qualidade AAA.",
+    "success_definition": "Cada item do doc/mugen/completion_backlog.json com evidencia vinculada a ROM final: paleta global dentro do contrato, HUD legivel, familias FX completas, comportamento preservado, Suzaku animado, camera/chao sem costuras, musica/vozes ouvidos, performance medida e gameplay ate resultado/retorno. Gates AAA nao satisfeitos mantem o teto technical_demo.",
     "non_goals": [
-      "Promover projeto sem evidencia",
-      "Exigir pacote completo de jogo para exercicio ou review",
-      "Tratar consultoria como entrega de ROM"
-    ]
+      "Prometer jogo completo, qualidade AAA ou release",
+      "Criar campanha, novos lutadores ou menus extensos fora do escopo registrado",
+      "Promover arte, ROM ou paleta sem aprovacao humana por hash e evidencia",
+      "Elevar o teto de claim trocando uma string; subida exige gates AAA medidos"
+    ],
+    "scope_authorization": {
+      "expanded_at": "2026-09-25",
+      "expanded_by": "usuario (prompt de conclusao da demo)",
+      "prior_scope": "Piloto isolado de efeitos Hadouken",
+      "ceiling_note": "delivery_claim_ceiling permanece technical_demo; trabalho de cenario/audio entra no escopo mas o claim segue limitado ate os gates de jogo AAA."
+    }
   },
   "blocking_policy": {
     "levels": [
@@ -153,10 +160,10 @@
     ]
   },
   "context_decision_record": {
-    "selected_by": "unselected",
-    "rationale": "A sessao ainda nao classificou o contexto de producao.",
-    "evidence_or_prompt": "Classifique antes de executar.",
+    "selected_by": "agent_inferred",
+    "rationale": "Contexto segue technical_demo: autorizacao humana de 2026-09-25 amplia a INTENCAO para demo completa de combate com cenario e audio, mas os gates de jogo AAA (prova perceptiva, 60 fps sustentado, qualidade audiovisual, palette-check verde) permanecem abertos, entao o teto de claim nao sobe.",
+    "evidence_or_prompt": "doc/prompts_modelo/prompt_mugen_sgdk_completion_2026_09_25.md (anexo de execucao) e doc/mugen/completion_backlog.json.",
     "human_confirmation_required_for_mode_change": true,
-    "last_reviewed_at": null
+    "last_reviewed_at": "2026-09-25T00:00:00Z"
   }
 }

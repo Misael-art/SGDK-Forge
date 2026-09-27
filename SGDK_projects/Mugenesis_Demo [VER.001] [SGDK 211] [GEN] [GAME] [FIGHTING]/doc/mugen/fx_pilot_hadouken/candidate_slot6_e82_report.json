@@ -1,0 +1,76 @@
+{
+  "status": "technical_candidate_non_promotable",
+  "slot6": {
+    "vdp_word": "0xE82",
+    "rgb_authoring": [
+      34,
+      136,
+      238
+    ],
+    "approval": "approved_by_user_2026-09-25",
+    "approval_record": "doc/mugen/fx_pilot_hadouken/slot6_user_approval_2026_09_25.md"
+  },
+  "source": {
+    "path": "rascunho/processado/fx_pilot_hadouken/source_750_1.png",
+    "sha256": "2a60f8b75e12156a6d4c8e2fb2a3bbb099cf4ed38a9210e3cd9a63d443764164"
+  },
+  "candidate": {
+    "path": "rascunho/processado/fx_pilot_hadouken/candidate_750_1_slot6_e82.png",
+    "sha256": "4f9f30abcfa23dc6d7db21369d64c689d3b1d2d61764c8bfca68e57bc1a75d66",
+    "size": [
+      56,
+      32
+    ]
+  },
+  "review_artifacts": {
+    "native_contact": "rascunho/processado/fx_pilot_hadouken/contact_source_vs_candidate.png",
+    "magnified_contact": "rascunho/processado/fx_pilot_hadouken/contact_source_vs_candidate_3x.png",
+    "source_air_preview_only": "rascunho/processado/fx_pilot_hadouken/source_air_preview.gif"
+  },
+  "mapping_source_rgb_to_index": {
+    "(0, 96, 192)": 6,
+    "(0, 128, 208)": 6,
+    "(8, 8, 8)": 15,
+    "(80, 160, 224)": 6,
+    "(112, 192, 240)": 6,
+    "(144, 224, 240)": 5,
+    "(192, 240, 240)": 5,
+    "(240, 240, 240)": 5
+  },
+  "source_opaque_rgb_counts": {
+    "(0, 96, 192)": 1,
+    "(0, 128, 208)": 148,
+    "(8, 8, 8)": 68,
+    "(80, 160, 224)": 145,
+    "(112, 192, 240)": 139,
+    "(144, 224, 240)": 165,
+    "(192, 240, 240)": 214,
+    "(240, 240, 240)": 274
+  },
+  "used_palette_indices": [
+    0,
+    5,
+    6,
+    15
+  ],
+  "alpha_mask_preserved": true,
+  "opaque_black_preserved_as_index15": true,
+  "cell_padding": {
+    "top": 2,
+    "bottom": 2,
+    "axis_before": [
+      33,
+      15
+    ],
+    "cell_axis": [
+      33,
+      17
+    ]
+  },
+  "tiles_8x8_nonempty_estimated": 26,
+  "hardware_sprite_cells_32x32_nonempty_estimated": 2,
+  "compiled_cost_measured": false,
+  "air_or_hitboxes_changed": false,
+  "promotion": "blocked_pending_hash_bound_visual_approval_and_integration_gates",
+  "candidate_visual_approval": "pending_hash_bound"
+}

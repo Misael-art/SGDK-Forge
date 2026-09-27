@@ -1,6 +1,6 @@
 /* scene_demo.c -- cena de luta do Mugenesis_Demo.
  * Hospeda o runtime generico mugen2sgdk_forge (src/mg/) com personagens gerados (src/mg_gen/).
- * Cenario: nenhum stage convertido ainda (Etapa 4); fundo e cor solida, HUD e texto transitorio.
+ * Suzaku: source-derived anchor in BG_B; stationary graphic HUD in A/WINDOW.
  */
 #include <genesis.h>
 
@@ -10,11 +10,74 @@
 #include "mg/mg_runtime.h"
 #include "mg_gen/mg_ken.h"
 #include "scenes/fight_hud.h"
+#include "scenes/fight_stage.h"
 
-#define FIGHT_SPR_VRAM 600   /* projeteis/explods (partes de efeitos grandes); corpos e fundo usam VRAM fixa */
+#ifndef FIGHT_SPR_VRAM
+#define FIGHT_SPR_VRAM 430   /* projeteis/explods (partes de efeitos grandes); corpos e fundo usam VRAM fixa */
+#endif
 #define ATTRACT_IDLE_FRAMES 300   /* 5 s sem entrada no P1: CPU assume (modo demonstracao) */
 
 static u16 sIdleFrames;
+static u16 sStageReady;
+
+#ifdef MG_TEST_VRAM_BUDGET
+/* Telemetria restrita a ROMs de diagnostico. O bloco em 0x0300 fica entre
+ * VLAB (0x0200..0x02C7) e MGPF (0x0400..); nao altera SRAM de producao. */
+#define TEST_VRAM_SRAM_OFFSET 0x0300
+static u16 sTestVramSamples;
+static u16 sTestVramMinFree = 0xFFFF;
+static u16 sTestVramMinLargest = 0xFFFF;
+static u16 sTestVramPeakActive;
+static u32 sTestVramMinFreeFrame;
+
+static void testVramBudgetTick(void)
+{
+    const u16 freeTiles = SPR_getFreeVRAM();
+    const u16 largestBlock = SPR_getLargestFreeVRAMBlock();
+    const u16 activeSprites = SPR_getNumActiveSprite();
+    const u32 frame = gApp.totalFrames;
+
+    sTestVramSamples++;
+    if (freeTiles < sTestVramMinFree) {
+        sTestVramMinFree = freeTiles;
+        sTestVramMinFreeFrame = frame;
+    }
+    if (largestBlock < sTestVramMinLargest) sTestVramMinLargest = largestBlock;
+    if (activeSprites > sTestVramPeakActive) sTestVramPeakActive = activeSprites;
+
+    /* SRAM escrita a cada 30 quadros; os picos sao acumulados em RAM quadro a
+     * quadro e exportados com unidade, versao e frame do minimo de tiles. */
+    if ((frame % 30) == 0) {
+        SRAM_enable();
+        SRAM_writeByte(TEST_VRAM_SRAM_OFFSET + 0, 'V');
+        SRAM_writeByte(TEST_VRAM_SRAM_OFFSET + 1, 'R');
+        SRAM_writeByte(TEST_VRAM_SRAM_OFFSET + 2, 'A');
+        SRAM_writeByte(TEST_VRAM_SRAM_OFFSET + 3, 'M');
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 4, 1);
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 6, sTestVramSamples);
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 8, sTestVramMinFree);
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 10, sTestVramMinLargest);
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 12, sTestVramPeakActive);
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 14, (u16)(sTestVramMinFreeFrame >> 16));
+        SRAM_writeWord(TEST_VRAM_SRAM_OFFSET + 16, (u16)sTestVramMinFreeFrame);
+        SRAM_writeWord(0x0320, sStageReady);
+        SRAM_writeWord(0x0322, FIGHT_STAGE_restoreCount());
+        SRAM_writeLong(0x0324, MG_fightSpriteFailures());
+#ifndef MG_STAGE_SOURCE_STREAM
+        const FightStageInitDiagnostics *diag = FIGHT_STAGE_initDiagnostics();
+        SRAM_writeWord(0x0328, diag->status);
+        SRAM_writeWord(0x032A, diag->lowBase);
+        SRAM_writeWord(0x032C, diag->spriteStart);
+        SRAM_writeWord(0x032E, diag->capacity);
+        SRAM_writeWord(0x0330, diag->required);
+        SRAM_writeWord(0x0332, diag->farTiles);
+        SRAM_writeWord(0x0334, diag->nearTiles);
+        SRAM_writeWord(0x0336, MG_fightVramNext());
+#endif
+        SRAM_disable();
+    }
+}
+#endif
 
 #ifdef MG_TEST_SCRIPT
 /* ROM de teste: roteiro de entrada real para o P1 (evidencia de efeitos de super no emulador).
@@ -127,6 +190,8 @@ void SCENE_demoEnter(void)
 {
 
     AUDIO_stopAll();
+    VDP_setEnable(FALSE);
+    FIGHT_STAGE_setup();
     VDP_clearPlane(BG_A, TRUE);
     VDP_clearPlane(BG_B, TRUE);
     VDP_setHorizontalScroll(BG_A, 0);
@@ -139,13 +204,24 @@ void SCENE_demoEnter(void)
     JOY_setSupport(PORT_2, JOY_SUPPORT_6BTN);
 
 #ifdef MG_TEST_SCRIPT
-    /* ROM de teste: P2 parado para o roteiro do P1 executar sem interrupcao */
+#ifndef MG_TEST_P2_CPU
+    /* ROM de teste: P2 parado para o roteiro do P1 executar sem interrupcao. */
     MG_fightInit(&mg_char_ken, mg_char_ken.default_pal, &mg_char_ken, mg_char_ken.default_pal, FALSE);
+#else
+    /* Teste de estresse: P2 controlado pela AI para cobrir pressao dos dois lados. */
+    MG_fightInit(&mg_char_ken, mg_char_ken.default_pal, &mg_char_ken, mg_char_ken.default_pal, TRUE);
+#endif
 #else
     MG_fightInit(&mg_char_ken, mg_char_ken.default_pal, &mg_char_ken, mg_char_ken.default_pal, TRUE);
 #endif
     sIdleFrames = 0;
     FIGHT_HUD_init();
+    sStageReady = FIGHT_STAGE_init(FIGHT_HUD_vramNext());
+    if (FIGHT_STAGE_takeHudInvalidation()) FIGHT_HUD_invalidateBGA();
+    VDP_setEnable(TRUE);
+#ifndef MG_TEST_NO_FIGHT_BGM
+    AUDIO_startFightBgm();
+#endif
 #ifdef MG_PCPROF
     SYS_disableInts();
     SYS_setHIntCallback(mg_pcprof_hint);
@@ -177,13 +253,71 @@ void SCENE_demoUpdate(void)
 #else
     MG_fightUpdate(pad1, JOY_readJoypad(JOY_2));
 #endif
+#ifdef MG_TEST_STAGE_RESTORE
+    /* Directed resource-loan test, not a naturally executed super. */
+    if (gApp.sceneFrames == 240 || gApp.sceneFrames == 480)
+        MG_spawnExplod(&mg_fight.p[0], 730, 0, 0, 60, 730, 1);
+#endif
+#ifdef MG_TEST_STAGE_STREAM_SWEEP
+    /* Diagnostic-only camera path: holds the fighters in screen space while
+     * sweeping the full legal camera range so the source-map ring is exercised. */
+    {
+        const u16 f = gApp.sceneFrames;
+        s16 target = 160;
+        if (f >= 90 && f < 250) target = (s16)(160 - (f - 90));
+        else if (f >= 250 && f < 410) target = (s16)((f - 250) * 2);
+        else if (f >= 410 && f < 570) target = (s16)(320 - ((f - 410) * 2));
+        else if (f >= 570 && f < 730) target = (s16)(f - 570);
+        if (target < 0) target = 0;
+        if (target > 320) target = 320;
+        const s16 delta = target - mg_fight.camx;
+        mg_fight.camx = target;
+        if (delta) {
+            mg_fight.p[0].x += ((mgfx)delta << MG_FX_SHIFT);
+            mg_fight.p[1].x += ((mgfx)delta << MG_FX_SHIFT);
+        }
+    }
+#endif
     MG_fightRender();
+    FIGHT_STAGE_update();
+    if (FIGHT_STAGE_takeHudInvalidation()) FIGHT_HUD_deferBGARebuild();
 #ifdef MG_PROFILE
     { u32 th = getSubTick(); FIGHT_HUD_update(); mg_prof[13] += getSubTick() - th; }
 #else
     FIGHT_HUD_update();
 #endif
-#ifdef MG_TEST_SCRIPT
+#ifdef MG_TEST_STAGE_STREAM_OVERLAY
+    /* Test-ROM-only snapshot. 0x0340..0x0367 is clear between VLAB at 0x0200,
+     * the existing VRAM sample at 0x0300 and MGPF/PC profiling at 0x0400+. */
+    if ((gApp.sceneFrames % 30) == 0) {
+        u16 capacity, resident, peakWanted, overflows, restores;
+        u16 uploadBytes, mapBytes, scrollBytes;
+        u16 peakUpload, peakMap, peakScroll, peakTotal;
+        const u32 o = 0x0340;
+        FIGHT_STAGE_streamStats(&capacity, &resident, &peakWanted, &overflows, &restores,
+                                &uploadBytes, &mapBytes, &scrollBytes,
+                                &peakUpload, &peakMap, &peakScroll, &peakTotal);
+        SRAM_enable();
+        SRAM_writeByte(o + 0, 'S'); SRAM_writeByte(o + 1, 'S');
+        SRAM_writeByte(o + 2, 'T'); SRAM_writeByte(o + 3, 'R');
+        SRAM_writeWord(o + 4, 1); SRAM_writeWord(o + 6, 42);
+        SRAM_writeWord(o + 8, capacity); SRAM_writeWord(o + 10, resident);
+        SRAM_writeWord(o + 12, peakWanted); SRAM_writeWord(o + 14, overflows);
+        SRAM_writeWord(o + 16, restores); SRAM_writeWord(o + 18, (u16)mg_fight.camx);
+        SRAM_writeWord(o + 20, uploadBytes); SRAM_writeWord(o + 22, mapBytes);
+        SRAM_writeWord(o + 24, scrollBytes); SRAM_writeWord(o + 26, peakUpload);
+        SRAM_writeWord(o + 28, peakMap); SRAM_writeWord(o + 30, peakScroll);
+        SRAM_writeWord(o + 32, peakTotal); SRAM_writeWord(o + 34, (u16)mg_fight.shake_x);
+        SRAM_writeWord(o + 36, (u16)mg_fight.shake_y);
+        SRAM_writeWord(o + 38, gApp.sceneFrames);
+        SRAM_writeWord(o + 40, sStageReady);
+        SRAM_disable();
+    }
+#endif
+#ifdef MG_TEST_VRAM_BUDGET
+    testVramBudgetTick();
+#endif
+#if defined(MG_TEST_SCRIPT) && !defined(MG_TEST_VRAM_BUDGET) && defined(MG_TEST_TEXT_OVERLAY)
     {   /* diagnostico na tela: explods ativos (anim, elemento, sprite SGDK alocado); tamanho limitado */
         char l[41];
         u8 len = 0;
@@ -256,4 +390,17 @@ void SCENE_demoUpdate(void)
         }
     }
 #endif
+}
+
+/* Restore the SDK layout/font before menu/branding can write text again. */
+void SCENE_demoExit(void)
+{
+    MG_fightEnd();
+    VDP_setEnable(FALSE);
+    VDP_setWindowVPos(FALSE, 0);
+    VDP_setWindowAddress(0xD000);
+    VDP_loadFont(&font_default, CPU);
+    VDP_setHorizontalScroll(BG_B, 0);
+    VDP_setVerticalScroll(BG_B, 0);
+    VDP_setEnable(TRUE);
 }

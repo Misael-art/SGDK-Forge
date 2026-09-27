@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "suzaku_castle",
+  "asset_id": "suzaku_v11_modular_reauthoring_ai_concept_20260926",
+  "source_path": "rascunho/inputs/suzaku_v11_modular_reauthoring_ai_concept_20260926.png",
+  "source_sha256": "d4df30abb90a1f09101fd377a01df20e9477db20707cdcff2ac03dd1f7c2b89e",
+  "authority_path": "rascunho/inputs/suzaku_v10_modular_tile_economy_ai_concept_20260926.png",
+  "authority_sha256": "43cbd4ccb23ddd1bc01d855d2f0b4d56bee980e384d9154bf9f88dd30cb42d62",
+  "authority_scope": "shared Suzaku scene identity and anchors only; V11 composition is a new concept and is not pixel-derived from V10",
+  "design_anchors": [
+    "Japanese night fortress silhouette with unmistakable roof tiers",
+    "large moon and broad cloud shapes as a distant orientation anchor",
+    "continuous flat fighting platform with clear feet contact",
+    "repeatable rail, masonry, and wood material families",
+    "cool night values with restrained warm lantern accents"
+  ],
+  "gameplay_constraints": {
+    "viewport": [320, 224],
+    "current_world_width": 640,
+    "hud_top_y": [0, 55],
+    "combat_band_y": [56, 207],
+    "feet_contact_y_target": 200,
+    "hud_bottom_y": [208, 223],
+    "fighters_and_large_fx_must_remain_legible": true,
+    "no_parallax_or_occlusion_claim_from_flattened_control": true
+  },
+  "allowed_transformations_for_this_stage": [
+    "mechanical_nearest_resizing_for_cost_probe",
+    "deterministic_vdp_palette_conversion_for_cost_probe",
+    "offline_reauthoring_into_independently_owned_planes_after_visual_review"
+  ],
+  "prohibited_claims": [
+    "native_megadrive_art",
+    "human_visual_approval",
+    "runtime_ready",
+    "parallax_ready",
+    "residency_or_vblank_proven"
+  ],
+  "source_prompt_record": {
+    "status": "brief_reconstructed_from_session_record_not_verbatim",
+    "brief": "Create an original wide night-fortress fighting-stage concept with a Japanese keep right of center, a small far watchtower, moon and broad clouds, a continuous wooden fighting deck, modular-looking masonry/rail/board motifs, restrained lantern amber, and a quiet lower water strip. Keep silhouettes readable at 320x224. Avoid text, HUD, fighters, logos, gradients, blur, fake scanlines, photoreal detail, and copied commercial-game art.",
+    "limitation": "The exact model prompt and first-generation intermediate hash were not retained. This record binds only the selected V11 image and its visible design brief."
+  },
+  "approval_status": "pending_human_visual_review",
+  "production_res_usage": false,
+  "runtime_usage": false
+}

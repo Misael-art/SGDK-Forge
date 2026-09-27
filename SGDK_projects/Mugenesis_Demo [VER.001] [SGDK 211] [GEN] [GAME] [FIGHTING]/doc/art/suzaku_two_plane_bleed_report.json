@@ -1,0 +1,73 @@
+{
+  "schema_version": "suzaku_two_plane_bleed.v1",
+  "status": "technical_candidate",
+  "approval": "none",
+  "source_authority": "MUGEN Suzaku source-derived plates; source package and redistribution status remain in project lineage record",
+  "anchor": {
+    "path": "res/bgs/suzaku/source_anchor_8.png",
+    "sha256": "0e2f35a3d2bc260cbf944c38b104b9f81f5010d8c30d40ce1d7235237e82af65"
+  },
+  "palette_match": true,
+  "center_reconstruction_pixel_mismatches": 0,
+  "far_plane": {
+    "source": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/data/source_art/stage_suzaku/palette8_far_anchor_indexed.png",
+    "source_sha256": "82e0f4953c1cd57e34f8ddca729f30de1f358660269a07fdf97c2a7b4476c4f5",
+    "output": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/res/bgs/suzaku/source_far_8_bleed.png",
+    "output_sha256": "366f4a1c4bf829bd7bf1fb8d7d5a792799d2d215118825e104f716defd29cf34",
+    "transparent_index0": false,
+    "source_dimensions": [
+      320,
+      224
+    ],
+    "output_dimensions": [
+      336,
+      256
+    ],
+    "padding_px": {
+      "left": 8,
+      "right": 8,
+      "top": 16,
+      "bottom": 16
+    },
+    "center_pixel_mismatches": 0,
+    "canonical_tiles_before": 259,
+    "canonical_tiles_after": 259,
+    "new_canonical_tiles": 0
+  },
+  "near_plane": {
+    "source": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/data/source_art/stage_suzaku/palette8_near_anchor_indexed.png",
+    "source_sha256": "232151c2fa9f1110adc49946af2663830a7df99a2f027f8b23da58be7a0a8f79",
+    "output": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/res/bgs/suzaku/source_near_8_bleed.png",
+    "output_sha256": "45543c7f277ba68ee8a139d1cef5b5d942216f8022c799443fcece1b06a101ce",
+    "transparent_index0": true,
+    "source_dimensions": [
+      320,
+      224
+    ],
+    "output_dimensions": [
+      336,
+      256
+    ],
+    "padding_px": {
+      "left": 8,
+      "right": 8,
+      "top": 16,
+      "bottom": 16
+    },
+    "center_pixel_mismatches": 0,
+    "canonical_tiles_before": 426,
+    "canonical_tiles_after": 426,
+    "new_canonical_tiles": 0
+  },
+  "shake_coverage_px": {
+    "horizontal": [
+      -8,
+      8
+    ],
+    "vertical": [
+      -16,
+      16
+    ]
+  },
+  "claim_ceiling": "static_source_anchor_with_shake_bleed; no parallax, camera pan, or animation proof"
+}

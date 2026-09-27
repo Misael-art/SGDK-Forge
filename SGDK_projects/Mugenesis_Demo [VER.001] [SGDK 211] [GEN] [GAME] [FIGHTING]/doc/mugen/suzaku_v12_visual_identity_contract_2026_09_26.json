@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "suzaku_castle",
+  "asset_id": "suzaku_v12_modular_reauthoring_ai_concept_20260926",
+  "source_path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+  "source_sha256": "ec69d43c3f885bb30923c021ca3c874139b1efe427eb7ce622731748a8ef1b31",
+  "authority_path": "rascunho/inputs/suzaku_v11_modular_reauthoring_ai_concept_20260926.png",
+  "authority_sha256": "d4df30abb90a1f09101fd377a01df20e9477db20707cdcff2ac03dd1f7c2b89e",
+  "authority_scope": "Japanese fortress scene identity, keep/moon/watchtower placement, continuous deck and night palette; V12 is an image-generation reauthoring of V11, not pixel-identical",
+  "design_anchors": [
+    "Japanese night fortress with the keep right of center and distinct roof tiers",
+    "small left watchtower, pale moon and broad mountain/cloud silhouettes",
+    "continuous wooden deck and repeating rail posts as clear playable floor",
+    "repeated masonry and deck material vocabulary instead of stochastic microtexture",
+    "cool night colors with restrained warm lantern pixels"
+  ],
+  "gameplay_constraints": {
+    "viewport": [320, 224],
+    "current_world_width": 640,
+    "hud_top_y": [0, 55],
+    "combat_band_y": [56, 207],
+    "feet_contact_y_target": 200,
+    "hud_bottom_y": [208, 223],
+    "fighters_and_large_fx_must_remain_legible": true,
+    "no_parallax_or_occlusion_claim_from_flattened_control": true
+  },
+  "allowed_transformations_for_this_stage": [
+    "mechanical_nearest_resizing_for_cost_probe",
+    "deterministic_vdp_palette_conversion_for_cost_probe",
+    "offline_layer_reauthoring_from_persisted_source_pixels_after_review"
+  ],
+  "prohibited_claims": [
+    "native_megadrive_art",
+    "human_visual_approval",
+    "runtime_ready",
+    "parallax_ready",
+    "residency_or_vblank_proven"
+  ],
+  "approval_status": "pending_human_visual_review",
+  "production_res_usage": false,
+  "runtime_usage": false
+}

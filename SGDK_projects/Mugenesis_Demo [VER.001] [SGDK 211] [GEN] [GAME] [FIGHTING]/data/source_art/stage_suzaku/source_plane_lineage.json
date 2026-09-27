@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "status": "source_derived_anchor_plates_unapproved",
+  "source_kind": "procedural_composed_from_authored",
+  "source_package": {
+    "path": "rascunho/entrada_bruta/ssf2_01_ryu.zip",
+    "sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96"
+  },
+  "source_view_report": {
+    "path": "rascunho/processado/stage_takeover/suzaku_static_source_view_sweep_v1.json",
+    "sha256": "bd8060753db6c987f876070e5b7e4594cad0a4f1f10f561b99ca588367e8524e"
+  },
+  "builder": {
+    "path": "rascunho/processado/stage_takeover/build_suzaku_source_anchor_plane_plates.py",
+    "sha256": "5144c03b33d93adeaab90775862ced084d494d5ccf626017ef07e5ff77babd44"
+  },
+  "anchor_camera_from_left": 224,
+  "viewport": {
+    "width": 320,
+    "height": 224,
+    "crop_top": 16
+  },
+  "plane_order": {
+    "far": [
+      "BG 0a",
+      "BG 0b"
+    ],
+    "near": [
+      "BG 1",
+      "BG 2",
+      "BG 3",
+      "BG 4a",
+      "BG 4b"
+    ],
+    "source_order_preserved": true
+  },
+  "source_mask_policy": "MUGEN mask=true index0 becomes transparent; mask=false pixels including index0 remain opaque",
+  "recomposition": {
+    "comparison": "RGB exact against the original stage-source-view compositor at anchor",
+    "mismatched_pixels": 0
+  },
+  "assets": {
+    "far": {
+      "path": "rascunho/processado/stage_takeover/suzaku_source_anchor_plane_plates_20260926_v1/far_bg0a_bg0b_anchor.png",
+      "sha256": "f3b90ac6c2bf84d381be86c00b8c5c38e80d4131e9322d3a8a59ba583b08372e"
+    },
+    "near": {
+      "path": "rascunho/processado/stage_takeover/suzaku_source_anchor_plane_plates_20260926_v1/near_bg1_bg4_anchor.png",
+      "sha256": "a4c5d0c71be3b8894b642cc23c0caa6898083ead798a7bfe3a376ba82ed783a1"
+    },
+    "composite": {
+      "path": "rascunho/processado/stage_takeover/suzaku_source_anchor_plane_plates_20260926_v1/source_composite_anchor.png",
+      "sha256": "d399b5550af26f199e4ac92eae7bda8c2730186a6cb1af766f803672106dbbb5"
+    }
+  },
+  "claim_ceiling": "exact_source_compositor_reconstruction_at_one_static_camera_only",
+  "limitations": [
+    "not a camera-scroll asset",
+    "no MUGEN autonomous BG0 velocity in this still frame",
+    "palette conversion and native tile economics not measured",
+    "not approved for res/ or ROM"
+  ]
+}

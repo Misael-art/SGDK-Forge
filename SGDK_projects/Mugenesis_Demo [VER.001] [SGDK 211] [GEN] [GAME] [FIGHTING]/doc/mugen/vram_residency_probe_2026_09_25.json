@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measurement_only",
+  "purpose": "Measure the current fight sprite allocator under a deliberately stressed two-fighter state before assigning VRAM to Suzaku.",
+  "captured_at_utc": "2026-09-25T22:54:18.715530Z",
+  "rom_sha256": "37fd9eb8e35464262bec4fa876c6ef0ff19d96d7678125152e42c534ae44ac11",
+  "test_build": {
+    "flags": ["MG_TEST_SCRIPT", "MG_TEST_FULL_POWER", "MG_TEST_VRAM_BUDGET", "MG_TEST_P2_CPU"],
+    "state": "two Ken fighters, both full power, P2 AI active",
+    "sprite_pool_tiles": 600,
+    "stage_loaded": false,
+    "audio_driver": "dummy",
+    "production_rom": false
+  },
+  "emulator": {
+    "name": "BlastEm Flatpak",
+    "ref": "app/com.retrodev.blastem/x86_64/stable",
+    "commit": "c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221",
+    "session_id": "blastem-linux-20260925T225314Z-558452",
+    "target_scene_requested": 3,
+    "target_scene_observed": 3,
+    "identity_status": "sealed"
+  },
+  "allocator_observation": {
+    "telemetry_magic": "VRAM",
+    "telemetry_version": 1,
+    "sample_count": 2941,
+    "minimum_free_tiles": 247,
+    "pool_tiles": 600,
+    "maximum_allocated_tiles_observed": 353,
+    "minimum_largest_contiguous_free_block_tiles": 72,
+    "peak_active_hardware_sprites": 11,
+    "frame_at_minimum_free": 427,
+    "allocation_failures": 0
+  },
+  "frame_budget_observation": {
+    "window_title_fps_snapshot": 59.9,
+    "sustained_performance_claim": "unproven",
+    "vlab_sample_count": 32,
+    "frames_over_declared_budget": 116,
+    "observed_window_frames": 1200,
+    "maximum_cpu_load_percent": 145,
+    "maximum_cpu_jitter_percent": 23,
+    "maximum_scanline_sprites": 16,
+    "maximum_active_sprites": 11,
+    "claim_limit": "Diagnostic build, audio dummy, no stage, one sealed capture. This is not the final worst-case fight or a sustained 60 fps proof."
+  },
+  "artifacts": {
+    "bundle": "out/stage_takeover_vram_stress/blastem-linux-20260925T225314Z-558452/",
+    "screenshot_sha256": "039f6140ef25a4cd94bbe928ab6f03a080725535e20bb41f8558f1761b6263dd",
+    "sram_sha256": "67fd7e05a9b460c007a1ffc5511483d7fc14d4f35950ca3e20642a0404c60048",
+    "visual_vdp_dump_sha256": "7ae06f78cbdbdd6a7d7440871c37ce61190f40c586e046b86f45642ff0b852e7",
+    "runtime_metrics_sha256": "b93aa929bee596bbe21590dcb674cc0dbe10f6d2e5fb5baf8033bc83de1bf59e",
+    "target_scene_verification": "passed"
+  },
+  "decision": {
+    "result": "insufficient_for_production_pool_change",
+    "interpretation": "There were no allocator failures at pool 600, but the observed 72-tile largest contiguous block makes total free tiles alone an inadequate safety margin. Do not reduce the production sprite pool solely to fit the current background candidate.",
+    "next_measurement": "Repeat matched captures with a stage candidate and candidate pool sizes, using the same fight state, audio driver, instrumentation, and route; record the allocator minimum, largest contiguous block, DMA, scanline pressure, and sustained cadence."
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "lessons_2026-09-25_mugen_coordination",
+  "status": "adjudicated_separately",
+  "lessons": [
+    {
+      "id": "portrait_owns_source_palette_and_mask",
+      "lesson": "Retrato pode possuir paleta-fonte propria; traduzir RGB e preservar mascara sem transformar indice desconhecido ou preto opaco em transparente.",
+      "proposed_owner": "art-conversion-pipeline",
+      "evidence": "tools/mugen2sgdk_forge/tests/test_portrait_palette.py",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    },
+    {
+      "id": "png_authoring_grid_is_not_display_rgb",
+      "lesson": "PLTE de autoria e RGB digital do medidor sao convencoes distintas; converter palavras VDP com oraculo da rota e verificar exportacao.",
+      "proposed_owner": "art-conversion-pipeline",
+      "evidence": "tools/mugen2sgdk_forge/mugen2sgdk_forge/vdp_authoring.py",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    },
+    {
+      "id": "hud_regions_include_clear_footprints",
+      "lesson": "Contratos espaciais HUD incluem retangulos de escrita e limpeza; observar oclusao e estados simultaneos na ROM.",
+      "proposed_owner": "sgdk-runtime-coder",
+      "evidence": "tools/mugen2sgdk_forge/tests/test_hud_motion.py",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    },
+    {
+      "id": "hud_animation_does_not_change_gameplay_resource",
+      "lesson": "Descarga visual nao altera energia real; testes da curva provam apresentacao, e semantica de gameplay exige casos proprios.",
+      "proposed_owner": "sgdk-runtime-coder",
+      "evidence": "tools/mugen2sgdk_forge/tests/test_hud_motion.py",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    },
+    {
+      "id": "forced_probe_has_limited_claim_scope",
+      "lesson": "Sonda de estado forcado prova esse estado; nao comprova evento natural, desempenho sustentado, audio ou ROM normal de outro hash.",
+      "proposed_owner": "emulator-vdp-evidence-curator",
+      "evidence": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/hud_stage_review_2026_09_25.md",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    },
+    {
+      "id": "generated_concept_requires_native_asset_validation",
+      "lesson": "Conceito high-res nao satisfaz contrato nativo32x32; validar canvas, indices, leitura1x e aparencia no jogo antes de promover.",
+      "proposed_owner": "visual-excellence-standards",
+      "evidence": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/hud_portrait_art_handoff_2026_09_25.md",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    },
+    {
+      "id": "converter_preserves_human_provenance",
+      "lesson": "Reconversao preserva notas humanas e historico; aprovacao vale por hash. Confirmar integracao e idempotencia na branch antes de uso.",
+      "proposed_owner": "mugen2sgdk_forge",
+      "evidence": "tools/sgdk_wrapper/.agent/references/mugen_conversion_safety_2026_09_24.md",
+      "enforcement_state": "candidate",
+      "canonized_in": []
+    }
+  ]
+}

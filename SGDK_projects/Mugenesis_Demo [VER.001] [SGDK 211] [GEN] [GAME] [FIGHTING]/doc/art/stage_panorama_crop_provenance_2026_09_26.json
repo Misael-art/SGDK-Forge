@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "status": "staging_crop_only",
+  "source": {
+    "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_panorama_20260926.png",
+    "sha256": "9e88daab25cc07d67cf0abe363eaa48479b94a7d8409171b5cf74081e35ed3f3",
+    "source_kind": "ai_generated"
+  },
+  "builder": "rascunho/processado/stage_takeover/crop_suzaku_panorama_for_world640.py",
+  "crop_report": "rascunho/processado/stage_takeover/suzaku_panorama_world640_crop_report.json",
+  "derived": {
+    "path": "rascunho/processado/stage_takeover/suzaku_panorama_world640_20260926.png",
+    "sha256": "d69e5670851f1b90e79dcef7fb7a1700c314b82117fc03c0dc3f16604baaa019",
+    "source_kind": "procedural_composed_from_authored",
+    "dimensions": [2068, 724],
+    "operation": "center crop to 640:224 aspect; no resampling and no pixel drawing"
+  },
+  "claim_ceiling": "staging crop for existing 640-wide runtime study; no camera or ROM proof"
+}

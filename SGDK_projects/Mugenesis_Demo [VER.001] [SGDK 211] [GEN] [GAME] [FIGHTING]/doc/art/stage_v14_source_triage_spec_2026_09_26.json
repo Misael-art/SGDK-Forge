@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "rascunho/inputs/suzaku_v14_tile_economy_ai_concept_20260926.png",
+  "source_class": "unclassified_raster",
+  "intended_role": "translation_source",
+  "matte_policy": "opaque",
+  "reviewer": "agent_curated_review",
+  "identity_authority_path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+  "identity_authority_sha256": "ec69d43c3f885bb30923c021ca3c874139b1efe427eb7ce622731748a8ef1b31",
+  "visual_source_of_truth_contract": "doc/mugen/suzaku_v14_visual_identity_contract_2026_09_26.json",
+  "derivation": "New AI-generated scenic concept using V12 as landmark and palette-mood reference, with a stricter brief for 8x8-aligned reusable materials and a y=200 floor-contact edge. Cost evaluation only until translation and human visual review.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Opaque full-stage concept. Cloud/mountain/keep/deck pixels are scenic source content, not matte contamination. AI-rendered high-resolution pixel-like texture must be tested at 320x224 and the Mega Drive palette; no claim of native pixel authorship or tile economy yet."
+  }
+}

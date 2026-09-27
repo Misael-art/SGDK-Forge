@@ -1,0 +1,15 @@
+{
+  "schema": "mugen2sgdk_forge.route_decision_record/v1",
+  "context_type": "existing_project_stage_experiment",
+  "dominant_route": "source_translation_then_semantic_tile_atlas",
+  "first_skill": "art-translation-to-vdp",
+  "asset_strategy": "source-derived two-plane anchor plates plus shared TILESET and MAP study outputs",
+  "decision_status": "offline_candidate_only",
+  "reason": "Preserve source geometry and test whether a hand-declared seven-color role palette reduces exact tile patterns before runtime work.",
+  "forbidden_until_evidence": [
+    "res promotion",
+    "ROM integration",
+    "camera or motion approval",
+    "AAA claim"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "status": "offline_estimate_not_validated_budget",
+  "seven_color_anchor": {
+    "unique_patterns_with_hv_flip": 615,
+    "pattern_bytes": 19680,
+    "two_maps_bytes": 4480,
+    "patterns_plus_maps_bytes": 24160
+  },
+  "eight_color_control_anchor": {
+    "unique_patterns_with_hv_flip": 668,
+    "pattern_bytes": 21376,
+    "two_maps_bytes": 4480,
+    "patterns_plus_maps_bytes": 25856
+  },
+  "scope": "one 320x224 anchor; excludes independent scrolling windows, fighter/HUD/FX residency, VRAM placement, DMA and ROM capture",
+  "historical_engine_stage_region": {
+    "tiles": 446,
+    "status": "conditional old estimate, not physical VDP ceiling"
+  },
+  "finding": "615 seven-color patterns exceed the historical 446-tile stage allocation by 169; architecture and camera sweep still need a new budget."
+}

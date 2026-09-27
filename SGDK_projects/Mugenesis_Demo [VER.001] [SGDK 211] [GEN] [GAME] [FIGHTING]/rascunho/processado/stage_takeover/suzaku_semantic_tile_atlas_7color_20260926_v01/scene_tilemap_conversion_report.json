@@ -1,0 +1,320 @@
+{
+  "schema": "mugen2sgdk_forge.semantic_tile_atlas_study/v1",
+  "status": "offline_static_anchor_study_not_runtime_asset",
+  "source_package_sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96",
+  "source_package_revalidated_during_build": true,
+  "source_composite_sha256": "d399b5550af26f199e4ac92eae7bda8c2730186a6cb1af766f803672106dbbb5",
+  "source_lineage_sha256": "28a8619ceac120792b41369fe12301d12905d8c4b717ddb9720e5bff0da073b0",
+  "anchor_camera_from_left": 224,
+  "canvas": [
+    320,
+    224
+  ],
+  "tile_size": [
+    8,
+    8
+  ],
+  "planes": {
+    "far": "BG_B study plate from BG0a/BG0b",
+    "near": "BG_A study plate from BG1..BG4"
+  },
+  "variant_difference": {
+    "pixels_changed_7_vs_8": 6454,
+    "fraction_changed_7_vs_8": 0.0900390625,
+    "mean_squared_rgb_error_7_vs_8": 129.23839285714286,
+    "comparison_image": "source_7color_8color_comparison.png",
+    "comparison_order": [
+      "original source",
+      "seven color",
+      "eight color control"
+    ]
+  },
+  "results": {
+    "seven_color": {
+      "variant": "seven_color",
+      "visible_color_count": 7,
+      "palette_entries": {
+        "deep_shadow": {
+          "index": 1,
+          "input_swatch_rgb": "#224466",
+          "vdp_word": "0x642",
+          "hardware_rgb": "#24486C"
+        },
+        "blue_mid": {
+          "index": 2,
+          "input_swatch_rgb": "#4488AA",
+          "vdp_word": "0xA84",
+          "hardware_rgb": "#4890B4"
+        },
+        "sky_light": {
+          "index": 3,
+          "input_swatch_rgb": "#66AAEE",
+          "vdp_word": "0xEA6",
+          "hardware_rgb": "#6CB4FC"
+        },
+        "cloud_light": {
+          "index": 4,
+          "input_swatch_rgb": "#AACCEE",
+          "vdp_word": "0xECA",
+          "hardware_rgb": "#B4D8FC"
+        },
+        "wood_dark": {
+          "index": 5,
+          "input_swatch_rgb": "#886622",
+          "vdp_word": "0x268",
+          "hardware_rgb": "#906C24"
+        },
+        "wood_mid": {
+          "index": 6,
+          "input_swatch_rgb": "#AA8866",
+          "vdp_word": "0x68A",
+          "hardware_rgb": "#B4906C"
+        },
+        "wood_light": {
+          "index": 7,
+          "input_swatch_rgb": "#CCAA66",
+          "vdp_word": "0x6AC",
+          "hardware_rgb": "#D8B46C"
+        }
+      },
+      "plane_assets": {
+        "far": {
+          "path": "seven_color/planes/far_seven_color_indexed.png",
+          "sha256": "a9d7d04703b1ed57bbf640f4114f3e0d4f9c3ed936254f27e4e85bb4173c2a1a",
+          "size": [
+            320,
+            224
+          ],
+          "source_alpha_mask_preserved": true,
+          "visible_pixels": 71680
+        },
+        "near": {
+          "path": "seven_color/planes/near_seven_color_indexed.png",
+          "sha256": "e03a0ed2c722de60eec1bdbee9d187d47ec27fc348b311d7eec65bf3b5cd5ad6",
+          "size": [
+            320,
+            224
+          ],
+          "source_alpha_mask_preserved": true,
+          "visible_pixels": 42349
+        }
+      },
+      "per_plane_tile_metrics": {
+        "far": {
+          "map_entries": 1120,
+          "unique_patterns_no_flip": 201,
+          "unique_patterns_with_hv_flip": 198
+        },
+        "near": {
+          "map_entries": 1120,
+          "unique_patterns_no_flip": 485,
+          "unique_patterns_with_hv_flip": 417
+        }
+      },
+      "exact_patterns_across_planes_without_flip": 686,
+      "shared_patterns_with_hv_flip": 615,
+      "pattern_bytes": 19680,
+      "two_plane_map_bytes": 4480,
+      "static_anchor_patterns_plus_maps_bytes": 24160,
+      "tile_bank_sha256": "6abcd82396afdfadfefbb633bf2d3726f2dbc915bb11806d25945e55a030e5e1",
+      "tile_bank_path": "seven_color/tiles/shared_tileset_4bpp_planar.bin",
+      "tile_atlas_png": "seven_color/tiles/shared_tileset_atlas_8x8.png",
+      "tile_atlas_preview_png": "seven_color/tiles/shared_tileset_atlas_preview_4x.png",
+      "tilemaps": {
+        "far": {
+          "binary": "seven_color/tiles/far_tilemap_40x28_be.bin",
+          "binary_sha256": "e7f9e278b7747945b4d3c8dbe10c3bc0ab379d0180a3b9b0774c3476581e7930",
+          "binary_bytes": 2240,
+          "json": "seven_color/tiles/far_tilemap_40x28.json",
+          "json_sha256": "2044fd088950198fc2b06f0e591656f7ecc229e996574bec30c4b3a0010a282e"
+        },
+        "near": {
+          "binary": "seven_color/tiles/near_tilemap_40x28_be.bin",
+          "binary_sha256": "a5c1020f6ea1190876dba4695dd7ea37a8c64068350ca8950a6eaf7eb1bcc772",
+          "binary_bytes": 2240,
+          "json": "seven_color/tiles/near_tilemap_40x28.json",
+          "json_sha256": "af215c204b37d3b20f6f08868a4f61b87464ca9054d0cc5c7a4c64a4ecf5aaf5"
+        }
+      },
+      "preview": "seven_color/suzaku_source_anchor_seven_color_preview.png",
+      "preview_sha256": "c4770ff92a276532247cd65088a080c0297186b26dbc8d9f92682698c7d07fa4",
+      "source_hardware_rgb_mse_per_pixel": 1654.4611607142858,
+      "source_hardware_rgb_rmse_per_channel": 23.483761486853606,
+      "changed_pixels_vs_source_after_hardware_decode": 52102,
+      "pixel_exact_tilemap_roundtrip": {
+        "far": "passed_pixel_exact",
+        "near": "passed_pixel_exact"
+      },
+      "palette_conflict_report": {
+        "schema": "mugen2sgdk_forge.per_tile_palette_conflict_report/v1",
+        "status": "passed_for_static_anchor_candidate",
+        "palette": "PAL0",
+        "max_colors_per_tile": 4,
+        "hardware_limit": 15,
+        "tiles_over_limit": 0,
+        "tiles_with_0_to_4_colors": 2240,
+        "tiles_with_5_to_8_colors": 0
+      },
+      "tilemap_flag_report": {
+        "schema": "mugen2sgdk_forge.tilemap_flag_report/v1",
+        "exact_patterns_across_planes_without_flip": 686,
+        "shared_atlas_patterns_with_hv_flip": 615,
+        "map_entries_total": 2240,
+        "entries_no_flip": 1512,
+        "entries_hflip_only": 280,
+        "entries_vflip_only": 247,
+        "entries_hvflip": 201,
+        "savings_from_hv_reuse": 71
+      }
+    },
+    "eight_color_control": {
+      "variant": "eight_color_control",
+      "visible_color_count": 8,
+      "palette_entries": {
+        "deep_shadow": {
+          "index": 1,
+          "input_swatch_rgb": "#224466",
+          "vdp_word": "0x642",
+          "hardware_rgb": "#24486C"
+        },
+        "blue_mid": {
+          "index": 2,
+          "input_swatch_rgb": "#4488AA",
+          "vdp_word": "0xA84",
+          "hardware_rgb": "#4890B4"
+        },
+        "blue_vivid": {
+          "index": 3,
+          "input_swatch_rgb": "#4488CC",
+          "vdp_word": "0xC84",
+          "hardware_rgb": "#4890D8"
+        },
+        "sky_light": {
+          "index": 4,
+          "input_swatch_rgb": "#66AAEE",
+          "vdp_word": "0xEA6",
+          "hardware_rgb": "#6CB4FC"
+        },
+        "cloud_light": {
+          "index": 5,
+          "input_swatch_rgb": "#AACCEE",
+          "vdp_word": "0xECA",
+          "hardware_rgb": "#B4D8FC"
+        },
+        "wood_dark": {
+          "index": 6,
+          "input_swatch_rgb": "#886622",
+          "vdp_word": "0x268",
+          "hardware_rgb": "#906C24"
+        },
+        "wood_mid": {
+          "index": 7,
+          "input_swatch_rgb": "#AA8866",
+          "vdp_word": "0x68A",
+          "hardware_rgb": "#B4906C"
+        },
+        "wood_light": {
+          "index": 8,
+          "input_swatch_rgb": "#CCAA66",
+          "vdp_word": "0x6AC",
+          "hardware_rgb": "#D8B46C"
+        }
+      },
+      "plane_assets": {
+        "far": {
+          "path": "eight_color_control/planes/far_eight_color_control_indexed.png",
+          "sha256": "065a46ce4309ded00558a9877da285675ba52fefc2a593f2c65877701b88a3cc",
+          "size": [
+            320,
+            224
+          ],
+          "source_alpha_mask_preserved": true,
+          "visible_pixels": 71680
+        },
+        "near": {
+          "path": "eight_color_control/planes/near_eight_color_control_indexed.png",
+          "sha256": "75bf37adba982ac0cd5ae532bbccf7bcb74dbf8e0341378adccfd523ea9f1086",
+          "size": [
+            320,
+            224
+          ],
+          "source_alpha_mask_preserved": true,
+          "visible_pixels": 42349
+        }
+      },
+      "per_plane_tile_metrics": {
+        "far": {
+          "map_entries": 1120,
+          "unique_patterns_no_flip": 253,
+          "unique_patterns_with_hv_flip": 251
+        },
+        "near": {
+          "map_entries": 1120,
+          "unique_patterns_no_flip": 485,
+          "unique_patterns_with_hv_flip": 417
+        }
+      },
+      "exact_patterns_across_planes_without_flip": 738,
+      "shared_patterns_with_hv_flip": 668,
+      "pattern_bytes": 21376,
+      "two_plane_map_bytes": 4480,
+      "static_anchor_patterns_plus_maps_bytes": 25856,
+      "tile_bank_sha256": "c5249d2bfe987c12d2e627cd4c4e996ddb3963bd492374ef0b87fff108718be0",
+      "tile_bank_path": "eight_color_control/tiles/shared_tileset_4bpp_planar.bin",
+      "tile_atlas_png": "eight_color_control/tiles/shared_tileset_atlas_8x8.png",
+      "tile_atlas_preview_png": "eight_color_control/tiles/shared_tileset_atlas_preview_4x.png",
+      "tilemaps": {
+        "far": {
+          "binary": "eight_color_control/tiles/far_tilemap_40x28_be.bin",
+          "binary_sha256": "649e41573d62d06a341b08a3061cca67aca66315c95b59fd63571d0d6d4025c1",
+          "binary_bytes": 2240,
+          "json": "eight_color_control/tiles/far_tilemap_40x28.json",
+          "json_sha256": "f79eb3db0a5025df8c39e036b6e33faf046735955e2d03da3a51e7dce0d9eaab"
+        },
+        "near": {
+          "binary": "eight_color_control/tiles/near_tilemap_40x28_be.bin",
+          "binary_sha256": "885e199bfde7a2bb4621d8f6eb40ad4c9ce509a1f0842e817303d7ca28a8de9c",
+          "binary_bytes": 2240,
+          "json": "eight_color_control/tiles/near_tilemap_40x28.json",
+          "json_sha256": "991c96562620552f924510e6443ebfcb1bc59081a2ba60ba7774369ddd8da091"
+        }
+      },
+      "preview": "eight_color_control/suzaku_source_anchor_eight_color_control_preview.png",
+      "preview_sha256": "ea95b711b4c688c8ead9c8a0327c2e637edf66dd52645013c4e3c65a921f301a",
+      "source_hardware_rgb_mse_per_pixel": 1547.244642857143,
+      "source_hardware_rgb_rmse_per_channel": 22.71009058294824,
+      "changed_pixels_vs_source_after_hardware_decode": 46415,
+      "pixel_exact_tilemap_roundtrip": {
+        "far": "passed_pixel_exact",
+        "near": "passed_pixel_exact"
+      },
+      "palette_conflict_report": {
+        "schema": "mugen2sgdk_forge.per_tile_palette_conflict_report/v1",
+        "status": "passed_for_static_anchor_candidate",
+        "palette": "PAL0",
+        "max_colors_per_tile": 5,
+        "hardware_limit": 15,
+        "tiles_over_limit": 0,
+        "tiles_with_0_to_4_colors": 2164,
+        "tiles_with_5_to_8_colors": 76
+      },
+      "tilemap_flag_report": {
+        "schema": "mugen2sgdk_forge.tilemap_flag_report/v1",
+        "exact_patterns_across_planes_without_flip": 738,
+        "shared_atlas_patterns_with_hv_flip": 668,
+        "map_entries_total": 2240,
+        "entries_no_flip": 1436,
+        "entries_hflip_only": 340,
+        "entries_vflip_only": 249,
+        "entries_hvflip": 215,
+        "savings_from_hv_reuse": 70
+      }
+    }
+  },
+  "limitations": [
+    "The existing plates merge source layers by depth for one anchor camera only.",
+    "BG0a/BG0b autonomous velocity, camera sweep, BG4a row-varying xscale and BG5 animation are not represented in this static tilemap.",
+    "These exact source-derived plates do not approve a runtime layer architecture or visual quality.",
+    "No production res files, runtime code, ROM, or canonical documents were changed."
+  ]
+}

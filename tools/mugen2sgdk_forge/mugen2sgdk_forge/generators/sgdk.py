@@ -111,7 +111,43 @@ def _const_num(consts, sec, key, comp=0, default=0.0):
         return default
 
 
-def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
+def portrait_image(face, spr):
+    """Translate the portrait's own palette; never interpret it as body indices.
+
+    Portraits are UI: keep their colours stable across costume variants and do
+    not spend a freed FX slot. Index zero alone is transparent, including PNG
+    previews. This is a technical translation, not an artistic approval.
+    """
+    from PIL import Image
+    from ..converters.sprites import vdp_rgb, _dist
+    # The palette checker uses the converter's 0..252 digital convention, but
+    # authored PNG PLTE must use the workspace's 0x22 grid. One CRAM word,
+    # two explicit representations; never requantize the fighter's CRAM here.
+    from ..vdp_authoring import png_palette_for_words
+
+    if face.width > 32 or face.height > 32:
+        raise ValueError("portrait requires an authored 32x32 layout")
+    palettes = [words for _, words in spr.body_variants]
+    if not palettes:
+        raise ValueError("portrait requires fighter palettes")
+    free = set(spr.report.get("free_body_slots", []))
+    slots = [i for i in range(1, 16) if i not in free
+             and all(p[i] == palettes[0][i] for p in palettes)]
+    if not slots:
+        raise ValueError("portrait has no stable opaque palette slots")
+    lut = bytes([0] + [min(slots, key=lambda k: _dist(face.palette[i], vdp_rgb(palettes[0][k])))
+                       for i in range(1, 256)])
+    im = Image.new("P", (32, 32), 0)
+    im.paste(Image.frombytes("P", (face.width, face.height), face.pixels.translate(lut)),
+             ((32 - face.width) // 2, (32 - face.height) // 2))
+    im.putpalette(png_palette_for_words(palettes[0]))
+    im.info["transparency"] = 0
+    return im
+
+
+def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=(), sprite_compression: str = "FAST") -> dict:
+    if sprite_compression not in {"FAST", "NONE"}:
+        raise ValueError(f"unsupported_sprite_compression:{sprite_compression}")
     cid = ident(char_id)
     res_dir = project / "res" / "mugen" / cid
     (res_dir / "sheets").mkdir(parents=True, exist_ok=True)
@@ -132,7 +168,7 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
         sh.png.save(buf, format="PNG", optimize=False)
         write(res_dir / "sheets" / f"{sh.name}.png", buf.getvalue())
         res.append(f'SPRITE mg_{cid}_{sh.name} "mugen/{cid}/sheets/{sh.name}.png" '
-                   f"{sh.cell_w // 8} {sh.cell_h // 8} FAST 0 NONE BALANCED")
+                   f"{sh.cell_w // 8} {sh.cell_h // 8} {sprite_compression} 0 NONE BALANCED")
     res.append("")
     snd_names = {}
     for so in sounds:
@@ -149,15 +185,9 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
     has_portrait = False
     face = next((s for s in ch.sprites if (s.group, s.image) == (9000, 0)), None)
     if face is not None and face.width <= 32 and face.height <= 32:
-        lut = bytes(spr.body.remap.get(i, spr.body.approx_indices.get(i, 0)) for i in range(256))
-        from PIL import Image as _Im
-        im = _Im.new("P", (32, 32), 0)
-        im.paste(_Im.frombytes("P", (face.width, face.height), face.pixels.translate(lut)),
-                 ((32 - face.width) // 2, (32 - face.height) // 2))
-        pal = spr.sheets[0].png.getpalette()[:48] if spr.sheets else [0] * 48
-        im.putpalette(pal)
+        im = portrait_image(face, spr)
         buf = io.BytesIO()
-        im.save(buf, format="PNG", optimize=False)
+        im.save(buf, format="PNG", optimize=False, bits=4, transparency=0)
         write(res_dir / "portrait.png", buf.getvalue())
         res.append(f'TILESET mg_{cid}_portrait "mugen/{cid}/portrait.png" NONE NONE')
         has_portrait = True
@@ -397,5 +427,6 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
            f"#define MG_GEN_{cid.upper()}_H\n#include \"mg/mg_types.h\"\n"
            f"extern const MgCharDef mg_char_{cid};\n#endif\n").encode())
 
-    return {"outputs": outputs, "bytecode_bytes": len(pool.buf), "gated_controllers": sum(1 for r in ctrl_rows if ", 65535 }" not in r), "frames": len(frame_rows),
+    return {"outputs": outputs, "sprite_compression": sprite_compression,
+            "bytecode_bytes": len(pool.buf), "gated_controllers": sum(1 for r in ctrl_rows if ", 65535 }" not in r), "frames": len(frame_rows),
             "boxes": len(boxes), "controllers": len(ctrl_rows), "missing_frame_sprites": miss}

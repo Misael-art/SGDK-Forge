@@ -4,9 +4,9 @@
  * retrato 9000,0 do personagem. Transporte: tiles no plano WINDOW (linhas 0..6) -- sprites no topo
  * estourariam 20/linha quando o lutador pula (7,4% dos ticks). Mensagens (ROUND/FIGHT/KO) = sprites.
  * Paleta: PAL0 slots 9..15 (estagio fica com 1..8). Barra estilo Street Fighter com fantasma de dano.
- * Especial (REGRA 2, estilo SSF2T): barra compacta de 1/3 da vida, centrada no RODAPE, em BG_A
+ * Especial: barra compacta de 1/3 da vida, ancorada nos cantos do RODAPE, em BG_A
  * (linha 26 = y 208..215). O WINDOW so pode ocupar o topo OU a base; a vida fica no topo. Com
- * cenario (E4) essa linha de BG_A precisa de scroll 0 (line scroll): contrato do palco.
+ * cenario (E4) as linhas 25/26 de BG_A precisam de scroll 0: contrato do palco.
  * Tudo por evento: so reescreve tiles cujo conteudo mudou.
  */
 #include <genesis.h>
@@ -14,25 +14,36 @@
 #include "mg/mg_runtime.h"
 #include "mg_gen/hud_gen.h"
 #include "scenes/fight_hud.h"
+#include "scenes/fight_hud_motion.h"
 
 #define WROWS        7                 /* altura do WINDOW em tiles */
 #define BAR_TILES    14
 #define BAR_PX       (BAR_TILES * 8)
-#define POW_TILES    5                 /* 1/3 de BAR_TILES (14/3 = 4,67 -> 5) */
+#define POW_TILES    HUD_POWER_TILES
 #define POW_PX       (POW_TILES * 8)
+#ifdef MG_STAGE_SOURCE_STREAM
+#define POW_ROW      28                /* mapa BG_A leva VScroll +16; permanece em tela y=208 */
+#define POW_LABEL_ROW 27               /* mapa BG_A leva VScroll +16; permanece em tela y=200 */
+#else
 #define POW_ROW      26                /* BG_A, y 208..215: abaixo do chao (200) e da sombra */
-#define POW_P1_X     18                /* P1 cresce para a esquerda a partir daqui; P2 espelhado */
-#define POW_P2_X     21                /* folga de 2 tiles no centro (x 19..20) */
+#define POW_LABEL_ROW HUD_POWER_LABEL_ROW
+#endif
 #define GHOST_HOLD   30                /* ticks antes do fantasma comecar a drenar */
 #define GHOST_SPEED  2                 /* px por tick */
 #define COMBO_SHOW   90
 
-static u16 sBase, sFace[2];
+static u16 sBase, sFace[2], sVramNext;
 static u8 sLifePx[2], sGhostPx[2], sPowPx[2];
 static u8 sGhostHold[2];
+static HudPowerMotion sPowerMotion[2];
+static u8 sPowerFlash[2], sPowerFull[2];
+static u16 sPowerClock;
+static s32 sLastLife[2], sLastPower[2];
+static u8 sCacheLife[2], sCachePower[2];
 static u16 sTileCache[2][2][BAR_TILES];   /* [lado][0=vida,1=especial][tile] */
 static s16 sLastTime, sLastWins[2], sLastCombo[2];
 static u8 sHidden;
+static u8 sBgaRedrawDelay;
 static s8 sMsg;                            /* mensagem visivel (-1 nenhuma) */
 static Sprite *sMsgSpr[MG_HUD_MSG_PARTS];
 
@@ -88,13 +99,12 @@ static void drawBar(u8 side, u8 kind, u8 L, u8 G)
         u16 t;
         if (kind) {
             s16 n = L - c * 8; if (n < 0) n = 0; if (n > 8) n = 8;
-            t = MG_HUD_T_BAR_SE + n;
+            t = (sPowerFlash[side] ? MG_HUD_T_BAR_LE : MG_HUD_T_BAR_SE) + n;
         } else t = lifeTile(c, L, G);
         if (sTileCache[side][kind][c] == t) continue;
         sTileCache[side][kind][c] = t;
         if (kind) {                            /* especial: rodape, BG_A */
-            if (side == 0) putPow(POW_P1_X - c, attr(t, FALSE));
-            else putPow(POW_P2_X + c, attr(t, TRUE));
+            putPow(hud_power_x(side, c), attr(t, side == 0));
         } else if (side == 0) putTile(17 - c, 1, attr(t, FALSE));   /* vida: centro x 17, cresce p/ esquerda */
         else putTile(22 + c, 1, attr(t, TRUE));                      /* P2: centro x 22, espelhado */
     }
@@ -103,7 +113,12 @@ static void drawBar(u8 side, u8 kind, u8 L, u8 G)
 static void clearWindow(void)
 {
     VDP_clearTileMapRect(WINDOW, 0, 0, 40, WROWS);
-    VDP_clearTileMapRect(BG_A, POW_P1_X - POW_TILES + 1, POW_ROW, POW_P2_X + POW_TILES - (POW_P1_X - POW_TILES + 1), 1);
+    for (u8 s = 0; s < 2; s++) {
+        VDP_clearTileMapRect(BG_A, s ? 34 : 1, POW_ROW, POW_TILES, 1);
+#ifdef MG_HUD_T_SUPER_LABEL
+        VDP_clearTileMapRect(BG_A, s ? 33 : 1, POW_LABEL_ROW, 6, 1);
+#endif
+    }
 }
 
 static void drawStatic(void)
@@ -121,6 +136,7 @@ static void drawStatic(void)
     memset(sTileCache, 0xFF, sizeof(sTileCache));
     memset(sLastL, 0xFF, sizeof(sLastL));
     memset(sLastG, 0xFF, sizeof(sLastG));
+    memset(sPowerFull, 0xFF, sizeof(sPowerFull));
     sLastTime = sLastWins[0] = sLastWins[1] = sLastCombo[0] = sLastCombo[1] = -1;
 }
 
@@ -157,12 +173,17 @@ void FIGHT_HUD_init(void)
         sFace[s] = next;
         next += d->portrait->numTile;
     }
+    sVramNext = next;
     PAL_setColors(MG_HUD_FIRST_SLOT, &mg_hud_pal[MG_HUD_FIRST_SLOT], 16 - MG_HUD_FIRST_SLOT, DMA);
     VDP_setWindowVPos(FALSE, WROWS);
     clearWindow();
     sMsg = -1;
     for (u8 k = 0; k < MG_HUD_MSG_PARTS; k++) sMsgSpr[k] = 0;
     for (u8 s = 0; s < 2; s++) { sLifePx[s] = sGhostPx[s] = BAR_PX; sPowPx[s] = 0; sGhostHold[s] = 0; }
+    memset(sPowerMotion, 0, sizeof(sPowerMotion));
+    memset(sPowerFlash, 0, sizeof(sPowerFlash));
+    sPowerClock = 0;
+    for (u8 s = 0; s < 2; s++) { sLastLife[s] = sLastPower[s] = -1; sCacheLife[s] = sCachePower[s] = 0; }
     sHidden = 0;
     drawStatic();
 }
@@ -171,33 +192,53 @@ void FIGHT_HUD_update(void)
 {
     /* fundo de super em tela cheia: HUD some (o personagem declara nobardisplay) */
     if (mg_fight.bgfx_active) {
+        sBgaRedrawDelay = 0;
         if (!sHidden) { clearWindow(); showMsg(-1); sHidden = 1; }
         return;
     }
+    /* BG_A full-map DMA is drained at the next VBlank. Do not draw cached HUD
+     * cells in the same frame that queues the restore, or that DMA erases them. */
+    if (sBgaRedrawDelay) { sBgaRedrawDelay = 0; return; }
     if (sHidden) { sHidden = 0; drawStatic(); }
+    sPowerClock++;
 
     for (u8 s = 0; s < 2; s++) {
         const MgPlayer *p = &mg_fight.p[s];
-        static s32 lastLife[2] = { -1, -1 }, lastPow[2] = { -1, -1 };
-        static u8 cacheL[2], cacheP[2];
         s32 life = p->life < 0 ? 0 : p->life;
-        if (life != lastLife[s]) {
+        if (life != sLastLife[s]) {
             s32 maxl = p->def->consts->life >> MG_FX_SHIFT;
-            lastLife[s] = life;
-            cacheL[s] = maxl ? (u8)(life * BAR_PX / maxl) : 0;
+            sLastLife[s] = life;
+            if (life > maxl) life = maxl;
+            sCacheLife[s] = maxl ? (u8)(life * BAR_PX / maxl) : 0;
         }
-        u8 L = cacheL[s];
+        u8 L = sCacheLife[s];
         if (L < sLifePx[s]) sGhostHold[s] = GHOST_HOLD;          /* dano novo: fantasma segura */
         if (L > sGhostPx[s]) sGhostPx[s] = L;                    /* recuperou (novo round) */
         sLifePx[s] = L;
         if (sGhostHold[s]) sGhostHold[s]--;
         else if (sGhostPx[s] > L) sGhostPx[s] = (sGhostPx[s] - L > GHOST_SPEED) ? sGhostPx[s] - GHOST_SPEED : L;
         drawBar(s, 0, sLifePx[s], sGhostPx[s]);
-        if (p->power != lastPow[s]) {
-            lastPow[s] = p->power;
-            cacheP[s] = (u8)((p->power > 3000 ? 3000 : p->power) * POW_PX / 3000);
+        if (p->power != sLastPower[s]) {
+            sLastPower[s] = p->power;
+            s32 power = p->power < 0 ? 0 : (p->power > 3000 ? 3000 : p->power);
+            sCachePower[s] = (u8)(power * POW_PX / 3000);
         }
-        sPowPx[s] = cacheP[s];
+        u8 full = p->power >= 3000;
+        u8 flash = full && ((sPowerClock / 12) & 1);
+        if (flash != sPowerFlash[s]) {
+            sPowerFlash[s] = flash;
+            sLastL[s][1] = 0xFF;
+        }
+#ifdef MG_HUD_T_SUPER_LABEL
+        if (full != sPowerFull[s]) {
+            u16 x = s ? 33 : 1;
+            if (full) for (u16 k = 0; k < 6; k++)
+                VDP_setTileMapXY(BG_A, attr(MG_HUD_T_SUPER_LABEL + k, FALSE), x + k, POW_LABEL_ROW);
+            else VDP_clearTileMapRect(BG_A, x, POW_LABEL_ROW, 6, 1);
+        }
+#endif
+        sPowerFull[s] = full;
+        sPowPx[s] = hud_power_step(&sPowerMotion[s], sCachePower[s]);
         drawBar(s, 1, sPowPx[s], 0);
 
         /* vitorias: icone por round ganho */
@@ -205,8 +246,8 @@ void FIGHT_HUD_update(void)
             sLastWins[s] = mg_fight.wins[s];
             for (u8 w = 0; w < 2; w++) {
                 u16 x = s ? 34 - w * 2 : 4 + w * 2;
-                if (w < mg_fight.wins[s]) put2x2(x, 4, MG_HUD_T_WIN);
-                else VDP_clearTileMapRect(WINDOW, x, 4, 2, 2);
+                if (w < mg_fight.wins[s]) put2x2(x, HUD_WIN_ROW, MG_HUD_T_WIN);
+                else VDP_clearTileMapRect(WINDOW, x, HUD_WIN_ROW, 2, 2);
             }
         }
         /* combo: "N HITS" junto a barra de quem esta combando, por COMBO_SHOW ticks */
@@ -214,7 +255,7 @@ void FIGHT_HUD_update(void)
         if (c != sLastCombo[s]) {
             sLastCombo[s] = c;
             u16 x0 = s ? 26 : 4;
-            VDP_clearTileMapRect(WINDOW, x0, 5, 10, 2);
+            VDP_clearTileMapRect(WINDOW, x0, HUD_COMBO_ROW, 12, 2);
             if (c) {
                 u16 x = x0;
                 if (c >= 10) { put2x2(x, 5, MG_HUD_T_COMBO_0 + (c / 10 % 10) * 4); x += 2; }
@@ -247,3 +288,27 @@ void FIGHT_HUD_update(void)
     }
     showMsg(m);
 }
+
+void FIGHT_HUD_invalidateBGA(void)
+{
+    /* BG_A is shared by the near stage plane and fixed HUD cells. A full
+     * plane restore invalidates cached tile writes, so force them next update. */
+    sHidden = 1;
+    sBgaRedrawDelay = 0;
+    sLastTime = -1;
+    for (u8 s = 0; s < 2; s++) {
+        sLastLife[s] = -1;
+        sLastPower[s] = -1;
+        sLastWins[s] = -1;
+        sLastCombo[s] = -1;
+        sLastL[s][0] = sLastL[s][1] = 0xFF;
+    }
+}
+
+void FIGHT_HUD_deferBGARebuild(void)
+{
+    FIGHT_HUD_invalidateBGA();
+    sBgaRedrawDelay = 1;
+}
+
+u16 FIGHT_HUD_vramNext(void) { return sVramNext; }

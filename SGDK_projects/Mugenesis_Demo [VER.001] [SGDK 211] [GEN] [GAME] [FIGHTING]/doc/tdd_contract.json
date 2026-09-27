@@ -1,0 +1,94 @@
+{
+  "$schema": "tools/sgdk_wrapper/schemas/tdd_contract.schema.json",
+  "schema_version": "1.0.0",
+  "tdd_id": "mugenesis_fighting_stage",
+  "scene_manager_scope": {
+    "topology": "linear",
+    "deterministic": true,
+    "transition_handling": "Branding -> menu -> first_playable_slice -> result/rematch. Each scene owns and releases its VDP, CRAM, sprite and audio resources; stage preload precedes the fight state. Existing menu routing still needs runtime verification."
+  },
+  "input_abstraction_scope": {
+    "abstraction_layer": "SGDK joypad snapshot consumed once per fight tick; separate held/pressed/released semantics are required for menu and fighter commands",
+    "latency_target_ms": 17,
+    "supported_devices": ["Mega Drive 3-button pad", "Mega Drive 6-button pad"],
+    "rebind_support": false
+  },
+  "camera_runtime_scope": {
+    "contract_path": "doc/camera_behavior_contract.json",
+    "runtime_owner": "mg_fight camera update and stage renderer; canonical C source in the shared converter runtime",
+    "coordinate_model": "integer_only",
+    "render_snap": "integer_pixels_only",
+    "culling_owner": "mg_fight sprite/projectile visibility; physics remains active outside view"
+  },
+  "state_fsm_map": [
+    {
+      "scene_id": "first_playable_slice",
+      "states": ["preload", "intro", "fight", "super", "ko", "result", "return_or_rematch"],
+      "transitions": [
+        {"from": "preload", "to": "intro", "trigger": "all scene assets and initial scroll tables are ready"},
+        {"from": "intro", "to": "fight", "trigger": "intro timer completes"},
+        {"from": "fight", "to": "super", "trigger": "fighter super command starts"},
+        {"from": "super", "to": "fight", "trigger": "super sequence and CRAM restore complete"},
+        {"from": "fight", "to": "ko", "trigger": "either fighter life reaches zero"},
+        {"from": "ko", "to": "result", "trigger": "KO presentation completes"},
+        {"from": "result", "to": "return_or_rematch", "trigger": "result timer or confirm input"},
+        {"from": "return_or_rematch", "to": "preload", "trigger": "rematch selected and scene resources are reset"}
+      ]
+    }
+  ],
+  "memory_pool_map": [
+    {"pool_id": "fighter_pair", "type": "sprite", "size": 2, "owner": "mg_fight.p[0..1]", "lifecycle": "static for a round; sheets change through fixed slots and measured fallback allocation"},
+    {"pool_id": "projectile_slots", "type": "projectile", "size": 8, "owner": "two MgPlayer projectile arrays; MG_MAX_PROJ=4 per player", "lifecycle": "fixed pool; released on collision, round reset or owner cleanup"},
+    {"pool_id": "explod_slots", "type": "particle", "size": 6, "owner": "mg_fight.explod", "lifecycle": "fixed pool; current compile-time limit, pressure must be measured with the stage"}
+  ],
+  "vblank_dma_ownership": {
+    "vblank_owner": "SGDK frame loop and VBlank DMA queue; scene owner schedules persistent buffers before VBlank",
+    "dma_owners": ["scene preload for stage tiles/maps", "fight renderer for palette and effect updates", "BG_A/B scroll table owner after stage renderer is integrated"],
+    "safety_pattern": "Queue only from persistent/static buffers; never issue DMA outside VBlank. Large stage loads occur before fight input; per-frame H-scroll and animation updates receive a measured byte budget."
+  },
+  "h_int_ownership": {
+    "h_int_in_use": false,
+    "slices": []
+  },
+  "audio_ownership": {
+    "driver": "xgm2",
+    "channel_owners": ["XGM2 music stream", "XGM2 SFX/voice priority mixer", "PSG cues where the existing driver supports them"]
+  },
+  "save_scope": "none",
+  "region_timing_scope": {
+    "region": "NTSC",
+    "frame_budget_ms": 16.667
+  },
+  "rom_mastering_scope": {
+    "header_validated": false,
+    "checksum_validated": false
+  },
+  "technique_selection": {
+    "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+    "usage_manifest_path": "doc/technique_usage_manifest.json",
+    "selected_registry_ids": ["dma_transfer_safety", "line_scrolling", "camera_scroll_management", "advanced_tilemap_design", "palette_state_transitions", "xgm2_audio_architecture"],
+    "deferred_or_rejected_registry_ids": ["tile_cache_streaming_refcount"],
+    "required_tags": ["DMA_OPTIMIZADO", "DMA_QUEUE", "VBLANK_BUDGET_AUDIT", "LINE_SCROLL", "PARALLAX", "CAMERA_MANAGEMENT", "INTEGER_RENDER_SNAP", "DMA_STREAMING", "VRAM_TILE_INDEX_MANAGEMENT", "PALETTE_MANAGEMENT_AVANCADO", "PALETTE_TRANSITION", "AUDIO_ENGINEERING", "XGM2_AUDIO", "FM_SYNTHESIS", "YM2612_AUDIO"],
+    "owner_skills": ["code/sgdk-runtime-coder", "hardware/megadrive-vdp-budget-analyst", "art/multi-plane-composition", "art/visual-excellence-standards", "architecture/scene-state-architect"],
+    "selection_rationale": "The measured Suzaku source has three front layers that align to exact vertical bands, making per-line parallax a testable two-plane route. Stage patterns still exceed measured capacity, BG_B contains overlapping deltas, and palette ownership is unresolved; selection authorizes investigation and measured implementation, not production promotion.",
+    "fallback_strategy": "Keep current fight bounds and plane-level background scroll if the banded view, DMA or camera budget fails. Redesign source-derived composition and palette before considering streaming; preserve the static neutral stage until a hash-bound ROM passes.",
+    "signature_technique_ids": ["line_scrolling"],
+    "application_plan": [
+      {"registry_id": "dma_transfer_safety", "scene_or_system": "global_runtime", "gameplay_or_narrative_purpose": "Keep stage and fighter resources stable while the player enters, fights and triggers a super.", "visual_or_audio_role": "Load complete scene assets safely and update small tables during VBlank.", "owner_skill": "code/sgdk-runtime-coder", "budget_evidence": "DMA bytes per preload and worst fight frame remain unmeasured.", "fallback": "Use preload-only transfers and remove per-frame updates until a safe queue budget is proven."},
+      {"registry_id": "camera_scroll_management", "scene_or_system": "first_playable_slice", "gameplay_or_narrative_purpose": "Keep both fighters framed while preserving screen bounds and floor contact at both corners.", "visual_or_audio_role": "Pan authored depth at integer pixel positions and keep the HUD fixed.", "owner_skill": "code/sgdk-runtime-coder", "budget_evidence": "Camera contract exists; proposed world 768/camera 0..448 is not integrated or captured.", "fallback": "Retain the current 640-pixel world and midpoint camera until corner replay proves the expanded route."},
+      {"registry_id": "line_scrolling", "scene_or_system": "first_playable_slice", "gameplay_or_narrative_purpose": "Preserve the three source speeds of the roof, floor and front lip without adding a third scrolling plane.", "visual_or_audio_role": "Assign BG_A offsets by the measured vertical bands and leave WINDOW/HUD screen-fixed.", "owner_skill": "art/multi-plane-composition", "budget_evidence": "Source bands and deltas are measured; H-scroll DMA, seam and live viewport costs are not.", "fallback": "Use one declared BG_A plane scroll compromise and simplify the source composition if the line table misses budget."},
+      {"registry_id": "advanced_tilemap_design", "scene_or_system": "suzaku_castle", "gameplay_or_narrative_purpose": "Keep floor contact, castle silhouette, occlusion and camera-edge readability coherent in a full fight.", "visual_or_audio_role": "Compose source-derived BG_A/BG_B maps and measure exact tile reuse and visible residency.", "owner_skill": "art/multi-plane-composition", "budget_evidence": "Source pattern report gives 700 front and 1021 back patterns after exact reuse; these are not ResComp or viewport counts.", "fallback": "Cut/recompose authored details under visual review before reducing sprite allocation or hiding required animation."},
+      {"registry_id": "palette_state_transitions", "scene_or_system": "fight_and_suzaku_stage", "gameplay_or_narrative_purpose": "Prevent stage, HUD, portraits, fighter flash and super background from corrupting one another's colors.", "visual_or_audio_role": "Give CRAM writes declared owners and restore exact words on state exit.", "owner_skill": "art/visual-excellence-standards", "budget_evidence": "Current CRAM map exposes PAL0 HUD/stage/super conflicts and PAL3 FX ownership; route decision remains open.", "fallback": "Keep the stage out of production resources until the consumer swap contract and color review pass."},
+      {"registry_id": "xgm2_audio_architecture", "scene_or_system": "global_audio", "gameplay_or_narrative_purpose": "Support the fight loop, round changes and impact/super feedback without stopping music.", "visual_or_audio_role": "Use authored FM/PSG/XGM2 assets with explicit cue priority and a stable loop.", "owner_skill": "code/sgdk-runtime-coder", "budget_evidence": "Driver presence is known; fight music, final loop, mix and worst-case audio CPU remain unaudited.", "fallback": "Use the existing driver and reduce simultaneous cues before considering a custom PCM path."}
+    ],
+    "rejected_or_deferred": [
+      {"registry_id": "tile_cache_streaming_refcount", "decision": "deferred", "reason": "Streaming reduces the resident world set but cannot reduce patterns simultaneously visible if the chosen viewport still exceeds the stage region.", "reconsideration_gate": "Reconsider only after the real banded viewport report identifies whether camera-window residency is the remaining cost."}
+    ]
+  },
+  "risk_mitigation_table": [
+    {"risk_id": "stage_vram", "risk": "Banded source stage remains over the available VRAM estimate.", "mitigation": "Measure actual ResComp and simultaneous tile patterns per camera window; redesign source-derived art before changing the fighter pool.", "severity": "critical"},
+    {"risk_id": "palette_ownership", "risk": "PAL0 stage/HUD/super and PAL1/PAL2 fighter flash share consumers.", "mitigation": "Resolve the CRAM route in the existing B1 decision record and prove byte-exact restore in a same-SHA ROM.", "severity": "critical"},
+    {"risk_id": "bg5_timing", "risk": "Three animated events may be dropped or mistimed during conversion.", "mitigation": "Preserve AIR frame timing and BGCtrl windows; add a source-referenced ROM event capture.", "severity": "high"},
+    {"risk_id": "camera_edge", "risk": "World expansion can change push, command distance and corner behavior.", "mitigation": "Replay camera center, corners, reversal, push, jump and super states before accepting world bounds.", "severity": "high"}
+  ]
+}

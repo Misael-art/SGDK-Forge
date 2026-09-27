@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_v8_far_plate_ai_concept_20260926",
+  "path": "rascunho/inputs/suzaku_v8_far_plate_ai_concept_20260926.png",
+  "sha256": "ee70ec50092b16036cdd200ce48ec30e5c7dbeff7398bb426cc7fa90a07183c4",
+  "dimensions": [2119, 742],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "derived_from": {
+    "asset_id": "suzaku_panorama_v7_centered_moon_ai_concept_20260926",
+    "sha256": "97055a9793e77cf91a3dd3223e35715a62876bb459ab780c2e19a817149ea4a5",
+    "operation": "generate a full-canvas far parallax plate retaining moon, clouds, mountains and sky while removing castle and ground."
+  },
+  "purpose": "Far BG_B plate concept for a measured two-plane Suzaku composition; not native Mega Drive art.",
+  "prompt": "Create an original far-background PARALLAX PLATE from this Suzaku castle night-stage artwork. Keep exactly the same ultra-wide 640x224 world composition and coordinate anchors: the pale moon centered around x=400,y=78 in hardware-world coordinates; the two cool cloud groups at the far left and right; distant blue mountain silhouettes; the open deep-navy night sky. Remove all foreground/midground architecture and ground completely: no Japanese castle, no roofs, no walls, no railing, no lanterns, no terrace, no floor, no fighters, no UI, no text. Fill the lower part behind the removed castle with coherent distant mountain ridges and dark atmospheric sky so this full-canvas plate remains continuous and can sit behind a separate castle/foreground layer. Keep moon scale and all cloud/mountain silhouettes readable at 320x224, crisp hand-clustered 16-bit pixel art, broad reusable color masses, controlled cool highlights, no smooth gradients or photographic texture. Opaque full-background plate; this is an aligned source concept for future two-plane composition, not final hardware art. Preserve the moon and cloud locations from the reference.",
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false
+}

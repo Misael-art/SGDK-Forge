@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "status": "composed_control_pending_visual_review",
+  "asset_id": "suzaku_v13_floor_reuse_shift32_control_640x224",
+  "path": "rascunho/processado/stage_takeover/suzaku_v13_floor_reuse_shift32_control_640x224.png",
+  "sha256": "95db5991a6d170ebfb568e49a3f9f066c23f043f8f5c2b6e546116092e1a5551",
+  "source_kind": "procedural_composed_from_authored",
+  "builder": {
+    "path": "rascunho/processado/stage_takeover/compose_suzaku_v13_floor_reuse.py",
+    "sha256": "0a276af9851ea0a1892d00ad988c22d3f03d58b4681a7f1be7a3e8583d2ed2c6"
+  },
+  "authored_sources": [
+    {
+      "path": "rascunho/processado/stage_takeover/suzaku_v12_indexed12_source_640x224.png",
+      "sha256": "1be7a87140c7dade9d1814d264af5a612b0a44cf0ec6d4ecb1b1505f08483356",
+      "authority": "doc/art/stage_v12_indexed12_source_provenance_2026_09_26.json"
+    },
+    {
+      "path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+      "sha256": "ec69d43c3f885bb30923c021ca3c874139b1efe427eb7ce622731748a8ef1b31",
+      "authority": "doc/art/stage_v12_modular_reauthoring_provenance_2026_09_26.json"
+    }
+  ],
+  "operation_summary": "Translated the complete scene down 32 pixels to put the authored deck contact at y=200, filled the new top band with an exact sky source tile, replaced the floor with a repeated 4x2 deck module, and filled the bottom support strip with one exact source tile. A pixel-level verifier confirms every output 8x8 pattern exists in the persisted V12 indexed source; no palette indices were added.",
+  "human_visual_approval": "pending",
+  "production_res_usage": false,
+  "runtime_usage": false
+}

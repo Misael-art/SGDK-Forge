@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "rascunho/processado/stage_takeover/suzaku_v13_floor_reuse_shift32_control_640x224.png",
+  "source_class": "unclassified_raster",
+  "intended_role": "translation_source",
+  "matte_policy": "opaque",
+  "reviewer": "agent_curated_review",
+  "identity_authority_path": "rascunho/inputs/suzaku_v12_modular_reauthoring_ai_concept_20260926.png",
+  "identity_authority_sha256": "ec69d43c3f885bb30923c021ca3c874139b1efe427eb7ce622731748a8ef1b31",
+  "visual_source_of_truth_contract": "doc/mugen/suzaku_v12_visual_identity_contract_2026_09_26.json",
+  "derivation": "Hash-bound authored-tile composition control from V12. Stage shifted to the existing floor-contact contract, and the floor material repeated from a persisted source module. No matte or colors were generated.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Opaque scenic control. Its floor has a deliberate 32px vertical translation; examine HUD clearance, camera endpoints and player contact in the static composition mock. The repeat module remains an unapproved material experiment."
+  }
+}

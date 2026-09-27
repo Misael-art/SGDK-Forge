@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_panorama_v6_centered_moon_parent_ai_concept_20260926",
+  "path": "rascunho/inputs/suzaku_panorama_v6_centered_moon_parent_ai_concept_20260926.png",
+  "sha256": "9210fd5b72059f9293afd1d9a3e8af317e09523b38f1e1e7b33a6ae6a582f8de",
+  "dimensions": [2120, 742],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "derived_from": {
+    "asset_id": "suzaku_panorama_v4_ai_concept_20260926",
+    "sha256": "8bde9302f091ea3de376038c1709cb3181c6c9318a8a47c7888b1d30d0edc278",
+    "operation": "image edit: recompose the original castle panorama around the center camera, moving the moon from the far-left to world x~400 and keeping the castle centered."
+  },
+  "purpose": "Parent concept for a camera-centered Suzaku panorama iteration; not hardware-ready pixel art.",
+  "prompt": "Edit this original, AI-generated Suzaku Castle night-fighting-stage panorama into a composition candidate for a 320x224 Mega Drive fighting-game viewport over a 640-pixel-wide world. Preserve its Japanese castle, stone terrace, distant mountain silhouettes, cloud banks, wooden railing, 1990s console pixel-art character, and nighttime mood, while making the center-camera composition work: the gameplay camera begins at world x=160 and shows world x=160..479, so move the moon from the far-left part of the panorama to about world x=400 (roughly 62% of the full width), where it appears around screen x=240 in the initial view. Place it above and to the right of the castle's main spire with clear negative space; keep the castle visually centered around world x=320. Put the moon's center near y=78 of the 224-pixel playfield, below the top HUD band (y=0..55), and keep the foreground floor around y=176..223 so fighter feet at y=200 remain readable. Give the far clouds and lanterns a few controlled blue-white and warm accents that can later share a limited 15-color Mega Drive palette. Preserve broad sky areas and reusable, clean pixel clusters; prioritize strong silhouettes and legibility behind fighters over tiny texture. Use hard pixel clusters, coherent light direction, stepped shadows, and restrained dithering. This is only concept art to be translated to hardware later. No fighters, sprites, portraits, UI, text, logos, borders, gradients, photo textures, or pseudo-3D. Keep a very wide panoramic canvas similar to the source."
+  "human_visual_approval": "pending",
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false
+}

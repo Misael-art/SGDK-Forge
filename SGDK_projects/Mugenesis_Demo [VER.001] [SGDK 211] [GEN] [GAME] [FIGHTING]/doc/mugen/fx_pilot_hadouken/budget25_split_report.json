@@ -1,0 +1,149 @@
+{
+  "status": "staging_budget25_candidate_visually_approved_integration_pending",
+  "scope": "Hadouken AIR 750/751, sprite 750,1 only; no production resource or ROM change",
+  "source_indexed_candidate_sha256": "4f9f30abcfa23dc6d7db21369d64c689d3b1d2d61764c8bfca68e57bc1a75d66",
+  "approved_visual_source_sha256": "2a60f8b75e12156a6d4c8e2fb2a3bbb099cf4ed38a9210e3cd9a63d443764164",
+  "unchanged_pixels": 1787,
+  "opaque_pixels_before": 1154,
+  "opaque_pixels_after": 1149,
+  "retained_opaque_percent": 99.5667,
+  "changes": [
+    {
+      "xy": [
+        22,
+        3
+      ],
+      "from": 6,
+      "to": 0
+    },
+    {
+      "xy": [
+        23,
+        3
+      ],
+      "from": 6,
+      "to": 0
+    },
+    {
+      "xy": [
+        21,
+        28
+      ],
+      "from": 6,
+      "to": 0
+    },
+    {
+      "xy": [
+        22,
+        28
+      ],
+      "from": 6,
+      "to": 0
+    },
+    {
+      "xy": [
+        23,
+        28
+      ],
+      "from": 6,
+      "to": 0
+    }
+  ],
+  "source_cell_px": [
+    56,
+    32
+  ],
+  "cell_axis": [
+    33,
+    17
+  ],
+  "parts": [
+    {
+      "name": "left",
+      "box_xyxy": [
+        0,
+        4,
+        24,
+        28
+      ],
+      "placement_in_cell": [
+        0,
+        4
+      ]
+    },
+    {
+      "name": "right",
+      "box_xyxy": [
+        24,
+        0,
+        56,
+        32
+      ],
+      "placement_in_cell": [
+        24,
+        0
+      ]
+    }
+  ],
+  "composite_pixel_exact_to_variant": true,
+  "rescomp": {
+    "tool": "SGDK 2.11 ResComp 3.95",
+    "jar_sha256": "502a467047df66b7e4c24023fa2ccdceae3e963aee664ede4bdc28fb0f55e603",
+    "resource": "rascunho/processado/fx_pilot_hadouken/budget25_parts.res",
+    "assembly_scratch": "out/hadouken_budget25_probe/budget25_parts.s",
+    "compiled": {
+      "left": {
+        "tileset_num_tile": 9,
+        "definition_max_num_tile": 9,
+        "definition_max_num_sprite": 1,
+        "definition_size_px": [
+          24,
+          24
+        ]
+      },
+      "right": {
+        "tileset_num_tile": 16,
+        "definition_max_num_tile": 16,
+        "definition_max_num_sprite": 1,
+        "definition_size_px": [
+          32,
+          32
+        ]
+      }
+    },
+    "simultaneous_frame_tiles": 25,
+    "simultaneous_frame_hardware_sprites": 2,
+    "raw_tile_bytes_if_uploaded": 800,
+    "peak_h40_scanline_sprites_for_effect": 2,
+    "peak_h40_scanline_sprite_pixels_for_effect": 56,
+    "full_image_balanced_fast_still_uses_tiles": 28
+  },
+  "pixel_contract_blockers": {
+    "candidate_750_1_slot6_e82_budget25.png": [],
+    "candidate_750_1_slot6_e82_budget25_left.png": [],
+    "candidate_750_1_slot6_e82_budget25_right.png": []
+  },
+  "sha256": {
+    "build_budget25_split.py": "a922414aed0cc961b7d91296cd664609edea6d89ad3c340d8cd0dd264507ae6c",
+    "budget25_parts.res": "09202925e184d114ef81f1fb9e6d13a010cb7bc419ef7906b87994028636ad69",
+    "candidate_750_1_slot6_e82_budget25.png": "89425892906b151b15ea32345737f0f9653440e8810858b3e2c3f0e07a8b3e9f",
+    "candidate_750_1_slot6_e82_budget25_left.png": "7b117f74c72bb13e97538fc5aebc420a81288a104dbb374df5574c75eee7e14c",
+    "candidate_750_1_slot6_e82_budget25_right.png": "ec762235b22e6fd9949e84856ba7ba873c253262da33583b67fbda0366e03a0f",
+    "budget25_parts.s": "93166dbc67320c17673e317477f2abec7b4ca14b4033cc6752300012e3c9b83b"
+  },
+  "air_contract": "8 elements, 3 intentional empties, timing/offsets/axes/hitboxes unchanged in frame_contract.json; runtime use of two simultaneous definitions still to be integrated",
+  "review_status": "human_visual_approval_recorded_hash_bound",
+  "delivery_status": "technical staging proof only; no integrated ROM or BlastEm evidence",
+  "review_artifacts": {
+    "budget25_comparison_1x.png": {
+      "path": "rascunho/processado/fx_pilot_hadouken/budget25_comparison_1x.png",
+      "sha256": "e2f1b45d2e72ed6600f3ccb5f2782b2b7778ffbd6f5416ad0a96390ee96e0f15"
+    },
+    "budget25_comparison_4x.png": {
+      "path": "rascunho/processado/fx_pilot_hadouken/budget25_comparison_4x.png",
+      "sha256": "559ffb5a5d4d8f7e3d3d940422ba71f9b1d3a498e6b80f6bb0bb65600cb29833"
+    }
+  },
+  "approval_record": "doc/mugen/fx_pilot_hadouken/budget25_user_approval_2026_09_25.md",
+  "approval_sha256": "89425892906b151b15ea32345737f0f9653440e8810858b3e2c3f0e07a8b3e9f"
+}

@@ -23,12 +23,16 @@
     "res",
     "src",
     "README.md",
+    ".gitignore",
     "build.bat",
     "clean.bat",
     "rebuild.bat",
     "resolve_wrapper.bat",
     "run.bat",
-    "sgdk_wrapper_env.bat"
+    "sgdk_wrapper_env.bat",
+    "out_pcprof",
+    "out_prof",
+    "out_test"
   ],
   "canonical_shared_dependencies": [
     "tools/sgdk_wrapper",
@@ -37,13 +41,32 @@
   ],
   "external_inputs": [
     {
-      "path": "rascunho/entrada_bruta/ssf2_01_ryu.zip",
-      "origin": "/mnt/sdcard/Projects/Mugenesis/Base de Estudo/stages/ssf2/ssf2_01_ryu.zip",
-      "sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96",
-      "content": "stage MUGEN '(SSF2) Suzaku Castle', rip de Dark Saviour (2002/2006) de Super Street Fighter II (Capcom)",
-      "authorization": "uso local autorizado pelo usuario (E4, 2026-09-24); redistribuicao NAO verificada; o .def pede 'Please don't link these files'",
-      "git": "fora do Git (**/rascunho/entrada_bruta/); so imported_assets_sha256.json e versionado",
-      "inventory": "rascunho/entrada_bruta/imported_assets_sha256.json"
+      "source": "user-provided MUGEN source archive from the existing intake",
+      "copied_to": "rascunho/entrada_bruta/ssf2_01_ryu.zip",
+      "purpose": "Existing character and stage source material used by the Mugenesis conversion work and Hadouken FX pilot.",
+      "license_or_authorization": "Local use authorized by the user for project work on 2026-09-24; redistribution is unverified, and the archive DEF requests no linking.",
+      "sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96"
+    },
+    {
+      "source": "user-provided Ken MUGEN source archive from the existing intake",
+      "copied_to": "rascunho/entrada_bruta/ken_masters_adv.zip",
+      "purpose": "Reproducible copy-conversion and idempotence check for the approved Hadouken FX pilot.",
+      "license_or_authorization": "Local use authorized by the user for project work on 2026-09-24; redistribution is unverified.",
+      "sha256": "822936f0de76a51db6174ffced7f1cbce6c54bb532fda4e68fd177bf6aaf25a3"
+    },
+    {
+      "source": "Elecbyte MUGEN 1.0 Background / Stage Documentation, https://www.elecbyte.com/mugendocs/bgs.html, consulted 2026-09-25",
+      "copied_to": "rascunho/entrada_bruta/elecbyte_mugen_bgs_parallax_note_2026_09_25.md",
+      "purpose": "Factual source note for interpreting the top-to-bottom xscale interpolation of Suzaku BG4a; not a full copy of the external documentation.",
+      "license_or_authorization": "Public technical reference summarized for local analysis; no third-party pixels or code copied.",
+      "sha256": "0d5aa5fdfa41b5a64dc74dd660c9d7324ceb89bbce5a8b72bfabd185bda2ae7b"
+    },
+    {
+      "source": "Sega Genesis Software Manual, revision 1992-02-20, page 62, https://segaretro.org/images/9/95/GenesisSoftwareManual.pdf, consulted 2026-09-25",
+      "copied_to": "rascunho/entrada_bruta/sega_genesis_software_manual_transparency_note_2026_09_25.md",
+      "purpose": "Factual source note for Mega Drive VDP color-code-zero transparency and lower-priority plane composition in the MUGEN stage translator.",
+      "license_or_authorization": "Public technical reference summarized for local analysis; no manual pages, third-party pixels or code copied.",
+      "sha256": "47bcdf170f9554942c99cd2d9a789ba09482fde15d25039cad1f1d1b26580a51"
     }
   ]
 }

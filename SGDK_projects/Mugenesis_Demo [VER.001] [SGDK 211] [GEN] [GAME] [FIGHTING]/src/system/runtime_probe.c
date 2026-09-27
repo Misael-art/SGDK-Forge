@@ -33,7 +33,7 @@ static u8 s_windowLatched;
 #define PROBE_SCANLINE_SAMPLE_GROUPS 4
 #define PROBE_SCANLINE_GROUP_LENGTH (PROBE_SCANLINE_COUNT / PROBE_SCANLINE_SAMPLE_GROUPS)
 #define PROBE_VLAB_OFFSET 0x200
-#define PROBE_VLAB_SCHEMA_VERSION 1
+#define PROBE_VLAB_SCHEMA_VERSION 2
 /* 26 metricas + 3 pares hi/lo com o quadro de cada pico.
  *
  * PORQUE: uma captura do GOTHAM mediu max_scanline_sprites=21 contra o teto de
@@ -45,7 +45,8 @@ static u8 s_windowLatched;
  * seal_fresh_evidence_bundle.py ja consome por indice fixo. */
 #define PROBE_VLAB_METRIC_WORDS 32
 #define PROBE_VLAB_PALETTE_WORDS 64
-#define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
+#define PROBE_VLAB_MEASUREMENT_TRAILER_WORDS 2
+#define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS + PROBE_VLAB_MEASUREMENT_TRAILER_WORDS) * 2))
 
 volatile u16 g_mdRuntimeProbe[MD_RUNTIME_PROBE_WORD_COUNT];
 
@@ -237,7 +238,19 @@ static void export_visual_probe_to_sram(void)
     for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
         sram_write_visual_word(&offset, s_vlabPalette[i]);
     }
+    /* Preserve the legacy metric and CRAM offsets. Schema 2 appends the
+     * measured denominator and compiled target after the 64 palette words. */
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[30]);
+    sram_write_visual_word(&offset, (u16)PROBE_MEASURE_FRAMES);
     SRAM_disable();
+}
+
+/* Keep the legacy readiness block and the visual evidence block on the same
+ * sampling boundary; a VLAB-only periodic checkpoint may be up to 59 frames old. */
+static void export_probe_snapshot(void)
+{
+    MDRuntimeProbe_exportToSRAM();
+    export_visual_probe_to_sram();
 }
 
 static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
@@ -403,7 +416,7 @@ void MDRuntimeProbe_tick(void)
     if (PROBE_MEASURE_FRAMES && g_mdRuntimeProbe[30] >= PROBE_MEASURE_FRAMES) {
         if (!s_windowLatched) {                     /* janela fechada: exporta 1x e congela */
             s_windowLatched = 1;
-            MDRuntimeProbe_exportToSRAM();
+            export_probe_snapshot();
         }
         return;
     }
@@ -466,8 +479,7 @@ void MDRuntimeProbe_tick(void)
      * Agora a ultima exportacao carrega o maximo de toda a cena ate ali.
      */
     if (samplesRecorded > 0 && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
-        MDRuntimeProbe_exportToSRAM();
-        export_visual_probe_to_sram();
+        export_probe_snapshot();
         s_lastExportSamples = samplesRecorded;
         s_lastExportFrame = gApp.totalFrames;
     }

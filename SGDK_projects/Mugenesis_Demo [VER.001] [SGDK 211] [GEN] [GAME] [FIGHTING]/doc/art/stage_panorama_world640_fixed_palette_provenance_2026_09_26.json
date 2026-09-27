@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "status": "staging_fixed_palette_probe",
+  "source_kind": "procedural_composed_from_authored",
+  "builder": "rascunho/processado/stage_takeover/build_suzaku_fixed_old_palette_composite.py",
+  "parent_assets": {
+    "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_bg_b_simplified_20260926/bg_b_far_world640_crop.png": "89ebcb88668dcc2279f72ea0ecb7b5debd9fd63ebb2740dde16c039d01d401c3",
+    "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_bg_b_simplified_20260926/bg_a_near_world640_crop.png": "9f7e3f2810a2d36f4fd1a04258a3d15d741002399630492ad5899fc5c7123c33",
+    "rascunho/processado/stage_takeover/suzaku_panorama_layers_world640_bg_b_simplified_20260926/composite_world640_640x224.png": "dd205091a9c3e21fa78dca58d47f2efb6e2d777524480871634b55f2708e2cbc",
+    "out/visual_jobs/suzaku_panorama_world640_6color_control/d1f1208a40e4194b/basic/suzaku_panorama_world640_6color_control.png": "af2150fa080d7fe3d51c3e1630756127ced9cef5835bc2513a89d3f83518a64e"
+  },
+  "palette_rgb": [
+    [
+      0,
+      0,
+      68
+    ],
+    [
+      0,
+      34,
+      136
+    ],
+    [
+      102,
+      34,
+      34
+    ],
+    [
+      102,
+      102,
+      170
+    ],
+    [
+      170,
+      68,
+      34
+    ],
+    [
+      204,
+      204,
+      238
+    ]
+  ],
+  "source_to_locked_palette": {
+    "pixels": 143360,
+    "mean_squared_rgb_error": 120.73921130952381,
+    "max_squared_rgb_error_per_pixel": 6936
+  },
+  "output": {
+    "path": "rascunho/processado/stage_takeover/suzaku_panorama_world640_fixed_old_palette_source_20260926/composite_world640_fixed_old_palette_640x224.png",
+    "sha256": "e00a8da5f4b0543fa92b6f0312eb92d1dfa74182f3f3e653a825f59bb4f24d66"
+  },
+  "used_by_resources_res": false,
+  "used_by_runtime_candidate": false,
+  "human_visual_approval": "pending",
+  "claim_ceiling": "fixed_palette_conversion_probe_only_no_visual_or_runtime_approval"
+}

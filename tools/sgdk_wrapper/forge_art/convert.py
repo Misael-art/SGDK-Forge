@@ -14,8 +14,9 @@ from PIL import Image
 from forge_art import job, pixel_contract, schema_gate, vdp_color, visual_workset
 
 TOOL_NAME = "forge_art.convert"
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.1.0"
 PALETTE_ALGORITHM = "weighted_kmedoids_v1"
+LOCKED_PALETTE_ALGORITHM = "locked_palette_v1"
 
 
 class ConvertError(ValueError):
@@ -78,6 +79,42 @@ def _weighted_kmedoids(histogram: Counter[tuple[int, int, int]], maximum: int) -
     return medoids
 
 
+def _locked_palette(root: Path, spec: dict) -> tuple[Path, list[tuple[int, int, int]]]:
+    """Load a hash-bound palette source and preserve its visible CRAM colors."""
+    entry = spec.get("locked_palette_source")
+    if not isinstance(entry, dict) or set(entry) != {"path", "sha256"}:
+        raise ConvertError("locked_palette_source_invalid")
+    path = _portable_project_file(root, Path(entry["path"]), "locked_palette_source_missing_or_escaped")
+    if _hash(path) != entry["sha256"]:
+        raise ConvertError("locked_palette_sha256_mismatch")
+    compliance = pixel_contract.validate_png(path, spec["index0_role"], oracle=spec["oracle"])
+    if compliance["blocking"]:
+        raise ConvertError("locked_palette_source_pixel_contract_failed:" + ",".join(compliance["blocking_statuses"]))
+    info = pixel_contract.read_png_chunks(path)
+    with Image.open(path) as opened:
+        if opened.mode != "P":
+            raise ConvertError("locked_palette_source_not_indexed")
+        used = sorted(set(opened.get_flattened_data()))
+    if spec["index0_role"] == "unused0" and 0 in used:
+        raise ConvertError("locked_palette_uses_reserved_index0")
+    visible_indices = [index for index in used if index != 0]
+    colors = sorted({_snap(tuple(info["plte"][index])) for index in visible_indices})
+    if not colors or len(colors) > spec["max_visible_colors"]:
+        raise ConvertError("locked_palette_color_count_out_of_range")
+    if len(colors) != len(visible_indices):
+        raise ConvertError("locked_palette_has_duplicate_visible_colors")
+    return path, colors
+
+
+def _palette_for_spec(root: Path, histogram: Counter[tuple[int, int, int]], spec: dict) -> list[tuple[int, int, int]]:
+    strategy = spec["palette_strategy"]
+    if strategy == PALETTE_ALGORITHM:
+        return _weighted_kmedoids(histogram, spec["max_visible_colors"])
+    if strategy == LOCKED_PALETTE_ALGORITHM:
+        return _locked_palette(root, spec)[1]
+    raise ConvertError("palette_strategy_invalid")
+
+
 def _portable_project_file(root: Path, raw: Path, blocker: str) -> Path:
     if raw.is_absolute() or ".." in raw.parts:
         raise ConvertError(blocker)
@@ -124,7 +161,7 @@ def _report_metrics(histogram: Counter[tuple[int, int, int]], palette: list[tupl
     }
 
 
-def _derive_metrics_from_source(source: Path, spec: dict) -> dict:
+def _derive_metrics_from_source(root: Path, source: Path, spec: dict) -> dict:
     """Re-derive the semantic palette facts from immutable input bytes."""
     with Image.open(source) as opened:
         image = opened.convert("RGBA")
@@ -139,7 +176,7 @@ def _derive_metrics_from_source(source: Path, spec: dict) -> dict:
     visible = [pixel for pixel in raw_pixels if not _transparent(policy, pixel, spec)]
     if not visible: raise ConvertError("no_visible_pixels")
     histogram = Counter(_snap(pixel[:3]) for pixel in visible)
-    palette = _weighted_kmedoids(histogram, spec["max_visible_colors"])
+    palette = _palette_for_spec(root, histogram, spec)
     return {"histogram": histogram, "palette": palette, "metrics": _report_metrics(histogram, palette)}
 
 
@@ -163,12 +200,19 @@ def verify_published_conversion(root: Path, spec_file: Path, spec: dict, source:
             "asset_id": spec["asset_id"], "source_sha256": _hash(source),
             "spec_sha256": _hash(spec_file), "output": f"basic/{spec['output_name']}",
             "index0_role": spec["index0_role"], "oracle": spec["oracle"],
-            "palette_algorithm": PALETTE_ALGORITHM,
+            "palette_algorithm": spec["palette_strategy"],
             "strategies": {key: spec[key] for key in ("resize_policy", "palette_strategy", "dithering_strategy", "transparency_policy")},
             "index0_function": spec["index0_role"], "blocking": False, "blockers": [],
         }
+        if spec["palette_strategy"] == LOCKED_PALETTE_ALGORITHM:
+            _, locked_colors = _locked_palette(root, spec)
+            expected["palette_lock"] = {
+                "source_path": spec["locked_palette_source"]["path"],
+                "source_sha256": spec["locked_palette_source"]["sha256"],
+                "colors": [list(color) for color in locked_colors],
+            }
         mismatch = [key for key, value in expected.items() if report.get(key) != value]
-        derived = _derive_metrics_from_source(source, spec)
+        derived = _derive_metrics_from_source(root, source, spec)
         if report.get("metrics") != derived["metrics"]:
             mismatch.append("metrics")
         output = job_root / report["output"]
@@ -201,15 +245,23 @@ def convert(root: Path, spec_path: Path) -> dict:
         root, source, require_production_eligible=True
     )
     source_hash_before = _hash(source)
+    locked_palette_path = None
+    locked_palette_hash_before = None
+    if spec["palette_strategy"] == LOCKED_PALETTE_ALGORITHM:
+        locked_palette_path, _ = _locked_palette(root, spec)
+        locked_palette_hash_before = _hash(locked_palette_path)
     job_spec = job.JobSpec(
-        asset_id=spec["asset_id"], sources=(source, resolved_spec), route=job.ROUTE_TECHNICAL,
+        asset_id=spec["asset_id"],
+        sources=tuple(path for path in (source, resolved_spec, locked_palette_path) if path is not None),
+        route=job.ROUTE_TECHNICAL,
         index0_role=spec["index0_role"],
-        params={"conversion_spec_sha256": spec_file_hash_before, "palette_algorithm": PALETTE_ALGORITHM,
+        params={"conversion_spec_sha256": spec_file_hash_before, "palette_algorithm": spec["palette_strategy"],
                 "resize": spec["resize_policy"], "dither": spec["dithering_strategy"]},
     )
 
     def work(staging: Path) -> dict:
-        if _hash(source) != source_hash_before or _hash(resolved_spec) != spec_file_hash_before:
+        if (_hash(source) != source_hash_before or _hash(resolved_spec) != spec_file_hash_before or
+                (locked_palette_path is not None and _hash(locked_palette_path) != locked_palette_hash_before)):
             raise ConvertError("source_or_spec_mutated_before_conversion")
         with Image.open(source) as opened:
             image = opened.convert("RGBA")
@@ -224,7 +276,7 @@ def convert(root: Path, spec_path: Path) -> dict:
         visible_pixels = [pixel for pixel in raw_pixels if not _transparent(policy, pixel, spec)]
         if not visible_pixels: raise ConvertError("no_visible_pixels")
         histogram = Counter(_snap(pixel[:3]) for pixel in visible_pixels)
-        palette = _weighted_kmedoids(histogram, spec["max_visible_colors"])
+        palette = _palette_for_spec(root, histogram, spec)
         if len(palette) > 15: raise ConvertError("too_many_palette_entries")
         output = Image.new("P", image.size)
         output.putpalette([component for color in [(0, 0, 0)] + palette for component in color])
@@ -253,17 +305,25 @@ def convert(root: Path, spec_path: Path) -> dict:
             "route": "technical_conversion", "status": "technical_candidate", "asset_id": spec["asset_id"],
             "source_sha256": source_hash_before, "spec_sha256": spec_file_hash_before,
             "output": target.relative_to(staging).as_posix(), "content_sha256": report["content_sha256"],
-            "index0_role": spec["index0_role"], "oracle": spec["oracle"], "palette_algorithm": PALETTE_ALGORITHM,
+            "index0_role": spec["index0_role"], "oracle": spec["oracle"], "palette_algorithm": spec["palette_strategy"],
             "strategies": {key: spec[key] for key in ("resize_policy", "palette_strategy", "dithering_strategy", "transparency_policy")},
             "index0_function": spec["index0_role"], "metrics": _report_metrics(histogram, palette),
             "blocking": False, "blockers": [], "next_action": "human visual review; never promote automatically",
         }
+        if locked_palette_path is not None:
+            _, locked_colors = _locked_palette(root, spec)
+            conversion["palette_lock"] = {
+                "source_path": spec["locked_palette_source"]["path"],
+                "source_sha256": locked_palette_hash_before,
+                "colors": [list(color) for color in locked_colors],
+            }
         try:
             schema_gate.validate_named(conversion, "conversion_report")
         except schema_gate.SchemaError as exc:
             raise ConvertError(f"conversion_report_schema_invalid: {exc}") from exc
         (staging / "reports" / "conversion_report.json").write_text(json.dumps(conversion, indent=2, sort_keys=True), encoding="utf-8")
-        if _hash(source) != source_hash_before or _hash(resolved_spec) != spec_file_hash_before:
+        if (_hash(source) != source_hash_before or _hash(resolved_spec) != spec_file_hash_before or
+                (locked_palette_path is not None and _hash(locked_palette_path) != locked_palette_hash_before)):
             raise ConvertError("source_or_spec_mutated_during_conversion")
         return conversion
     state = job.run_job(root, job_spec, work=work)
@@ -287,6 +347,44 @@ def self_check() -> dict:
         with ThreadPoolExecutor(max_workers=2) as pool:
             concurrent = list(pool.map(lambda _unused: convert(root, path), range(2)))
         fixtures.append({"name":"concurrent_convert_revalidates_single_cache","kind":"positive","passed":len({item["job_id"] for item in concurrent}) == 1})
+        locked_image = Image.new("P", (16, 16), 1)
+        locked_palette = [0, 0, 0, 238, 0, 0, 0, 238, 0] + [0, 0, 0] * 253
+        locked_image.putpalette(locked_palette)
+        locked_pixels = [1] * (16 * 16)
+        locked_pixels[-15:] = [2] * 15
+        locked_image.putdata(locked_pixels)
+        locked_path = root / "data" / "locked_palette.png"
+        locked_image.save(locked_path, "PNG", bits=4)
+        locked_spec = dict(spec)
+        locked_spec.update({
+            "asset_id": "locked_palette_probe", "palette_strategy": LOCKED_PALETTE_ALGORITHM,
+            "locked_palette_source": {"path": "data/locked_palette.png", "sha256": _hash(locked_path)},
+            "max_visible_colors": 2, "output_name": "locked_palette_probe.png",
+        })
+        locked_spec_path = root / "locked_palette_spec.json"
+        locked_spec_path.write_text(json.dumps(locked_spec), encoding="utf-8")
+        locked_state = convert(root, locked_spec_path)
+        locked_report = json.loads((Path(locked_state["job_dir"]) / "reports" / "conversion_report.json").read_text())
+        locked_output = Image.open(Path(locked_state["job_dir"]) / locked_report["output"])
+        fixtures.append({
+            "name": "locked_palette_preserves_selected_cram_colors",
+            "kind": "positive",
+            "passed": locked_report["palette_algorithm"] == LOCKED_PALETTE_ALGORITHM
+            and locked_report["metrics"]["weighted_error_total"] == 0
+            and locked_output.getpixel((0, 0)) != locked_output.getpixel((15, 15)),
+        })
+        locked_cached = convert(root, locked_spec_path)
+        fixtures.append({"name": "locked_palette_cache_binds_palette_source", "kind": "positive",
+                         "passed": locked_cached["job_id"] == locked_state["job_id"]})
+        locked_image.putpixel((0, 0), 2)
+        locked_image.save(locked_path, "PNG", bits=4)
+        try:
+            convert(root, locked_spec_path)
+            locked_mutation_rejected = False
+        except ConvertError as exc:
+            locked_mutation_rejected = "locked_palette_sha256_mismatch" in str(exc)
+        fixtures.append({"name": "locked_palette_mutation_rejected_by_hash", "kind": "negative",
+                         "passed": locked_mutation_rejected})
         report_path = Path(state["job_dir"]) / "reports" / "conversion_report.json"
         forged_report = json.loads(report_path.read_text(encoding="utf-8")); forged_report.pop("metrics")
         report_path.write_text(json.dumps(forged_report), encoding="utf-8")
@@ -307,6 +405,8 @@ def self_check() -> dict:
             "invalid_chroma_rgb_rejected": {"transparency_policy": "chroma_key", "chroma_key_rgb": [0, 0, 999]},
             "absolute_source_rejected": {"source": "/tmp/outside.png"},
             "traversal_source_rejected": {"source": "../outside.png"},
+            "locked_palette_requires_source_binding": {"palette_strategy": LOCKED_PALETTE_ALGORITHM},
+            "weighted_palette_rejects_lock_source": {"locked_palette_source": {"path": "data/x.png", "sha256": "0" * 64}},
         }
         for name, change in invalid_cases.items():
             invalid = dict(spec); invalid.update(change); path.write_text(json.dumps(invalid), encoding="utf-8")

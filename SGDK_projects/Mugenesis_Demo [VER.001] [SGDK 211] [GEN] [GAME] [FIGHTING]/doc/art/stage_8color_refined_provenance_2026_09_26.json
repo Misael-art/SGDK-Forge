@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation (image edit)",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_8color_refined_concept_20260926",
+  "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_8color_refined_20260926.png",
+  "sha256": "5eeb54fb240931669e38f70ec27b5bed252b8513cac702fe6d4dc12c513dfa26",
+  "dimensions": [1499, 1049],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "role": "refined Suzaku Castle palette and HUD-clearance concept",
+  "parent_asset": "suzaku_8color_authoring_concept_20260926",
+  "parent_sha256": "74830dc2f3a835e7abcc2f78078512cac50759a8873352c0c0fb10303a8f56e5",
+  "edit_prompt": "Edit this original scene concept while preserving its castle-at-night fighting-stage identity and framing. Rework it specifically for 320x224 Mega Drive display with the top 48 pixels kept nearly uniform deep navy for life bars and timer. Move the moon clearly below that quiet HUD strip (center around x=135,y=78 at final 320x224; radius about 26 pixels), make it a single broad pale ivory disc with only one simple cool-blue crater shade so it remains visibly bright after an 8-color reduction. Keep the castle right of center and keep the skyline/castle/foreground hierarchy. Reduce the courtyard floor texture dramatically: replace tiny plank scratches and grain with 3 broad horizontal plank bands and a few large seams; keep the fighting lane uncluttered. Reduce repetitive roof glints and stone micro-noise into bold tile and masonry masses with large 8x8-friendly clusters. Retain two mountain bands, restrained cloud shapes, warm brown timber fence and two simple amber lanterns. Palette roles must read clearly after quantization: deep navy, dark blue, medium twilight blue, pale moon/stone, medium stone blue-gray, dark timber, warm wood, muted amber. No characters, HUD graphics, lettering, logo, gradients, blur, anti-aliasing, photographic texture, or extra foreground objects. Result must look like deliberate classic console pixel art, not a filtered painting.",
+  "production_eligibility": "eligible_for_staging_only; requires palette translation, plane conversion, tile/ResComp and full-scene budget, runtime and exact-ROM evidence",
+  "human_visual_approval": "pending",
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true,
+    "palette_is_only_a_prompt_target_until_measured": true
+  }
+}

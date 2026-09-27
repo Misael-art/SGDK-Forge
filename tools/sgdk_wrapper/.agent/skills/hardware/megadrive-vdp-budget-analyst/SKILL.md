@@ -296,6 +296,21 @@ Configs comuns (maps_addr = 0xC000 em todas):
 ```
 **OBRIGATORIO: calcular tile count com `rescomp` (IMAGE ou TILESET) ANTES de integrar arte.**
 
+**Caso especial: bancos fisicos recuperados por owner explicito.** A formula acima
+define a area que o alocador SGDK pode entregar automaticamente; `TILE_MAX_NUM`
+nao e o tamanho fisico da VRAM. Codigo que usa indices fixos fora dessa area
+exige um mapa de intervalos em tiles para cada fase da cena: inicio/fim,
+owner (mapas BG_A/B, WINDOW, HScroll, SAT, fonte, sprites, HUD, BGFX), quem
+escreve, quando empresta e como restaura. Provar que todos os intervalos sao
+disjuntos no mesmo instante; conferir `base + count <= 2048` e excluir tabelas
+reservadas antes de qualquer upload. Um banco livre em um layout nao vira
+reserva universal. Exportar a guarda que falhou e seus operandos na ROM de
+diagnostico: capacidade parcial nao prova que etapas posteriores, inclusive
+emprestimos, falharam. Testar limite fisico, sobreposicao e falha atomica no
+runtime C; depois medir a ROM e a restauracao no BlastEm. Nunca somar um
+emprestimo sem demonstrar que ele e disjunto da capacidade fixa e livre na
+fase de uso. [Caso Suzaku](../../../references/mugen_suzaku_vram_diagnostic_2026_09_27.md).
+
 Para jogo de luta com dois personagens grandes:
 
 - declarar `SPR_init` ou `SPR_initEx` usado no codigo
@@ -317,6 +332,14 @@ Para jogo de luta com dois personagens grandes:
 
 - Se um foreground importante precisa de identidade propria, considere fundo em 3 paletas e reserve 1 para o elemento de frente.
 - Isso melhora composicao sem fingir que o VDP ficou maior.
+
+### Backdrop VDP e economia de CRAM/tiles
+
+- Em SGDK 2.11, `VDP_setBackgroundColor(u8 value)` recebe o indice global CRAM 0..63. O codigo-fonte mascara `value` com `0x3F` e escreve o registrador VDP 7; a funcao nao recebe RGB, nao escreve uma cor CRAM e nao reserva um slot.
+- Para evitar uma cor exclusiva, escolha um indice que ja contenha a palavra CRAM exata desejada na cena ativa. Compare palavras apos quantizacao 9-bit; proximidade RGB nao prova igualdade. A cor continua necessaria se tiles opacos ainda a usam.
+- Para economizar tiles, teste se regioes de preenchimento plano podem usar codigo de pixel 0/transparencia e revelar o backdrop. Isso so vale onde BG_A, BG_B e WINDOW deixam o pixel realmente exposto; outro plano pode cobrir o backdrop. A tabela/mapa da nametable permanece e deve ser medida separadamente.
+- Declare um owner para o valor de backdrop e seu teardown. Efeitos que reescrevem a CRAM selecionada podem mudar o backdrop sem chamar `VDP_setBackgroundColor`; em particular, um super que toma PAL0[1..14] pode contaminar o campo se o indice apontado estiver nessa faixa. Prove a transicao, o estado fullscreen e a restauracao exata.
+- Reporte separadamente: palavra/indice CRAM compartilhado, pixels de preenchimento tornados transparentes, tiles unicos removidos, bytes de tiles, bytes de mapa, residencia contigua e custo de upload. So ResComp, auditoria de planos e captura BlastEm autorizam claims correspondentes.
 
 ### `Sprite grafts` para profundidade
 
@@ -610,3 +633,11 @@ nao confiar em `cadence_invariant` declarado. Contador de presentation nao prova
 upload efetivo, deadline de VBlank, sprites por scanline ou perceptibilidade. O
 budget continua exigindo pior quadro combinado e evidencia BlastEm/VDP quando
 aplicavel.
+
+## Curadoria MUGEN — 2026-09-25
+
+Em conversao MUGEN, HUD, FX e planejamento do cenario, aplicar a
+[curadoria operacional de 2026-09-25](../../../references/mugen_curation_operational_2026_09_25.md). Ela qualifica paletas proprias,
+mascara, grid PNG, footprints de limpeza HUD, provas forcadas, budgets e
+reuso de evidencia. As correcoes substituem generalizacoes antigas de escala,
+WINDOW e custo universal. Promocao de instrucao nao aprova arte nem ROM.

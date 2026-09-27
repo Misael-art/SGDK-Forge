@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "status": "concept_only",
+  "generated_with": "Codex built-in image generation",
+  "generated_at": "2026-09-26",
+  "asset_id": "suzaku_tile_economy_concept_20260926",
+  "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_tile_economy_20260926.png",
+  "sha256": "110d12d11c27edf5419856a78c6b9342ff925e689e2f87f43cd3aa9fbae7ffaf",
+  "dimensions": [1499, 1049],
+  "mode": "RGB",
+  "source_kind": "ai_generated",
+  "role": "tile-economy and low-color Suzaku Castle composition concept",
+  "prompt": "Create a new original 320x224 game background concept for a Mega Drive fighting stage, Suzaku Castle at night, in deliberately LOW-DETAIL 16-bit pixel art. The result must be made of broad flat pixel clusters designed for tile reuse, not a detailed illustration. No characters, no HUD, no text. Keep rows y=0..47 almost completely flat deep navy for HUD. A large simple pale moon is centered near x=136,y=78, diameter 26 pixels. Two distant mountain silhouette bands occupy y=92..145, each using only 2 flat blue tones; clouds are only 3 broad simple shapes. The castle is a recognizable silhouette right of center, with exactly three broad roof tiers, each roof using a dark outline, one mid-blue fill, and a few large highlights; stone base uses broad 8x8 and 16x16 patches, no individual tiny stones. The courtyard floor starts at y=177, exact fighting lane from y=177 to 199, with a plain dark timber fence along its back edge. The floor uses only 3 wide horizontal wood bands and 4 long seams across the full screen, no scratches or grains. Fence must repeat the same 16-pixel-wide post-and-rail motif across screen. Reuse the same roof-tile mark and stone blocks; do not invent unique details in each repetition. Use only these 8 Mega Drive VDP colors for the entire image: deep navy #000022, near navy #000044, medium blue #002266, twilight blue #4466AA, pale blue moon #CCCCEE, cool stone #8888AA, dark wood #442222, warm wood #884422. No other colors. Hard nearest-neighbor pixel clusters, no anti-aliasing, no dithering, no gradients, no outlines thinner than one pixel, no noise, no glints, no reflected water. Silhouette and fighting lane must stay clear when viewed at native 320x224. This should resemble a restrained high-quality 1990s console fighting stage with deliberate tile economy.",
+  "production_eligibility": "eligible_for_staging_only; requires human visual review, shared-palette plane separation, exact index/palette contract, ResComp/tile/dedup and live-scene evidence",
+  "human_visual_approval": "pending",
+  "constraints": {
+    "used_by_resources_res": false,
+    "used_by_stage_candidate": false,
+    "no_pixel_approval_inferred_from_tool_success": true,
+    "eight_color_prompt_is_not_a_palette_measurement": true
+  }
+}

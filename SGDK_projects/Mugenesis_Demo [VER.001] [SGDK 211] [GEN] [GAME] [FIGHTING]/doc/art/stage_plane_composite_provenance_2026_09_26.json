@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "suzaku_bg_pair_flattened_control_20260926",
+  "path": "rascunho/processado/stage_takeover/suzaku_bg_pair_flattened_control_320x224.png",
+  "sha256": "7385d0ac36509b29acd8c7a444f13072ac3b6a65e80203fdd692839c09430580",
+  "source_kind": "procedural_composed_from_authored",
+  "status": "comparison_control_only",
+  "builder": "rascunho/processado/stage_takeover/compose_suzaku_planes_study.py",
+  "builder_policy": "nearest resize and thresholded alpha composition only; no pixels or shapes are drawn by code",
+  "inputs": [
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_b_20260926.png",
+      "sha256": "fba573cf870407bb7af1a5e6d4c0f08a95f56c8bd610f2924b50deff64984abb"
+    },
+    {
+      "path": "rascunho/processado/stage_takeover/ai_concept_suzaku_bg_a_20260926.png",
+      "sha256": "6d831bc4baf8f1d9729e575dcbe1d418f5cf1804d442bcedba3a5d28cb045828"
+    }
+  ],
+  "claim_ceiling": "flat_composite_visual_control",
+  "used_by_resources_res": false,
+  "human_visual_approval": "pending"
+}
